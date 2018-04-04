@@ -3,7 +3,7 @@
 Application for rapid prototyping and testing algorithms of computer vision.
 
 
-[![Documentation Status](https://readthedocs.org/projects/opencv-laboratory/badge/?version=latest)](http://opencv-laboratory.readthedocs.io/en/latest/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/opencv-laboratory/badge/?version=latest)](http://opencv-laboratory.readthedocs.io/en/latest/?badge=latest) [![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](http://perso.crans.org/besson/LICENSE.html)
 
 
 ## Specification
