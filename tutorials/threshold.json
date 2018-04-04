@@ -1,0 +1,250 @@
+{
+  "export_version": "0.072",
+  "framed_nodes": {},
+  "groups": {},
+  "nodes": {
+    "Float": {
+      "bl_idname": "FloatNode",
+      "height": 100.0,
+      "hide": false,
+      "label": "",
+      "location": [
+        -763.9013061523438,
+        6.977657318115234
+      ],
+      "params": {
+        "float_": 8.680000305175781
+      },
+      "width": 140.0
+    },
+    "Image sample": {
+      "bl_idname": "OCVLImageSampleNode",
+      "height": 100.0,
+      "hide": false,
+      "label": "",
+      "location": [
+        -928.232421875,
+        227.8313751220703
+      ],
+      "params": {
+        "image_out": "d2a02c51-428c-4a9d-a174-a18fc54ed214",
+        "loc_filepath": "/Users/dawidaniol/Downloads/ada_threshold.jpg",
+        "loc_image_mode": "FILE",
+        "n_meta": "Width: 217\nHeight: 215\nChannels: 3\nSize: 139965\nProcess time: 2.03ms"
+      },
+      "width": 140.0
+    },
+    "Image viewer": {
+      "bl_idname": "OCVLImageViewerNode",
+      "height": 100.0,
+      "hide": false,
+      "label": "",
+      "location": [
+        -176.0169677734375,
+        270.40350341796875
+      ],
+      "params": {
+        "n_meta": "\nProcess time: 15.54ms"
+      },
+      "width": 140.0
+    },
+    "Image viewer.001": {
+      "bl_idname": "OCVLImageViewerNode",
+      "height": 100.0,
+      "hide": false,
+      "label": "",
+      "location": [
+        -175.6405487060547,
+        61.77682113647461
+      ],
+      "params": {
+        "n_meta": "\nProcess time: 16.01ms",
+        "r_in": 1.0
+      },
+      "width": 140.0
+    },
+    "Image viewer.002": {
+      "bl_idname": "OCVLImageViewerNode",
+      "height": 100.0,
+      "hide": false,
+      "label": "",
+      "location": [
+        -175.72125244140625,
+        -151.52743530273438
+      ],
+      "params": {
+        "n_meta": "\nProcess time: 15.89ms"
+      },
+      "width": 140.0
+    },
+    "Image viewer.003": {
+      "bl_idname": "OCVLImageViewerNode",
+      "height": 100.0,
+      "hide": false,
+      "label": "",
+      "location": [
+        -177.67724609375,
+        465.76312255859375
+      ],
+      "params": {
+        "n_meta": "\nProcess time: 19.98ms",
+        "r_in": 1.0
+      },
+      "width": 140.0
+    },
+    "Int": {
+      "bl_idname": "IntegerNode",
+      "height": 100.0,
+      "hide": false,
+      "label": "",
+      "location": [
+        -761.3632202148438,
+        -117.42398071289062
+      ],
+      "params": {
+        "int_": 226
+      },
+      "width": 140.0
+    },
+    "adaptiveThreshold": {
+      "bl_idname": "OCVLadaptiveThresholdNode",
+      "height": 100.0,
+      "hide": false,
+      "label": "",
+      "location": [
+        -464.33123779296875,
+        75.34648895263672
+      ],
+      "params": {
+        "adaptiveMethod_in": "ADAPTIVE_THRESH_GAUSSIAN_C",
+        "blockSize_in": "7",
+        "image_out": "45adefea-c37f-455b-a3fd-418d25ae15ce",
+        "thresholdType_in": "THRESH_BINARY"
+      },
+      "width": 140.0
+    },
+    "adaptiveThreshold.001": {
+      "bl_idname": "OCVLadaptiveThresholdNode",
+      "height": 100.0,
+      "hide": false,
+      "label": "",
+      "location": [
+        -457.81219482421875,
+        -135.6751251220703
+      ],
+      "params": {
+        "blockSize_in": "7",
+        "image_out": "66667411-7f81-49eb-969d-1244e747678f"
+      },
+      "width": 140.0
+    },
+    "cvtColor": {
+      "bl_idname": "OCVLcvtColorNode",
+      "height": 100.0,
+      "hide": false,
+      "label": "",
+      "location": [
+        -754.9569091796875,
+        229.50051879882812
+      ],
+      "params": {
+        "image_out": "9fd611f4-c222-4e67-be0d-9f48db3da531"
+      },
+      "width": 140.0
+    },
+    "threshold": {
+      "bl_idname": "OCVLthresholdNode",
+      "height": 100.0,
+      "hide": false,
+      "label": "",
+      "location": [
+        -464.81170654296875,
+        264.10400390625
+      ],
+      "params": {
+        "mask_out": "70f42f41-5dfc-4eb1-80fc-ab0f435741fd"
+      },
+      "width": 140.0
+    }
+  },
+  "update_lists": [
+    [
+      "Image sample",
+      0,
+      "cvtColor",
+      0
+    ],
+    [
+      "cvtColor",
+      0,
+      "adaptiveThreshold",
+      0
+    ],
+    [
+      "Int",
+      0,
+      "adaptiveThreshold",
+      1
+    ],
+    [
+      "Float",
+      0,
+      "adaptiveThreshold",
+      2
+    ],
+    [
+      "cvtColor",
+      0,
+      "Image viewer.003",
+      0
+    ],
+    [
+      "adaptiveThreshold",
+      0,
+      "Image viewer.001",
+      0
+    ],
+    [
+      "cvtColor",
+      0,
+      "adaptiveThreshold.001",
+      0
+    ],
+    [
+      "Int",
+      0,
+      "adaptiveThreshold.001",
+      1
+    ],
+    [
+      "Float",
+      0,
+      "adaptiveThreshold.001",
+      2
+    ],
+    [
+      "cvtColor",
+      0,
+      "threshold",
+      0
+    ],
+    [
+      "Int",
+      0,
+      "threshold",
+      2
+    ],
+    [
+      "adaptiveThreshold.001",
+      0,
+      "Image viewer.002",
+      0
+    ],
+    [
+      "threshold",
+      0,
+      "Image viewer",
+      0
+    ]
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "export_version": "0.072",
+  "framed_nodes": {},
+  "groups": {},
+  "nodes": {
+    "Image sample": {
+      "bl_idname": "OCVLImageSampleNode",
+      "height": 100.0,
+      "hide": false,
+      "label": "",
+      "location": [
+        -1492.13916015625,
+        1145.8853759765625
+      ],
+      "params": {
+        "image_out": "2406dd96-2071-4df9-9ef5-cb3984e504d1",
+        "loc_filepath": "/Users/dawidaniol/Downloads/opencv.png",
+        "loc_image_mode": "FILE",
+        "n_meta": "Width: 378\nHeight: 428\nChannels: 3\nSize: 485352\nProcess time: 5.71ms"
+      },
+      "width": 140.0
+    },
+    "Image viewer": {
+      "bl_idname": "OCVLImageViewerNode",
+      "height": 100.0,
+      "hide": false,
+      "label": "",
+      "location": [
+        -1154.2158203125,
+        1140.913818359375
+      ],
+      "params": {
+        "n_meta": "\nProcess time: 70.26ms"
+      },
+      "width": 140.0
+    }
+  },
+  "update_lists": [
+    [
+      "Image sample",
+      0,
+      "Image viewer",
+      0
+    ]
+  ]
+}

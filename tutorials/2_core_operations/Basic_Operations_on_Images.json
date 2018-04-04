@@ -1,0 +1,225 @@
+{
+  "export_version": "0.072",
+  "framed_nodes": {},
+  "groups": {},
+  "nodes": {
+    "Image sample": {
+      "bl_idname": "OCVLImageSampleNode",
+      "height": 100.0,
+      "hide": false,
+      "label": "",
+      "location": [
+        -533.104736328125,
+        447.20050048828125
+      ],
+      "params": {
+        "color_in": [
+          0.0,
+          1.0,
+          0.0,
+          1.0
+        ],
+        "height_in": 200,
+        "image_out": "202ee57a-96fb-467a-94d9-b47c67b2f9fb",
+        "n_meta": "Width: 200\nHeight: 200\nChannels: 3\nSize: 120000\nProcess time: 0.96ms",
+        "width_in": 200
+      },
+      "width": 140.0
+    },
+    "Image sample.001": {
+      "bl_idname": "OCVLImageSampleNode",
+      "height": 100.0,
+      "hide": false,
+      "label": "",
+      "location": [
+        -534.7745361328125,
+        4.593109130859375
+      ],
+      "params": {
+        "height_in": 200,
+        "image_out": "fbd3bb8c-5156-489a-8441-ce49e4e37db8",
+        "n_meta": "Width: 200\nHeight: 200\nChannels: 3\nSize: 120000\nProcess time: 1.34ms",
+        "width_in": 200
+      },
+      "width": 140.0
+    },
+    "Image viewer": {
+      "bl_idname": "OCVLImageViewerNode",
+      "height": 100.0,
+      "hide": false,
+      "label": "",
+      "location": [
+        156.54991149902344,
+        447.2005310058594
+      ],
+      "params": {
+        "n_meta": "\nProcess time: 14.90ms"
+      },
+      "width": 140.0
+    },
+    "Image viewer.001": {
+      "bl_idname": "OCVLImageViewerNode",
+      "height": 100.0,
+      "hide": false,
+      "label": "",
+      "location": [
+        4.592193603515625,
+        -147.39663696289062
+      ],
+      "params": {
+        "alpha_in": 0.9299999475479126,
+        "n_meta": "\nProcess time: 20.22ms",
+        "r_in": 1.0
+      },
+      "width": 140.0
+    },
+    "Image viewer.002": {
+      "bl_idname": "OCVLImageViewerNode",
+      "height": 100.0,
+      "hide": false,
+      "label": "",
+      "location": [
+        284.0626220703125,
+        148.41049194335938
+      ],
+      "params": {
+        "n_meta": "\nProcess time: 4.49ms",
+        "r_in": 1.0
+      },
+      "width": 140.0
+    },
+    "ROI": {
+      "bl_idname": "OCVLROINode",
+      "height": 100.0,
+      "hide": false,
+      "label": "",
+      "location": [
+        0.596435546875,
+        166.84381103515625
+      ],
+      "params": {
+        "image_roi_out": "b6b14550-9812-4f8b-8e31-0b9f85f9349a",
+        "pt1_in": [
+          0,
+          122
+        ],
+        "pt2_in": [
+          111,
+          230
+        ]
+      },
+      "width": 200.0
+    },
+    "copyMakeBorder": {
+      "bl_idname": "OCVLcopyMakeBorderNode",
+      "height": 100.0,
+      "hide": false,
+      "label": "",
+      "location": [
+        -237.5384521484375,
+        -5.42816162109375
+      ],
+      "params": {
+        "borderType": "BORDER_CONSTANT",
+        "bottom": 20,
+        "color": [
+          1.0,
+          0.006621589884161949,
+          0.0,
+          1.0
+        ],
+        "image_out": "973b46cb-91f0-4a63-b707-093cd8c840db",
+        "left": 6
+      },
+      "width": 140.0
+    },
+    "merge": {
+      "bl_idname": "OCVLmergeNode",
+      "height": 100.0,
+      "hide": false,
+      "label": "",
+      "location": [
+        -88.92036437988281,
+        448.8707275390625
+      ],
+      "params": {
+        "image_out": "49c61056-bc0e-4e33-a601-b4111e2b4c44",
+        "n_meta": "\nCV time: 0.02ms\nProcess time: 0.20ms"
+      },
+      "width": 140.0
+    },
+    "split": {
+      "bl_idname": "OCVLsplitNode",
+      "height": 100.0,
+      "hide": false,
+      "label": "",
+      "location": [
+        -297.6535949707031,
+        447.2005615234375
+      ],
+      "params": {
+        "layer_0_out": "c9e3d54c-397f-43ee-9f3d-d7b84ac6078f",
+        "layer_1_out": "0b281364-2057-48e3-9b0b-4dccdfc00d7d",
+        "layer_2_out": "83a2c41e-2222-4df6-9708-b950208141c8",
+        "n_meta": "\nCV time: 0.10ms\nProcess time: 0.29ms"
+      },
+      "width": 140.0
+    }
+  },
+  "update_lists": [
+    [
+      "Image sample.001",
+      0,
+      "copyMakeBorder",
+      0
+    ],
+    [
+      "copyMakeBorder",
+      0,
+      "Image viewer.001",
+      0
+    ],
+    [
+      "copyMakeBorder",
+      0,
+      "ROI",
+      0
+    ],
+    [
+      "ROI",
+      1,
+      "Image viewer.002",
+      0
+    ],
+    [
+      "Image sample",
+      0,
+      "split",
+      0
+    ],
+    [
+      "split",
+      1,
+      "merge",
+      0
+    ],
+    [
+      "split",
+      0,
+      "merge",
+      1
+    ],
+    [
+      "split",
+      2,
+      "merge",
+      2
+    ],
+    [
+      "merge",
+      0,
+      "Image viewer",
+      0
+    ]
+  ]
+}

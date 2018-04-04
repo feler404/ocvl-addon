@@ -1,0 +1,55 @@
+import cv2
+import uuid
+from bpy.props import EnumProperty, StringProperty, IntProperty, BoolProperty
+
+from ...extend.utils import cv_register_class, cv_unregister_class, TYPE_THRESHOLD_ITEMS, OCVLNode, updateNode
+
+
+class OCVLthresholdNode(OCVLNode):
+    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()))
+    mask_out = StringProperty(name="mask_out", default=str(uuid.uuid4()))
+    thresh_out = IntProperty(name="thresh_out", default=0)
+
+    thresh_in = IntProperty(default=127, min=0, max=255, update=updateNode,
+        description="Threshold value.")
+    maxval_in = IntProperty(default=255, min=0, max=255, update=updateNode,
+        description="Maximum value to use with the THRESH_BINARY and THRESH_BINARY_INV thresholding types")
+    type_in = EnumProperty(items=TYPE_THRESHOLD_ITEMS, default="THRESH_BINARY", update=updateNode,
+        description="Thresholding type (see the cv::ThresholdTypes).")
+    loc_invert = BoolProperty(default=False, update=updateNode,
+        description="Invert output mask.")
+
+    def sv_init(self, context):
+        self.inputs.new("StringsSocket", "image_in")
+        self.inputs.new('StringsSocket', "thresh_in").prop_name = 'thresh_in'
+        self.inputs.new('StringsSocket', "maxval_in").prop_name = 'maxval_in'
+
+        self.outputs.new("StringsSocket", "mask_out")
+        self.outputs.new("StringsSocket", "thresh_out")
+
+    def wrapped_process(self):
+        self.check_input_requirements(["image_in"])
+
+        kwargs = {
+            'src': self.get_from_props("image_in"),
+            'thresh_in': self.get_from_props("thresh_in"),
+            'maxval_in': self.get_from_props("maxval_in"),
+            'type_in': self.get_from_props("type_in"),
+            }
+
+        thresh_out, mask_out = self.process_cv(fn=cv2.threshold, kwargs=kwargs)
+        if self.get_from_props("loc_invert"):
+            mask_out = 255 - mask_out
+        self.refresh_output_socket("mask_out", mask_out, is_uuid_type=True)
+        self.refresh_output_socket("thresh_out", thresh_out)
+
+    def draw_buttons(self, context, layout):
+        self.add_button(layout, "loc_invert", toggle=True, icon="CLIPUV_DEHLT", text="Inverse")
+
+
+def register():
+    cv_register_class(OCVLthresholdNode)
+
+
+def unregister():
+    cv_unregister_class(OCVLthresholdNode)

@@ -1,0 +1,263 @@
+{
+  "export_version": "0.072",
+  "framed_nodes": {},
+  "groups": {},
+  "nodes": {
+    "Image sample": {
+      "bl_idname": "OCVLImageSampleNode",
+      "height": 100.0,
+      "hide": false,
+      "label": "",
+      "location": [
+        -1552.5001220703125,
+        607.64599609375
+      ],
+      "params": {
+        "color_in": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "height_in": 300,
+        "image_out": "58c06808-83bd-4f03-a364-a5dae91a6049",
+        "loc_image_mode": "PLANE",
+        "n_meta": "Width: 300\nHeight: 300\nChannels: 3\nSize: 270000\nProcess time: 0.90ms",
+        "width_in": 300
+      },
+      "width": 140.0
+    },
+    "Image sample.002": {
+      "bl_idname": "OCVLImageSampleNode",
+      "height": 100.0,
+      "hide": false,
+      "label": "",
+      "location": [
+        -1570.8546142578125,
+        244.3363800048828
+      ],
+      "params": {
+        "color_in": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "height_in": 300,
+        "image_out": "ebbe3227-2cdb-4364-acee-842f50333d9f",
+        "loc_image_mode": "PLANE",
+        "n_meta": "Width: 300\nHeight: 300\nChannels: 3\nSize: 270000\nProcess time: 0.91ms",
+        "width_in": 300
+      },
+      "width": 140.0
+    },
+    "Image viewer": {
+      "bl_idname": "OCVLImageViewerNode",
+      "height": 100.0,
+      "hide": false,
+      "label": "",
+      "location": [
+        -882.5001220703125,
+        660.1796875
+      ],
+      "params": {
+        "n_meta": "\nProcess time: 39.49ms"
+      },
+      "width": 140.0
+    },
+    "Image viewer.001": {
+      "bl_idname": "OCVLImageViewerNode",
+      "height": 100.0,
+      "hide": false,
+      "label": "",
+      "location": [
+        -902.8245239257812,
+        247.55438232421875
+      ],
+      "params": {
+        "n_meta": "\nProcess time: 44.35ms"
+      },
+      "width": 140.0
+    },
+    "circle": {
+      "bl_idname": "OCVLcircleNode",
+      "height": 100.0,
+      "hide": false,
+      "label": "",
+      "location": [
+        -1102.5001220703125,
+        650.1402587890625
+      ],
+      "params": {
+        "center": [
+          73,
+          217
+        ],
+        "color": [
+          0.6999999284744263,
+          0.013530715368688107,
+          0.37620705366134644,
+          1.0
+        ],
+        "image_out": "315bcbc8-8a7e-4395-9985-ef4aedb7926e"
+      },
+      "width": 140.0
+    },
+    "ellipse": {
+      "bl_idname": "OCVLellipseNode",
+      "height": 100.0,
+      "hide": false,
+      "label": "",
+      "location": [
+        -1130.8546142578125,
+        240.9964599609375
+      ],
+      "params": {
+        "angle_in": 50,
+        "axes_in": [
+          104,
+          58
+        ],
+        "center_in": [
+          120,
+          91
+        ],
+        "color_in": [
+          0.6999999284744263,
+          0.022742532193660736,
+          0.028438936918973923,
+          1.0
+        ],
+        "image_out": "50ff63fe-4081-40d6-82d7-d3f7600c252c",
+        "loc_input_mode": "FULL",
+        "startAngle_in": 63
+      },
+      "width": 140.0
+    },
+    "line": {
+      "bl_idname": "OCVLlineNode",
+      "height": 100.0,
+      "hide": false,
+      "label": "",
+      "location": [
+        -1332.5001220703125,
+        632.8297119140625
+      ],
+      "params": {
+        "color": [
+          0.05011792853474617,
+          0.02927328087389469,
+          0.6999999284744263,
+          1.0
+        ],
+        "image_out": "80508bb8-77e1-494d-90c8-1ca302c021d6",
+        "pt1": [
+          221,
+          96
+        ],
+        "pt2": [
+          68,
+          223
+        ]
+      },
+      "width": 150.0
+    },
+    "putText": {
+      "bl_idname": "SvCvPutTextNode",
+      "height": 100.0,
+      "hide": false,
+      "label": "",
+      "location": [
+        -1287.2490234375,
+        -127.2357177734375
+      ],
+      "params": {
+        "color": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "fontScale": 1,
+        "image_out": "1f279b7c-eb60-4f94-9041-322fbc83a1ee",
+        "org": [
+          0,
+          213
+        ]
+      },
+      "width": 140.0
+    },
+    "rectangle": {
+      "bl_idname": "OCVLrectangleNode",
+      "height": 100.0,
+      "hide": false,
+      "label": "",
+      "location": [
+        -1350.8546142578125,
+        240.99647521972656
+      ],
+      "params": {
+        "color_in": [
+          0.013430126942694187,
+          0.6999999284744263,
+          0.01208142563700676,
+          1.0
+        ],
+        "image_out": "c145a68c-87d6-4b7e-b412-c3a1c7f7e5f3",
+        "pt1_in": [
+          48,
+          147
+        ],
+        "pt2_in": [
+          127,
+          248
+        ]
+      },
+      "width": 140.0
+    }
+  },
+  "update_lists": [
+    [
+      "Image sample",
+      0,
+      "line",
+      0
+    ],
+    [
+      "line",
+      0,
+      "circle",
+      0
+    ],
+    [
+      "circle",
+      0,
+      "Image viewer",
+      0
+    ],
+    [
+      "Image sample.002",
+      0,
+      "rectangle",
+      0
+    ],
+    [
+      "rectangle",
+      0,
+      "ellipse",
+      0
+    ],
+    [
+      "ellipse",
+      0,
+      "putText",
+      0
+    ],
+    [
+      "putText",
+      0,
+      "Image viewer.001",
+      0
+    ]
+  ]
+}
