@@ -1,13 +1,3 @@
-> ### This file is parsed by menu.py
->
-> The following strict rules apply to editing this file:
->
-> - do not use tabs, anywhere
-> - indent the Node's line using 4 spaces
-> - use `>` to add a comment, place it at the start of the line.
-> - if you aren't sure, follow the existing convention
->
-> Failing to follow these points will break the node category parser.
 ## core
 ># Data Struct
     ---
@@ -150,26 +140,6 @@
     OCVLTypeConvertNode
 
 >## Number
->    SvNumberNode
->    FloatNode
->    IntegerNode
->    Float2IntNode
->    ScalarMathNode
->    SvScalarMathNodeMK2
->    Formula2Node
->    SvExecNodeMod
->    ---
->    GenListRangeIntNode
->    SvGenFloatRange
->    SvMapRangeNode
->    SvListInputNode
->    SvGenFibonacci
->    SvGenExponential
->    ---
->    SvRndNumGen
->    RandomNode
->    SvEasingNode
->    SvMixNumbersNode
 ## Alpha Nodes
 ## Beta Nodes
 ## List Masks
