@@ -43,12 +43,13 @@ tests/sverchok_tests.log
 .project
 .pydevproject
 
-#OS Specific files
+#OS/Windows Specific files
 .directory
 .DS
 __MACOSX
 .kdev4/
 *.kdev4
+Thumbs.db
 
 #Ignore KDE's backup files
 #thanks, i have trouobles
@@ -70,6 +71,7 @@ venv
 
 # vim swap files
 *.swp
+
 
 local_test.py
 extend/

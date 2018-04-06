@@ -185,6 +185,7 @@ def reload_sverchok_addon():
         Addons.remove(sverchok_addon)
     sverchok_addon = Addons.new()
     sverchok_addon.module = "sverchok"
+    bpy.ops.wm.addon_enable(module='sverchok')
 
 
 def reload_ocvl_addon():
@@ -193,6 +194,7 @@ def reload_ocvl_addon():
         Addons.remove(ocvl_addon)
     ocvl_addon = Addons.new()
     ocvl_addon.module = "ocvl"
+    bpy.ops.wm.addon_enable(module='ocvl')
 
 
 def reload_addons():
