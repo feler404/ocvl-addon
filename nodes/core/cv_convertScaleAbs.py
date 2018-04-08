@@ -8,6 +8,8 @@ from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode, up
 class OCVLconvertScaleAbsNode(OCVLNode):
     bl_develop_state = DEVELOP_STATE_RC
 
+    _doc = "Scales, calculates absolute values, and converts the result to 8-bit."
+
     image_in = StringProperty(name="image_in", default=str(uuid.uuid4()))
     image_out = StringProperty(name="image_out", default=str(uuid.uuid4()))
 
