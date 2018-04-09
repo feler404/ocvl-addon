@@ -1,5 +1,6 @@
 import cv2
 import uuid
+from gettext import gettext as _
 from bpy.props import EnumProperty, StringProperty, IntProperty, FloatVectorProperty
 
 from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode, BORDER_TYPE_REQUIRED_ITEMS
@@ -7,6 +8,9 @@ from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode, up
 
 class OCVLcopyMakeBorderNode(OCVLNode):
     bl_icon = 'BORDER_RECT'
+
+    _doc = _("")
+    _note = _("")
 
     image_in = StringProperty(name="image_in", default=str(uuid.uuid4()))
     image_out = StringProperty(name="image_out", default=str(uuid.uuid4()))

@@ -1,5 +1,6 @@
 import cv2
 import uuid
+from gettext import gettext as _
 from bpy.props import StringProperty, IntProperty, BoolVectorProperty
 
 from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode, DEVELOP_STATE_BETA
@@ -9,6 +10,9 @@ class OCVLdftNode(OCVLNode):
 
     bl_develop_state = DEVELOP_STATE_BETA
     bl_flags_list = 'DFT_INVERSE, DFT_SCALE, DFT_ROWS, DFT_COMPLEX_OUTPUT, DFT_REAL_OUTPUT'
+
+    _doc = _("")
+    _note = _("")
 
     src_in = StringProperty(name="src_in", default=str(uuid.uuid4()))
     flags_in = BoolVectorProperty(default=[False for i in bl_flags_list.split(",")], size=len(bl_flags_list.split(",")),

@@ -1,5 +1,6 @@
 import cv2
 import uuid
+from gettext import gettext as _
 from bpy.props import EnumProperty, StringProperty, FloatProperty
 
 from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode, COLOR_DEPTH_WITH_NONE_ITEMS
@@ -12,6 +13,9 @@ AUTO_RESIZE_ITEMS = (
 
 
 class OCVLaddWeightedNode(OCVLNode):
+
+    _doc = _("")
+    _note = _("")
 
     image_1_in = StringProperty(name="image_1_in", default=str(uuid.uuid4()), description="first input array.")
     image_2_in = StringProperty(name="image_2_in", default=str(uuid.uuid4()), description="second input array")
