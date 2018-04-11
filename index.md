@@ -9,7 +9,9 @@
     OCVLRangeNode
 ># Operations on arrays
     ---
+    OCVLabsdiffNode
     OCVLaddWeightedNode
+    OCVLborderInterpolateNode
     OCVLconvertScaleAbsNode
     OCVLdctNode
     OCVLdftNode
