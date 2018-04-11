@@ -14,24 +14,24 @@ AUTO_RESIZE_ITEMS = (
 
 class OCVLaddWeightedNode(OCVLNode):
 
-    _doc = _("")
+    _doc = _("Calculates the weighted sum of two arrays.")
     _note = _("")
 
-    image_1_in = StringProperty(name="image_1_in", default=str(uuid.uuid4()), description="first input array.")
-    image_2_in = StringProperty(name="image_2_in", default=str(uuid.uuid4()), description="second input array")
+    image_1_in = StringProperty(name="image_1_in", default=str(uuid.uuid4()), description="First input array.")
+    image_2_in = StringProperty(name="image_2_in", default=str(uuid.uuid4()), description="Second input array.")
     alpha_in = FloatProperty(default=0.3, min=0.0, max=1.0, update=updateNode,
-        description="weight of the first array elements.")
+        description="Weight of the first array elements.")
     beta_in = FloatProperty(default=0.7, min=0.0, max=1.0, update=updateNode,
-        description="weight of the second array elements.")
+        description="Weight of the second array elements.")
     gamma_in = FloatProperty(default=0.0, min=0.0, max=1.0, update=updateNode,
-        description="scalar added to each sum.")
+        description="Scalar added to each sum.")
     dtype_in = EnumProperty(items=COLOR_DEPTH_WITH_NONE_ITEMS, default='None', update=updateNode,
-        description="desired depth of the destination image, see @ref filter_depths 'combinations'")
+        description="Desired depth of the destination image, see @ref filter_depths 'combinations'.")
 
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()))
+    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
 
     loc_auto_resize = EnumProperty(items=AUTO_RESIZE_ITEMS, default="SECOND", update=updateNode,
-        description="automatic adjust size image")
+        description="Automatic adjust size image.")
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "image_1_in")

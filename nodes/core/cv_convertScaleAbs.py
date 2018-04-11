@@ -11,8 +11,8 @@ class OCVLconvertScaleAbsNode(OCVLNode):
     _doc = "Scales, calculates absolute values, and converts the result to 8-bit."
     _note = _("")
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()))
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()))
+    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input image.")
+    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
 
     alpha_in = FloatProperty(default=1, min=0.0, max=100, update=updateNode,
         description="Optional scale factor.")
