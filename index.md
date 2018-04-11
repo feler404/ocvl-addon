@@ -13,6 +13,7 @@
     OCVLaddWeightedNode
     OCVLborderInterpolateNode
     OCVLconvertScaleAbsNode
+    OCVLcountNonZeroNode
     OCVLdctNode
     OCVLdftNode
     OCVLdivideNode
