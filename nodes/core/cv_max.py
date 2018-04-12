@@ -8,11 +8,16 @@ from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode, DE
 class OCVLmaxNode(OCVLNode):
     bl_develop_state = DEVELOP_STATE_BETA
 
+    _doc = _("Calculates per-element maximum of two arrays or an array and a scalar.")
+
     n_id = StringProperty(default='')
     n_meta = StringProperty(default='')
     src1_in = StringProperty(name="src1_in", default=str(uuid.uuid4()))
+    description=_("first input array")
     src2_in = StringProperty(name="src2_in", default=str(uuid.uuid4()))
+    description=_("second input array of the same size and type as src1")
     array_out = StringProperty(name="array_out", default=str(uuid.uuid4()))
+    description=_("output array of the same size and type as src1")
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "src1_in")
