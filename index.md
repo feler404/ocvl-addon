@@ -12,9 +12,12 @@
     OCVLabsdiffNode
     OCVLaddWeightedNode
     OCVLborderInterpolateNode
+    OCVLcompareNode
+    OCVLcompleteSymmNode
     OCVLconvertScaleAbsNode
     OCVLcountNonZeroNode
     OCVLdctNode
+    OCVLdeterminantNode
     OCVLdftNode
     OCVLdivideNode
     OCVLexpNode
