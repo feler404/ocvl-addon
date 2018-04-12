@@ -8,9 +8,14 @@ from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode, DE
 class OCVLmagnitudeNode(OCVLNode):
     bl_develop_state = DEVELOP_STATE_BETA
 
+    _doc = _("Calculates the magnitude of 2D vectors.")
+
     x_in = StringProperty(name="x_in", default=str(uuid.uuid4()))
+    description=_("floating-point array of x-coordinates of the vectors")
     y_in = StringProperty(name="y_in", default=str(uuid.uuid4()))
+    description=_("floating-point array of y-coordinates of the vectors; it must have the same size as x")
     array_out = StringProperty(name="array_out", default=str(uuid.uuid4()))
+    description=_("output array of the same size and type as x")
 
     def sv_init(self, context):
         self.width = 150
