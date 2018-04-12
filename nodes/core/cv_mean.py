@@ -8,9 +8,14 @@ from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode, DE
 class OCVLmeanNode(OCVLNode):
     bl_develop_state = DEVELOP_STATE_BETA
 
+    _doc = _("Calculates an average (mean) of array elements.")
+
     src_in = StringProperty(name="src_in", default=str(uuid.uuid4()))
+        description=_("input array that should have from 1 to 4 channels so that the result can be stored in Scalar_ ")
     mask_in = StringProperty(name="mask_in", default=str(uuid.uuid4()))
+        description=_("optional operation mask")
     mean_out = StringProperty(name="mean_out", default=str(uuid.uuid4()))
+        description=_("output parameter: calculated mean value")
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "src_in")
