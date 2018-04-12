@@ -21,8 +21,6 @@ class OCVLcompareNode(OCVLNode):
     _note = _("")
     _see_also = _("")
 
-    bl_flags_list = 'CMP_EQ, CMP_GT, CMP_GE, CMP_LT, CMP_LE, CMP_NE'
-
 
     src1_in = StringProperty(name="src1_in", default=str(uuid.uuid4()),
         description="")
