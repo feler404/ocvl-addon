@@ -15,8 +15,8 @@ class OCVLeigenNode(OCVLNode):
     src_in = StringProperty(name="src_in", default=str(uuid.uuid4()), description="Input matrix that must have CV_32FC1 or CV_64FC1 type, square size and be symmetrical.")
 
     retval_out = StringProperty(name="retval_out", default=str(uuid.uuid4()))
-    eigenvalues_out = StringProperty(name="eigenvalues_out", default=str(uuid.uuid4()))
-    eigenvectors_out = StringProperty(name="eigenvectors_out", default=str(uuid.uuid4()))
+    eigenvalues_out = StringProperty(name="eigenvalues_out", default=str(uuid.uuid4()), description="Output vector of eigenvalues of the same type as src; the eigenvalues are stored in the descending order.")
+    eigenvectors_out = StringProperty(name="eigenvectors_out", default=str(uuid.uuid4()), description="Output matrix of eigenvectors; it has the same size and type as src.")
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "src_in")

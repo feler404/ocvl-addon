@@ -1,6 +1,7 @@
 import cv2
 import uuid
 from bpy.props import StringProperty
+from gettext import gettext as _
 
 from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode, DEVELOP_STATE_BETA
 
@@ -8,8 +9,10 @@ from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode, DE
 class OCVLexpNode(OCVLNode):
     bl_develop_state = DEVELOP_STATE_BETA
 
-    src_in = StringProperty(name="src_in", default=str(uuid.uuid4()))
-    dst_out = StringProperty(name="dst_out", default=str(uuid.uuid4()))
+    _doc = _("Calculates the exponent of every array element.")
+
+    src_in = StringProperty(name="src_in", default=str(uuid.uuid4()), description="Input array.")
+    dst_out = StringProperty(name="dst_out", default=str(uuid.uuid4()), description="Output array of the same size and type as src.")
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "src_in")
