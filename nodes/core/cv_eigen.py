@@ -9,7 +9,9 @@ class OCVLeigenNode(OCVLNode):
 
     bl_develop_state = DEVELOP_STATE_BETA
 
-    src_in = StringProperty(name="src_in", default=str(uuid.uuid4()))
+    _doc = _("Calculates eigenvalues and eigenvectors of a symmetric matrix.")
+
+    src_in = StringProperty(name="src_in", default=str(uuid.uuid4()), description="Input matrix that must have CV_32FC1 or CV_64FC1 type, square size and be symmetrical.")
 
     retval_out = StringProperty(name="retval_out", default=str(uuid.uuid4()))
     eigenvalues_out = StringProperty(name="eigenvalues_out", default=str(uuid.uuid4()))

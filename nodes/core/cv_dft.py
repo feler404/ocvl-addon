@@ -17,7 +17,8 @@ class OCVLdftNode(OCVLNode):
     src_in = StringProperty(name="src_in", default=str(uuid.uuid4()), description="Input array that could be real or complex.")
     flags_in = BoolVectorProperty(default=[False for i in bl_flags_list.split(",")], size=len(bl_flags_list.split(",")),
         update=updateNode, subtype="NONE", description=bl_flags_list)
-    nonzeroRows_in = IntProperty(default=0, min=0, update=updateNode)
+    nonzeroRows_in = IntProperty(default=0, min=0, update=updateNode,
+        description="when the parameter is not zero, the function assumes that only the first nonzeroRows rows of the input array (DFT_INVERSE is not set) or only the first nonzeroRows of the output array (DFT_INVERSE is set) contain non-zeros.")
 
     array_out = StringProperty(name="array_out", default=str(uuid.uuid4()), description="Output array whose size and type depends on the flags.")
 
