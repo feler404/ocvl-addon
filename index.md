@@ -13,6 +13,7 @@
     OCVLaddWeightedNode
     OCVLborderInterpolateNode
     OCVLcalcCovarMatrixNode
+    OCVLcartToPolarNode
     OCVLcompareNode
     OCVLcompleteSymmNode
     OCVLconvertScaleAbsNode
