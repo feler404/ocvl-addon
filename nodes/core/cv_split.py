@@ -1,5 +1,6 @@
 import cv2
 import uuid
+from gettext import gettext as _
 from bpy.props import StringProperty
 
 from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode
@@ -18,11 +19,19 @@ PROPS_MAPS = {
 
 
 class OCVLsplitNode(OCVLNode):
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()))
-    layer_0_out = StringProperty(name="layer_0_out", default=str(uuid.uuid4()))
-    layer_1_out = StringProperty(name="layer_1_out", default=str(uuid.uuid4()))
-    layer_2_out = StringProperty(name="layer_2_out", default=str(uuid.uuid4()))
-    layer_3_out = StringProperty(name="layer_3_out", default=str(uuid.uuid4()))
+
+    _doc = _("Divides a multi-channel array into several single-channel arrays.")
+
+    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
+        description=_("Input multi-channel array."))
+    layer_0_out = StringProperty(name="layer_0_out", default=str(uuid.uuid4()),
+        description=_("Channel 0."))
+    layer_1_out = StringProperty(name="layer_1_out", default=str(uuid.uuid4()),
+        description=_("Channel 1."))
+    layer_2_out = StringProperty(name="layer_2_out", default=str(uuid.uuid4()),
+        description=_("Channel 2."))
+    layer_3_out = StringProperty(name="layer_3_out", default=str(uuid.uuid4()),
+        description=_("Channel 3."))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "image_in")
