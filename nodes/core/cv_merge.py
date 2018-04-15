@@ -25,15 +25,15 @@ class OCVLmergeNode(OCVLNode):
     _note= _("In example image was used node cvtColor to make one single channel array in graz scale. Node merge is giving out multichannel array on the input channel Red.")
 
     layer_0_in = StringProperty(name="layer_0_in", default=str(uuid.uuid4()),
-        description=_("first channel Blue"))
+        description=_("First channel Blue."))
     layer_1_in = StringProperty(name="layer_1_in", default=str(uuid.uuid4()),
-        description=_("second channel Green"))
+        description=_("Second channel Green."))
     layer_2_in = StringProperty(name="layer_2_in", default=str(uuid.uuid4()),
-        description=_("third channel Red"))
+        description=_("Third channel Red."))
     # layer_3_in = StringProperty(name="layer_3_in", default=str(uuid.uuid4()))
 
     image_out = StringProperty(name="image_out", default=str(uuid.uuid4()),
-        description=_("image output"))
+        description=_("Image output."))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "layer_0_in")

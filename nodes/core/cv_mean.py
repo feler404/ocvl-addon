@@ -12,11 +12,12 @@ class OCVLmeanNode(OCVLNode):
     _doc = _("Calculates an average (mean) of array elements.")
 
     src_in = StringProperty(name="src_in", default=str(uuid.uuid4()),
-        description=_("input array that should have from 1 to 4 channels so that the result can be stored in Scalar_ "))
+        description=_("Input array that should have from 1 to 4 channels so that the result can be stored in Scalar_. "))
     mask_in = StringProperty(name="mask_in", default=str(uuid.uuid4()),
-        description=_("optional operation mask"))
+        description=_("Optional operation mask."))
+
     mean_out = StringProperty(name="mean_out", default=str(uuid.uuid4()),
-        description=_("output parameter: calculated mean value"))
+        description=_("Output parameter: calculated mean value."))
 
 
     def sv_init(self, context):
