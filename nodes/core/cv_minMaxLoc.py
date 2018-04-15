@@ -13,17 +13,18 @@ class OCVLminMaxLocNode(OCVLNode):
     _doc = _("Finds the global minimum and maximum in an array.")
 
     src_in = StringProperty(name="src_in", default=str(uuid.uuid4()),
-        description=_("input single-channel array"))
+        description=_("Input single-channel array."))
     mask_in = StringProperty(name="mask_in", default=str(uuid.uuid4()),
-        description=_("optional mask used to select a sub-array"))
+        description=_("Optional mask used to select a sub-array."))
+
     minVal_out = StringProperty(name="minVal_out", default=str(uuid.uuid4()),
-        description=_("pointer to the returned minimum value; NULL is used if not required"))
+        description=_("Pointer to the returned minimum value; NULL is used if not required."))
     maxVal_out = StringProperty(name="maxVal_out", default=str(uuid.uuid4()),
-        description=_("pointer to the returned maximum value; NULL is used if not required"))
+        description=_("Pointer to the returned maximum value; NULL is used if not required."))
     minLoc_out = StringProperty(name="minLoc_out", default=str(uuid.uuid4()),
-        description=_("pointer to the returned minimum location (in 2D case); NULL is used if not required"))
+        description=_("Pointer to the returned minimum location (in 2D case); NULL is used if not required."))
     maxLoc_out = StringProperty(name="maxLoc_out", default=str(uuid.uuid4()),
-        description=_("pointer to the returned maximum location (in 2D case); NULL is used if not required"))
+        description=_("Pointer to the returned maximum location (in 2D case); NULL is used if not required."))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "src_in")

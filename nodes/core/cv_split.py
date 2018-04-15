@@ -24,6 +24,7 @@ class OCVLsplitNode(OCVLNode):
 
     image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
         description=_("Input multi-channel array."))
+
     layer_0_out = StringProperty(name="layer_0_out", default=str(uuid.uuid4()),
         description=_("Channel 0."))
     layer_1_out = StringProperty(name="layer_1_out", default=str(uuid.uuid4()),
