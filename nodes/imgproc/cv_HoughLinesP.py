@@ -1,6 +1,7 @@
 import cv2
 import uuid
 import numpy as np
+from gettext import gettext as _
 from bpy.props import EnumProperty, StringProperty, IntProperty, FloatProperty
 
 from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode, DEVELOP_STATE_ALPHA
@@ -20,26 +21,31 @@ PROPS_MAPS = {
 class OCVLHoughLinesPNode(OCVLNode):
     bl_develop_state = DEVELOP_STATE_ALPHA
 
+    _doc = _("Finds line segments in a binary image using the probabilistic Hough transform.")
+
     def update_layout(self, context):
         self.update_sockets(context)
         updateNode(self, context)
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()))
-    lines_out = StringProperty(name="lines_out", default=str(uuid.uuid4()))
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()))
-
+    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
+        description=_("Input image."))
     rho_in = FloatProperty(default=3, min=1, max=10, update=updateNode,
-        description="Distance resolution of the accumulator in pixels.")
+        description=_("Distance resolution of the accumulator in pixels."))
     theta_in = FloatProperty(default=0.0574, min=0.0001, max=3.1415, update=updateNode,
-        description="Angle resolution of the accumulator in radians.")
+        description=_("Angle resolution of the accumulator in radians."))
     threshold_in = IntProperty(default=200, min=0, max=255, update=updateNode,
-        description="Accumulator threshold parameter.")
+        description=_("Accumulator threshold parameter."))
     minLineLength_in = FloatProperty(default=0, min=0, update=updateNode,
-        description="Minimum line length. Line segments shorter than that are rejected.")
+        description=_("Minimum line length. Line segments shorter than that are rejected."))
     maxLineGap_in = FloatProperty(default=0, min=0, update=updateNode,
-        description="Maximum allowed gap between points on the same line to link them.")
+        description=_("Maximum allowed gap between points on the same line to link them."))
 
-    loc_output_mode = EnumProperty(items=OUTPUT_MODE_ITEMS, default="LINES", update=update_layout)
+    loc_output_mode = EnumProperty(items=OUTPUT_MODE_ITEMS, default="LINES", update=update_layout,
+        description=_("Output mode."))
+    lines_out = StringProperty(name="lines_out", default=str(uuid.uuid4()),
+        description=_("Output vector of lines."))
+    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()),
+        description=_("Output image."))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "image_in")
