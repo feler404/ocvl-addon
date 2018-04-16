@@ -1,5 +1,6 @@
 import cv2
 import uuid
+from gettext import gettext as _
 from bpy.props import EnumProperty, StringProperty, IntProperty, FloatProperty
 
 from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode, COLOR_DEPTH_ITEMS, BORDER_TYPE_ITEMS
@@ -7,22 +8,25 @@ from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode, up
 
 class OCVLScharrNode(OCVLNode):
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()))
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()))
+    _doc = _("Calculates the first x- or y- image derivative using Scharr operator.")
 
+    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
+        description=_("Input image."))
+    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()),
+        description=_("Output image."))
 
     dx_in = IntProperty(default=1, min=0, max=1, update=updateNode,
-        description="Order of the derivative x.")
+        description=_("Order of the derivative x."))
     dy_in = IntProperty(default=0, min=0, max=1, update=updateNode,
-        description="Order of the derivative y.")
+        description=_("Order of the derivative y."))
     ddepth_in = EnumProperty(items=COLOR_DEPTH_ITEMS, default='CV_8U', update=updateNode,
-        description="Output image depth, see @ref filter_depths 'combinations'.")
+        description=_("Output image depth, see @ref filter_depths 'combinations'."))
     scale_in = FloatProperty(default=1.0, min=1, max=8, update=updateNode,
-        description="Optional scale factor for the computed Laplacian values.")
+        description=_("Optional scale factor for the computed Laplacian values."))
     delta_in = FloatProperty(default=0.0, min=0, max=255, update=updateNode,
-        description="Optional delta value that is added to the results prior to storing them in dst.")
+        description=_("Optional delta value that is added to the results prior to storing them in dst."))
     borderType_in = EnumProperty(items=BORDER_TYPE_ITEMS, default='None', update=updateNode,
-        description="Pixel extrapolation method, see cv::BorderTypes")
+        description=_("Pixel extrapolation method, see cv::BorderTypes"))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "image_in")
