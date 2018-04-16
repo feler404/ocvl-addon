@@ -17,6 +17,7 @@
     OCVLcompareNode
     OCVLcompleteSymmNode
     OCVLconvertScaleAbsNode
+    OCVLconnectedComponentsNode 
     OCVLcountNonZeroNode
     OCVLdctNode
     OCVLdeterminantNode
