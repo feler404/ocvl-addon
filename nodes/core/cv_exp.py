@@ -11,8 +11,8 @@ class OCVLexpNode(OCVLNode):
 
     _doc = _("Calculates the exponent of every array element.")
 
-    src_in = StringProperty(name="src_in", default=str(uuid.uuid4()), description="Input array.")
-    dst_out = StringProperty(name="dst_out", default=str(uuid.uuid4()), description="Output array of the same size and type as src.")
+    src_in = StringProperty(name="src_in", default=str(uuid.uuid4()), description=_("Input array."))
+    dst_out = StringProperty(name="dst_out", default=str(uuid.uuid4()), description=_("Output array of the same size and type as input array."))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "src_in")
