@@ -520,14 +520,14 @@ class OCVLPreviewNode(OCVLNode):
         nvBGL2.callback_disable(node_id(self))
         self.delete_texture()
 
-    def make_textures(self, image, color='RGBA', uuid_=None):
+    def make_textures(self, image, color='RGBA', uuid_=None, width=200, height=200):
         self.delete_texture()
 
-        height, width = image.shape[:2]
+        height_, width_ = image.shape[:2]
 
-        prop = height / width
+        prop = height_ / width_
 
-        resized_image = cv2.resize(image, (200, int(200 * prop)))
+        resized_image = cv2.resize(image, (width, int(height * prop)))
         resized_height, resized_width = resized_image.shape[:2]
 
         texture_mini = bgl.Buffer(bgl.GL_BYTE, resized_image.shape, resized_image)

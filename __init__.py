@@ -55,7 +55,7 @@ from .logger_conf import logger
 
 BASE_DIR = os.path.dirname(__file__)
 IS_WORK_ON_COPY_INPUT = True
-OCVL_EXT = True
+OCVL_EXT = False
 
 
 def register():
