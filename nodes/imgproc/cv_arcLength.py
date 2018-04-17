@@ -1,5 +1,6 @@
 import cv2
 import uuid
+from gettext import gettext as _
 from bpy.props import StringProperty, BoolProperty, FloatProperty
 
 from ...extend.utils import cv_register_class, cv_unregister_class, updateNode, OCVLNode
@@ -7,15 +8,17 @@ from ...extend.utils import cv_register_class, cv_unregister_class, updateNode, 
 
 class OCVLarcLengthNode(OCVLNode):
 
+    _doc = _("Calculates a contour perimeter or a curve length.")
+
     curve_in = StringProperty(default=str(uuid.uuid4()),
-        description="Input vector of 2D points, stored in std::vector or Mat.")
+        description=_("Input vector of 2D points, stored in std::vector or Mat."))
     closed_in = BoolProperty(default=False, update=updateNode,
-        description="Flag indicating whether the curve is closed or not.")
+        description=_("Flag indicating whether the curve is closed or not."))
     loc_from_findContours = BoolProperty(default=True, update=updateNode,
-        description="If linked with findContour node switch to True")
+        description=_("If linked with findContour node switch to True."))
 
     length_out = FloatProperty(default=0.0,
-        description="Length of contour.")
+        description=_("Length of contour."))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "curve_in")

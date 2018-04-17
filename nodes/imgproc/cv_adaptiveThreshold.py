@@ -1,5 +1,6 @@
 import cv2
 import uuid
+from gettext import gettext as _
 from bpy.props import EnumProperty, StringProperty, IntProperty, FloatProperty
 
 from ...extend.utils import cv_register_class, cv_unregister_class, TYPE_THRESHOLD_ITEMS, OCVLNode, updateNode
@@ -19,23 +20,25 @@ KERNEL_SIZE_ITEMS = (
 
 class OCVLadaptiveThresholdNode(OCVLNode):
 
+    _doc = _("Applies an adaptive threshold to an array.")
+
     bl_icon = 'MOD_MASK'
 
     image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
-        description="Source 8-bit single-channel image.")
+        description=_("Source 8-bit single-channel image."))
     maxValue_in = IntProperty(default=150, min=0, max=255, update=updateNode,
-        description="Non-zero value assigned to the pixels for which the condition is satisfied.")
+        description=_("Non-zero value assigned to the pixels for which the condition is satisfied."))
     adaptiveMethod_in = EnumProperty(items=ADAPTIVE_METHOD_ITEMS, default="ADAPTIVE_THRESH_MEAN_C", update=updateNode,
-        description="Adaptive thresholding algorithm to use, see cv::AdaptiveThresholdTypes .")
+        description=_("Adaptive thresholding algorithm to use, see cv::AdaptiveThresholdTypes ."))
     thresholdType_in = EnumProperty(items=TYPE_THRESHOLD_ITEMS, default="THRESH_BINARY", update=updateNode,
-        description="Thresholding type that must be either THRESH_BINARY or THRESH_BINARY_INV, etc.")
+        description=_("Thresholding type that must be either THRESH_BINARY or THRESH_BINARY_INV, etc."))
     blockSize_in = EnumProperty(items=KERNEL_SIZE_ITEMS, default="3", update=updateNode,
-        description="Size of a pixel neighborhood that is used to calculate a threshold value for the pixel.")
+        description=_("Size of a pixel neighborhood that is used to calculate a threshold value for the pixel."))
     C_in = FloatProperty(default=15, min=0, max=200, step=20, update=updateNode,
-        description="Constant subtracted from the mean or weighted mean.")
+        description=_("Constant subtracted from the mean or weighted mean."))
 
     image_out = StringProperty(name="image_out", default=str(uuid.uuid4()),
-        description="Destination image of the same size and the same type as src.")
+        description=_("Destination image of the same size and the same type as src."))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "image_in")
