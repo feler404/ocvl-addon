@@ -41,7 +41,6 @@ class OCVLmatchTemplateNode(OCVLNode):
 
         result_out = self.process_cv(fn=cv2.matchTemplate, kwargs=kwargs)
         image_out = np.copy(self.get_from_props("image_in"))
-        print (self.get_from_props("templ_in").shape)
         h, w, _ = self.get_from_props("templ_in").shape
         threshold = 0.8
         loc = np.where(result_out >= threshold)

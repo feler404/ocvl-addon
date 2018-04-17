@@ -51,7 +51,7 @@ if __name__ != "ocvl":
     sys.modules["ocvl"] = sys.modules[__name__]
 
 from .ui import INFO_HT_header_new, INFO_HT_header_old
-
+from .logger_conf import logger
 
 BASE_DIR = os.path.dirname(__file__)
 IS_WORK_ON_COPY_INPUT = True
@@ -61,7 +61,7 @@ def register():
     try:
         bpy.utils.unregister_class(INFO_HT_header_old)
     except:
-        print("INFO_HT_header_old Unregistered")
+        logger.info("INFO_HT_header_old Unregistered")
     bpy.utils.register_class(INFO_HT_header_new)
     from .extend.operatores import register; register()
 

@@ -1,6 +1,7 @@
 import inspect
 import os
 import importlib
+from logging import getLogger
 from collections import OrderedDict, defaultdict
 from os.path import dirname, basename
 
@@ -16,7 +17,7 @@ from sverchok.utils.context_managers import sv_preferences
 
 
 utils_needs = SverchCustomTreeNode, node_id, nodeview_bgl_viewer_draw_mk2, sv_preferences
-
+logger = getLogger("SverchokPoint")
 
 class MockSverchokAddonPreferences(AddonPreferences):
     bl_idname = "sverchok"
@@ -116,7 +117,7 @@ def automatic_collection_new(directory):
                 try:
                     items.remove(filename)
                 except:
-                    print('failed to remove', filename, 'from', k, ' : check your spelling')
+                    logger.warning('Failed to remove {} from {} : check your spelling'.format(filename, k))
 
     # may not be used, but can be.
     return nodes_dict
@@ -189,7 +190,7 @@ def reload_sverchok_addon():
         bpy.ops.wm.addon_disable(module=sverchok_addon.module)
         bpy.ops.wm.addon_enable(module=sverchok_addon.module)
     else:
-        print("Skip disable/enable {}".format(sverchok_addon.module))
+        logger.info("Skip disable/enable {}".format(sverchok_addon.module))
 
 
 def reload_ocvl_addon():
@@ -202,7 +203,7 @@ def reload_ocvl_addon():
         bpy.ops.wm.addon_disable(module=ocvl_addon.module)
         bpy.ops.wm.addon_enable(module=ocvl_addon.module)
     else:
-        print("Skip disable/enable {}".format(ocvl_addon.module))
+        logger.info("Skip disable/enable {}".format(ocvl_addon.module))
 
 
 def reload_addons():
