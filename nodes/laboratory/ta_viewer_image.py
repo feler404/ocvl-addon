@@ -1,6 +1,6 @@
 from bpy.props import StringProperty
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLPreviewNode
+from ...utils import cv_register_class, cv_unregister_class, OCVLPreviewNode, OCVL_EXT
 
 
 class OCVLSimpleImageViewerNode(OCVLPreviewNode):

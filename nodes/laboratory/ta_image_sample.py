@@ -6,7 +6,7 @@ import numpy as np
 from logging import getLogger
 from bpy.props import EnumProperty, StringProperty, IntProperty
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLPreviewNode, convert_to_cv_image, updateNode
+from ...utils import cv_register_class, cv_unregister_class, OCVLPreviewNode, convert_to_cv_image, updateNode, OCVL_EXT
 
 logger = getLogger(__name__)
 

@@ -10,7 +10,7 @@ from logging import getLogger
 from bpy.props import StringProperty
 
 from . import IS_WORK_ON_COPY_INPUT, OCVL_EXT
-from .sverchok_point import SverchCustomTreeNode, node_id, nodeview_bgl_viewer_draw_mk2, sv_preferences
+from .sverchok_point import SverchCustomTreeNode, node_id, nodeview_bgl_viewer_draw_mk2, sv_preferences, OCVL_EXT
 from sverchok.core.socket_data import SvNoDataError
 
 logger = getLogger(__name__)
@@ -600,10 +600,15 @@ def cv_register_class(cls):
 
     try:
         bpy.utils.register_class(cls)
+        logger.debug("Cass registrated: {}".format(cls))
     except ValueError as e:
         logger.warning(e)
         logger.warning("Class {} already registered".format(cls))
 
 
 def cv_unregister_class(cls):
-    bpy.utils.unregister_class(cls)
+    try:
+        bpy.utils.unregister_class(cls)
+    except RuntimeError as e:
+        logger.warning(e)
+        logger.warning("Class {} problem with unregister".format(cls))
