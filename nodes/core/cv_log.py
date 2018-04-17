@@ -11,8 +11,8 @@ class OCVLlogNode(OCVLNode):
 
     _doc = _("Calculates the natural logarithm of every array element.")
 
-    array_in = StringProperty(name="array_in", default=str(uuid.uuid4()), description="Input array.")
-    array_out = StringProperty(name="array_out", default=str(uuid.uuid4()), description="Iutput array of the same size and type as input array .")
+    array_in = StringProperty(name="array_in", default=str(uuid.uuid4()), description=_("Input array."))
+    array_out = StringProperty(name="array_out", default=str(uuid.uuid4()), description=_("Iutput array of the same size and type as input array ."))
 
 
     def sv_init(self, context):

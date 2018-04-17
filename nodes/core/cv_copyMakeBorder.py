@@ -12,21 +12,21 @@ class OCVLcopyMakeBorderNode(OCVLNode):
     _doc = _("Forms a border around an image.")
     _note = _("")
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input image.")
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
+    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()), description=_("Input image."))
+    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()), description=_("Output image."))
 
     top_in = IntProperty(default=10, update=updateNode, min=1, max=20,
-        description='Border width in number of pixels in corresponding directions.')
+        description=_("Border width in number of pixels in corresponding directions."))
     bottom_in = IntProperty(default=10, update=updateNode, min=1, max=20,
-        description='Border width in number of pixels in corresponding directions.')
+        description=_("Border width in number of pixels in corresponding directions."))
     left_in = IntProperty(default=10, update=updateNode, min=1, max=20,
-        description='Border width in number of pixels in corresponding directions.')
+        description=_("Border width in number of pixels in corresponding directions."))
     right_in = IntProperty(default=10, update=updateNode, min=1, max=20,
-        description='Border width in number of pixels in corresponding directions.')
+        description=_("Border width in number of pixels in corresponding directions."))
     borderType_in = EnumProperty(items=BORDER_TYPE_REQUIRED_ITEMS, default='BORDER_DEFAULT', update=updateNode,
-        description="Border type. See borderInterpolate for details.")
+        description=_("Border type. See borderInterpolate for details."))
     color_in = FloatVectorProperty(update=updateNode, name='', default=(.3, .3, .2, 1.0), size=4, min=0.0, max=1.0, subtype='COLOR',
-        description='Border value if borderType==BORDER_CONSTANT.')
+        description=_("Border value if borderType==BORDER_CONSTANT."))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "image_in")

@@ -23,15 +23,15 @@ class OCVLgemmNode(OCVLNode):
 
     _doc = _("Performs generalized matrix multiplication.")
 
-    src_1_in = StringProperty(name="src_1_in", default=str(uuid.uuid4()), description="First multiplied input matrix that could be real(CV_32FC1, CV_64FC1) or complex(CV_32FC2, CV_64FC2).")
-    src_2_in = StringProperty(name="src_2_in", default=str(uuid.uuid4()), description="Second multiplied input matrix of the same type as src1.")
-    src_3_in = StringProperty(name="src_3_in", default=str(uuid.uuid4()), description="Third optional delta matrix added to the matrix product; it should have the same type as src1 and src2.")
+    src_1_in = StringProperty(name="src_1_in", default=str(uuid.uuid4()), description=_("First multiplied input matrix that could be real(CV_32FC1, CV_64FC1) or complex(CV_32FC2, CV_64FC2)."))
+    src_2_in = StringProperty(name="src_2_in", default=str(uuid.uuid4()), description=_("Second multiplied input matrix of the same type as src1."))
+    src_3_in = StringProperty(name="src_3_in", default=str(uuid.uuid4()), description=_("Third optional delta matrix added to the matrix product; it should have the same type as src1 and src2."))
     flags_in = BoolVectorProperty(default=[False for i in bl_flags_list.split(",")], size=len(bl_flags_list.split(",")),
         update=updateNode, subtype="NONE", description=bl_flags_list)
-    alpha_in = FloatProperty(default=0.5, min=0, max=100, description="Weight of the matrix product.")
-    beta_in = FloatProperty(default=0.5, min=0, max=100, description="Weight of src3.")
+    alpha_in = FloatProperty(default=0.5, min=0, max=100, description=_("Weight of the matrix product."))
+    beta_in = FloatProperty(default=0.5, min=0, max=100, description=_("Weight of src3."))
 
-    dst_out = StringProperty(name="dst_out", default=str(uuid.uuid4()), description="Output matrix; it has the proper size and the same type as input matrices.")
+    dst_out = StringProperty(name="dst_out", default=str(uuid.uuid4()), description=_("Output matrix; it has the proper size and the same type as input matrices."))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "src_1_in")

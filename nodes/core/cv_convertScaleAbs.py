@@ -8,16 +8,16 @@ from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode, up
 class OCVLconvertScaleAbsNode(OCVLNode):
     bl_develop_state = DEVELOP_STATE_RC
 
-    _doc = "Scales, calculates absolute values, and converts the result to 8-bit."
+    _doc = _("Scales, calculates absolute values, and converts the result to 8-bit.")
     _note = _("")
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input image.")
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
+    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()), description=_("Input image."))
+    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()), description=_("Output image."))
 
     alpha_in = FloatProperty(default=1, min=0.0, max=100, update=updateNode,
-        description="Optional scale factor.")
+        description=_("Optional scale factor."))
     beta_in = FloatProperty(default=0, min=0.0, max=100, update=updateNode,
-        description="Optional delta added to the scaled values.")
+        description=_("Optional delta added to the scaled values."))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "image_in")
