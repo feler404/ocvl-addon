@@ -3,7 +3,7 @@ import bpy
 from bpy.props import StringProperty
 from pynput.keyboard import Key, Controller
 
-from .utils import convert_to_gl_image
+from .utils import convert_to_gl_image, cv_register_class, cv_unregister_class
 from sverchok.core.socket_data import SvNoDataError
 
 
@@ -122,12 +122,12 @@ class OCVLShowTextInTextEditorOperator(bpy.types.Operator):
 
 
 def register():
-    bpy.utils.register_class(OCVLImageFullScreenOperator)
-    bpy.utils.register_class(EscapeFullScreenOperator)
-    bpy.utils.register_class(OCVLShowTextInTextEditorOperator)
+    cv_register_class(OCVLImageFullScreenOperator)
+    cv_register_class(EscapeFullScreenOperator)
+    cv_register_class(OCVLShowTextInTextEditorOperator)
 
 
 def unregister():
-    bpy.utils.unregister_class(OCVLShowTextInTextEditorOperator)
-    bpy.utils.unregister_class(EscapeFullScreenOperator)
-    bpy.utils.unregister_class(OCVLImageFullScreenOperator)
+    cv_unregister_class(OCVLShowTextInTextEditorOperator)
+    cv_unregister_class(EscapeFullScreenOperator)
+    cv_unregister_class(OCVLImageFullScreenOperator)

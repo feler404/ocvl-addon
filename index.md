@@ -6,6 +6,7 @@
     ExtOCVLBitwiseNode
     ExtOCVLROINode
     ExtOCVLTypeConvertNode
+    OCVLHelloNode
 ## core
 ># Data Struct
     ---
