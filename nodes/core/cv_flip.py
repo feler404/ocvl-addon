@@ -17,8 +17,8 @@ class OCVLflipNode(OCVLNode):
 
     _doc = _("Flips a 2D array around vertical, horizontal, or both axes.")
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input array.")
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output array of the same size and type as src.")
+    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()), description=_("Input array."))
+    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()), description=_("Output array of the same size and type as src."))
 
     def get_anchor(self):
         return self.get("anchor", (-1, -1))
