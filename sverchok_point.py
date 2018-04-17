@@ -7,7 +7,7 @@ from os.path import dirname, basename
 
 import bpy
 import sverchok
-from . import nodes as ocvl_nodes
+from . import nodes as ocvl_nodes, OCVL_EXT
 from bpy.types import Addon, AddonPreferences, Addons
 
 from sverchok.node_tree import SverchCustomTreeNode
@@ -17,7 +17,8 @@ from sverchok.utils.context_managers import sv_preferences
 
 
 utils_needs = SverchCustomTreeNode, node_id, nodeview_bgl_viewer_draw_mk2, sv_preferences
-logger = getLogger("SverchokPoint")
+logger = getLogger(__name__)
+
 
 class MockSverchokAddonPreferences(AddonPreferences):
     bl_idname = "sverchok"
@@ -84,6 +85,10 @@ def make_node_cats_new():
                 temp_list.append(['separator'])
             else:
                 bl_idname = line.strip()
+                if bl_idname.startswith("Ext"):
+                    bl_idname = bl_idname[3:]
+                    if not OCVL_EXT:
+                        continue
                 temp_list.append([bl_idname])
 
         # final append

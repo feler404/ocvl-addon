@@ -7,7 +7,6 @@ from logging import getLogger
 from bpy.props import EnumProperty, StringProperty, IntProperty
 
 from ...utils import cv_register_class, cv_unregister_class, OCVLPreviewNode, convert_to_cv_image, updateNode
-from ...extend.labolatory.ta_image_sample import OCVLTakeImageFromCamera, OCVLImageSampleNode
 
 logger = getLogger(__name__)
 
@@ -155,14 +154,10 @@ class OCVLSimpleImageSampleNode(OCVLPreviewNode):
 
 def register():
     cv_register_class(OCVLImageImporterOp)
-    cv_register_class(OCVLTakeImageFromCamera)
     cv_register_class(OCVLSimpleImageSampleNode)
-    cv_register_class(OCVLImageSampleNode)
 
 
 def unregister():
-    cv_unregister_class(OCVLImageSampleNode)
     cv_unregister_class(OCVLSimpleImageSampleNode)
-    cv_unregister_class(OCVLTakeImageFromCamera)
     cv_unregister_class(OCVLImageImporterOp)
 

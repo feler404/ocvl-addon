@@ -55,6 +55,7 @@ from .logger_conf import logger
 
 BASE_DIR = os.path.dirname(__file__)
 IS_WORK_ON_COPY_INPUT = True
+OCVL_EXT = False
 
 
 def register():
@@ -63,9 +64,15 @@ def register():
     except:
         logger.info("INFO_HT_header_old Unregistered")
     bpy.utils.register_class(INFO_HT_header_new)
-    from .extend.operatores import register; register()
+    if OCVL_EXT:
+        from .extend.extended_operatores import register; register()
+    else:
+        from .operatores import register; register()
 
 
 def unregister():
     bpy.utils.unregister_class(INFO_HT_header_new)
-    from .extend.operatores import unregister; unregister()
+    if OCVL_EXT:
+        from .extend.extended_operatores import unregister; unregister()
+    else:
+        from .extend.extended_operatores import unregister; unregister()

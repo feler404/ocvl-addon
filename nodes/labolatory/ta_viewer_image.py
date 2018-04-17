@@ -1,6 +1,5 @@
 from bpy.props import StringProperty
 
-from ...extend.labolatory.ta_viewer_image import OCVLImageViewerNode
 from ...utils import cv_register_class, cv_unregister_class, OCVLPreviewNode
 
 
@@ -26,16 +25,14 @@ class OCVLSimpleImageViewerNode(OCVLPreviewNode):
 
     def draw_buttons(self, context, layout):
         col = layout.column(align=True)
-        col.operator('image.point_select', text='', icon="FULLSCREEN").origin = self.get_node_origin()
+        col.operator('image.image_full_screen', text='', icon="FULLSCREEN").origin = self.get_node_origin()
         self.draw_preview(layout=layout, prop_name="image_in", location_x=10, location_y=40)
 
 
 def register():
-    cv_register_class(OCVLImageViewerNode)
     cv_register_class(OCVLSimpleImageViewerNode)
 
 
 def unregister():
     cv_unregister_class(OCVLSimpleImageViewerNode)
-    cv_unregister_class(OCVLImageViewerNode)
 
