@@ -1,6 +1,7 @@
 import cv2
 import uuid
 from bpy.props import StringProperty
+from gettext import gettext as _
 
 from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode, DEVELOP_STATE_BETA
 
@@ -9,11 +10,13 @@ class OCVLinRangeNode(OCVLNode):
 
     bl_develop_state = DEVELOP_STATE_BETA
 
-    src_in = StringProperty(name="src_in", default=str(uuid.uuid4()))
-    lowerb_in = StringProperty(name="lowerb_in", default=str(uuid.uuid4()))
-    upperb_in = StringProperty(name="upperb_in", default=str(uuid.uuid4()))
+    _doc = _("Checks if array elements lie between the elements of two other arrays.")
 
-    dst_out = StringProperty(name="dst_out", default=str(uuid.uuid4()))
+    src_in = StringProperty(name="src_in", default=str(uuid.uuid4()), description="First input array.")
+    lowerb_in = StringProperty(name="lowerb_in", default=str(uuid.uuid4()), description="Inclusive lower boundary array or a scalar.")
+    upperb_in = StringProperty(name="upperb_in", default=str(uuid.uuid4()), description="Inclusive upper boundary array or a scalar.")
+
+    dst_out = StringProperty(name="dst_out", default=str(uuid.uuid4()), description="Output array of the same size as src and CV_8U type.")
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "src_in")
