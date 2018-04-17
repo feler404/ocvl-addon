@@ -3,7 +3,7 @@ import uuid
 import numpy as np
 from bpy.props import EnumProperty, StringProperty
 
-from ...extend.utils import cv_register_class, cv_unregister_class, updateNode, OCVLNode, TEMPLATE_MATCH_MODE_ITEMS
+from ...utils import cv_register_class, cv_unregister_class, updateNode, OCVLNode, TEMPLATE_MATCH_MODE_ITEMS
 
 
 class OCVLmatchTemplateNode(OCVLNode):

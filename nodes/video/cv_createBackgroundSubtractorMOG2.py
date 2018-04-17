@@ -2,7 +2,7 @@ import cv2
 import uuid
 from bpy.props import StringProperty, IntProperty, BoolProperty, FloatProperty
 
-from ...extend.utils import cv_register_class, cv_unregister_class, updateNode, OCVLNode
+from ...utils import cv_register_class, cv_unregister_class, updateNode, OCVLNode
 
 
 class OCVLcreateBackgroundSubtractorMOG2Node(OCVLNode):

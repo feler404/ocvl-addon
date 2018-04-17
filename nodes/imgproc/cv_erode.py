@@ -3,7 +3,7 @@ import uuid
 import numpy as np
 from bpy.props import EnumProperty, StringProperty, IntProperty, IntVectorProperty
 
-from ...extend.utils import cv_register_class, cv_unregister_class, BORDER_TYPE_ITEMS, OCVLNode, updateNode
+from ...utils import cv_register_class, cv_unregister_class, BORDER_TYPE_ITEMS, OCVLNode, updateNode
 
 
 class OCVLerodeNode(OCVLNode):

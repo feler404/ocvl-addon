@@ -1,5 +1,5 @@
 from ...extend.labolatory.ta_typeConvert import OCVLTypeConvertNode
-from ...extend.utils import cv_register_class, cv_unregister_class
+from ...utils import cv_register_class, cv_unregister_class
 
 
 def register():

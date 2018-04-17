@@ -4,7 +4,7 @@ import os
 from bpy.props import EnumProperty, StringProperty, IntProperty, FloatProperty, IntVectorProperty, BoolVectorProperty
 
 import ocvl
-from ...extend.utils import cv_register_class, OCVLNode, updateNode
+from ...utils import cv_register_class, OCVLNode, updateNode
 
 
 BASE_DIR = ocvl.BASE_DIR

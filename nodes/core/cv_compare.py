@@ -3,7 +3,7 @@ import uuid
 from gettext import gettext as _
 from bpy.props import EnumProperty, StringProperty, FloatProperty, BoolProperty, BoolVectorProperty
 
-from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode
+from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode
 
 
 COMPARE_FLAG_ITEMS = (

@@ -1,4 +1,4 @@
-from ...extend.utils import cv_register_class, cv_unregister_class
+from ...utils import cv_register_class, cv_unregister_class
 from ...extend.labolatory.cv_bitwise import OCVLBitwiseNode
 
 

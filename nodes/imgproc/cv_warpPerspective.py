@@ -2,7 +2,7 @@ import cv2
 import uuid
 from bpy.props import EnumProperty, StringProperty, IntProperty, IntVectorProperty, BoolVectorProperty
 
-from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode, BORDER_MODE_ITEMS, DEVELOP_STATE_BETA
+from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode, BORDER_MODE_ITEMS, DEVELOP_STATE_BETA
 
 
 class OCVLwarpPerspectiveNode(OCVLNode):

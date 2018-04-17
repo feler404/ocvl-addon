@@ -3,7 +3,7 @@ import uuid
 import numpy as np
 from bpy.props import StringProperty
 
-from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode
+from ...utils import cv_register_class, cv_unregister_class, OCVLNode
 
 
 MODE_ITEMS = [

@@ -1,7 +1,7 @@
 import bpy
 
 from ...extend.labolatory.ta_debug_node import OCVLTestNode, OCVLMsgPopUpOpenCVInfoInEditor, OCVLMsgPopUpOpenCVInfo
-from ...extend.utils import cv_register_class, cv_unregister_class
+from ...utils import cv_register_class, cv_unregister_class
 
 
 def register():

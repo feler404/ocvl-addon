@@ -2,7 +2,7 @@ import cv2
 import uuid
 from bpy.props import StringProperty, IntVectorProperty, BoolProperty
 
-from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode, DEVELOP_STATE_BETA
+from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode, DEVELOP_STATE_BETA
 
 
 class OCVLgetDefaultNewCameraMatrixNode(OCVLNode):

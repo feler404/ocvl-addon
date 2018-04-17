@@ -1,3 +1,15 @@
+## laboratory
+    OCVLSimpleImageViewerNode
+    OCVLSimpleImageSampleNode
+
+    OCVLImageViewerNode
+    OCVLImageSampleNode
+    OCVLCustomInputNode
+    OCVLStethoscopeNode
+    OCVLBitwiseNode
+    OCVLTestNode
+    OCVLROINode
+    OCVLTypeConvertNode
 ## core
 ># Data Struct
     ---
@@ -139,15 +151,6 @@
     OCVLCascadeClassifierNode
 ## video
     OCVLcreateBackgroundSubtractorMOG2Node
-## laboratory
-    OCVLImageViewerNode
-    OCVLImageSampleNode
-    OCVLCustomInputNode
-    OCVLStethoscopeNode
-    OCVLBitwiseNode
-    OCVLTestNode
-    OCVLROINode
-    OCVLTypeConvertNode
 
 >## Number
 ## Alpha Nodes

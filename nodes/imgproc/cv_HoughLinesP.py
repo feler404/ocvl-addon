@@ -3,7 +3,7 @@ import uuid
 import numpy as np
 from bpy.props import EnumProperty, StringProperty, IntProperty, FloatProperty
 
-from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode, DEVELOP_STATE_ALPHA
+from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode, DEVELOP_STATE_ALPHA
 
 OUTPUT_MODE_ITEMS = (
     ("LINES", "LINES", "LINES", "", 0),
