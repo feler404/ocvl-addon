@@ -173,6 +173,7 @@ def auto_gather_node_classes_new():
         for filename, fileref in node_files:
             classes = inspect.getmembers(fileref, inspect.isclass)
             for clsname, cls in classes:
+                logger.debug("Gather class: {}".format(clsname, cls))
                 try:
                     if cls.bl_rna.base.name == "Node":
                         sverchok.utils.node_classes[cls.bl_idname] = cls

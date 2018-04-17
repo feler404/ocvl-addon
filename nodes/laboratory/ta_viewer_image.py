@@ -3,7 +3,7 @@ from bpy.props import StringProperty
 from ...utils import cv_register_class, cv_unregister_class, OCVLPreviewNode, OCVL_EXT
 
 
-class OCVLSimpleImageViewerNode(OCVLPreviewNode):
+class OCVLImageViewerNode(OCVLPreviewNode):
     '''Image Viewer node'''
     bl_icon = 'ZOOM_ALL'
 
@@ -29,10 +29,13 @@ class OCVLSimpleImageViewerNode(OCVLPreviewNode):
         self.draw_preview(layout=layout, prop_name="image_in", location_x=10, location_y=40)
 
 
+if OCVL_EXT:
+    from ...extend.laboratory.ta_viewer_image import OCVLImageViewerNode
+
+
 def register():
-    cv_register_class(OCVLSimpleImageViewerNode)
+    cv_register_class(OCVLImageViewerNode)
 
 
 def unregister():
-    cv_unregister_class(OCVLSimpleImageViewerNode)
-
+    cv_unregister_class(OCVLImageViewerNode)
