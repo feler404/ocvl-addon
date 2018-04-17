@@ -185,7 +185,11 @@ def reload_sverchok_addon():
         Addons.remove(sverchok_addon)
     sverchok_addon = Addons.new()
     sverchok_addon.module = "sverchok"
-    bpy.ops.wm.addon_enable(module='sverchok')
+    if hasattr(bpy.context, "scene"):
+        bpy.ops.wm.addon_disable(module=sverchok_addon.module)
+        bpy.ops.wm.addon_enable(module=sverchok_addon.module)
+    else:
+        print("Skip disable/enable {}".format(sverchok_addon.module))
 
 
 def reload_ocvl_addon():
@@ -194,7 +198,11 @@ def reload_ocvl_addon():
         Addons.remove(ocvl_addon)
     ocvl_addon = Addons.new()
     ocvl_addon.module = "ocvl"
-    bpy.ops.wm.addon_enable(module='ocvl')
+    if hasattr(bpy.context, "scene"):
+        bpy.ops.wm.addon_disable(module=ocvl_addon.module)
+        bpy.ops.wm.addon_enable(module=ocvl_addon.module)
+    else:
+        print("Skip disable/enable {}".format(ocvl_addon.module))
 
 
 def reload_addons():

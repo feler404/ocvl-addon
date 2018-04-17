@@ -5,13 +5,13 @@ from ...extend.utils import cv_register_class, cv_unregister_class
 
 
 def register():
-    bpy.utils.register_class(OCVLImageImporterOpMK2)
-    bpy.utils.register_class(OCVLTakeImageFromCamera)
+    cv_register_class(OCVLImageImporterOpMK2)
+    cv_register_class(OCVLTakeImageFromCamera)
     cv_register_class(OCVLImageSampleNode)
 
 
 def unregister():
-    bpy.utils.unregister_class(OCVLImageSampleNode)
-    bpy.utils.register_class(OCVLTakeImageFromCamera)
+    cv_unregister_class(OCVLImageSampleNode)
+    cv_unregister_class(OCVLTakeImageFromCamera)
     cv_unregister_class(OCVLImageImporterOpMK2)
 
