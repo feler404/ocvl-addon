@@ -9,7 +9,7 @@ from .utils import convert_to_gl_image, cv_register_class, cv_unregister_class
 from sverchok.core.socket_data import SvNoDataError
 import requests
 
-from .auth import ocvl_auth, auth_pro_confirm, auth_pro_reject
+from .auth import ocvl_auth, auth_pro_confirm, auth_pro_reject, OCVL_PANEL_URL
 
 logger = logging.getLogger(__name__)
 
@@ -149,7 +149,7 @@ class OCVLRequestsSplashOperator(bpy.types.Operator):
     def invoke(self, context, event):
         node_tree, node_name, fn_name, fn_args = self.origin.split('|><|')
         node = bpy.data.node_groups[node_tree].nodes[node_name]
-        url = "{}{}{}".format(ocvl_auth.OCVL_PANEL_URL, fn_name, fn_args)
+        url = "{}{}{}".format(OCVL_PANEL_URL, fn_name, fn_args)
         response = requests.get(url=url)
         auth_node = self._get_auth_node(node_tree, node)
         if response.status_code == 200:
@@ -161,8 +161,6 @@ class OCVLRequestsSplashOperator(bpy.types.Operator):
 
         logger.info("Request: {}".format(url))
         logger.info("Response: {}, payload: {}".format(response, response.content))
-
-        print(node_tree, node_name, fn_name, fn_args)
 
         return {'FINISHED'}
 

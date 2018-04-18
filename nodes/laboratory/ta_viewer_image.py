@@ -4,7 +4,7 @@ from ...utils import cv_register_class, cv_unregister_class, OCVLPreviewNode
 from ...auth import ocvl_auth
 
 
-class OCVLImageViewerNode(OCVLPreviewNode):
+class OCVLSimpleImageViewerNode(OCVLPreviewNode):
     '''Image Viewer node'''
     bl_icon = 'ZOOM_ALL'
 
@@ -36,7 +36,9 @@ if ocvl_auth.ocvl_ext:
 
 def register():
     cv_register_class(OCVLImageViewerNode)
+    cv_register_class(OCVLSimpleImageViewerNode)
 
 
 def unregister():
+    cv_unregister_class(OCVLSimpleImageViewerNode)
     cv_unregister_class(OCVLImageViewerNode)

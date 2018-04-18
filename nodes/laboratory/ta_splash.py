@@ -5,7 +5,13 @@ from logging import getLogger
 from bpy.props import BoolProperty, StringProperty
 
 from ...utils import cv_register_class, cv_unregister_class, OCVLPreviewNode
-from ...auth import ocvl_auth
+from ...auth import (
+    ocvl_auth, OCVL_AUTH_PARAMS_LOGIN_PASSWORD_TEMPALTE,
+    OCVL_AUTH_PARAMS_LICENCE_KEY_TEMPALTE,
+    ocvl_user,
+    COMMUNITY_VERSION,
+    PRO_VERSION,
+)
 
 logger = getLogger(__name__)
 
@@ -52,29 +58,35 @@ class OCVLSplashNode(OCVLPreviewNode):
 
     def draw_buttons(self, context, layout):
         self.draw_preview(layout=layout, prop_name="image_out", location_x=10, location_y=50)
-        if ocvl_auth.ocvl_version is ocvl_auth.COMMUNITY_VERSION:
+        if ocvl_auth.ocvl_version is COMMUNITY_VERSION:
             self.layout_for_community_version(context, layout)
-        if ocvl_auth.ocvl_version is ocvl_auth.PRO_VERSION:
+        if ocvl_auth.ocvl_version is PRO_VERSION:
             self.layout_for_pro_version(context, layout)
 
     def layout_for_community_version(self, context, layout):
-        pass
+        self.layout_start_work(context, layout)
+
+    def layout_start_work(self, context, layout):
+        row = layout.row()
+        row.operator('node.clean_desk', text="Start with blank desk", icon='FILE_TICK')
+        row.operator('wm.recover_last_session', text='Recover last session', icon="RECOVER_LAST")
+        row.operator('wm.url_open', text="Store".format(self.bl_label), icon='MOD_CLOTH').url = 'http://kube.pl/'
+        row = layout.row()
+        col = row.column()
+        col_split = col.split(0.5, align=True)
+        for i, tutorial in enumerate(ocvl_user.tutorials):
+            if i % 2:
+                col_split = col.split(0.5, align=True)
+            text = tutorial.get("name")
+            icon = tutorial.get("icon", "URL")
+            col_split.operator('wm.url_open', text=text.format(self.bl_label), icon=icon).url = 'http://kube.pl/'
 
     def layout_for_pro_version(self, context, layout):
         if ocvl_auth.ocvl_pro_version_auth:
-            row = layout.row()
-            row.operator('node.clean_desk', text="Start with blank desk", icon='FILE_TICK')
-            row.operator('wm.recover_last_session', text='Recover last session', icon="RECOVER_LAST")
-            row.operator('wm.url_open', text="Store".format(self.bl_label), icon='MOD_CLOTH').url = 'http://kube.pl/'
-            row = layout.row()
-            col = row.column()
-            col_split = col.split(0.5, align=True)
-            col_split.operator('wm.url_open', text="First step".format(self.bl_label), icon='PARTICLE_DATA').url = 'http://kube.pl/'
-            col_split.operator('wm.url_open', text="Tutorial 1".format(self.bl_label), icon='URL').url = 'http://kube.pl/'
-            col_split = col.split(0.5, align=True)
-            col_split.operator('wm.url_open', text="Tutorial 2".format(self.bl_label), icon='URL').url = 'http://kube.pl/'
-            col_split.operator('wm.url_open', text="Tutorial 3".format(self.bl_label), icon='URL').url = 'http://kube.pl/'
+            self.layout_start_work(context, layout)
         else:
+            # pass
+        # if 1:
             col = layout.column(align=True)
 
             self.add_button(layout, "is_licence_key")
@@ -84,16 +96,19 @@ class OCVLSplashNode(OCVLPreviewNode):
                 row.prop(self, "login_in", "Login")
                 row.prop(self, "password_in", "Password")
                 row.prop(self, "is_remember_in", "Remember")
-                get_args = "?login={}&password={}".format(self.login_in, self.password_in)
+                get_args = OCVL_AUTH_PARAMS_LOGIN_PASSWORD_TEMPALTE.format(login=self.login_in, password=self.password_in)
                 get_fn_url = 'login'
             else:
                 row = layout.row()
                 row.prop(self, "licence_key_in", "Licence Key")
-                get_args = "?licence_key={}".format(self.licence_key_in)
+                get_args = OCVL_AUTH_PARAMS_LICENCE_KEY_TEMPALTE.format(licence_key=self.licence_key_in)
                 get_fn_url = 'licence'
             row = layout.row()
             row.operator('node.requests_splash', text='Submit', icon='FILE_TICK').origin = self.get_node_origin(props_name=[get_fn_url, get_args])
-
+            row = layout.row()
+            col = row.column()
+            col_split = col.split(0.5, align=True)
+            col_split.operator('node.clean_desk', text="Start with blank desk - Community version", icon='RESTRICT_VIEW_OFF')
 
 def register():
     cv_register_class(OCVLSplashNode)

@@ -200,6 +200,7 @@ IS_WORK_ON_COPY_INPUT = IS_WORK_ON_COPY_INPUT
 SCALE = bpy.context.user_preferences.system.pixel_size
 LAST_PIC = time.time()
 socket_data_cache = np.opencv_handler
+texture_cache = {}
 np.bl_listener = None
 np.LAST_PIC = time.time()
 
@@ -511,7 +512,7 @@ class OCVLNode(bpy.types.Node, SverchCustomTreeNode):
 
 
 class OCVLPreviewNode(OCVLNode):
-    texture = {}
+    texture = texture_cache
 
     def delete_texture(self):
         if self.node_id in self.texture:

@@ -8,7 +8,7 @@ from os.path import dirname, basename
 import bpy
 import sverchok
 from . import nodes as ocvl_nodes
-from .auth import ocvl_auth
+from .auth import ocvl_auth, auth_make_node_cats_new
 from bpy.types import Addon, AddonPreferences, Addons
 
 from sverchok.node_tree import SverchCustomTreeNode
@@ -60,42 +60,7 @@ class MockSverchokAddonPreferences(AddonPreferences):
     log_file_name = ""
 
 
-def make_node_cats_new():
-    '''
-    this loads the index.md file and converts it to an OrderedDict of node categories.
-
-    '''
-    index_path = os.path.join(dirname(__file__), 'index.md')
-
-    node_cats = OrderedDict()
-    with open(index_path) as md:
-        category = None
-        temp_list = []
-        for line in md:
-            if not line.strip():
-                continue
-            if line.strip().startswith('>'):
-                continue
-            elif line.startswith('##'):
-                if category:
-                    node_cats[category] = temp_list
-                category = line[2:].strip()
-                temp_list = []
-
-            elif line.strip() == '---':
-                temp_list.append(['separator'])
-            else:
-                bl_idname = line.strip()
-                if bl_idname.startswith("Ext"):
-                    bl_idname = bl_idname[3:]
-                    if not ocvl_auth.ocvl_ext:
-                        continue
-                temp_list.append([bl_idname])
-
-        # final append
-        node_cats[category] = temp_list
-
-    return node_cats
+make_node_cats_new= auth_make_node_cats_new
 
 
 def automatic_collection_new(directory):
@@ -198,6 +163,15 @@ def reload_sverchok_addon():
         bpy.ops.wm.addon_enable(module=sverchok_addon.module)
     else:
         logger.info("Skip disable/enable {}".format(sverchok_addon.module))
+
+
+def soft_reload_menu():
+    sverchok.core.root_modules = ["node_tree", "data_structure",  "ui", "nodes", "old_nodes", "sockets"]  # "menu", "core", "utils",
+    sverchok.menu.make_node_cats = make_node_cats_new
+    sverchok.core.make_node_list = make_node_list_new
+    sverchok.utils.auto_gather_node_classes = auto_gather_node_classes_new
+    from sverchok.menu import reload_menu
+    reload_menu()
 
 
 def reload_ocvl_addon():

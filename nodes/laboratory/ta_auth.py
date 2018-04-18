@@ -27,6 +27,9 @@ class OCVLAuthNode(OCVLPreviewNode):
         if self.status_code == 0:
             icon = 'QUESTION'
         elif self.status_code == 200:
+            col = layout.column(align=True)
+            col.operator('wm.url_open', text="OCVL Web Panel".format(self.bl_label),
+                         icon='URL').url = 'https://ocvl-cms.herokuapp.com/admin/login/'
             icon = 'FILE_TICK'
         elif self.status_code == 401:
             msg = "Incorrect credentials / Licence Key"

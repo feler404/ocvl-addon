@@ -52,7 +52,8 @@ if __name__ != "ocvl":
 
 from .ui import INFO_HT_header_new, INFO_HT_header_old
 from .logger_conf import logger
-from .auth import ocvl_auth
+from .auth import register_extended_operators, unregister_extended_operators
+
 bpy.context.user_preferences.view.show_splash = False
 
 BASE_DIR = os.path.dirname(__file__)
@@ -67,13 +68,11 @@ def register():
     bpy.utils.register_class(INFO_HT_header_new)
     from .operatores import register
     register()
-    if ocvl_auth.ocvl_ext:
-        from .extend.extended_operatores import register; register()
+    register_extended_operators()
 
 
 def unregister():
     bpy.utils.unregister_class(INFO_HT_header_new)
     from .extend.extended_operatores import unregister
     unregister()
-    if ocvl_auth.ocvl_ext:
-        from .extend.extended_operatores import unregister; unregister()
+    unregister_extended_operators()
