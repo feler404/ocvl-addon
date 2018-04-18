@@ -31,7 +31,7 @@ bl_info = {
         "OCVL team",
         "Teredo team",
     ),
-    "version": (0, 0, 2, 0),
+    "version": (1, 0, 3, 0),
     "blender": (2, 7, 9),
     "location": "Nodes > CustomNodesTree > Add user nodes",
     "description": "Computer vision node-based programming",

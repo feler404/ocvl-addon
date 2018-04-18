@@ -6,7 +6,11 @@
     ExtOCVLBitwiseNode
     ExtOCVLROINode
     ExtOCVLTypeConvertNode
-    OCVLHelloNode
+    ---
+    OCVLSplashNode
+    OCVLAuthNode
+    OCVLHistoryNode
+    OCVLDocsNode
 ## core
 ># Data Struct
     ---
