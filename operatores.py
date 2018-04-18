@@ -1,11 +1,17 @@
 import bpy
-
+import logging
+import urllib.parse
 from bpy.props import StringProperty
 from pynput.keyboard import Key, Controller
 
+from .nodes.laboratory.ta_auth import AUTH_NODE_NAME
 from .utils import convert_to_gl_image, cv_register_class, cv_unregister_class
 from sverchok.core.socket_data import SvNoDataError
+import requests
 
+from .auth import ocvl_auth, auth_pro_confirm, auth_pro_reject
+
+logger = logging.getLogger(__name__)
 
 class EscapeFullScreenOperator(bpy.types.Operator):
     """Tooltip"""
@@ -120,14 +126,65 @@ class OCVLShowTextInTextEditorOperator(bpy.types.Operator):
         return {'RUNNING_MODAL'}
 
 
+class OCVLClearDeskOperator(bpy.types.Operator):
+    """Tooltip"""
+    bl_idname = "node.clean_desk"
+    bl_label = "Clean Desk"
+
+    def execute(self, context):
+        for node_group in bpy.data.node_groups:
+            for node in node_group.nodes:
+                node.select = True
+        bpy.ops.node.delete()
+        return {'FINISHED'}
+
+
+class OCVLRequestsSplashOperator(bpy.types.Operator):
+    """Tooltip"""
+    bl_idname = "node.requests_splash"
+    bl_label = "Requests Splash"
+
+    origin = StringProperty("")
+
+    def invoke(self, context, event):
+        node_tree, node_name, fn_name, fn_args = self.origin.split('|><|')
+        node = bpy.data.node_groups[node_tree].nodes[node_name]
+        url = "{}{}{}".format(ocvl_auth.OCVL_PANEL_URL, fn_name, fn_args)
+        response = requests.get(url=url)
+        auth_node = self._get_auth_node(node_tree, node)
+        if response.status_code == 200:
+            auth_pro_confirm(node, url, response)
+        else:
+            auth_pro_reject(node, url, response)
+        auth_node["status_code"] = response.status_code
+        auth_node["response_content"] = response.content
+
+        logger.info("Request: {}".format(url))
+        logger.info("Response: {}, payload: {}".format(response, response.content))
+
+        print(node_tree, node_name, fn_name, fn_args)
+
+        return {'FINISHED'}
+
+    @staticmethod
+    def _get_auth_node(node_tree, fall_back):
+        for link in bpy.data.node_groups[node_tree].links:
+            if link.to_node.name == AUTH_NODE_NAME:
+                return link.to_node
+        return fall_back
+
 
 def register():
     cv_register_class(OCVLImageFullScreenOperator)
     cv_register_class(EscapeFullScreenOperator)
     cv_register_class(OCVLShowTextInTextEditorOperator)
+    cv_register_class(OCVLClearDeskOperator)
+    cv_register_class(OCVLRequestsSplashOperator)
 
 
 def unregister():
+    cv_unregister_class(OCVLRequestsSplashOperator)
+    cv_unregister_class(OCVLClearDeskOperator)
     cv_unregister_class(OCVLShowTextInTextEditorOperator)
     cv_unregister_class(EscapeFullScreenOperator)
     cv_unregister_class(OCVLImageFullScreenOperator)

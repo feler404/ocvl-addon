@@ -1,6 +1,7 @@
 from bpy.props import StringProperty
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLPreviewNode, OCVL_EXT
+from ...utils import cv_register_class, cv_unregister_class, OCVLPreviewNode
+from ...auth import ocvl_auth
 
 
 class OCVLImageViewerNode(OCVLPreviewNode):
@@ -29,7 +30,7 @@ class OCVLImageViewerNode(OCVLPreviewNode):
         self.draw_preview(layout=layout, prop_name="image_in", location_x=10, location_y=40)
 
 
-if OCVL_EXT:
+if ocvl_auth.ocvl_ext:
     from ...extend.laboratory.ta_viewer_image import OCVLImageViewerNode
 
 

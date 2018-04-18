@@ -1,6 +1,7 @@
-from ...utils import cv_register_class, cv_unregister_class, OCVL_EXT
+from ...utils import cv_register_class, cv_unregister_class
+from ...auth import ocvl_auth
 
-if OCVL_EXT:
+if ocvl_auth.ocvl_ext:
     from ...extend.laboratory.ta_custom_input import OCVLCustomInputNode
 
     def register():

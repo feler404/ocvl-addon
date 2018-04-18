@@ -9,7 +9,8 @@ from uuid import UUID
 from logging import getLogger
 from bpy.props import StringProperty
 
-from . import IS_WORK_ON_COPY_INPUT, OCVL_EXT
+from . import IS_WORK_ON_COPY_INPUT
+from .auth import ocvl_auth
 from .sverchok_point import SverchCustomTreeNode, node_id, nodeview_bgl_viewer_draw_mk2, sv_preferences
 from sverchok.core.socket_data import SvNoDataError
 
@@ -502,7 +503,7 @@ class OCVLNode(bpy.types.Node, SverchCustomTreeNode):
         row.prop(self, prop_name, **kwargs)
 
     def add_button_get_points(self, layout, props_name=None):
-        if props_name and OCVL_EXT:
+        if props_name and ocvl_auth.ocvl_ext:
             row = layout.row()
             col = layout.column(align=True)
             origin = self.get_node_origin(props_name="|><|".join(props_name))

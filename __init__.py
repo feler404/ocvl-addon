@@ -31,7 +31,7 @@ bl_info = {
         "OCVL team",
         "Teredo team",
     ),
-    "version": (1, 0, 3, 0),
+    "version": (1, 0, 3),
     "blender": (2, 7, 9),
     "location": "Nodes > CustomNodesTree > Add user nodes",
     "description": "Computer vision node-based programming",
@@ -52,10 +52,11 @@ if __name__ != "ocvl":
 
 from .ui import INFO_HT_header_new, INFO_HT_header_old
 from .logger_conf import logger
+from .auth import ocvl_auth
+bpy.context.user_preferences.view.show_splash = False
 
 BASE_DIR = os.path.dirname(__file__)
 IS_WORK_ON_COPY_INPUT = True
-OCVL_EXT = False
 
 
 def register():
@@ -66,7 +67,7 @@ def register():
     bpy.utils.register_class(INFO_HT_header_new)
     from .operatores import register
     register()
-    if OCVL_EXT:
+    if ocvl_auth.ocvl_ext:
         from .extend.extended_operatores import register; register()
 
 
@@ -74,5 +75,5 @@ def unregister():
     bpy.utils.unregister_class(INFO_HT_header_new)
     from .extend.extended_operatores import unregister
     unregister()
-    if OCVL_EXT:
+    if ocvl_auth.ocvl_ext:
         from .extend.extended_operatores import unregister; unregister()

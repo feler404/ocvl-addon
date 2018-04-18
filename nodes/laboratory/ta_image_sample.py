@@ -6,7 +6,8 @@ import numpy as np
 from logging import getLogger
 from bpy.props import EnumProperty, StringProperty, IntProperty
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLPreviewNode, convert_to_cv_image, updateNode, OCVL_EXT
+from ...utils import cv_register_class, cv_unregister_class, OCVLPreviewNode, convert_to_cv_image, updateNode
+from ...auth import ocvl_auth
 
 logger = getLogger(__name__)
 
@@ -152,7 +153,7 @@ class OCVLImageSampleNode(OCVLPreviewNode):
         self.process()
 
 
-if OCVL_EXT:
+if ocvl_auth.ocvl_ext:
     from ...extend.laboratory.ta_image_sample import OCVLImageSampleNode
 
 

@@ -7,7 +7,8 @@ from os.path import dirname, basename
 
 import bpy
 import sverchok
-from . import nodes as ocvl_nodes, OCVL_EXT
+from . import nodes as ocvl_nodes
+from .auth import ocvl_auth
 from bpy.types import Addon, AddonPreferences, Addons
 
 from sverchok.node_tree import SverchCustomTreeNode
@@ -87,7 +88,7 @@ def make_node_cats_new():
                 bl_idname = line.strip()
                 if bl_idname.startswith("Ext"):
                     bl_idname = bl_idname[3:]
-                    if not OCVL_EXT:
+                    if not ocvl_auth.ocvl_ext:
                         continue
                 temp_list.append([bl_idname])
 
