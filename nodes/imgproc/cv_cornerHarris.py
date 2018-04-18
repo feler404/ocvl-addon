@@ -1,5 +1,6 @@
 import cv2
 import uuid
+from gettext import gettext as _
 from bpy.props import EnumProperty, StringProperty, IntProperty, FloatProperty
 
 from ...extend.utils import cv_register_class, cv_unregister_class, BORDER_TYPE_ITEMS, OCVLNode, updateNode, DEVELOP_STATE_BETA
@@ -9,17 +10,19 @@ class OCVLcornerHarrisNode(OCVLNode):
 
     bl_develop_state = DEVELOP_STATE_BETA
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()))
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()))
+    _doc=_("Harris corner detector.")
+
+    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()), description=_("Input single-channel 8-bit or floating-point image."))
+    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()), description=_("Image to store the Harris detector responses."))
 
     blockSize_in = IntProperty(default=2, min=1, max=30, update=updateNode,
-        description='Neighborhood size (see the details on cornerEigenValsAndVecs ).')
+        description=_("Neighborhood size (see the details on cornerEigenValsAndVecs )."))
     ksize_in = IntProperty(default=3, min=1, max=30, update=updateNode,
-        description="Aperture parameter for the Sobel operator.")
+        description=_("Aperture parameter for the Sobel operator."))
     k_in = FloatProperty(default=0.04, min=0.01, max=1, update=updateNode,
-        description="Harris detector free parameter. See the formula below.")
+        description=_("Harris detector free parameter. See the formula below."))
     borderType_in = EnumProperty(items=BORDER_TYPE_ITEMS, default='None', update=updateNode,
-        description="Pixel extrapolation method. See cv::BorderTypes.")
+        description=_("Pixel extrapolation method. See cv::BorderTypes."))
 
     def sv_init(self, context):
         self.width = 150

@@ -1,5 +1,6 @@
 import cv2
 import uuid
+from gettext import gettext as _
 from bpy.props import StringProperty, BoolProperty
 
 from ...extend.utils import cv_register_class, cv_unregister_class, updateNode, OCVLNode
@@ -7,16 +8,18 @@ from ...extend.utils import cv_register_class, cv_unregister_class, updateNode, 
 
 class OCVLconvexHullNode(OCVLNode):
 
+    _doc=_("Finds the convex hull of a point set.")
+
     hull_out = StringProperty(default=str(uuid.uuid4()),
-        description="Output convex hull. It is either an integer vector of indices or vector of points.")
+        description=_("Output convex hull. It is either an integer vector of indices or vector of points."))
     points_in = StringProperty(name="points_in", default=str(uuid.uuid4()),
-        description="Input 2D point set, stored in std::vector or Mat.")
+        description=_("Input 2D point set, stored in std::vector or Mat."))
     clockwise_in = BoolProperty(default=False, update=updateNode,
-        description="Orientation flag. If it is true, the output convex hull is oriented clockwise.")
+        description=_("Orientation flag. If it is true, the output convex hull is oriented clockwise."))
     returnPoints_in = BoolProperty(default=False, update=updateNode,
-        description="Operation flag. In case of a matrix, when the flag is true, the function returns convex hull points.")
+        description=_("Operation flag. In case of a matrix, when the flag is true, the function returns convex hull points."))
     loc_from_findContours = BoolProperty(default=True, update=updateNode,
-        description="If linked with findContour node switch to True")
+        description=_("If linked with findContour node switch to True"))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "points_in")
