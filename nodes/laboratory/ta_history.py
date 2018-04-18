@@ -14,6 +14,7 @@ class OCVLHistoryNode(OCVLPreviewNode):
     history = BoolProperty(default=False)
 
     def sv_init(self, context):
+        self.width = 180
         self.outputs.new("StringsSocket", "history")
 
     def wrapped_process(self):

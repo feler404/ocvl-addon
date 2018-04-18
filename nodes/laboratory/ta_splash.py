@@ -11,6 +11,8 @@ from ...auth import (
     ocvl_user,
     COMMUNITY_VERSION,
     PRO_VERSION,
+    OCVL_LINK_TO_STORE,
+    OCVL_LINK_TO_CREATE_ACCOUNT,
 )
 
 logger = getLogger(__name__)
@@ -66,11 +68,17 @@ class OCVLSplashNode(OCVLPreviewNode):
     def layout_for_community_version(self, context, layout):
         self.layout_start_work(context, layout)
 
+    def layout_add_store_link(self, row):
+        row.operator('wm.recover_last_session', text='Recover last session', icon="RECOVER_LAST")
+        if ocvl_user.is_login:
+            row.operator('wm.url_open', text="Store".format(self.bl_label), icon='MOD_CLOTH').url = OCVL_LINK_TO_STORE
+        else:
+            row.operator('wm.url_open', text="Create account".format(self.bl_label), icon='INFO').url = OCVL_LINK_TO_CREATE_ACCOUNT
+
     def layout_start_work(self, context, layout):
         row = layout.row()
         row.operator('node.clean_desk', text="Start with blank desk", icon='FILE_TICK')
-        row.operator('wm.recover_last_session', text='Recover last session', icon="RECOVER_LAST")
-        row.operator('wm.url_open', text="Store".format(self.bl_label), icon='MOD_CLOTH').url = 'http://kube.pl/'
+        self.layout_add_store_link(row)
         row = layout.row()
         col = row.column()
         col_split = col.split(0.5, align=True)
@@ -109,6 +117,7 @@ class OCVLSplashNode(OCVLPreviewNode):
             col = row.column()
             col_split = col.split(0.5, align=True)
             col_split.operator('node.clean_desk', text="Start with blank desk - Community version", icon='RESTRICT_VIEW_OFF')
+
 
 def register():
     cv_register_class(OCVLSplashNode)

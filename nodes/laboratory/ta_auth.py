@@ -2,7 +2,11 @@ from logging import getLogger
 from bpy.props import BoolProperty, StringProperty, IntProperty
 
 from ...utils import cv_register_class, cv_unregister_class, OCVLPreviewNode, updateNode
-from ...auth import ocvl_auth, ocvl_user, ANONYMOUS, OCVL_GITHUB_ISSUE_TEMPLATE
+from ...auth import (
+    ocvl_auth, ocvl_user, ANONYMOUS, OCVL_GITHUB_ISSUE_TEMPLATE, COMMUNITY_VERSION,
+    OCVL_LINK_UPGRADE_PROGRAM_TO_PRO,
+    OCVL_LINK_TO_OCVL_PANEL,
+)
 
 logger = getLogger(__name__)
 
@@ -14,7 +18,7 @@ class OCVLAuthNode(OCVLPreviewNode):
     response_content = StringProperty(default="")
 
     def sv_init(self, context):
-        self.width = 200
+        self.width = 180
         self.inputs.new("StringsSocket", "auth")
 
     def wrapped_process(self):
@@ -26,10 +30,14 @@ class OCVLAuthNode(OCVLPreviewNode):
         icon = 'QUESTION'
         if self.status_code == 0:
             icon = 'QUESTION'
+            if ocvl_auth.ocvl_version == COMMUNITY_VERSION:
+                col = layout.column(align=True)
+                col.operator('wm.url_open', text="Upgrade program to PRO".format(self.bl_label),
+                             icon='SOLO_ON').url = OCVL_LINK_UPGRADE_PROGRAM_TO_PRO
         elif self.status_code == 200:
             col = layout.column(align=True)
             col.operator('wm.url_open', text="OCVL Web Panel".format(self.bl_label),
-                         icon='URL').url = 'https://ocvl-cms.herokuapp.com/admin/login/'
+                         icon='URL').url = OCVL_LINK_TO_OCVL_PANEL
             icon = 'FILE_TICK'
         elif self.status_code == 401:
             msg = "Incorrect credentials / Licence Key"

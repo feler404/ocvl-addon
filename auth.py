@@ -5,9 +5,7 @@ import logging
 import json
 import bpy
 import os
-from pynput.keyboard import Key, Controller
 
-keyboard = Controller()
 
 from . import bl_info
 
@@ -24,9 +22,14 @@ OCVL_AUTH_PARAMS_BASE_TEMPALTE = "?&ocvl_version={}&ocvl_ext_version={}".format(
 OCVL_AUTH_PARAMS_LOGIN_PASSWORD_TEMPALTE = OCVL_AUTH_PARAMS_BASE_TEMPALTE + "&login={login}&password={password}"
 OCVL_AUTH_PARAMS_LICENCE_KEY_TEMPALTE = OCVL_AUTH_PARAMS_BASE_TEMPALTE + "&licence_key={licence_key}"
 
+OCVL_LINK_UPGRADE_PROGRAM_TO_PRO = 'https://ocvl-cms.herokuapp.com/admin/login/'
+OCVL_LINK_TO_OCVL_PANEL = 'https://ocvl-cms.herokuapp.com/admin/login/'
+OCVL_LINK_TO_STORE = 'http://kube.pl/'
+OCVL_LINK_TO_CREATE_ACCOUNT = 'http://kube.pl/'
+
 class Auth:
 
-    _ocvl_version = PRO_VERSION
+    _ocvl_version = COMMUNITY_VERSION
     _ocvl_ext = None
     _ocvl_first_running = True
     _ocvl_pro_version_auth = False
@@ -84,6 +87,10 @@ class User:
 
     def __init__(self, auth):
         self.auth = auth
+
+    @property
+    def is_login(self):
+        return self.name != ANONYMOUS
 
 
 ocvl_auth = Auth()
