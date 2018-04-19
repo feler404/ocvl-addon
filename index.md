@@ -1,13 +1,13 @@
 ## laboratory
-    OCVLSimpleImageSampleNode
-    OCVLSimpleImageViewerNode
-    ExtOCVLImageViewerNode
-    ExtOCVLImageSampleNode
-    ExtOCVLCustomInputNode
-    ExtOCVLStethoscopeNode
-    ExtOCVLBitwiseNode
-    ExtOCVLROINode
-    ExtOCVLTypeConvertNode
+    Simple-OCVLSimpleImageSampleNode
+    Simple-OCVLSimpleImageViewerNode
+    Ext-OCVLImageViewerNode
+    Ext-OCVLImageSampleNode
+    Ext-OCVLCustomInputNode
+    Ext-OCVLStethoscopeNode
+    Ext-OCVLBitwiseNode
+    Ext-OCVLROINode
+    Ext-OCVLTypeConvertNode
     ---
     OCVLSplashNode
     OCVLAuthNode

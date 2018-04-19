@@ -14,6 +14,7 @@ logger = logging.getLogger(__name__)
 ANONYMOUS = "Anonymous"
 COMMUNITY_VERSION = "COMMUNITY_VERSION"
 PRO_VERSION = "PRO_VERSION"
+
 OCVL_PANEL_URL = "http://127.0.0.1:5000/"
 OCVL_GITHUB_ISSUE_TEMPLATE = "https://github.com/feler404/ocvl-addon/issues/new?title={title}&body={body}"
 OCVL_VERSION = ".".join(map(str, bl_info['version']))
@@ -21,6 +22,8 @@ OCVL_EXT_VERSION = OCVL_VERSION
 OCVL_AUTH_PARAMS_BASE_TEMPALTE = "?&ocvl_version={}&ocvl_ext_version={}".format(OCVL_VERSION, OCVL_EXT_VERSION)
 OCVL_AUTH_PARAMS_LOGIN_PASSWORD_TEMPALTE = OCVL_AUTH_PARAMS_BASE_TEMPALTE + "&login={login}&password={password}"
 OCVL_AUTH_PARAMS_LICENCE_KEY_TEMPALTE = OCVL_AUTH_PARAMS_BASE_TEMPALTE + "&licence_key={licence_key}"
+OCVL_EXTENDED_NODE_PREFIX = "Ext-"
+OCVL_SIMPLE_NODE_PREFIX = "Simple-"
 
 OCVL_LINK_UPGRADE_PROGRAM_TO_PRO = 'https://ocvl-cms.herokuapp.com/admin/login/'
 OCVL_LINK_TO_OCVL_PANEL = 'https://ocvl-cms.herokuapp.com/admin/login/'
@@ -29,7 +32,7 @@ OCVL_LINK_TO_CREATE_ACCOUNT = 'http://kube.pl/'
 
 class Auth:
 
-    _ocvl_version = COMMUNITY_VERSION
+    _ocvl_version = PRO_VERSION
     _ocvl_ext = None
     _ocvl_first_running = True
     _ocvl_pro_version_auth = False
@@ -154,10 +157,20 @@ def auth_make_node_cats_new():
                 temp_list.append(['separator'])
             else:
                 bl_idname = line.strip()
-                if bl_idname.startswith("Ext"):
-                    bl_idname = bl_idname[3:]
-                    if (not ocvl_auth.ocvl_ext) or (not ocvl_auth.ocvl_pro_version_auth):
+                extended_node = False
+                simple_node = False
+                if bl_idname.startswith(OCVL_EXTENDED_NODE_PREFIX):
+                    extended_node = True
+                    bl_idname = bl_idname.replace(OCVL_EXTENDED_NODE_PREFIX, "")
+                if bl_idname.startswith(OCVL_SIMPLE_NODE_PREFIX):
+                    simple_node = True
+                    bl_idname = bl_idname.replace(OCVL_SIMPLE_NODE_PREFIX, "")
+                if (not ocvl_auth.ocvl_ext) or (not ocvl_auth.ocvl_pro_version_auth):
+                    if extended_node:
                         continue
+                elif simple_node:
+                    continue
+
                 temp_list.append([bl_idname])
 
         # final append
