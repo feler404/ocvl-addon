@@ -69,6 +69,9 @@ def register():
     from .operatores import register
     register()
     register_extended_operators()
+    from .tutorial_engine.worker import engine_worker_thread
+    # engine_worker_thread.start()
+
 
 
 def unregister():

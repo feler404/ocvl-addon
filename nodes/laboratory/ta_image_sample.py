@@ -166,5 +166,5 @@ def register():
 def unregister():
     cv_unregister_class(OCVLSimpleImageSampleNode)
     cv_unregister_class(OCVLImageSampleNode)
-    cv_unregister_class(OCVLImageSampleNode)
+    cv_unregister_class(OCVLImageImporterOp)
 

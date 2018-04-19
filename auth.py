@@ -56,7 +56,7 @@ class Auth:
     def ocvl_ext(self):
         if self._ocvl_ext is None:
             try:
-                from .extend.extended_utils import OCLV_EXTEND_TEST
+                from .extend.extended_utils import OCLV_EXTEND_MODULE_FAKE_VAR
                 self._ocvl_ext = True
             except:
                 self._ocvl_ext = False
