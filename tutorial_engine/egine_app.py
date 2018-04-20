@@ -137,63 +137,64 @@ class NodeCommandHandler(BaseHandler):
     IndexHandler - Welcome Page
     """
 
-    def clear_node_groups(self):
+    @classmethod
+    def clear_node_groups(cls):
         for node_group_name, node_group in bpy.data.node_groups.items():
             bpy.data.node_groups.remove(node_group)
 
-    def view_all(self):
+    @classmethod
+    def view_all(cls):
         with in_node_context() as override:
             bpy.ops.node.view_all(override)
 
-    def get_or_create_node_tree(self, name=TUTORIAL_ENGINE_DEFAULT_NODE_TREE_NAME):
+    @classmethod
+    def get_or_create_node_tree(cls, name=TUTORIAL_ENGINE_DEFAULT_NODE_TREE_NAME):
         if TUTORIAL_ENGINE_DEFAULT_NODE_TREE_NAME not in bpy.data.node_groups:
             with in_node_context() as override:
                 bpy.ops.node.new_node_tree(override, name=name)
         return bpy.data.node_groups[TUTORIAL_ENGINE_DEFAULT_NODE_TREE_NAME]
 
-    def get_or_create_default_image_sample(self):
-        node_tree = self.get_or_create_node_tree()
+    @classmethod
+    def get_or_create_default_image_sample(cls):
+        node_tree = cls.get_or_create_node_tree()
         node = node_tree.nodes.get(TUTORIAL_ENGINE_DEFAULT_IMAGE_SAMPLE_NAME)
         if not node:
             node = node_tree.nodes.new(TUTORIAL_ENGINE_DEFAULT_IMAGE_SAMPLE_NAME)
         node.location = (0, 0)
         return node
 
-    def get_or_create_default_viewer(self):
-        node_tree = self.get_or_create_node_tree()
+    @classmethod
+    def get_or_create_default_viewer(cls):
+        node_tree = cls.get_or_create_node_tree()
         node = node_tree.nodes.get(TUTORIAL_ENGINE_DEFAULT_VIEWER_NAME)
         if not node:
             node = node_tree.nodes.new(TUTORIAL_ENGINE_DEFAULT_VIEWER_NAME)
         node.location = (300, 0)
         return node
 
-    def connect_nodes(self,
-                      node_input=TUTORIAL_ENGINE_DEFAULT_IMAGE_SAMPLE_NAME,
+    @classmethod
+    def connect_nodes(cls,
+                      node_input=TUTORIAL_ENGINE_DEFAULT_VIEWER_NAME,
                       input_name=TUTORIAL_ENGINE_DEFAULT_INPUT_NAME,
-                      node_output=TUTORIAL_ENGINE_DEFAULT_VIEWER_NAME,
+                      node_output=TUTORIAL_ENGINE_DEFAULT_IMAGE_SAMPLE_NAME,
                       output_name=TUTORIAL_ENGINE_DEFAULT_OUTPUT_NAME):
 
-        node_tree = self.get_or_create_node_tree()
+        node_tree = cls.get_or_create_node_tree()
         socket_input = node_tree.nodes[node_input].inputs[input_name]
-        socket_output = node_tree.nodes[node_output].inputs[output_name]
+        socket_output = node_tree.nodes[node_output].outputs[output_name]
         node_tree.links.new(socket_input, socket_output)
+
+    @classmethod
+    def change(cls, node_name, prop_name, value):
+        node_tree = cls.get_or_create_node_tree()
+        node = node_tree.nodes.get(node_name)
+        setattr(node,prop_name, eval(value))
+
 
     def get(self, *args):
         kwargs = self.get_kwargs()
-        command = kwargs.get("command", "")
-        if command == "clear_node_groups":
-            self.clear_node_groups()
-        elif command == "view_all":
-            self.view_all()
-        elif command == "get_or_create_node_tree":
-            self.get_or_create_node_tree()
-        elif command == "get_or_create_default_image_sample":
-            self.get_or_create_default_image_sample()
-        elif command == "get_or_create_default_viewer":
-            self.get_or_create_default_viewer()
-
-
-
+        command = kwargs.pop("command", "")
+        bpy.worker_queue.append({"command": command, "kwargs": kwargs})
 
         logger.info("Raw command prepare: {}".format(command))
         # resp = run_cam(command)

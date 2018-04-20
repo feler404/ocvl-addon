@@ -25,13 +25,19 @@ class StoppableThread(threading.Thread):
     def stopped(self):
         return self._stop_event.is_set()
 
+    def start(self, *args, **kwargs):
+        logger.info("Worker tread started.")
+        bpy.ops.wm.modal_timer_operator()
+        logger.info("Modal timer operator started.")
+        super().start(*args, **kwargs)
+
 
 def tutorial_engine_worker():
     bpy.ioloop = IOLoop.current()
     tornado.log.enable_pretty_logging()
     app = tutorial_engine_app()
     app.listen(TUTORIAL_ENGINE_PORT)
-
+    logger.info("Tutorial Engine worker started.")
     IOLoop.current().start()
 
 
