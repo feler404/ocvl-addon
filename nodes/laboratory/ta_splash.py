@@ -47,9 +47,14 @@ class OCVLSplashNode(OCVLPreviewNode):
         current_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)))
         baner_dir = os.path.abspath(os.path.join(current_dir, "../../datafiles/"))
         loc_filepath = os.path.join(baner_dir, "ocvl_baner.png")
+        loc_filepath = os.path.join(baner_dir, "splash_banner.png")
         image = cv2.imread(loc_filepath)
+        if ocvl_auth.ocvl_version is COMMUNITY_VERSION:
+            image = image[0:512, 0:1024]
+        else:
+            image = image[512:1024, 0:1024]
         image, self.image_out = self._update_node_cache(image=image, resize=False)
-        self.make_textures(image, uuid_=self.image_out, width=512, height=288)
+        self.make_textures(image, uuid_=self.image_out, width=1024, height=512)
 
     def _update_node_cache(self, image=None, resize=False, uuid_=None):
         old_image_out = self.image_out
