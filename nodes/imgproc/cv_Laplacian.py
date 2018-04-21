@@ -1,13 +1,19 @@
 import cv2
 import uuid
+from gettext import gettext as _
 from bpy.props import EnumProperty, StringProperty, IntProperty, FloatProperty
 
 from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode, COLOR_DEPTH_ITEMS, BORDER_TYPE_ITEMS
 
 
 class OCVLLaplacianNode(OCVLNode):
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()))
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()))
+
+    _doc = _("Calculates the Laplacian of an image.")
+
+    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
+        description=_("Input image."))
+    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()),
+        description=_("Output image."))
 
     def set_ksize(self, value):
         if value % 2 == 0:
@@ -18,15 +24,15 @@ class OCVLLaplacianNode(OCVLNode):
         return self.get("ksize_in", 1)
 
     ddepth_in = EnumProperty(items=COLOR_DEPTH_ITEMS, default='CV_8U', update=updateNode,
-        description="Desired depth of the destination image.")
+        description=_("Desired depth of the destination image."))
     ksize_in = IntProperty(default=1, update=updateNode, min=1, max=10, set=set_ksize, get=get_ksize,
-        description='Aperture size used to compute the second-derivative filters.')
+        description=_("Aperture size used to compute the second-derivative filters."))
     scale_in = FloatProperty(default=1.0, min=1, max=8, update=updateNode,
-        description="Optional scale factor for the computed Laplacian values.")
+        description=_("Optional scale factor for the computed Laplacian values."))
     delta_in = FloatProperty(default=0.0, min=0, max=255, update=updateNode,
-        description="Optional delta value that is added to the results prior to storing them in dst .")
+        description=_("Optional delta value that is added to the results prior to storing them in dst."))
     borderType_in = EnumProperty(items=BORDER_TYPE_ITEMS, default='None', update=updateNode,
-        description="Pixel extrapolation method, see cv::BorderTypes")
+        description=_("Pixel extrapolation method, see cv::BorderTypes."))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "image_in")

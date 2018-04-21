@@ -1,6 +1,7 @@
 import cv2
 import uuid
 from bpy.props import StringProperty
+from gettext import gettext as _
 
 from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode, DEVELOP_STATE_BETA
 
@@ -8,8 +9,10 @@ from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode, DE
 class OCVLlogNode(OCVLNode):
     bl_develop_state = DEVELOP_STATE_BETA
 
-    array_in = StringProperty(name="array_in", default=str(uuid.uuid4()))
-    array_out = StringProperty(name="array_out", default=str(uuid.uuid4()))
+    _doc = _("Calculates the natural logarithm of every array element.")
+
+    array_in = StringProperty(name="array_in", default=str(uuid.uuid4()), description="Input array.")
+    array_out = StringProperty(name="array_out", default=str(uuid.uuid4()), description="Iutput array of the same size and type as input array .")
 
 
     def sv_init(self, context):

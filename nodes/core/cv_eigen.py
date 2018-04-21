@@ -1,5 +1,6 @@
 import cv2
 import uuid
+from gettext import gettext as _
 from bpy.props import StringProperty
 
 from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode, DEVELOP_STATE_BETA
@@ -9,11 +10,13 @@ class OCVLeigenNode(OCVLNode):
 
     bl_develop_state = DEVELOP_STATE_BETA
 
-    src_in = StringProperty(name="src_in", default=str(uuid.uuid4()))
+    _doc = _("Calculates eigenvalues and eigenvectors of a symmetric matrix.")
+
+    src_in = StringProperty(name="src_in", default=str(uuid.uuid4()), description="Input matrix that must have CV_32FC1 or CV_64FC1 type, square size and be symmetrical.")
 
     retval_out = StringProperty(name="retval_out", default=str(uuid.uuid4()))
-    eigenvalues_out = StringProperty(name="eigenvalues_out", default=str(uuid.uuid4()))
-    eigenvectors_out = StringProperty(name="eigenvectors_out", default=str(uuid.uuid4()))
+    eigenvalues_out = StringProperty(name="eigenvalues_out", default=str(uuid.uuid4()), description="Output vector of eigenvalues of the same type as src; the eigenvalues are stored in the descending order.")
+    eigenvectors_out = StringProperty(name="eigenvectors_out", default=str(uuid.uuid4()), description="Output matrix of eigenvectors; it has the same size and type as src.")
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "src_in")

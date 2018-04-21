@@ -1,5 +1,6 @@
 import cv2
 import uuid
+from gettext import gettext as _
 from bpy.props import EnumProperty, StringProperty, IntProperty, FloatVectorProperty
 
 from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode, BORDER_TYPE_REQUIRED_ITEMS
@@ -8,21 +9,24 @@ from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode, up
 class OCVLcopyMakeBorderNode(OCVLNode):
     bl_icon = 'BORDER_RECT'
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()))
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()))
+    _doc = _("Forms a border around an image.")
+    _note = _("")
+
+    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input image.")
+    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
 
     top_in = IntProperty(default=10, update=updateNode, min=1, max=20,
-        description='border width in number of pixels in corresponding directions')
+        description='Border width in number of pixels in corresponding directions.')
     bottom_in = IntProperty(default=10, update=updateNode, min=1, max=20,
-        description='border width in number of pixels in corresponding directions')
+        description='Border width in number of pixels in corresponding directions.')
     left_in = IntProperty(default=10, update=updateNode, min=1, max=20,
-        description='border width in number of pixels in corresponding directions')
+        description='Border width in number of pixels in corresponding directions.')
     right_in = IntProperty(default=10, update=updateNode, min=1, max=20,
-        description='border width in number of pixels in corresponding directions')
+        description='Border width in number of pixels in corresponding directions.')
     borderType_in = EnumProperty(items=BORDER_TYPE_REQUIRED_ITEMS, default='BORDER_DEFAULT', update=updateNode,
         description="Border type. See borderInterpolate for details.")
     color_in = FloatVectorProperty(update=updateNode, name='', default=(.3, .3, .2, 1.0), size=4, min=0.0, max=1.0, subtype='COLOR',
-        description='Border value if borderType==BORDER_CONSTANT')
+        description='Border value if borderType==BORDER_CONSTANT.')
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "image_in")

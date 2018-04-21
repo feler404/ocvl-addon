@@ -1,5 +1,6 @@
 import cv2
 import uuid
+from gettext import gettext as _
 from bpy.props import EnumProperty, StringProperty, FloatProperty
 
 from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode, COLOR_DEPTH_WITH_NONE_ITEMS, \
@@ -9,17 +10,21 @@ from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode, up
 class OCVLnormalizeNode(OCVLNode):
     bl_develop_state = DEVELOP_STATE_ALPHA
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()))
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()))
+    _doc = _("Normalizes the norm or value range of an array.")
 
+    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
+        description=_("Input array."))
     alpha_in = FloatProperty(default=0, min=0.0, max=1000, update=updateNode,
-        description="Norm value to normalize to or the lower range boundary in case of the range normalization.")
+        description=_("Norm value to normalize to or the lower range boundary in case of the range normalization."))
     beta_in = FloatProperty(default=255, min=0.0, max=1000, update=updateNode,
-        description="Upper range boundary in case of the range normalization; it is not used for the norm normalization.")
+        description=_("Upper range boundary in case of the range normalization; it is not used for the norm normalization."))
     norm_type_in = EnumProperty(items=NORMALIZATION_TYPE_ITEMS,default="NORM_L2", update=updateNode,
-        description="Normalization type (see cv::NormTypes).")
+        description=_("Normalization type (see cv::NormTypes)."))
     dtype_in = EnumProperty(items=COLOR_DEPTH_WITH_NONE_ITEMS, default='None', update=updateNode,
-        description="Channels as src and the depth =CV_MAT_DEPTH(dtype).")
+        description=_("Channels as src and the depth =CV_MAT_DEPTH(dtype)."))
+
+    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()),
+        description=_("Output array."))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "image_in")

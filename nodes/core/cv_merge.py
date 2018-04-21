@@ -1,6 +1,7 @@
 import cv2
 import uuid
 import numpy as np
+from gettext import gettext as _
 from bpy.props import StringProperty
 
 from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode
@@ -19,12 +20,20 @@ PROPS_MAPS = {
 
 
 class OCVLmergeNode(OCVLNode):
-    layer_0_in = StringProperty(name="layer_0_in", default=str(uuid.uuid4()))
-    layer_1_in = StringProperty(name="layer_1_in", default=str(uuid.uuid4()))
-    layer_2_in = StringProperty(name="layer_2_in", default=str(uuid.uuid4()))
+
+    _doc = _("Creates one multichannel array out of several single-channel ones.")
+    _note= _("In example image was used node cvtColor to make one single channel array in graz scale. Node merge is giving out multichannel array on the input channel Red.")
+
+    layer_0_in = StringProperty(name="layer_0_in", default=str(uuid.uuid4()),
+        description=_("First channel Blue."))
+    layer_1_in = StringProperty(name="layer_1_in", default=str(uuid.uuid4()),
+        description=_("Second channel Green."))
+    layer_2_in = StringProperty(name="layer_2_in", default=str(uuid.uuid4()),
+        description=_("Third channel Red."))
     # layer_3_in = StringProperty(name="layer_3_in", default=str(uuid.uuid4()))
 
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()))
+    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()),
+        description=_("Image output."))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "layer_0_in")

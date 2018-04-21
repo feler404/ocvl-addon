@@ -2,7 +2,16 @@ import cv2
 import uuid
 from bpy.props import EnumProperty, StringProperty, IntProperty, BoolProperty
 
-from ...extend.utils import cv_register_class, cv_unregister_class, TYPE_THRESHOLD_ITEMS, OCVLNode, updateNode
+from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode
+
+
+TYPE_THRESHOLD_ITEMS = (
+    ("THRESH_BINARY", "THRESH_BINARY", "THRESH_BINARY", "", 0),
+    ("THRESH_BINARY_INV", "THRESH_BINARY_INV", "THRESH_BINARY_INV", "", 1),
+    ("THRESH_TRUNC", "THRESH_TRUNC", "THRESH_TRUNC", "", 2),
+    ("THRESH_TOZERO", "THRESH_TOZERO", "THRESH_TOZERO", "", 3),
+    ("THRESH_TOZERO_INV", "THRESH_TOZERO_INV", "THRESH_TOZERO_INV", "", 4),
+    )
 
 
 class OCVLthresholdNode(OCVLNode):
@@ -44,6 +53,7 @@ class OCVLthresholdNode(OCVLNode):
         self.refresh_output_socket("thresh_out", thresh_out)
 
     def draw_buttons(self, context, layout):
+        self.add_button(layout, "type_in")
         self.add_button(layout, "loc_invert", toggle=True, icon="CLIPUV_DEHLT", text="Inverse")
 
 

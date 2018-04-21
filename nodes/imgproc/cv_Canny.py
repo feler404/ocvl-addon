@@ -1,5 +1,6 @@
 import cv2
 import uuid
+from gettext import gettext as _
 from bpy.props import EnumProperty, StringProperty, FloatProperty, BoolProperty
 
 from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode
@@ -14,17 +15,21 @@ SOBEL_SIZE_ITEMS = (
 
 class OCVLCannyNode(OCVLNode):
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()))
-    threshold1_in = FloatProperty(default=100, min=0, max=255, update=updateNode,
-        description="First threshold for the hysteresis procedure.")
-    threshold2_in = FloatProperty(default=200, min=0, max=255, update=updateNode,
-        description="Second threshold for the hysteresis procedure.")
-    apertureSize_in = EnumProperty(items=SOBEL_SIZE_ITEMS, default="3", update=updateNode,
-        description="Aperture size for the Sobel operator.")
-    L2gradient_in = BoolProperty(default=False, update=updateNode,
-        description="Flag, indicating whether a more accurate.")
+    _doc = _("Finds edges in an image using the [Canny86] algorithm.")
 
-    edges_out = StringProperty(name="edges_out", default=str(uuid.uuid4()))
+    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
+        description=_("8-bit input image."))
+    threshold1_in = FloatProperty(default=100, min=0, max=255, update=updateNode,
+        description=_("First threshold for the hysteresis procedure."))
+    threshold2_in = FloatProperty(default=200, min=0, max=255, update=updateNode,
+        description=_("Second threshold for the hysteresis procedure."))
+    apertureSize_in = EnumProperty(items=SOBEL_SIZE_ITEMS, default="3", update=updateNode,
+        description=_("Aperture size for the Sobel operator."))
+    L2gradient_in = BoolProperty(default=False, update=updateNode,
+        description=_("Flag, indicating whether a more accurate."))
+
+    edges_out = StringProperty(name="edges_out", default=str(uuid.uuid4()),
+        description=_("Output edge map. Single channels 8-bit image, which has the same size as image."))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "image_in")

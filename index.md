@@ -9,15 +9,26 @@
     OCVLRangeNode
 ># Operations on arrays
     ---
+    OCVLabsdiffNode
     OCVLaddWeightedNode
+    OCVLborderInterpolateNode
+    OCVLcalcCovarMatrixNode
+    OCVLcartToPolarNode
+    OCVLcompareNode
+    OCVLcompleteSymmNode
+    OCVLconnectedComponentsNode
     OCVLconvertScaleAbsNode
+    OCVLcopyMakeBorderNode
+    OCVLcountNonZeroNode
     OCVLdctNode
+    OCVLdeterminantNode
     OCVLdftNode
     OCVLdivideNode
+    OCVLeigenNode
     OCVLexpNode
     OCVLflipNode
-    OCVLidctNode
     OCVLgemmNode
+    OCVLidctNode
     OCVLidftNode
     OCVLinRangeNode
     OCVLinvertNode
@@ -29,14 +40,13 @@
     OCVLmeanNode
     OCVLmeanStdDevNode
     OCVLmergeNode
-    OCVLminNode
     OCVLminMaxLocNode
+    OCVLminNode
     OCVLmixChannelsNode
+    OCVLmulSpectrumsNode
     OCVLnormalizeNode
     OCVLsplitNode
-    OCVLcopyMakeBorderNode
-    OCVLeigenNode
-    OCVLmulSpectrumsNode
+    OCVLwatershedNode
 ## imgproc
 ># Filtering
     ---

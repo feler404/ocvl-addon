@@ -1,6 +1,7 @@
 import cv2
 import uuid
 import numpy as np
+from gettext import gettext as _
 from bpy.props import EnumProperty, StringProperty, IntProperty, FloatProperty
 
 from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode
@@ -20,31 +21,36 @@ PROPS_MAPS = {
 
 class OCVLHoughLinesNode(OCVLNode):
 
+    _doc = _("Finds lines in a binary image using the standard Hough transform.")
+
     def update_layout(self, context):
         self.update_sockets(context)
         updateNode(self, context)
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()))
-    lines_out = StringProperty(name="lines_out", default=str(uuid.uuid4()))
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()))
-
+    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
+        description=_("Input image."))
     rho_in = FloatProperty(default=3, min=1, max=10, update=updateNode,
-        description="Distance resolution of the accumulator in pixels.")
+        description=_("Distance resolution of the accumulator in pixels."))
     theta_in = FloatProperty(default=0.0574, min=0.0001, max=3.1415, update=updateNode,
-        description="Angle resolution of the accumulator in radians.")
+        description=_("Angle resolution of the accumulator in radians."))
     threshold_in = IntProperty(default=200, min=0, max=255, update=updateNode,
-        description="Accumulator threshold parameter.")
+        description=_("Accumulator threshold parameter."))
     srn_in = FloatProperty(default=0,
-        description="For the multi-scale Hough transform, it is a divisor for the distance resolution rho.")
+        description=_("For the multi-scale Hough transform, it is a divisor for the distance resolution rho."))
     stn_in = FloatProperty(default=0,
-        description="For the multi-scale Hough transform, it is a divisor for the distance resolution theta.")
+        description=_("For the multi-scale Hough transform, it is a divisor for the distance resolution theta."))
     min_theta_in = FloatProperty(default=0,
-        description="For standard and multi-scale Hough transform, minimum angle to check for lines.")
+        description=_("For standard and multi-scale Hough transform, minimum angle to check for lines."))
     max_theta_in = FloatProperty(default=0,
-        description="For standard and multi-scale Hough transform, maximum angle to check for lines.")
+        description=_("For standard and multi-scale Hough transform, maximum angle to check for lines."))
     #TODO: apply rest of parameters
 
-    loc_output_mode = EnumProperty(items=OUTPUT_MODE_ITEMS, default="LINES", update=update_layout)
+    loc_output_mode = EnumProperty(items=OUTPUT_MODE_ITEMS, default="LINES", update=update_layout,
+        description=_("Output mode."))
+    lines_out = StringProperty(name="lines_out", default=str(uuid.uuid4()),
+        description=_("Output vector of lines."))
+    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()),
+        description=_("Output image."))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "image_in")
