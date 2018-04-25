@@ -194,7 +194,8 @@ DEVELOP_STATE_ALPHA = "ALPHA"
 DEVELOP_STATE_BETA = "BETA"
 DEVELOP_STATE_RC = "RC"
 DEVELOP_STATE_PROD = "PROD"
-
+DEFAULT_WEIGHT_PREVIEW = 200
+DEFAULT_HEIGHT_PREVIEW = 200
 
 IS_WORK_ON_COPY_INPUT = IS_WORK_ON_COPY_INPUT
 SCALE = bpy.context.user_preferences.system.pixel_size
@@ -558,8 +559,7 @@ class OCVLPreviewNode(OCVLNode):
         if self.n_id not in self.texture:
             return
         nvBGL2.callback_disable(self.n_id)
-        image = self.get_from_props(prop_name)
-        height, width = image.shape[:2]
+        height, width = DEFAULT_WEIGHT_PREVIEW, DEFAULT_WEIGHT_PREVIEW
         prop = height / width
         SCALE = bpy.context.user_preferences.system.pixel_size
 
@@ -567,9 +567,9 @@ class OCVLPreviewNode(OCVLNode):
         height = prop * width
         row.scale_y = self.width * prop / 20
 
-        self._draw_preview(prop_name="image_out", location_x=location_x, location_y=location_y, width=width, height=height)
+        self._draw_preview(location_x=location_x, location_y=location_y, width=width, height=height)
 
-    def _draw_preview(self, prop_name="image_out", location_x=0, location_y=0, width=0, height=0, hide=False):
+    def _draw_preview(self, location_x=0, location_y=0, width=0, height=0, hide=False):
         nvBGL2.callback_disable(self.n_id)
 
         draw_data = {

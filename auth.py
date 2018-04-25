@@ -30,13 +30,14 @@ OCVL_LINK_TO_OCVL_PANEL = 'https://ocvl-cms.herokuapp.com/admin/login/'
 OCVL_LINK_TO_STORE = 'http://kube.pl/'
 OCVL_LINK_TO_CREATE_ACCOUNT = 'http://kube.pl/'
 
+
 class Auth:
 
-    _ocvl_version = COMMUNITY_VERSION
+    _ocvl_version = PRO_VERSION
     _ocvl_ext = None
     _ocvl_first_running = True
     _ocvl_pro_version_auth = False
-    # _ocvl_pro_version_auth = True
+    _ocvl_pro_version_auth = True
 
     instance = None
 
