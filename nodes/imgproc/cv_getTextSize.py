@@ -1,5 +1,6 @@
 import cv2
 import uuid
+from gettext import gettext as _
 from bpy.props import EnumProperty, StringProperty, IntProperty
 
 from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode, FONT_FACE_ITEMS, updateNode
@@ -8,17 +9,20 @@ from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode, FO
 class OCVLgetTextSizeNode(OCVLNode):
     bl_icon = 'GREASEPENCIL'
 
-    baseLine_out = StringProperty(name="baseLine_out", default=str(uuid.uuid4()))
+    _doc = _("Calculates the width and height of a text string.")
+
+    baseLine_out = StringProperty(name="baseLine_out", default=str(uuid.uuid4()),
+        description=_("Output parameter - y-coordinate of the baseline relative to the bottom-most text point."))
     retval_out = StringProperty(name="retval_out", default=str(uuid.uuid4()))
 
     text_in = StringProperty(default="OpenCV", update=updateNode,
-        description="Text string to be drawn.")
+        description=_("Text string to be drawn."))
     fontScale_in = IntProperty(default=5, min=1, max=30,update=updateNode,
-        description="scale factor that is multiplied by the font-specific base size.")
+        description=_("Scale factor that is multiplied by the font-specific base size."))
     fontFace_in = EnumProperty(items=FONT_FACE_ITEMS, default="FONT_HERSHEY_SIMPLEX", update=updateNode,
-        description="Font type, see cv::HersheyFonts.")
+        description=_("Font type, see cv::HersheyFonts."))
     thickness_in = IntProperty(default=2, min=1, max=10, update=updateNode,
-        description="Thickness of the lines used to draw a text.")
+        description=_("Thickness of the lines used to draw a text."))
 
     def sv_init(self, context):
         self.inputs.new('StringsSocket', "text_in").prop_name = 'text_in'

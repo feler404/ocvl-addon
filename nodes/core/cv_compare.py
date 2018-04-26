@@ -17,21 +17,29 @@ COMPARE_FLAG_ITEMS = (
 
 class OCVLcompareNode(OCVLNode):
 
-    _doc = _("")
+    _doc = _("Performs the per-element comparison of two arrays or an array and scalar value.")
     _note = _("")
     _see_also = _("")
 
 
     src1_in = StringProperty(name="src1_in", default=str(uuid.uuid4()),
-        description="")
+        description=_("First input array or a scalar (in the case of cvCmp, cv.Cmp, cvCmpS, cv.CmpS it is always an array); when it is an array, it must have a single channel."))
     src2_in = StringProperty(name="src2_in", default=str(uuid.uuid4()),
-        description="")
+        description=_("Second input array or a scalar (in the case of cvCmp and cv.Cmp it is always an array; in the case of cvCmpS, cv.CmpS it is always a scalar); when it is an array, it must have a single channel."))
 
     cmpop_in = EnumProperty(items=COMPARE_FLAG_ITEMS, default="CMP_EQ", update=updateNode,
-        description="")
+        description=_("""A flag, that specifies correspondence between the arrays:
+
+        CMP_EQ src1 is equal to src2.
+        CMP_GT src1 is greater than src2.
+        CMP_GE src1 is greater than or equal to src2.
+        CMP_LT src1 is less than src2.
+        CMP_LE src1 is less than or equal to src2.
+        CMP_NE src1 is unequal to src2.
+        """))
 
     dst_out = StringProperty(name="dst_out", default=str(uuid.uuid4()),
-        description="")
+        description=_("Output array that has the same size and type as the input arrays."))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "src1_in")

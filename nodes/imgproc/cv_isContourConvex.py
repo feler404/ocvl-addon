@@ -1,5 +1,6 @@
 import cv2
 import uuid
+from gettext import gettext as _
 from bpy.props import StringProperty, BoolProperty
 
 from ...extend.utils import cv_register_class, cv_unregister_class, updateNode, OCVLNode
@@ -7,12 +8,14 @@ from ...extend.utils import cv_register_class, cv_unregister_class, updateNode, 
 
 class OCVLisContourConvexNode(OCVLNode):
 
+    _doc = _("Tests a contour convexity.")
+
     is_convex_out = BoolProperty(default=False,
-        description="True if contour is convex")
+        description=_("True if contour is convex"))
     contour_in = StringProperty(default=str(uuid.uuid4()),
-        description="Input vector of 2D points, stored in std::vector\<\> or Mat")
+        description=_("Input vector of 2D points, stored in std::vector\<\> or Mat"))
     loc_from_findContours = BoolProperty(default=True, update=updateNode,
-        description="If linked with findContour node switch to True")
+        description=_("If linked with findContour node switch to True"))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "contour_in")

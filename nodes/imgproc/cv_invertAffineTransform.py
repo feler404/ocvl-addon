@@ -1,5 +1,6 @@
 import cv2
 import uuid
+from gettext import gettext as _
 from bpy.props import StringProperty
 
 from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode
@@ -7,8 +8,12 @@ from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode
 
 class OCVLinvertAffineTransformNode(OCVLNode):
 
-    matrix_invert_in = StringProperty(name="matrix_invert_in", default=str(uuid.uuid4()))
-    matrix_invert_out = StringProperty(name="matrix_invert_out", default=str(uuid.uuid4()))
+    _doc = _("Inverts an affine transformation.")
+
+    matrix_invert_in = StringProperty(name="matrix_invert_in", default=str(uuid.uuid4()),
+        description=_("Original affine transformation."))
+    matrix_invert_out = StringProperty(name="matrix_invert_out", default=str(uuid.uuid4()),
+        description=_("Output reverse affine transformation."))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "matrix_invert_in")

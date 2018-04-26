@@ -8,14 +8,14 @@ from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode, up
 
 class OCVLcountNonZeroNode(OCVLNode):
 
-    _doc = _("")
+    _doc = _("Counts non-zero array elements.")
     _note = _("")
     _see_also = _("")
 
-    src_in = StringProperty(name="src", default=str(uuid.uuid4()), description="first input array or a scalar.")
+    src_in = StringProperty(name="src", default=str(uuid.uuid4()), description=_("First input single channel array or a scalar."))
 
     retval_out = IntProperty(name="retval", default=0,
-        description="")
+        description=_(""))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "src")

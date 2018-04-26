@@ -8,17 +8,17 @@ from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode, up
 
 class OCVLcompleteSymmNode(OCVLNode):
 
-    _doc = _("")
+    _doc = _("Copies the lower or the upper half of a square matrix to another half.")
     _note = _("")
     _see_also = _("")
 
     mtx_in = StringProperty(name="mtx_in", default=str(uuid.uuid4()),
-        description="Input-output floating-point square matrix.")
+        description=_("Input-output floating-point square matrix."))
 
     lowerToUpper_in = BoolProperty(name="lowerToUpper_in", default=False, update=updateNode,
-        description="")
+        description=_("Operation flag; if true, the lower half is copied to the upper half. Otherwise, the upper half is copied to the lower half."))
     mtx_out = StringProperty(name="mtx_out", default=str(uuid.uuid4()),
-        description="")
+        description=_("Input-output floating-point square matrix."))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "mtx_in")

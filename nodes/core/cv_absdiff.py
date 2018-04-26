@@ -9,14 +9,14 @@ from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode, up
 class OCVLabsdiffNode(OCVLNode):
 
     _doc = _("Calculates the per-element absolute difference between two arrays or between an array and a scalar.")
-    _note = _(" Saturation is not applied when the arrays have the depth CV_32S. You may even get a negative value in the case of overflow.")
+    _note = _("Saturation is not applied when the arrays have the depth CV_32S. You may even get a negative value in the case of overflow.")
     _see_also = _("abs")
 
-    src1_in = StringProperty(name="src1", default=str(uuid.uuid4()), description="first input array or a scalar.")
-    src2_in = StringProperty(name="src2", default=str(uuid.uuid4()), description="second input array or a scalar.")
+    src1_in = StringProperty(name="src1", default=str(uuid.uuid4()), description=_("First input array or a scalar."))
+    src2_in = StringProperty(name="src2", default=str(uuid.uuid4()), description=_("Second input array or a scalar."))
 
     dst_out = StringProperty(name="dst", default=str(uuid.uuid4()),
-        description="output array that has the same size and type as input arrays.")
+        description=_("Output array that has the same size and type as input arrays."))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "src1")

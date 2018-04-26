@@ -17,7 +17,7 @@ COMPARE_FLAG_ITEMS = (
 
 class OCVLcalcCovarMatrixNode(OCVLNode):
 
-    _doc = _("")
+    _doc = _("Calculates the covariance matrix of a set of vectors.")
     _note = _("")
     _see_also = _("")
 
@@ -25,16 +25,16 @@ class OCVLcalcCovarMatrixNode(OCVLNode):
 
 
     samples_in = StringProperty(name="samples_in", default=str(uuid.uuid4()),
-        description="")
+        description=_("Samples stored either as separate matrices or as rows/columns of a single matrix."))
     mean_in = IntProperty(name="mean_in", default=10, update=updateNode,
-        description="")
+        description=_("Input or output (depending on the flags) array as the average value of the input vectors."))
     flags_in = BoolVectorProperty(default=[False for i in bl_flags_list.split(",")], size=len(bl_flags_list.split(",")),
         update=updateNode, subtype="NONE", description=bl_flags_list)
 
     covar_out = StringProperty(name="covar_out", default=str(uuid.uuid4()),
-        description="")
+        description=_("Output covariance matrix of the type ctype and square size."))
     mean_out = IntProperty(name="mean_out",
-        description="")
+        description=_("Output (depending on the flags) array as the average value of the input vectors."))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "samples_in")
