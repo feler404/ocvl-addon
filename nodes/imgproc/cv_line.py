@@ -1,5 +1,6 @@
 import cv2
 import uuid
+from gettext import gettext as _
 from bpy.props import EnumProperty, StringProperty, IntProperty, FloatVectorProperty, IntVectorProperty
 
 from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode, LINE_TYPE_ITEMS
@@ -8,21 +9,25 @@ from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNod
 class OCVLlineNode(OCVLNode):
     bl_icon = 'GREASEPENCIL'
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()))
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()))
+    _doc = _("Draws a line segment connecting two points.")
+
+    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
+        description=_("Input image"))
+    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()),
+        description=_("Output image"))
 
     pt1_in = IntVectorProperty(default=(0, 0), size=2, update=updateNode,
-        description="First point of the line segment.")
+        description=_("First point of the line segment."))
     pt2_in = IntVectorProperty(default=(1, 1), size=2, update=updateNode,
-        description="First point of the line segment.")
+        description=_("Second point of the line segment."))
     color_in = FloatVectorProperty(update=updateNode, default=(.7, .7, .1, 1.0), size=4, min=0.0, max=1.0, subtype='COLOR',
-        description="Line color.")
+        description=_("Line color."))
     thickness_in = IntProperty(default=2, min=1, max=10, update=updateNode,
-        description="Line thickness.")
+        description=_("Line thickness."))
     lineType_in = EnumProperty(items=LINE_TYPE_ITEMS, default="LINE_AA", update=updateNode,
-        description="Line type. See the line for details.")
+        description=_("Line type. See the line for details."))
     shift = IntProperty(default=0, min=1, max=100, update=updateNode,
-        description="Number of fractional bits in the point coordinates.")
+        description=_("Number of fractional bits in the point coordinates."))
 
     def sv_init(self, context):
         self.width = 200
