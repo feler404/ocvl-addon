@@ -2,7 +2,7 @@ import cv2
 import uuid
 from bpy.props import EnumProperty, StringProperty, BoolProperty
 
-from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode
+from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode
 
 
 OUTPUT_MAP_TYPE_ITEMS = (

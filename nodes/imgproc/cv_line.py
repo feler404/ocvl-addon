@@ -2,7 +2,7 @@ import cv2
 import uuid
 from bpy.props import EnumProperty, StringProperty, IntProperty, FloatVectorProperty, IntVectorProperty
 
-from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode, LINE_TYPE_ITEMS
+from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode, LINE_TYPE_ITEMS
 
 
 class OCVLlineNode(OCVLNode):

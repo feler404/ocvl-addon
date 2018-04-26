@@ -3,7 +3,7 @@ import uuid
 import numpy as np
 from bpy.props import EnumProperty, StringProperty
 
-from ...extend.utils import cv_register_class, cv_unregister_class, updateNode, OCVLNode, TEMPLATE_MATCH_MODE_ITEMS
+from ...utils import cv_register_class, cv_unregister_class, updateNode, OCVLNode, TEMPLATE_MATCH_MODE_ITEMS
 
 
 class OCVLmatchTemplateNode(OCVLNode):
@@ -41,7 +41,6 @@ class OCVLmatchTemplateNode(OCVLNode):
 
         result_out = self.process_cv(fn=cv2.matchTemplate, kwargs=kwargs)
         image_out = np.copy(self.get_from_props("image_in"))
-        print (self.get_from_props("templ_in").shape)
         h, w, _ = self.get_from_props("templ_in").shape
         threshold = 0.8
         loc = np.where(result_out >= threshold)

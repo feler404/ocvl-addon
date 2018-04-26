@@ -2,7 +2,7 @@ import cv2
 import uuid
 from bpy.props import EnumProperty, StringProperty
 
-from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode, DEVELOP_STATE_BETA, DISTANCE_TYPE_FOR_TRANSFORM_ITEMS
+from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode, DEVELOP_STATE_BETA, DISTANCE_TYPE_FOR_TRANSFORM_ITEMS
 
 MASK_SIZE_ITEMS = (
     ("3", "3", "3", "", 0),

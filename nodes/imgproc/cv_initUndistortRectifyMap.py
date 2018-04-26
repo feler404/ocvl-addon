@@ -2,7 +2,7 @@ import cv2
 import uuid
 from bpy.props import EnumProperty, StringProperty, IntVectorProperty
 
-from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode, DEVELOP_STATE_ALPHA
+from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode, DEVELOP_STATE_ALPHA
 
 
 M1TYPE_ITEMS = (

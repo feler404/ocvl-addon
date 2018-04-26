@@ -2,7 +2,7 @@ import cv2
 import uuid
 from bpy.props import EnumProperty, StringProperty, IntProperty, BoolProperty
 
-from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode
+from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode
 
 
 TYPE_THRESHOLD_ITEMS = (

@@ -3,7 +3,7 @@ import uuid
 from gettext import gettext as _
 from bpy.props import EnumProperty, StringProperty, IntVectorProperty, FloatProperty
 
-from ...extend.utils import cv_register_class, cv_unregister_class, BORDER_TYPE_ITEMS, OCVLNode, updateNode
+from ...utils import cv_register_class, cv_unregister_class, BORDER_TYPE_ITEMS, OCVLNode, updateNode
 
 
 class OCVLGaussianBlurNode(OCVLNode):

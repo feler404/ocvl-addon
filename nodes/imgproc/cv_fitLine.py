@@ -2,7 +2,7 @@ import cv2
 import uuid
 from bpy.props import EnumProperty, StringProperty, BoolProperty, FloatProperty
 
-from ...extend.utils import cv_register_class, cv_unregister_class, updateNode, OCVLNode, DISTANCE_TYPE_ITEMS
+from ...utils import cv_register_class, cv_unregister_class, updateNode, OCVLNode, DISTANCE_TYPE_ITEMS
 
 
 class OCVLfitLineNode(OCVLNode):

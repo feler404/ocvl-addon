@@ -4,7 +4,7 @@ import numpy as np
 
 from bpy.props import StringProperty, IntProperty, IntVectorProperty
 
-from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode
+from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode
 
 
 INPUT_NODE_ITEMS = (
