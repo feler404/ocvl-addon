@@ -37,7 +37,7 @@ class Auth:
     _ocvl_ext = None
     _ocvl_first_running = True
     _ocvl_pro_version_auth = False
-    _ocvl_pro_version_auth = True
+    # _ocvl_pro_version_auth = True
 
     instance = None
 

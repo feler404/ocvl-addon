@@ -155,22 +155,40 @@ class NodeCommandHandler(BaseHandler):
         return bpy.data.node_groups[TUTORIAL_ENGINE_DEFAULT_NODE_TREE_NAME]
 
     @classmethod
-    def get_or_create_default_image_sample(cls):
+    def get_or_create_default_image_sample(cls, location=(0, 0)):
         node_tree = cls.get_or_create_node_tree()
         node = node_tree.nodes.get(TUTORIAL_ENGINE_DEFAULT_IMAGE_SAMPLE_NAME)
         if not node:
             node = node_tree.nodes.new(TUTORIAL_ENGINE_DEFAULT_IMAGE_SAMPLE_NAME)
-        node.location = (0, 0)
+        node.location = location
         return node
 
     @classmethod
-    def get_or_create_default_viewer(cls):
+    def get_or_create_default_viewer(cls, location=(300, 0)):
         node_tree = cls.get_or_create_node_tree()
         node = node_tree.nodes.get(TUTORIAL_ENGINE_DEFAULT_VIEWER_NAME)
         if not node:
             node = node_tree.nodes.new(TUTORIAL_ENGINE_DEFAULT_VIEWER_NAME)
-        node.location = (300, 0)
+        node.location = location
         return node
+
+    @classmethod
+    def create_node(cls, node_name, location=(0, 0)):
+        node_tree = cls.get_or_create_node_tree()
+        node = node_tree.nodes.new(node_name)
+        node.location = location
+        return node
+
+    @classmethod
+    def get_node_by_name(cls, node_tree, node_name=""):
+        return node_tree.nodes.get(node_name)
+
+    @classmethod
+    def delete_node(cls, node_name=""):
+        node_tree = cls.get_or_create_node_tree()
+        node = cls.get_node_by_name(node_tree=node_tree, node_name=node_name)
+        if node:
+            node_tree.nodes.remove(node)
 
     @classmethod
     def connect_nodes(cls,
@@ -185,11 +203,10 @@ class NodeCommandHandler(BaseHandler):
         node_tree.links.new(socket_input, socket_output)
 
     @classmethod
-    def change(cls, node_name, prop_name, value):
+    def change_prop(cls, node_name, prop_name, value):
         node_tree = cls.get_or_create_node_tree()
         node = node_tree.nodes.get(node_name)
-        setattr(node,prop_name, eval(value))
-
+        setattr(node, prop_name, eval(value))
 
     def get(self, *args):
         kwargs = self.get_kwargs()
@@ -198,7 +215,7 @@ class NodeCommandHandler(BaseHandler):
 
         logger.info("Raw command prepare: {}".format(command))
         # resp = run_cam(command)
-        resp = {"command": command, "status_code": 200}
+        resp = {"status_code": 200, "command": command, "kwargs": kwargs}
         self.reply(resp)
 
 
@@ -208,6 +225,7 @@ def tutorial_engine_app():
         (r"/node/.*", NodeCommandHandler),
         (r"/raw/.*", RawCommandHandler),
         (r"/.*", Error404Handler),
+        (r"/favicon.ico", web.ErrorHandler, {'status_code': 404}),
 
     ],
         debug=True,

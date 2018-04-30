@@ -53,7 +53,7 @@ if __name__ != "ocvl":
 from .ui import INFO_HT_header_new, INFO_HT_header_old
 from .logger_conf import logger
 from .auth import register_extended_operators, unregister_extended_operators
-
+from .tutorial_engine import operatores as tutorial_operatores
 bpy.context.user_preferences.view.show_splash = False
 
 BASE_DIR = os.path.dirname(__file__)
@@ -69,6 +69,8 @@ def register():
     from .operatores import register
     register()
     register_extended_operators()
+
+    tutorial_operatores.register()
     from .tutorial_engine.worker import engine_worker_thread
     # engine_worker_thread.start()
 
@@ -79,3 +81,4 @@ def unregister():
     from .extend.extended_operatores import unregister
     unregister()
     unregister_extended_operators()
+    tutorial_operatores.unregister()

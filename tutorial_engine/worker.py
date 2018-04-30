@@ -4,7 +4,7 @@ import bpy
 from tornado.ioloop import IOLoop
 from logging import getLogger
 
-from .egine_app import tutorial_engine_app
+from .engine_app import tutorial_engine_app
 from .settings import TUTORIAL_ENGINE_PORT
 
 logger = getLogger(__name__)
@@ -37,7 +37,7 @@ def tutorial_engine_worker():
     tornado.log.enable_pretty_logging()
     app = tutorial_engine_app()
     app.listen(TUTORIAL_ENGINE_PORT)
-    logger.info("Tutorial Engine worker started.")
+    logger.info("Tutorial Engine worker started on port={}.".format(TUTORIAL_ENGINE_PORT))
     IOLoop.current().start()
 
 
