@@ -37,8 +37,8 @@ class OCVLSplashNode(OCVLPreviewNode):
 
     def sv_init(self, context):
         self.width = 512
-        self.use_custom_color = True
-        self.color = (0, 0, 0)
+        # self.use_custom_color = True
+        # self.color = (0, 0, 0)
         self.outputs.new("StringsSocket", "auth")
         self.inputs.new("StringsSocket", "history")
         self.inputs.new("StringsSocket", "docs")
@@ -54,7 +54,7 @@ class OCVLSplashNode(OCVLPreviewNode):
         else:
             image = image[512:1024, 0:1024]
         image, self.image_out = self._update_node_cache(image=image, resize=False)
-        self.make_textures(image, uuid_=self.image_out, width=1024, height=512)
+        self.make_textures(image, uuid_=self.image_out, width=1024, height=1024)
 
     def _update_node_cache(self, image=None, resize=False, uuid_=None):
         old_image_out = self.image_out
@@ -64,7 +64,7 @@ class OCVLSplashNode(OCVLPreviewNode):
         return image, uuid_
 
     def draw_buttons(self, context, layout):
-        self.draw_preview(layout=layout, prop_name="image_out", location_x=10, location_y=50)
+        self.draw_preview(layout=layout, prop_name="image_out", location_x=10, location_y=50, proportion=0.5)
         if ocvl_auth.ocvl_version is COMMUNITY_VERSION:
             self.layout_for_community_version(context, layout)
         if ocvl_auth.ocvl_version is PRO_VERSION:

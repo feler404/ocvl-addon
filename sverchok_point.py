@@ -162,15 +162,21 @@ def soft_reload_menu():
     reload_menu()
 
 
-
 def reload_ocvl_nodes_classes():
     import ocvl.extend
     EXTENDED_NODE_PATH = getattr(ocvl.extend, "EXTENDED_NODE_PATH", "")
-    EXTENDED_NODE_FILES = getattr(ocvl.extend, "EXTENDED_NODE_FILES", "")
+    EXTENDED_NODE_FILES = getattr(ocvl.extend, "EXTENDED_NODE_FILES", [])
     for node_file in EXTENDED_NODE_FILES:
         node_module = importlib.import_module("{}.{}".format(EXTENDED_NODE_PATH, node_file))
         importlib.reload(node_module)
         logger.info("Reload OCVL class: {}".format(node_module))
+
+    NODE_PATH = "ocvl.nodes.laboratory"
+    NODE_FILES = ['ta_viewer_image', 'ta_splash']
+    for node_file in NODE_FILES:
+        node_module = importlib.import_module("{}.{}".format(NODE_PATH, node_file))
+        importlib.reload(node_module)
+        logger.info("Reload OCVL module: {}".format(node_module))
 
 
 def reload_sverchok_addon():

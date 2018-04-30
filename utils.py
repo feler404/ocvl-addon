@@ -194,7 +194,7 @@ DEVELOP_STATE_ALPHA = "ALPHA"
 DEVELOP_STATE_BETA = "BETA"
 DEVELOP_STATE_RC = "RC"
 DEVELOP_STATE_PROD = "PROD"
-DEFAULT_WEIGHT_PREVIEW = 200
+DEFAULT_WIGHT_PREVIEW = 200
 DEFAULT_HEIGHT_PREVIEW = 200
 
 IS_WORK_ON_COPY_INPUT = IS_WORK_ON_COPY_INPUT
@@ -526,11 +526,7 @@ class OCVLPreviewNode(OCVLNode):
     def make_textures(self, image, color='RGBA', uuid_=None, width=200, height=200):
         self.delete_texture()
 
-        height_, width_ = image.shape[:2]
-
-        prop = height_ / width_
-
-        resized_image = cv2.resize(image, (width, int(height * prop)))
+        resized_image = cv2.resize(image, (width, height))
         resized_height, resized_width = resized_image.shape[:2]
 
         texture_mini = bgl.Buffer(bgl.GL_BYTE, resized_image.shape, resized_image)
@@ -552,20 +548,20 @@ class OCVLPreviewNode(OCVLNode):
                      internalFormat=internalFormat,
                      format=format)
 
-    def draw_preview(self, layout, prop_name="image_out", location_x=0, location_y=0):
+    def draw_preview(self, layout, prop_name="image_out", location_x=0, location_y=0, proportion=1):
         row = layout.row()
         row.label(text='')
 
         if self.n_id not in self.texture:
             return
         nvBGL2.callback_disable(self.n_id)
-        height, width = DEFAULT_WEIGHT_PREVIEW, DEFAULT_WEIGHT_PREVIEW
-        prop = height / width
+        # height, width = DEFAULT_WEIGHT_PREVIEW, DEFAULT_WEIGHT_PREVIEW
+        # prop = height / width
         SCALE = bpy.context.user_preferences.system.pixel_size
 
         width = (self.width - 20) * SCALE
-        height = prop * width
-        row.scale_y = self.width * prop / 20
+        height = proportion * width
+        row.scale_y = self.width * proportion / 20
 
         self._draw_preview(location_x=location_x, location_y=location_y, width=width, height=height)
 
