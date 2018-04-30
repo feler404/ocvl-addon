@@ -2,7 +2,7 @@ import cv2
 import uuid
 from bpy.props import EnumProperty, StringProperty, IntVectorProperty, BoolProperty
 
-from ...extend.utils import cv_register_class, cv_unregister_class, BORDER_TYPE_ITEMS, COLOR_DEPTH_ITEMS, OCVLNode, updateNode
+from ...utils import cv_register_class, cv_unregister_class, BORDER_TYPE_ITEMS, COLOR_DEPTH_ITEMS, OCVLNode, updateNode
 
 
 class OCVLboxFilterNode(OCVLNode):

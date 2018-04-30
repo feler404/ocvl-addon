@@ -2,7 +2,7 @@ import cv2
 import uuid
 from bpy.props import EnumProperty, StringProperty, IntVectorProperty
 
-from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode, RETRIEVAL_MODE_ITEMS, APPROXIMATION_MODE_ITEMS, updateNode
+from ...utils import cv_register_class, cv_unregister_class, OCVLNode, RETRIEVAL_MODE_ITEMS, APPROXIMATION_MODE_ITEMS, updateNode
 
 
 class OCVLfindContoursNode(OCVLNode):

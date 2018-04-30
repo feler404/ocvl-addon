@@ -2,7 +2,7 @@ import cv2
 import uuid
 from bpy.props import StringProperty, FloatProperty
 from gettext import gettext as _
-from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode, DEVELOP_STATE_RC
+from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode, DEVELOP_STATE_RC
 
 
 class OCVLconvertScaleAbsNode(OCVLNode):

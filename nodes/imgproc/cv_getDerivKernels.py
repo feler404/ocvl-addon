@@ -3,7 +3,7 @@ import uuid
 import numpy as np
 from bpy.props import EnumProperty, StringProperty, IntProperty, BoolProperty
 
-from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode, COEFFICIENTS_TYPE_ITEMS, updateNode
+from ...utils import cv_register_class, cv_unregister_class, OCVLNode, COEFFICIENTS_TYPE_ITEMS, updateNode
 
 
 class OCVLGetDerivKernelsNode(OCVLNode):

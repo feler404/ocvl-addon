@@ -2,7 +2,7 @@ import cv2
 import uuid
 from bpy.props import EnumProperty, StringProperty, IntVectorProperty, FloatProperty
 
-from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode, INTERPOLATION_ITEMS, updateNode
+from ...utils import cv_register_class, cv_unregister_class, OCVLNode, INTERPOLATION_ITEMS, updateNode
 
 
 RESIZE_MODE_ITEMS = [

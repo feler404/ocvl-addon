@@ -1,6 +1,6 @@
 from bpy.props import IntProperty
 
-from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode
+from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode
 
 
 class OCVLRangeNode(OCVLNode):

@@ -3,7 +3,7 @@ import uuid
 from bpy.props import EnumProperty, StringProperty
 from gettext import gettext as _
 
-from ...extend.utils import cv_register_class, cv_unregister_class, updateNode, OCVLNode
+from ...utils import cv_register_class, cv_unregister_class, updateNode, OCVLNode
 
 
 FLIP_CODE_ITEMS = (

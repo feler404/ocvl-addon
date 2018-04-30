@@ -1,7 +1,7 @@
 import cv2
 from bpy.props import IntProperty, FloatProperty, FloatVectorProperty
 
-from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode
+from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode
 
 
 class OCVLKeyPointNode(OCVLNode):

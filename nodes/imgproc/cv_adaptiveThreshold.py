@@ -3,8 +3,7 @@ import uuid
 from gettext import gettext as _
 from bpy.props import EnumProperty, StringProperty, IntProperty, FloatProperty
 
-from ...extend.utils import cv_register_class, cv_unregister_class, TYPE_THRESHOLD_ITEMS, OCVLNode, updateNode
-
+from ...utils import cv_register_class, cv_unregister_class, TYPE_THRESHOLD_ITEMS, OCVLNode, updateNode
 
 ADAPTIVE_METHOD_ITEMS = (
     ("ADAPTIVE_THRESH_GAUSSIAN_C", "ADAPTIVE_THRESH_GAUSSIAN_C", "ADAPTIVE_THRESH_GAUSSIAN_C", "", 0),

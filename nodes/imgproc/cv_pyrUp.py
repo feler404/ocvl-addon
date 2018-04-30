@@ -2,7 +2,7 @@ import cv2
 import uuid
 from bpy.props import StringProperty, IntProperty
 
-from ...extend.utils import cv_register_class, cv_unregister_class, updateNode, OCVLNode
+from ...utils import cv_register_class, cv_unregister_class, updateNode, OCVLNode
 
 
 class OCVLpyrUpNode(OCVLNode):

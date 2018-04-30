@@ -2,7 +2,7 @@ import cv2
 import uuid
 from bpy.props import EnumProperty, StringProperty, IntProperty
 
-from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode, FONT_FACE_ITEMS, updateNode
+from ...utils import cv_register_class, cv_unregister_class, OCVLNode, FONT_FACE_ITEMS, updateNode
 
 
 class OCVLgetTextSizeNode(OCVLNode):

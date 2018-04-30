@@ -3,7 +3,7 @@ import uuid
 from gettext import gettext as _
 from bpy.props import StringProperty, BoolVectorProperty
 
-from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode, DEVELOP_STATE_BETA
+from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode, DEVELOP_STATE_BETA
 
 
 class OCVLdctNode(OCVLNode):

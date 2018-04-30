@@ -3,7 +3,7 @@ import uuid
 
 from bpy.props import EnumProperty, StringProperty, IntProperty, FloatVectorProperty, IntVectorProperty
 
-from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode, LINE_TYPE_ITEMS, updateNode
+from ...utils import cv_register_class, cv_unregister_class, OCVLNode, LINE_TYPE_ITEMS, updateNode
 
 INPUT_MODE_ITEMS = (
     ("X, Y, W, H", "X, Y, W, H", "X, Y, W, H", "", 0),

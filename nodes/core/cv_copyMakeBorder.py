@@ -3,7 +3,7 @@ import uuid
 from gettext import gettext as _
 from bpy.props import EnumProperty, StringProperty, IntProperty, FloatVectorProperty
 
-from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode, BORDER_TYPE_REQUIRED_ITEMS
+from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode, BORDER_TYPE_REQUIRED_ITEMS
 
 
 class OCVLcopyMakeBorderNode(OCVLNode):

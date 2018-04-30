@@ -1,12 +1,14 @@
 import inspect
 import os
 import importlib
+from logging import getLogger
 from collections import OrderedDict, defaultdict
 from os.path import dirname, basename
 
 import bpy
 import sverchok
 from . import nodes as ocvl_nodes
+from .auth import ocvl_auth, auth_make_node_cats_new
 from bpy.types import Addon, AddonPreferences, Addons
 
 from sverchok.node_tree import SverchCustomTreeNode
@@ -16,6 +18,7 @@ from sverchok.utils.context_managers import sv_preferences
 
 
 utils_needs = SverchCustomTreeNode, node_id, nodeview_bgl_viewer_draw_mk2, sv_preferences
+logger = getLogger(__name__)
 
 
 class MockSverchokAddonPreferences(AddonPreferences):
@@ -57,38 +60,7 @@ class MockSverchokAddonPreferences(AddonPreferences):
     log_file_name = ""
 
 
-def make_node_cats_new():
-    '''
-    this loads the index.md file and converts it to an OrderedDict of node categories.
-
-    '''
-    index_path = os.path.join(dirname(__file__), 'index.md')
-
-    node_cats = OrderedDict()
-    with open(index_path) as md:
-        category = None
-        temp_list = []
-        for line in md:
-            if not line.strip():
-                continue
-            if line.strip().startswith('>'):
-                continue
-            elif line.startswith('##'):
-                if category:
-                    node_cats[category] = temp_list
-                category = line[2:].strip()
-                temp_list = []
-
-            elif line.strip() == '---':
-                temp_list.append(['separator'])
-            else:
-                bl_idname = line.strip()
-                temp_list.append([bl_idname])
-
-        # final append
-        node_cats[category] = temp_list
-
-    return node_cats
+make_node_cats_new= auth_make_node_cats_new
 
 
 def automatic_collection_new(directory):
@@ -116,20 +88,21 @@ def automatic_collection_new(directory):
                 try:
                     items.remove(filename)
                 except:
-                    print('failed to remove', filename, 'from', k, ' : check your spelling')
+                    logger.warning('Failed to remove {} from {} : check your spelling'.format(filename, k))
 
     # may not be used, but can be.
     return nodes_dict
 
 
-def make_node_list_new(nodes, *args):
+def make_node_list_new(nodes=None, *args):
     node_list = []
     base_name = "sverchok.nodes"
-    for category, names in nodes.nodes_dict.items():
-        importlib.import_module('.{}'.format(category), base_name)
-        for name in names:
-            im = importlib.import_module('.{}'.format(name), '{}.{}'.format(base_name, category))
-            node_list.append(im)
+    if nodes:
+        for category, names in nodes.nodes_dict.items():
+            importlib.import_module('.{}'.format(category), base_name)
+            for name in names:
+                im = importlib.import_module('.{}'.format(name), '{}.{}'.format(base_name, category))
+                node_list.append(im)
 
     base_name = "ocvl.nodes"
     importlib.import_module(".nodes", "ocvl")
@@ -167,11 +140,37 @@ def auto_gather_node_classes_new():
         for filename, fileref in node_files:
             classes = inspect.getmembers(fileref, inspect.isclass)
             for clsname, cls in classes:
+                logger.debug("Gather class: {}".format(clsname, cls))
                 try:
                     if cls.bl_rna.base.name == "Node":
                         sverchok.utils.node_classes[cls.bl_idname] = cls
                 except:
                     ...
+
+
+def soft_reload_menu():
+    """
+    Function to reloading menu with nodes by COMM nad PRO versions.
+
+    :return:
+    """
+    sverchok.core.root_modules = ["node_tree", "data_structure",  "ui", "nodes", "old_nodes", "sockets"]  # "menu", "core", "utils",
+    sverchok.menu.make_node_cats = make_node_cats_new
+    sverchok.core.make_node_list = make_node_list_new
+    sverchok.utils.auto_gather_node_classes = auto_gather_node_classes_new
+    from sverchok.menu import reload_menu
+    reload_menu()
+
+
+
+def reload_ocvl_nodes_classes():
+    import ocvl.extend
+    EXTENDED_NODE_PATH = getattr(ocvl.extend, "EXTENDED_NODE_PATH", "")
+    EXTENDED_NODE_FILES = getattr(ocvl.extend, "EXTENDED_NODE_FILES", "")
+    for node_file in EXTENDED_NODE_FILES:
+        node_module = importlib.import_module("{}.{}".format(EXTENDED_NODE_PATH, node_file))
+        importlib.reload(node_module)
+        logger.info("Reload OCVL class: {}".format(node_module))
 
 
 def reload_sverchok_addon():
@@ -185,7 +184,12 @@ def reload_sverchok_addon():
         Addons.remove(sverchok_addon)
     sverchok_addon = Addons.new()
     sverchok_addon.module = "sverchok"
-    bpy.ops.wm.addon_enable(module='sverchok')
+    if hasattr(bpy.context, "scene"):
+        bpy.ops.wm.addon_disable(module=sverchok_addon.module)
+        bpy.ops.wm.addon_enable(module=sverchok_addon.module)
+    else:
+        logger.info("Skip disable/enable {}".format(sverchok_addon.module))
+        reload_ocvl_nodes_classes()
 
 
 def reload_ocvl_addon():
@@ -194,7 +198,11 @@ def reload_ocvl_addon():
         Addons.remove(ocvl_addon)
     ocvl_addon = Addons.new()
     ocvl_addon.module = "ocvl"
-    bpy.ops.wm.addon_enable(module='ocvl')
+    if hasattr(bpy.context, "scene"):
+        bpy.ops.wm.addon_disable(module=ocvl_addon.module)
+        bpy.ops.wm.addon_enable(module=ocvl_addon.module)
+    else:
+        logger.info("Skip disable/enable {}".format(ocvl_addon.module))
 
 
 def reload_addons():

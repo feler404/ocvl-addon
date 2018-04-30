@@ -3,7 +3,7 @@ import uuid
 import numpy as np
 from bpy.props import StringProperty, BoolProperty, IntVectorProperty, FloatVectorProperty
 
-from ...extend.utils import cv_register_class, cv_unregister_class, updateNode, OCVLNode
+from ...utils import cv_register_class, cv_unregister_class, updateNode, OCVLNode
 
 
 ADAPTIVE_METHOD_ITEMS = (
