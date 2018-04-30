@@ -94,14 +94,15 @@ def automatic_collection_new(directory):
     return nodes_dict
 
 
-def make_node_list_new(nodes, *args):
+def make_node_list_new(nodes=None, *args):
     node_list = []
     base_name = "sverchok.nodes"
-    for category, names in nodes.nodes_dict.items():
-        importlib.import_module('.{}'.format(category), base_name)
-        for name in names:
-            im = importlib.import_module('.{}'.format(name), '{}.{}'.format(base_name, category))
-            node_list.append(im)
+    if nodes:
+        for category, names in nodes.nodes_dict.items():
+            importlib.import_module('.{}'.format(category), base_name)
+            for name in names:
+                im = importlib.import_module('.{}'.format(name), '{}.{}'.format(base_name, category))
+                node_list.append(im)
 
     base_name = "ocvl.nodes"
     importlib.import_module(".nodes", "ocvl")
@@ -147,6 +148,30 @@ def auto_gather_node_classes_new():
                     ...
 
 
+def soft_reload_menu():
+    """
+    Function to reloading menu with nodes by COMM nad PRO versions.
+
+    :return:
+    """
+    sverchok.core.root_modules = ["node_tree", "data_structure",  "ui", "nodes", "old_nodes", "sockets"]  # "menu", "core", "utils",
+    sverchok.menu.make_node_cats = make_node_cats_new
+    sverchok.core.make_node_list = make_node_list_new
+    sverchok.utils.auto_gather_node_classes = auto_gather_node_classes_new
+    from sverchok.menu import reload_menu
+    reload_menu()
+
+
+def reload_ocvl_nodes_classes():
+    import ocvl.extend
+    EXTENDED_NODE_PATH = getattr(ocvl.extend, "EXTENDED_NODE_PATH", "")
+    EXTENDED_NODE_FILES = getattr(ocvl.extend, "EXTENDED_NODE_FILES", "")
+    for node_file in EXTENDED_NODE_FILES:
+        node_module = importlib.import_module("{}.{}".format(EXTENDED_NODE_PATH, node_file))
+        importlib.reload(node_module)
+        logger.info("Reload OCVL class: {}".format(node_module))
+
+
 def reload_sverchok_addon():
     sverchok.core.root_modules = ["node_tree", "data_structure",  "ui", "nodes", "old_nodes", "sockets"]  # "menu", "core", "utils",
     sverchok.menu.make_node_cats = make_node_cats_new
@@ -163,15 +188,7 @@ def reload_sverchok_addon():
         bpy.ops.wm.addon_enable(module=sverchok_addon.module)
     else:
         logger.info("Skip disable/enable {}".format(sverchok_addon.module))
-
-
-def soft_reload_menu():
-    sverchok.core.root_modules = ["node_tree", "data_structure",  "ui", "nodes", "old_nodes", "sockets"]  # "menu", "core", "utils",
-    sverchok.menu.make_node_cats = make_node_cats_new
-    sverchok.core.make_node_list = make_node_list_new
-    sverchok.utils.auto_gather_node_classes = auto_gather_node_classes_new
-    from sverchok.menu import reload_menu
-    reload_menu()
+        reload_ocvl_nodes_classes()
 
 
 def reload_ocvl_addon():
