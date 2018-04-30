@@ -330,7 +330,7 @@ class OCVLNode(bpy.types.Node, SverchCustomTreeNode):
             prop = socket.sv_get()
             return self.socket_data_cache[prop]
         except SvNoDataError as e:
-            fn = getattr(self, "report", print)
+            fn = getattr(self, "report", lambda *args, **kwargs: None)
             fn({'INFO'}, "No data in props: {}".format("image_in"))
             raise
         return np.zeros([10, 10], np.uint8)
@@ -601,16 +601,18 @@ def cv_register_class(cls):
         cls.bl_icon = 'OUTLINER_OB_EMPTY'
 
     try:
-        bpy.utils.register_class(cls)
-        logger.debug("Cass registrated: {}".format(cls))
+        if "bl_rna" not in cls.__dict__:
+            bpy.utils.register_class(cls)
+            logger.debug("Cass registrated: {}".format(cls))
     except ValueError as e:
-        logger.warning(e)
+        # logger.warning(e)
         logger.warning("Class {} already registered".format(cls))
 
 
 def cv_unregister_class(cls):
     try:
-        bpy.utils.unregister_class(cls)
+        if "bl_rna" in cls.__dict__:
+            bpy.utils.unregister_class(cls)
     except RuntimeError as e:
-        logger.warning(e)
+        logger.exception(e)
         logger.warning("Class {} problem with unregister".format(cls))
