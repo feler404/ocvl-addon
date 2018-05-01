@@ -1,4 +1,5 @@
-from contextlib import contextmanager
+import os
+import queue
 
 import bpy
 import sys
@@ -6,6 +7,7 @@ import sys
 from io import StringIO
 from tornado import web
 from logging import getLogger
+from contextlib import contextmanager
 
 from tornado.escape import json_encode
 from tornado.ioloop import IOLoop
@@ -16,7 +18,7 @@ from .settings import (
     TUTORIAL_ENGINE_DEFAULT_VIEWER_NAME,
     TUTORIAL_ENGINE_DEFAULT_INPUT_NAME,
     TUTORIAL_ENGINE_DEFAULT_OUTPUT_NAME,
-)
+    TUTORIAL_ASSETS_PATH)
 
 logger = getLogger(__name__)
 
@@ -148,10 +150,13 @@ class NodeCommandHandler(BaseHandler):
     """
     IndexHandler - Welcome Page
     """
+    _sequence_request = {}
 
     @classmethod
     def clear_node_groups(cls):
         for node_group_name, node_group in bpy.data.node_groups.items():
+            for node in node_group.nodes:
+                node_group.nodes.remove(node)
             bpy.data.node_groups.remove(node_group)
 
     @classmethod
@@ -173,6 +178,16 @@ class NodeCommandHandler(BaseHandler):
         if not node:
             node = node_tree.nodes.new(TUTORIAL_ENGINE_DEFAULT_IMAGE_SAMPLE_NAME)
         node.location = location
+        return node
+
+    @classmethod
+    def create_image_sample(cls, location=(0, 0), filepath=None):
+        node_tree = cls.get_or_create_node_tree()
+        node = node_tree.nodes.new(TUTORIAL_ENGINE_DEFAULT_IMAGE_SAMPLE_NAME)
+        node.location = location
+        if filepath:
+            node.loc_filepath = os.path.join(TUTORIAL_ASSETS_PATH, filepath)
+            node.loc_image_mode = "FILE"
         return node
 
     @classmethod
@@ -223,9 +238,24 @@ class NodeCommandHandler(BaseHandler):
     def get(self, *args):
         kwargs = self.get_kwargs()
         command = kwargs.pop("command", "")
-        bpy.worker_queue.append({"command": command, "kwargs": kwargs})
+        if "_seq" in kwargs:
 
-        logger.info("Raw command prepare: {}".format(command))
+            req_num, size = map(int, kwargs.pop("_seq").split("/"))
+            size += 1
+            req = {"command": command, "kwargs": kwargs}
+            self._sequence_request[req_num] = req
+
+            if len(self._sequence_request) == size:
+                for i in range(size):
+                    logger.info("Put sequence to queue, {}/{}".format(i, size-1))
+                    bpy.worker_queue.append(self._sequence_request.pop(i))
+            else:
+                logger.info("Put to sequence: {}".format(command))
+        else:
+            logger.info("Put command to queue: {}".format(command))
+            bpy.worker_queue.append({"command": command, "kwargs": kwargs})
+
+
         resp = {"status_code": 200, "command": command, "kwargs": kwargs}
         self.reply(resp)
 

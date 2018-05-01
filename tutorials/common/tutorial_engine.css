@@ -1,0 +1,23 @@
+.button {
+    background-color: #ffffff; color: black;
+    border-radius: 4px;
+
+}
+
+.button:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+.button:active {
+    background-color: #b9ebff; color: black;
+}
+
+.button:disabled {
+    background: #dddddd;
+}
+
+.input_number {
+    width: 50px;
+    height: 20px;
+    color: #099
+}

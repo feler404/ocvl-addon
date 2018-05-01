@@ -4,7 +4,7 @@ import bpy
 import time
 import logging
 
-
+from .settings import TUTORIAL_HEARTBEAT_INTERVAL
 from .engine_app import NodeCommandHandler
 
 bpy.worker_queue = []
@@ -18,23 +18,15 @@ class ModalTimerOperator(bpy.types.Operator):
     bl_label = "Modal Timer Operator"
 
     _timer = None
-    _count = 0
-    _wait = 0
+    _heartbeat_counter = 0
 
     def modal(self, context, event):
         if event.type == 'ESC':
             return self.cancel(context)
 
-        if self._wait > 0:
-            self._wait += 1
-            return {'PASS_THROUGH'}
-
-        if self._count == 0:
-            # finished ok.
-            return self.cancel(context)
-
         if event.type == 'TIMER':
-            if self._wait % 2 == 0:
+            self._heartbeat_counter += 1
+            if self._heartbeat_counter % 10 == 0:
                 print(time.time())
             try:
                 if bpy.worker_queue:
@@ -53,13 +45,10 @@ class ModalTimerOperator(bpy.types.Operator):
             except Exception as e:
                 logger.exception("{}".format(e))
 
-
-
         return {'PASS_THROUGH'}
 
     def execute(self, context):
-        self._count = 16
-        self._timer = context.window_manager.event_timer_add(1, context.window)
+        self._timer = context.window_manager.event_timer_add(TUTORIAL_HEARTBEAT_INTERVAL, context.window)
         context.window_manager.modal_handler_add(self)
         return {'RUNNING_MODAL'}
 
@@ -78,10 +67,9 @@ class TutorialModeOperator(bpy.types.Operator):
         bpy.ops.node.clean_desk()
         NodeCommandHandler.clear_node_groups()
         NodeCommandHandler.get_or_create_node_tree()
-        orange_theme()
+        # orange_theme()
         bpy.engine_worker_thread.start()
 
-        # self._count = 16
         # self._timer = context.window_manager.event_timer_add(1, context.window)
         # context.window_manager.modal_handler_add(self)
         return {'CANCELLED'}
