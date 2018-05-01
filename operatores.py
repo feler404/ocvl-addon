@@ -1,3 +1,5 @@
+import os
+
 import bpy
 import logging
 import time
@@ -173,15 +175,64 @@ class OCVLRequestsSplashOperator(bpy.types.Operator):
         return fall_back
 
 
+class OCVLChangeThemeLightOperator(bpy.types.Operator):
+    """Tooltip"""
+    bl_idname = "node.change_theme_light"
+    bl_label = "Theme light"
+
+    def execute(self, context):
+        current_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)))
+        themes_dir = os.path.abspath(os.path.join(current_dir, "../../presets/interface_theme"))
+        filepath = os.path.join(themes_dir, "softblend.xml")
+        bpy.ops.script.execute_preset(
+            filepath=filepath,
+            menu_idname="USERPREF_MT_interface_theme_presets")
+        return {'FINISHED'}
+
+
+class OCVLChangeThemeDarkOperator(bpy.types.Operator):
+    """Tooltip"""
+    bl_idname = "node.change_theme_dark"
+    bl_label = "Theme dark"
+
+    def execute(self, context):
+        current_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)))
+        themes_dir = os.path.abspath(os.path.join(current_dir, "../../presets/interface_theme"))
+        filepath = os.path.join(themes_dir, "graph.xml")
+        bpy.ops.script.execute_preset(
+            filepath=filepath,
+            menu_idname="USERPREF_MT_interface_theme_presets")
+        return {'FINISHED'}
+
+
+
+class OCVLChangeThemeOrangeOperator(bpy.types.Operator):
+    """Tooltip"""
+    bl_idname = "node.change_themeorange"
+    bl_label = "Theme orange"
+
+    def execute(self, context):
+        current_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)))
+        themes_dir = os.path.abspath(os.path.join(current_dir, "../../presets/interface_theme"))
+        filepath = os.path.join(themes_dir, "blend_swap_5.xml")
+        bpy.ops.script.execute_preset(
+            filepath=filepath,
+            menu_idname="USERPREF_MT_interface_theme_presets")
+        return {'FINISHED'}
+
 def register():
     cv_register_class(OCVLImageFullScreenOperator)
     cv_register_class(EscapeFullScreenOperator)
     cv_register_class(OCVLShowTextInTextEditorOperator)
     cv_register_class(OCVLClearDeskOperator)
     cv_register_class(OCVLRequestsSplashOperator)
+    cv_register_class(OCVLChangeThemeLightOperator)
+    cv_register_class(OCVLChangeThemeDarkOperator)
 
 
 def unregister():
+    cv_unregister_class(OCVLChangeThemeDarkOperator)
+    cv_unregister_class(OCVLChangeThemeLightOperator)
     cv_unregister_class(OCVLRequestsSplashOperator)
     cv_unregister_class(OCVLClearDeskOperator)
     cv_unregister_class(OCVLShowTextInTextEditorOperator)

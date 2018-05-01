@@ -121,6 +121,7 @@ class OCVLSplashNode(OCVLPreviewNode):
             row = layout.row()
             col = row.column()
             col_split = col.split(0.5, align=True)
+            col_split.operator('node.tutorial_mode', text="Tutorial - First steps", icon='PARTICLES')
             col_split.operator('node.clean_desk', text="Start with blank desk - Community version", icon='RESTRICT_VIEW_OFF')
 
 

@@ -8,6 +8,7 @@ from tornado import web
 from logging import getLogger
 
 from tornado.escape import json_encode
+from tornado.ioloop import IOLoop
 
 from .settings import (
     TUTORIAL_ENGINE_VERSION, TUTORIAL_ENGINE_DEFAULT_NODE_TREE_NAME,
@@ -132,6 +133,17 @@ class RawCommandHandler(BaseHandler):
         self.reply(resp)
 
 
+class StopServerHandler(BaseHandler):
+    """
+    IndexHandler - Welcome Page
+    """
+
+    def get(self, *args):
+        IOLoop.current().stop()
+        kwargs = {}
+        bpy.worker_queue.append({"command": "StopServer", "kwargs": kwargs})
+
+
 class NodeCommandHandler(BaseHandler):
     """
     IndexHandler - Welcome Page
@@ -214,7 +226,6 @@ class NodeCommandHandler(BaseHandler):
         bpy.worker_queue.append({"command": command, "kwargs": kwargs})
 
         logger.info("Raw command prepare: {}".format(command))
-        # resp = run_cam(command)
         resp = {"status_code": 200, "command": command, "kwargs": kwargs}
         self.reply(resp)
 
@@ -224,6 +235,7 @@ def tutorial_engine_app():
         (r"/", IndexHandler),
         (r"/node/.*", NodeCommandHandler),
         (r"/raw/.*", RawCommandHandler),
+        (r"/stop/.*", StopServerHandler),
         (r"/.*", Error404Handler),
         (r"/favicon.ico", web.ErrorHandler, {'status_code': 404}),
 

@@ -162,19 +162,28 @@ def soft_reload_menu():
     reload_menu()
 
 
-def reload_ocvl_nodes_classes():
+def reload_ocvl_nodes_modules():
     import ocvl.extend
     EXTENDED_NODE_PATH = getattr(ocvl.extend, "EXTENDED_NODE_PATH", "")
     EXTENDED_NODE_FILES = getattr(ocvl.extend, "EXTENDED_NODE_FILES", [])
     for node_file in EXTENDED_NODE_FILES:
         node_module = importlib.import_module("{}.{}".format(EXTENDED_NODE_PATH, node_file))
         importlib.reload(node_module)
-        logger.info("Reload OCVL class: {}".format(node_module))
+        logger.info("Reload OCVL module: {}".format(node_module))
 
     NODE_PATH = "ocvl.nodes.laboratory"
     NODE_FILES = ['ta_viewer_image', 'ta_splash']
     for node_file in NODE_FILES:
         node_module = importlib.import_module("{}.{}".format(NODE_PATH, node_file))
+        importlib.reload(node_module)
+        logger.info("Reload OCVL module: {}".format(node_module))
+
+
+def reload_ocvl_operators_modules():
+
+    MODULES = ["ocvl.operatores", "ocvl.tutorial_engine.operatores"]
+    for module in MODULES:
+        node_module = importlib.import_module(module)
         importlib.reload(node_module)
         logger.info("Reload OCVL module: {}".format(node_module))
 
@@ -195,7 +204,8 @@ def reload_sverchok_addon():
         bpy.ops.wm.addon_enable(module=sverchok_addon.module)
     else:
         logger.info("Skip disable/enable {}".format(sverchok_addon.module))
-        reload_ocvl_nodes_classes()
+        reload_ocvl_nodes_modules()
+        reload_ocvl_operators_modules()
 
 
 def reload_ocvl_addon():

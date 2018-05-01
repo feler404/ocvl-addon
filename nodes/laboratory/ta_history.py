@@ -23,6 +23,11 @@ class OCVLHistoryNode(OCVLPreviewNode):
     def draw_buttons(self, context, layout):
         col = layout.column(align=True)
         col.operator('wm.recover_last_session', text='Recover last session', icon="RECOVER_LAST")
+        row = layout.row()
+        col = row.column()
+        col_split = col.split(0.5, align=True)
+        col_split.operator('node.change_theme_light', text='Light', icon="OUTLINER_OB_LAMP")
+        col_split.operator('node.change_theme_dark', text='Dark', icon="OUTLINER_DATA_LAMP")
 
 
 
