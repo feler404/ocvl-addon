@@ -18,17 +18,41 @@ function buttonAction(obj) {
   }
 }
 
+function getObjectValue(obj){
+  var prefixed_prop_name = obj.attributes["prop_name"].value;
+  var button = $(obj).closest("button");
+  var pointer = prefixed_prop_name.indexOf("_", 1) + 1;
+  var prop_name = prefixed_prop_name.substring(pointer);
+  var obj_value = "(";
+
+
+  button.find("input[type="+obj.type+"][prop_name$='"+prop_name+"']").each(function () {
+    obj_value += this.value + ",";
+  });
+  obj_value = obj_value.substring(0, obj_value.length - 1);
+  obj_value += ")";
+  return [obj_value, prop_name]
+}
+
 function syncPropertyValue(obj){
 
   var button = $(obj).closest("button");
   var prop_name = obj.attributes["prop_name"].value;
   var node_name = button[0].attributes["node_name"].value;
-  var command = "change_prop&node_name="+node_name+"&prop_name="+prop_name+"&value="+obj.value;
+  var value = null;
 
-  sendCommand(command);
-  button.find("[prop_name="+prop_name+"]").each(function(){
+   button.find("[prop_name="+prop_name+"]").each(function(){
     this.value = obj.value;
   });
+
+  if (prop_name.startsWith("_")){
+    [value, prop_name] = getObjectValue(obj);
+  } else {
+    value = obj.value;
+  }
+  var command = "change_prop&node_name="+node_name+"&prop_name="+prop_name+"&value="+value;
+
+  sendCommand(command);
 
 }
 

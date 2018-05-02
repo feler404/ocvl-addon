@@ -233,7 +233,10 @@ class NodeCommandHandler(BaseHandler):
     def change_prop(cls, node_name, prop_name, value):
         node_tree = cls.get_or_create_node_tree()
         node = node_tree.nodes.get(node_name)
-        setattr(node, prop_name, eval(value))
+        if isinstance(value, (tuple, list, dict)):
+            setattr(node, prop_name, value)
+        else:
+            setattr(node, prop_name, eval(value))
 
     def get(self, *args):
         kwargs = self.get_kwargs()

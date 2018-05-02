@@ -187,8 +187,8 @@
         id="code_2_step_1"
         node_name="SimpleImageSample"
         onclick="buttonAction(this)"
-        command1="create_image_sample&filepath=arithmetic_operations_on_images/messi5.jpg&location=(200,201)"
-        command2="create_node&node_name=OCVLSimpleImageViewerNode&location=(500,202)"
+        command1="create_image_sample&filepath=arithmetic_operations_on_images/messi5.jpg&location=(0,-40)"
+        command2="create_node&node_name=OCVLSimpleImageViewerNode&location=(280,-40)"
         command3="connect_nodes&node_input=SimpleImageViewer&input_name=image_in&node_output=SimpleImageSample&output_name=image_out"
 ><input id="checkBox11" type="checkbox"><span class="n">img1</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s1">'messi5.jpg'</span><span class="p">)</span></button>
 <button class="button"
@@ -197,8 +197,8 @@
         node_name="SimpleImageSample.001"
         onclick="buttonAction(this)"
         command1="delete_node&node_name=SimpleImageViewer"
-        command2="create_image_sample&filepath=arithmetic_operations_on_images/opencv_logo.jpg&location=(200,501)"
-        command3="create_node&node_name=OCVLSimpleImageViewerNode&location=(500,202)"
+        command2="create_image_sample&filepath=arithmetic_operations_on_images/opencv_logo.jpg&location=(0,360)"
+        command3="create_node&node_name=OCVLSimpleImageViewerNode&location=(300,360)"
         command4="connect_nodes&node_input=SimpleImageViewer&input_name=image_in&node_output=SimpleImageSample.001&output_name=image_out"
 ><input id="checkBox12" type="checkbox"><span class="n">img2</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s1">'opencv_logo.png'</span><span class="p">)</span></button>
 
@@ -208,16 +208,22 @@
         id="code_2_step3"
         node_name="Point"
         onclick="buttonAction(this)"
-        commnad1=""
+        command1="delete_node&node_name=SimpleImageViewer"
+        command2="create_node&node_name=OCVLPointNode&location=(240,200)"
+        command3="connect_nodes&node_input=Point&input_name=x_in&node_output=SimpleImageSample.001&output_name=width_out"
+        command4="connect_nodes&node_input=Point&input_name=y_in&node_output=SimpleImageSample.001&output_name=height_out"
 ><input id="checkBox13" type="checkbox"><span class="n">rows</span><span class="p">,</span><span class="n">cols</span><span class="p">,</span><span class="n">channels</span><span class="o">=</span><span class="n">img2</span><span class="o">.</span><span class="n">shape</span></button>
 <button class="button"
         type="button"
         id="code_2_step_4"
-        node_name="ROI"
+        node_name="SimpleROI"
         onclick="buttonAction(this)"
-        command1=""
-><input id="checkBox14" type="checkbox"><span class="n">roi</span><span class="o">=</span><span class="n">img1</span><span class="p">[</span><span class="mi"><input type="number" value="0" style="width: 50px; height: 20px; color:#099"></span><span class="p">:</span><span class="n">rows</span><span class="p">,</span><span class="mi"><input type="number" value="0" style="width: 50px; height: 20px; color:#099"></span><span class="p">:</span><span class="n">cols</span><span class="p">]</span>
-  <input type="range" min="0%" max="100%" value="0" step="0.1%"><input type="range" min="0%" max="100%" value="0" step="0.1%">
+        command1="create_node&node_name=OCVLSimpleROINode&location=(480,140)"
+        command2="connect_nodes&node_input=SimpleROI&input_name=image_in&node_output=SimpleImageSample&output_name=image_out"
+        command3="connect_nodes&node_input=SimpleROI&input_name=pt2_in&node_output=Point&output_name=point_out"
+        command4="create_node&node_name=OCVLSimpleImageViewerNode&location=(720,140)"
+        command5="connect_nodes&node_input=SimpleImageViewer&input_name=image_in&node_output=SimpleROI&output_name=image_roi_out"
+><input id="checkBox14" type="checkbox"><span class="n">roi</span><span class="o">=</span><span class="n">img1</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">rows</span><span class="p">,</span><span class="mi">0</span><span class="p">:</span><span class="n">cols</span><span class="p">]</span>
 </button>
 
 <span class="c1"># Now create a mask of logo and create its inverse mask also</span>
@@ -226,23 +232,70 @@
         id="code_2_step_5"
         node_name="cvtColor"
         onclick="buttonAction(this)"
-        commnad1=""
+        command1="delete_node&node_name=SimpleImageViewer"
+        command2="create_node&node_name=OCVLcvtColorNode&location=(240,360)"
+        command3="connect_nodes&node_input=cvtColor&input_name=image_in&node_output=SimpleImageSample.001&output_name=image_out"
+        command4="create_node&node_name=OCVLSimpleImageViewerNode&location=(480,360)"
+        command5="connect_nodes&node_input=SimpleImageViewer&input_name=image_in&node_output=cvtColor&output_name=image_out"
 ><input id="checkBox15" type="checkbox"><span class="n">img2gray</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">img2</span><span class="p">,</span><span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2GRAY</span><span class="p">)</span></button>
 <button class="button"
         type="button"
         id="code_2_step_6"
         node_name="threshold"
         onclick="buttonAction(this)"
-        command="1"
-><input id="checkBox16" type="checkbox"><span class="n">ret</span><span class="p">,</span><span class="n">mask</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">threshold</span><span class="p">(</span><span class="n">img2gray</span><span class="p">,</span><span class="mi"><input type="number" placeholder="10" step="1" min="0" max="255" value="10" style="width: 50px; height: 20px; color:#099"></span><span class="p">,</span><span class="mi"><input type="number" placeholder="10" step="1" min="0" max="255" value="255" style="width: 50px; height: 20px; color:#099"></span><span class="p">,</span><span class="n">cv2</span><span class="o">.</span><span class="n">THRESH_BINARY</span><span class="p">)</span>
-  <input type="range" min="0" max="255" value="10" step="1"><input type="range" min="0" max="255" value="255" step="1">
+        command1="delete_node&node_name=SimpleImageViewer"
+        command2="create_node&node_name=OCVLthresholdNode&location=(480,360)"
+        command3="connect_nodes&node_input=threshold&input_name=image_in&node_output=cvtColor&output_name=image_out"
+        command4="change_prop&node_name=threshold&prop_name=thresh_in&value=10"
+        command5="create_node&node_name=OCVLSimpleImageViewerNode&location=(720,360)"
+        command6="connect_nodes&node_input=SimpleImageViewer&input_name=image_in&node_output=threshold&output_name=image_out"
+><input id="checkBox16" type="checkbox"><span class="n">ret</span><span class="p">,</span><span class="n">mask</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">threshold</span><span class="p">(</span><span class="n">img2gray</span><span class="p">,</span><span class="mi"><input
+    type="number"
+    class="input_number"
+    onclick="syncPropertyValue(this)"
+    prop_name="thresh_in"
+    placeholder="10"
+    step="1"
+    min="0"
+    max="255"
+    value="10"
+></span><span class="p">,</span><span class="mi"><input
+    type="number"
+    class="input_number"
+    onclick="syncPropertyValue(this)"
+    prop_name="maxval_in"
+    placeholder="10"
+    step="1"
+    min="0"
+    max="255"
+    value="255"
+></span><span class="p">,</span><span class="n">cv2</span><span class="o">.</span><span class="n">THRESH_BINARY</span><span class="p">)</span>
+  <input type="range"
+         onclick="syncPropertyValue(this)"
+         prop_name="thresh_in"
+         min="0"
+         max="255"
+         value="10"
+         step="1"
+  ><input type="range"
+          onclick="syncPropertyValue(this)"
+          prop_name="maxval_in"
+          min="0"
+          max="255"
+          value="255"
+          step="1"
+  >
 </button>
 <button class="button"
         type="button"
         id="code_2_step_7"
         node_name="bitwise_not"
         onclick="buttonAction(this)"
-        command1=""
+        command1="delete_node&node_name=SimpleImageViewer"
+        command2="create_node&node_name=OCVLbitwise_notNode&location=(720,360)"
+        command3="connect_nodes&node_input=bitwise_not&input_name=image_in&node_output=threshold&output_name=image_out"
+        command4="create_node&node_name=OCVLSimpleImageViewerNode&location=(900,360)"
+        command5="connect_nodes&node_input=SimpleImageViewer&input_name=image_in&node_output=bitwise_not&output_name=image_out"
 ><input id="checkBox17" type="checkbox"><span class="n">mask_inv</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">bitwise_not</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span></button>
 
 <span class="c1"># Now black-out the area of logo in ROI</span>
@@ -251,7 +304,13 @@
         id="code_2_step_8"
         node_name="bitwise_and"
         onclick="buttonAction(this)"
-        command1=""
+        command1="delete_node&node_name=SimpleImageViewer"
+        command2="create_node&node_name=OCVLbitwise_andNode&location=(720,140)"
+        command3="connect_nodes&node_input=bitwise_and&input_name=image_1_in&node_output=SimpleROI&output_name=image_roi_out"
+        command4="connect_nodes&node_input=bitwise_and&input_name=mask_in&node_output=bitwise_not&output_name=image_out"
+        command5="connect_nodes&node_input=bitwise_and&input_name=image_2_in&node_output=SimpleROI&output_name=image_roi_out"
+        command6="create_node&node_name=OCVLSimpleImageViewerNode&location=(900,140)"
+        command7="connect_nodes&node_input=SimpleImageViewer&input_name=image_in&node_output=bitwise_and&output_name=image_out"
 ><input id="checkBox18" type="checkbox"><span class="n">img1_bg</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">bitwise_and</span><span class="p">(</span><span class="n">roi</span><span class="p">,</span><span class="n">roi</span><span class="p">,</span><span class="n">mask</span><span class="o">=</span><span class="n">mask_inv</span><span class="p">)</span></button>
 
 <span class="c1"># Take only region of logo from logo image.</span>
@@ -260,7 +319,13 @@
         id="code_2_step_9"
         node_name="bitwise_and.001"
         onclick="buttonAction(this)"
-        command1=""
+        command1="delete_node&node_name=SimpleImageViewer"
+        command2="create_node&node_name=OCVLbitwise_andNode&location=(480,-40)"
+        command3="connect_nodes&node_input=bitwise_and.001&input_name=image_1_in&node_output=SimpleImageSample.001&output_name=image_out"
+        command4="connect_nodes&node_input=bitwise_and.001&input_name=mask_in&node_output=threshold&output_name=image_out"
+        command5="connect_nodes&node_input=bitwise_and.001&input_name=image_2_in&node_output=SimpleImageSample.001&output_name=image_out"
+        command6="create_node&node_name=OCVLSimpleImageViewerNode&location=(660,-40)"
+        command7="connect_nodes&node_input=SimpleImageViewer&input_name=image_in&node_output=bitwise_and.001&output_name=image_out"
 ><input id="checkBox19" type="checkbox"><span class="n">img2_fg</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">bitwise_and</span><span class="p">(</span><span class="n">img2</span><span class="p">,</span><span class="n">img2</span><span class="p">,</span><span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">)</span></button>
 
 <span class="c1"># Put logo in ROI and modify the main image</span>
@@ -269,16 +334,58 @@
         id="code_2_step_10"
         node_name="add"
         onclick="buttonAction(this)"
-        command1=""
+        command1="delete_node&node_name=SimpleImageViewer"
+        command2="create_node&node_name=OCVLaddNode&location=(720,-40)"
+        command3="connect_nodes&node_input=add&input_name=image_1_in&node_output=bitwise_and&output_name=image_out"
+        command4="connect_nodes&node_input=add&input_name=image_2_in&node_output=bitwise_and.001&output_name=image_out"
+        command5="create_node&node_name=OCVLSimpleImageViewerNode&location=(900,-40)"
+        command6="connect_nodes&node_input=SimpleImageViewer&input_name=image_in&node_output=add&output_name=image_out"
 ><input id="checkBox110" type="checkbox"><span class="n">dst</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">img1_bg</span><span class="p">,</span><span class="n">img2_fg</span><span class="p">)</span></button>
 <button class="button"
         type="button"
         id="code_2_step_11"
-        node_name="applyROI"
+        node_name="SimpleApplyROI"
         onclick="buttonAction(this)"
-        comman1=""
-><input id="checkBox111" type="checkbox"><span class="n">img1</span><span class="p">[</span><span class="mi"><input type="number" value="0" style="width: 50px; height: 20px; color:#099"></span><span class="p">:</span><span class="n">rows</span><span class="p">,</span><span class="mi"><input type="number" value="0" style="width: 50px; height: 20px; color:#099"></span><span class="p">:</span><span class="n">cols</span><span class="p">]</span><span class="o">=</span><span class="n">dst</span>
-  <input type="range" min="0%" max="100%" value="0" step="0.1%"><input type="range" min="0%" max="100%" value="0" step="0.1%">
+        command1="delete_node&node_name=SimpleImageViewer"
+        command2="create_node&node_name=OCVLSimpleApplyROINode&location=(480,-200)"
+        command3="connect_nodes&node_input=SimpleApplyROI&input_name=image_in&node_output=SimpleImageSample&output_name=image_out"
+        command4="connect_nodes&node_input=SimpleApplyROI&input_name=image_roi_in&node_output=add&output_name=image_out"
+        command5="create_node&node_name=OCVLSimpleImageViewerNode&location=(720,-200)"
+        command6="connect_nodes&node_input=SimpleImageViewer&input_name=image_in&node_output=SimpleApplyROI&output_name=image_out"
+><input id="checkBox111" type="checkbox"><span class="n">img1</span><span class="p">[</span><span class="mi"><input
+    type="number"
+    class="input_number"
+    onclick="syncPropertyValue(this)"
+    prop_name="_1_pt1_in"
+    min="0"
+    max="95"
+    value="0"
+    step="1"
+></span><span class="p">:</span><span class="n">rows</span><span class="p">,</span><span class="mi"><input
+    type="number"
+    class="input_number"
+    onclick="syncPropertyValue(this)"
+    prop_name="_2_pt1_in"
+    min="0"
+    max="300"
+    value="0"
+    step="1"
+></span><span class="p">:</span><span class="n">cols</span><span class="p">]</span><span class="o">=</span><span class="n">dst</span>
+  <input type="range"
+         prop_name="_1_pt1_in"
+         onclick="syncPropertyValue(this)"
+         min="0"
+         max="95"
+         value="0"
+         step="1"
+  ><input type="range"
+          prop_name="_2_pt1_in"
+          onclick="syncPropertyValue(this)"
+          min="0"
+          max="300"
+          value="0"
+          step="1"
+  >
 </button>
 
 <span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s1">'res'</span><span class="p">,</span><span class="n">img1</span><span class="p">)</span>

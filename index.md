@@ -9,7 +9,7 @@
     Ext-OCVLBitwiseNode
     Ext-OCVLROINode
     Ext-OCVLTypeConvertNode
-    OCVLSimpelAapplyROINode
+    OCVLSimpleApplyROINode
     ---
     OCVLSplashNode
     OCVLAuthNode

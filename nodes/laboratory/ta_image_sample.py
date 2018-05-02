@@ -112,14 +112,14 @@ class OCVLSimpleImageSampleNode(OCVLPreviewNode):
         image, self.image_out = self._update_node_cache(image=image, resize=False, uuid_=uuid_)
 
         self.outputs['image_out'].sv_set(self.image_out)
-        self.refresh_output_socket("width_out", image.shape[0])
-        self.refresh_output_socket("height_out", image.shape[1])
+        self.refresh_output_socket("height_out", image.shape[0])
+        self.refresh_output_socket("width_out", image.shape[1])
         self.make_textures(image, uuid_=self.image_out)
         self._add_meta_info(image)
 
     def _add_meta_info(self, image):
-        self.n_meta = "\n".join(["Width: {}".format(image.shape[0]),
-                                 "Height: {}".format(image.shape[1]),
+        self.n_meta = "\n".join(["Width: {}".format(image.shape[1]),
+                                 "Height: {}".format(image.shape[0]),
                                  "Channels: {}".format(image.shape[2]),
                                  "DType: {}".format(image.dtype),
                                  "Size: {}".format(image.size)])
