@@ -51,8 +51,8 @@ TEXT_MT_templates,
 
 )
 
-from .sverchok_point import NODEVIEW_MT_AddPresetOps
-from .sverchok_point import idname_draw as idname_draw_old
+from .auth import ocvl_auth
+
 
 
 class NODE_HT_header_new(Header):
@@ -267,6 +267,110 @@ class SvViewSourceForNodeNew(bpy.types.Operator):
         return {'FINISHED'}
 
 
+sv_tree_types = {'SverchCustomTreeType', 'SverchGroupTreeType'}
+
+class NODEVIEW_MT_Dynamic_Menu_new(bpy.types.Menu):
+    bl_label = "Sverchok Nodes"
+
+    @classmethod
+    def poll(cls, context):
+        tree_type = context.space_data.tree_type
+        if tree_type in sv_tree_types:
+            return True
+
+    def draw(self, context):
+
+        tree_type = context.space_data.tree_type
+        if not tree_type in sv_tree_types:
+            return
+
+        layout = self.layout
+        layout.operator_context = 'INVOKE_REGION_WIN'
+
+        if self.bl_idname == 'NODEVIEW_MT_Dynamic_Menu_new':
+            layout.operator("node.sv_extra_search", text="Search", icon='OUTLINER_DATA_FONT')
+
+
+        layout.separator()
+        layout.menu("NODE_MT_category_SVERCHOK_GROUPS", icon="RNA")
+
+
+
+def valid_active_node(nodes):
+    if nodes:
+        # a previously active node can remain active even when no nodes are selected.
+        if nodes.active and nodes.active.select:
+            return nodes.active
+
+
+def has_outputs(node):
+    return node and len(node.outputs)
+
+
+class SvNodeviewRClickMenu_new(bpy.types.Menu):
+    bl_label = "Right click menu"
+    bl_idname = "NODEVIEW_MT_sv_rclick_menu"
+
+    @classmethod
+    def poll(cls, context):
+        tree_type = context.space_data.tree_type
+        return tree_type in sv_tree_types
+
+    def draw(self, context):
+        layout = self.layout
+        tree = context.space_data.edit_tree
+        nodes = tree.nodes
+        node = valid_active_node(nodes)
+
+        if node:
+            if has_outputs(node):
+                layout.operator("node.sv_deligate_operator", text="Connect Viewer").fn = "Viewer"
+
+            if hasattr(node, "rclick_menu"):
+                node.rclick_menu(context, layout)
+
+        else:
+            layout.menu("NODEVIEW_MT_Dynamic_Menu_new", text='node menu')
+
+        if node and len(node.outputs):
+            layout.operator("node.sv_deligate_operator", text="Connect stethoscope").fn = "Stethoscope"
+
+
+def add_connection_new(tree, bl_idname_new_node, offset):
+
+    nodes = tree.nodes
+    links = tree.links
+
+    existing_node = nodes.active
+
+    if isinstance(bl_idname_new_node, str):
+
+        new_node = nodes.new(bl_idname_new_node)
+
+        outputs = existing_node.outputs
+        inputs = new_node.inputs
+
+        links.new(outputs[0], inputs[0])
+
+
+class SvGenericDeligationOperator_new(bpy.types.Operator):
+
+    bl_idname = "node.sv_deligate_operator"
+    bl_label = "Execute generic code"
+
+    fn = bpy.props.StringProperty(default='')
+
+    def execute(self, context):
+        tree = context.space_data.edit_tree
+
+        if self.fn == 'Viewer':
+            add_connection_new(tree, bl_idname_new_node=ocvl_auth.viewer_name, offset=[220, 0])
+        elif self.fn == 'Stethoscope':
+            add_connection_new(tree, bl_idname_new_node="SvStethoscopeNodeMK2", offset=[220, 0])
+
+        return {'FINISHED'}
+
+
 classes_to_unregister = [
     NODE_PT_grease_pencil,
     NODE_PT_tools_grease_pencil_brush,
@@ -301,6 +405,9 @@ classes = [
     INFO_MT_help_new,
     SvViewHelpForNodeNew,
     SvViewSourceForNodeNew,
+    NODEVIEW_MT_Dynamic_Menu_new,
+    SvNodeviewRClickMenu_new,
+    SvGenericDeligationOperator_new,
 
     ]
 

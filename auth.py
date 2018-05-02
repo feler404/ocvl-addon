@@ -73,6 +73,14 @@ class Auth:
     def set_attr_auth(self, name, value, key=None):
         setattr(self, "_{}".format(name), value)
 
+    @property
+    def viewer_name(self):
+        if self.ocvl_version == COMMUNITY_VERSION:
+            return "OCVLSimpleImageViewerNode"
+        elif self.ocvl_version == PRO_VERSION:
+            return "OCVLImageViewerNode"
+
+
 
 class User:
 

@@ -15,13 +15,11 @@ from sverchok.node_tree import SverchCustomTreeNode
 from sverchok.data_structure import node_id
 from sverchok.ui import nodeview_bgl_viewer_draw_mk2
 from sverchok.utils.context_managers import sv_preferences
-from sverchok.ui.nodeview_space_menu import NODEVIEW_MT_AddPresetOps
-from sverchok.ui.development import idname_draw
+
 
 utils_needs = SverchCustomTreeNode, node_id, nodeview_bgl_viewer_draw_mk2, sv_preferences
 logger = getLogger(__name__)
-NODEVIEW_MT_AddPresetOps = NODEVIEW_MT_AddPresetOps
-idname_draw=idname_draw
+
 
 
 class MockSverchokAddonPreferences(AddonPreferences):
