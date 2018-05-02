@@ -17,11 +17,14 @@
 # ##### END GPL LICENSE BLOCK #####
 
 # <pep8 compliant>
+import webbrowser
+
 import bpy
 import cv2
 import numpy as np
 from bpy.types import Header, Menu
 from bpy.types import INFO_HT_header as INFO_HT_header_old
+from bpy.types import NODE_HT_header as NODE_HT_header_old
 from bpy.types import INFO_MT_file as INFO_MT_file_old
 from bpy.types import INFO_MT_help as INFO_MT_help_old
 from bpy.types import (
@@ -49,6 +52,7 @@ TEXT_MT_templates,
 )
 
 from .sverchok_point import NODEVIEW_MT_AddPresetOps
+from .sverchok_point import idname_draw as idname_draw_old
 
 
 class NODE_HT_header_new(Header):
@@ -74,19 +78,26 @@ class NODE_HT_header_new(Header):
             row.menu("NODE_MT_add")
             row.menu("NODE_MT_node")
 
+        layout.template_ID(snode, "node_tree", new="node.new_node_tree")
+
+        layout.prop(snode, "pin", text="")
+        layout.operator("node.tree_path_parent", text="", icon='FILE_PARENT')
 
         layout.separator()
+
+        # Auto-offset nodes (called "insert_offset" in code)
+        layout.prop(snode, "use_insert_offset", text="")
 
         # Snap
         row = layout.row(align=True)
         row.prop(toolsettings, "use_snap", text="")
-        row.prop(toolsettings, "snap_node_element", text="", icon_only=True)
-        if toolsettings.snap_node_element != 'INCREMENT':
+        row.prop(toolsettings, "snap_node_element", icon_only=True)
+        if toolsettings.snap_node_element != 'GRID':
             row.prop(toolsettings, "snap_target", text="")
 
-        # row = layout.row(align=True)
-        # row.operator("node.clipboard_copy", text="", icon='COPYDOWN')
-        # row.operator("node.clipboard_paste", text="", icon='PASTEDOWN')
+        row = layout.row(align=True)
+        row.operator("node.clipboard_copy", text="", icon='COPYDOWN')
+        row.operator("node.clipboard_paste", text="", icon='PASTEDOWN')
 
         layout.template_running_jobs()
 
@@ -215,6 +226,47 @@ def cv_lab_info(scene):
     return "|".join([blender_version_2, cv_version, np_version, imgs_total_size, node_number, blender_memory])
 
 
+class SvViewHelpForNodeNew(bpy.types.Operator):
+    from bpy.props import StringProperty
+    bl_idname = "node.view_node_help"
+    bl_label = "display a browser with compiled html"
+    kind = StringProperty(default='online')
+
+    def execute(self, context):
+        return {'FINISHED'}
+
+
+class SvViewHelpForNodeNew(bpy.types.Operator):
+    from bpy.props import StringProperty
+    bl_idname = "node.view_node_help"
+    bl_label = "display a browser with compiled html"
+    kind = StringProperty(default='online')
+
+    def execute(self, context):
+        active_node = context.active_node
+
+        if self.kind == 'online':
+            url = 'https://docs.opencv.org/3.0-last-rst/search.html?q={}&check_keywords=yes&area=default'.format(active_node.bl_label)
+            webbrowser.open(url)
+        elif self.kind == 'offline':
+            self.report({'INFO'}, 'Documentation docstring - {}'.format(active_node.bl_label))
+        elif self.kind == 'github':
+            webbrowser.open("https://github.com/feler404/ocvl-addon")
+
+        return {'FINISHED'}
+
+
+class SvViewSourceForNodeNew(bpy.types.Operator):
+    from bpy.props import StringProperty
+    bl_idname = "node.sv_view_node_source"
+    bl_label = "display the source in your editor"
+    kind = StringProperty(default='external')
+
+    def execute(self, context):
+        webbrowser.open("https://github.com/feler404/ocvl-addon")
+        return {'FINISHED'}
+
+
 classes_to_unregister = [
     NODE_PT_grease_pencil,
     NODE_PT_tools_grease_pencil_brush,
@@ -234,9 +286,8 @@ classes_to_unregister = [
     IMAGE_PT_tools_grease_pencil_sculpt,
     IMAGE_PT_tools_grease_pencil_draw,
 
-    NODEVIEW_MT_AddPresetOps,
-
     # TEXT_MT_templates,
+    NODE_HT_header_old,
     INFO_HT_header_old,
     INFO_MT_file_old,
     INFO_MT_help_old,
@@ -244,11 +295,23 @@ classes_to_unregister = [
 
 ]
 classes = [
+    NODE_HT_header_new,
     INFO_HT_header_new,
     INFO_MT_file_new,
     INFO_MT_help_new,
+    SvViewHelpForNodeNew,
+    SvViewSourceForNodeNew,
 
     ]
+
+
+def remove_panels():
+    for pt in bpy.types.Panel.__subclasses__():
+        if pt.bl_space_type == 'NODE_EDITOR':
+            if pt.__name__ in ["SvUserPresetsPanel", "SverchokToolsMenu", "SverchokIOLayoutsMenu", "SverchokToolsMenu",
+                               "SvTestingPanel", "SverchokIOLayoutsMenu"]:
+                bpy.utils.unregister_class(pt)
+
 
 
 def register():
@@ -258,6 +321,8 @@ def register():
 
 
 def unregister(classes=classes):
+    import bpy
+    remove_panels()
     for class_ in reversed(classes):
         try:
             bpy.utils.unregister_class(class_)

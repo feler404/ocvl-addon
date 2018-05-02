@@ -16,10 +16,13 @@ from sverchok.data_structure import node_id
 from sverchok.ui import nodeview_bgl_viewer_draw_mk2
 from sverchok.utils.context_managers import sv_preferences
 from sverchok.ui.nodeview_space_menu import NODEVIEW_MT_AddPresetOps
+from sverchok.ui.development import idname_draw
 
 utils_needs = SverchCustomTreeNode, node_id, nodeview_bgl_viewer_draw_mk2, sv_preferences
 logger = getLogger(__name__)
 NODEVIEW_MT_AddPresetOps = NODEVIEW_MT_AddPresetOps
+idname_draw=idname_draw
+
 
 class MockSverchokAddonPreferences(AddonPreferences):
     bl_idname = "sverchok"
@@ -187,16 +190,13 @@ def juggle_and_join_new(node_cats):
     return node_cats
 
 
-ui_modules_new = [
-    "color_def", "sv_IO_panel", "sv_examples_menu",
-    "sv_panels", "nodeview_rclick_menu", "nodeview_space_menu", "nodeview_keymaps",
-    "monad", "sv_icons","nodes_replacement", "presets",
-    # bgl modules
-    "viewer_draw", "viewer_draw_mk2", "nodeview_bgl_viewer_draw", "nodeview_bgl_viewer_draw_mk2",
-    "index_viewer_draw", "bgl_callback_3dview",
-    # show git info
-    "development",
-]
+def _replace_sv_objectes():
+    sverchok.core.root_modules = ["node_tree", "data_structure",  "ui", "nodes", "old_nodes", "sockets"]  # "menu", "core", "utils",
+    sverchok.menu.make_node_cats = make_node_cats_new
+    sverchok.core.make_node_list = make_node_list_new
+    sverchok.menu.juggle_and_join = juggle_and_join_new
+    sverchok.utils.auto_gather_node_classes = auto_gather_node_classes_new
+
 
 def soft_reload_menu():
     """
@@ -204,11 +204,7 @@ def soft_reload_menu():
 
     :return:
     """
-    sverchok.core.root_modules = ["node_tree", "data_structure",  "ui", "nodes", "old_nodes", "sockets"]  # "menu", "core", "utils",
-    sverchok.menu.make_node_cats = make_node_cats_new
-    sverchok.core.make_node_list = make_node_list_new
-    sverchok.menu.juggle_and_join = juggle_and_join_new
-    sverchok.utils.auto_gather_node_classes = auto_gather_node_classes_new
+    _replace_sv_objectes()
     from sverchok.menu import reload_menu
     reload_menu()
 
@@ -240,11 +236,7 @@ def reload_ocvl_operators_modules():
 
 
 def reload_sverchok_addon():
-    sverchok.core.root_modules = ["node_tree", "data_structure",  "ui", "nodes", "old_nodes", "sockets"]  # "menu", "core", "utils",
-    sverchok.menu.make_node_cats = make_node_cats_new
-    sverchok.menu.juggle_and_join = juggle_and_join_new
-    sverchok.core.make_node_list = make_node_list_new
-    sverchok.utils.auto_gather_node_classes = auto_gather_node_classes_new
+    _replace_sv_objectes()
 
     sverchok_addon = bpy.context.user_preferences.addons.get("sverchok")
     if sverchok_addon:
