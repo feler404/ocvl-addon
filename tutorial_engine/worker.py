@@ -41,5 +41,13 @@ def tutorial_engine_worker():
     IOLoop.current().start()
 
 
+def jupyter_engine_worker():
+    from subprocess import call
+    com = "/Users/dawidaniol/Downloads/blender-2.79-macOS-10.6/blender.app/Contents/Resources/2.79/python/bin/jupyter"
+    call([com, "notebook"])
+
+
 engine_worker_thread = StoppableThread(target=tutorial_engine_worker)
+jupyter_worker_thread = StoppableThread(target=jupyter_engine_worker)
 bpy.engine_worker_thread = engine_worker_thread
+bpy.jupyter_worker_thread = jupyter_worker_thread

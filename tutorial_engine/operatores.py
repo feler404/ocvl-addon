@@ -69,6 +69,7 @@ class TutorialModeOperator(bpy.types.Operator):
         NodeCommandHandler.get_or_create_node_tree()
         # orange_theme()
         bpy.engine_worker_thread.start()
+        # bpy.jupyter_worker_thread.start()
 
         # self._timer = context.window_manager.event_timer_add(1, context.window)
         # context.window_manager.modal_handler_add(self)

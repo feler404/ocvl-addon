@@ -456,7 +456,7 @@ class OCVLNode(bpy.types.Node, SverchCustomTreeNode):
             out = fn(**kwargs)
             self.n_meta = "\nCV time: {0:.2f}ms".format((time.time() - start) * 1000)
         except Exception as e:
-            logger.warngin("CV process problem: fn={}, kwargs={}, self={} ".format(fn, kwargs, self))
+            logger.warning("CV process problem: fn={}, kwargs={}, self={} ".format(fn, kwargs, self))
             raise
         return out
 

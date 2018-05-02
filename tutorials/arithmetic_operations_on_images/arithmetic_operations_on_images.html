@@ -42,14 +42,14 @@
               <div class="highlight-default">
                 <div class="highlight">
                   <pre>
-                    <span></span>
-                    <span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">([</span><span class="mi">250</span><span class="p">])</span>
-                    <span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">([</span><span class="mi">10</span><span class="p">])</span>
-                    <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="n">cv2</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span><span class="c1"># 250+10 = 260 =&gt; 255</span>
-                    <span class="go">[[255]]</span>
+  <span></span>
+  <span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">([</span><span class="mi">250</span><span class="p">])</span>
+  <span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">([</span><span class="mi">10</span><span class="p">])</span>
+  <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="n">cv2</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span><span class="c1"># 250+10 = 260 =&gt; 255</span>
+  <span class="go">[[255]]</span>
 
-                    <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="n">x</span><span class="o">+</span><span class="n">y</span>          <span class="c1"># 250+10 = 260 % 256 = 4</span>
-                    <span class="go">[4]</span>
+  <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="c1"># 250+10 = 260 % 256 = 4</span>
+  <span class="go">[4]</span>
                   </pre>
                 </div>
               </div>
@@ -71,97 +71,97 @@
               <div class="highlight-default">
                 <div class="highlight">
                   <pre>
-                    <span>Practice in OpenCV Laboratory:</span>
+<span>Practice in OpenCV Laboratory:</span>
 
-                    <button class="button"
-                            type="button"
-                            id="code_1_step_1"
-                            node_name="SimpleImageSample"
-                            onclick="buttonAction(this)"
-                            command1="create_image_sample&filepath=arithmetic_operations_on_images/ml.png&location=(200,201)"
-                            command2="create_node&node_name=OCVLSimpleImageViewerNode&location=(500,202)"
-                            command3="connect_nodes&node_input=SimpleImageViewer&input_name=image_in&node_output=SimpleImageSample&output_name=image_out"
-                    ><input id="checkBox01" type="checkbox"><span class="n">img1</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s1">'ml.png'</span><span class="p">)</span></button>
-                    <button class="button"
-                            type="button"
-                            id="code_1_step_2"
-                            onclick="buttonAction(this)"
-                            node_name="SimpleImageSample.001"
-                            command1="delete_node&node_name=SimpleImageViewer"
-                            command2="create_image_sample&filepath=arithmetic_operations_on_images/opencv_logo.jpg&location=(200,501)"
-                            command3="create_node&node_name=OCVLSimpleImageViewerNode&location=(500,202)"
-                            command4="connect_nodes&node_input=SimpleImageViewer&input_name=image_in&node_output=SimpleImageSample.001&output_name=image_out"
-                    ><input id="checkBox02" type="checkbox"><span class="n">img2</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s1">'opencv_logo.jpg'</span><span class="p">)</span></button>
-                    <button class="button"
-                            type="button"
-                            id="code_1_step_3"
-                            onclick="buttonAction(this)"
-                            node_name="addWeighted"
-                            command1="delete_node&node_name=SimpleImageViewer"
-                            command2="create_node&node_name=OCVLaddWeightedNode&location=(500,202)"
-                            command3="connect_nodes&node_input=addWeighted&input_name=image_1_in&node_output=SimpleImageSample.001&output_name=image_out"
-                            command4="connect_nodes&node_input=addWeighted&input_name=image_2_in&node_output=SimpleImageSample&output_name=image_out"
-                            command5="create_node&node_name=OCVLSimpleImageViewerNode&location=(700,202)"
-                            command6="connect_nodes&node_input=SimpleImageViewer&input_name=image_in&node_output=addWeighted&output_name=image_out"
-                    ><input id="checkBox03" type="checkbox"><span class="n">dst</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">addWeighted</span><span class="p">(</span><span class="n">img1</span><span class="p">,</span><span class="mf"><input
-                        type="number"
-                        class="input_number"
-                        prop_name="alpha_in"
-                        onchange="syncPropertyValue(this)"
-                        placeholder="0.1"
-                        step="0.1" min="0.0"
-                        max="1.0"
-                        value="0.7"
-                    ></span><span class="p">,</span><span class="n">img2</span><span class="p">,</span><span class="mf"><input
-                        type="number"
-                        class="input_number"
-                        prop_name="beta_in"
-                        onchange="syncPropertyValue(this)"
-                        placeholder="0.1"
-                        step="0.1"
-                        min="0.0"
-                        max="1.0"
-                        value="0.3"
-                    ></span><span class="p">,</span><span class="mi"><input
-                        type="number"
-                        class="input_number"
-                        prop_name="gamma_in"
-                        onchange="syncPropertyValue(this)"
-                        placeholder="0.1"
-                        step="0.1"
-                        min="0.0"
-                        max="1.0"
-                        value="0.0"
-                    ></span><span class="p">)</span>
-                      <input type="range"
-                             prop_name="alpha_in"
-                             onchange="syncPropertyValue(this)"
-                             min="0"
-                             max="1"
-                             value="0.7"
-                             step="0.1"
-                      ><input type="range"
-                              prop_name="beta_in"
-                              onchange="syncPropertyValue(this)"
-                              min="0"
-                              max="1"
-                              value="0.3"
-                              step="0.1"
-                      ><input type="range"
-                              prop_name="gamma_in"
-                              onchange="syncPropertyValue(this)"
-                              min="0"
-                              max="1"
-                              value="0"
-                              step="0.1"
-                      >
-                    </button>
+<button class="button"
+        type="button"
+        id="code_1_step_1"
+        node_name="SimpleImageSample"
+        onclick="buttonAction(this)"
+        command1="create_image_sample&filepath=arithmetic_operations_on_images/ml.png&location=(200,201)"
+        command2="create_node&node_name=OCVLSimpleImageViewerNode&location=(500,202)"
+        command3="connect_nodes&node_input=SimpleImageViewer&input_name=image_in&node_output=SimpleImageSample&output_name=image_out"
+><input id="checkBox01" type="checkbox"><span class="n">img1</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s1">'ml.png'</span><span class="p">)</span></button>
+<button class="button"
+        type="button"
+        id="code_1_step_2"
+        onclick="buttonAction(this)"
+        node_name="SimpleImageSample.001"
+        command1="delete_node&node_name=SimpleImageViewer"
+        command2="create_image_sample&filepath=arithmetic_operations_on_images/opencv_logo.jpg&location=(200,501)"
+        command3="create_node&node_name=OCVLSimpleImageViewerNode&location=(500,202)"
+        command4="connect_nodes&node_input=SimpleImageViewer&input_name=image_in&node_output=SimpleImageSample.001&output_name=image_out"
+><input id="checkBox02" type="checkbox"><span class="n">img2</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s1">'opencv_logo.jpg'</span><span class="p">)</span></button>
+<button class="button"
+        type="button"
+        id="code_1_step_3"
+        onclick="buttonAction(this)"
+        node_name="addWeighted"
+        command1="delete_node&node_name=SimpleImageViewer"
+        command2="create_node&node_name=OCVLaddWeightedNode&location=(500,202)"
+        command3="connect_nodes&node_input=addWeighted&input_name=image_1_in&node_output=SimpleImageSample.001&output_name=image_out"
+        command4="connect_nodes&node_input=addWeighted&input_name=image_2_in&node_output=SimpleImageSample&output_name=image_out"
+        command5="create_node&node_name=OCVLSimpleImageViewerNode&location=(700,202)"
+        command6="connect_nodes&node_input=SimpleImageViewer&input_name=image_in&node_output=addWeighted&output_name=image_out"
+><input id="checkBox03" type="checkbox"><span class="n">dst</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">addWeighted</span><span class="p">(</span><span class="n">img1</span><span class="p">,</span><span class="mf"><input
+    type="number"
+    class="input_number"
+    prop_name="alpha_in"
+    onchange="syncPropertyValue(this)"
+    placeholder="0.1"
+    step="0.1" min="0.0"
+    max="1.0"
+    value="0.7"
+></span><span class="p">,</span><span class="n">img2</span><span class="p">,</span><span class="mf"><input
+    type="number"
+    class="input_number"
+    prop_name="beta_in"
+    onchange="syncPropertyValue(this)"
+    placeholder="0.1"
+    step="0.1"
+    min="0.0"
+    max="1.0"
+    value="0.3"
+></span><span class="p">,</span><span class="mi"><input
+    type="number"
+    class="input_number"
+    prop_name="gamma_in"
+    onchange="syncPropertyValue(this)"
+    placeholder="0.1"
+    step="0.1"
+    min="0.0"
+    max="1.0"
+    value="0.0"
+></span><span class="p">)</span>
+  <input type="range"
+         prop_name="alpha_in"
+         onchange="syncPropertyValue(this)"
+         min="0"
+         max="1"
+         value="0.7"
+         step="0.1"
+  ><input type="range"
+          prop_name="beta_in"
+          onchange="syncPropertyValue(this)"
+          min="0"
+          max="1"
+          value="0.3"
+          step="0.1"
+  ><input type="range"
+          prop_name="gamma_in"
+          onchange="syncPropertyValue(this)"
+          min="0"
+          max="1"
+          value="0"
+          step="0.1"
+  >
+</button>
 
-                    <span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s1">'dst'</span><span class="p">,</span><span class="n">dst</span><span class="p">)</span>
-                    <span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-                    <span class="n">cv2</span><span class="o">.</span><span class="n">destroyAllWindows</span><span class="p">()</span>
+<span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s1">'dst'</span><span class="p">,</span><span class="n">dst</span><span class="p">)</span>
+<span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">cv2</span><span class="o">.</span><span class="n">destroyAllWindows</span><span class="p">()</span>
 
-                    <span>Help buttons: <input type="button" onclick="centerView()" value="Center View"></span><span>&nbsp;</span><span class="n"><input type="button" onclick="resetView()" value="Reset View"></span>
+<span>Help buttons: <input type="button" onclick="centerView()" value="Center View"></span><span>&nbsp;</span><span class="n"><input type="button" onclick="resetView()" value="Reset View"></span>
                   </pre>
                 </div>
               </div>
@@ -179,42 +179,113 @@
               <div class="highlight-default">
                 <div class="highlight">
                   <pre>
-                    <span>Practice in OpenCV Laboratory:</span>
+<span>Practice in OpenCV Laboratory:</span>
 
-                    <span class="c1"># Load two images</span>
-                    <button class="button" type="button"><input id="checkBox11" type="checkbox"><span class="n">img1</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s1">'messi5.jpg'</span><span class="p">)</span></button>
-                    <button class="button" type="button"><input id="checkBox12" type="checkbox"><span class="n">img2</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s1">'opencv_logo.png'</span><span class="p">)</span></button>
+<span class="c1"># Load two images</span>
+<button class="button"
+        type="button"
+        id="code_2_step_1"
+        node_name="SimpleImageSample"
+        onclick="buttonAction(this)"
+        command1="create_image_sample&filepath=arithmetic_operations_on_images/messi5.jpg&location=(200,201)"
+        command2="create_node&node_name=OCVLSimpleImageViewerNode&location=(500,202)"
+        command3="connect_nodes&node_input=SimpleImageViewer&input_name=image_in&node_output=SimpleImageSample&output_name=image_out"
+><input id="checkBox11" type="checkbox"><span class="n">img1</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s1">'messi5.jpg'</span><span class="p">)</span></button>
+<button class="button"
+        type="button"
+        id="code_2_step_2"
+        node_name="SimpleImageSample.001"
+        onclick="buttonAction(this)"
+        command1="delete_node&node_name=SimpleImageViewer"
+        command2="create_image_sample&filepath=arithmetic_operations_on_images/opencv_logo.jpg&location=(200,501)"
+        command3="create_node&node_name=OCVLSimpleImageViewerNode&location=(500,202)"
+        command4="connect_nodes&node_input=SimpleImageViewer&input_name=image_in&node_output=SimpleImageSample.001&output_name=image_out"
+><input id="checkBox12" type="checkbox"><span class="n">img2</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s1">'opencv_logo.png'</span><span class="p">)</span></button>
 
-                    <span class="c1"># I want to put logo on top-left corner, So I create a ROI</span>
-                    <button class="button" type="button"><input id="checkBox13" type="checkbox"><span class="n">rows</span><span class="p">,</span><span class="n">cols</span><span class="p">,</span><span class="n">channels</span><span class="o">=</span><span class="n">img2</span><span class="o">.</span><span class="n">shape</span></button>
-                    <button class="button" type="button"><input id="checkBox14" type="checkbox"><span class="n">roi</span><span class="o">=</span><span class="n">img1</span><span class="p">[</span><span class="mi"><input type="number" value="0" style="width: 50px; height: 20px; color:#099"></span><span class="p">:</span><span class="n">rows</span><span class="p">,</span><span class="mi"><input type="number" value="0" style="width: 50px; height: 20px; color:#099"></span><span class="p">:</span><span class="n">cols</span><span class="p">]</span>
-                      <input type="range" min="0%" max="100%" value="0" step="0.1%"><input type="range" min="0%" max="100%" value="0" step="0.1%">
-                    </button>
+<span class="c1"># I want to put logo on top-left corner, So I create a ROI</span>
+<button class="button"
+        type="button"
+        id="code_2_step3"
+        node_name="Point"
+        onclick="buttonAction(this)"
+        commnad1=""
+><input id="checkBox13" type="checkbox"><span class="n">rows</span><span class="p">,</span><span class="n">cols</span><span class="p">,</span><span class="n">channels</span><span class="o">=</span><span class="n">img2</span><span class="o">.</span><span class="n">shape</span></button>
+<button class="button"
+        type="button"
+        id="code_2_step_4"
+        node_name="ROI"
+        onclick="buttonAction(this)"
+        command1=""
+><input id="checkBox14" type="checkbox"><span class="n">roi</span><span class="o">=</span><span class="n">img1</span><span class="p">[</span><span class="mi"><input type="number" value="0" style="width: 50px; height: 20px; color:#099"></span><span class="p">:</span><span class="n">rows</span><span class="p">,</span><span class="mi"><input type="number" value="0" style="width: 50px; height: 20px; color:#099"></span><span class="p">:</span><span class="n">cols</span><span class="p">]</span>
+  <input type="range" min="0%" max="100%" value="0" step="0.1%"><input type="range" min="0%" max="100%" value="0" step="0.1%">
+</button>
 
-                    <span class="c1"># Now create a mask of logo and create its inverse mask also</span>
-                    <button class="button" type="button"><input id="checkBox15" type="checkbox"><span class="n">img2gray</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">img2</span><span class="p">,</span><span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2GRAY</span><span class="p">)</span></button>
-                    <button class="button" type="button"><input id="checkBox16" type="checkbox"><span class="n">ret</span><span class="p">,</span><span class="n">mask</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">threshold</span><span class="p">(</span><span class="n">img2gray</span><span class="p">,</span><span class="mi"><input type="number" placeholder="10" step="1" min="0" max="255" value="10" style="width: 50px; height: 20px; color:#099"></span><span class="p">,</span><span class="mi"><input type="number" placeholder="10" step="1" min="0" max="255" value="255" style="width: 50px; height: 20px; color:#099"></span><span class="p">,</span><span class="n">cv2</span><span class="o">.</span><span class="n">THRESH_BINARY</span><span class="p">)</span>
-                      <input type="range" min="0" max="255" value="10" step="1"><input type="range" min="0" max="255" value="255" step="1">
-                    </button>
-                    <button class="button" type="button"><input id="checkBox17" type="checkbox"><span class="n">mask_inv</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">bitwise_not</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span></button>
+<span class="c1"># Now create a mask of logo and create its inverse mask also</span>
+<button class="button"
+        type="button"
+        id="code_2_step_5"
+        node_name="cvtColor"
+        onclick="buttonAction(this)"
+        commnad1=""
+><input id="checkBox15" type="checkbox"><span class="n">img2gray</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">img2</span><span class="p">,</span><span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2GRAY</span><span class="p">)</span></button>
+<button class="button"
+        type="button"
+        id="code_2_step_6"
+        node_name="threshold"
+        onclick="buttonAction(this)"
+        command="1"
+><input id="checkBox16" type="checkbox"><span class="n">ret</span><span class="p">,</span><span class="n">mask</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">threshold</span><span class="p">(</span><span class="n">img2gray</span><span class="p">,</span><span class="mi"><input type="number" placeholder="10" step="1" min="0" max="255" value="10" style="width: 50px; height: 20px; color:#099"></span><span class="p">,</span><span class="mi"><input type="number" placeholder="10" step="1" min="0" max="255" value="255" style="width: 50px; height: 20px; color:#099"></span><span class="p">,</span><span class="n">cv2</span><span class="o">.</span><span class="n">THRESH_BINARY</span><span class="p">)</span>
+  <input type="range" min="0" max="255" value="10" step="1"><input type="range" min="0" max="255" value="255" step="1">
+</button>
+<button class="button"
+        type="button"
+        id="code_2_step_7"
+        node_name="bitwise_not"
+        onclick="buttonAction(this)"
+        command1=""
+><input id="checkBox17" type="checkbox"><span class="n">mask_inv</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">bitwise_not</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span></button>
 
-                    <span class="c1"># Now black-out the area of logo in ROI</span>
-                    <button class="button" type="button"><input id="checkBox18" type="checkbox"><span class="n">img1_bg</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">bitwise_and</span><span class="p">(</span><span class="n">roi</span><span class="p">,</span><span class="n">roi</span><span class="p">,</span><span class="n">mask</span><span class="o">=</span><span class="n">mask_inv</span><span class="p">)</span></button>
+<span class="c1"># Now black-out the area of logo in ROI</span>
+<button class="button"
+        type="button"
+        id="code_2_step_8"
+        node_name="bitwise_and"
+        onclick="buttonAction(this)"
+        command1=""
+><input id="checkBox18" type="checkbox"><span class="n">img1_bg</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">bitwise_and</span><span class="p">(</span><span class="n">roi</span><span class="p">,</span><span class="n">roi</span><span class="p">,</span><span class="n">mask</span><span class="o">=</span><span class="n">mask_inv</span><span class="p">)</span></button>
 
-                    <span class="c1"># Take only region of logo from logo image.</span>
-                    <button class="button" type="button"><input id="checkBox19" type="checkbox"><span class="n">img2_fg</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">bitwise_and</span><span class="p">(</span><span class="n">img2</span><span class="p">,</span><span class="n">img2</span><span class="p">,</span><span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">)</span></button>
+<span class="c1"># Take only region of logo from logo image.</span>
+<button class="button"
+        type="button"
+        id="code_2_step_9"
+        node_name="bitwise_and.001"
+        onclick="buttonAction(this)"
+        command1=""
+><input id="checkBox19" type="checkbox"><span class="n">img2_fg</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">bitwise_and</span><span class="p">(</span><span class="n">img2</span><span class="p">,</span><span class="n">img2</span><span class="p">,</span><span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">)</span></button>
 
-                    <span class="c1"># Put logo in ROI and modify the main image</span>
-                    <button class="button" type="button"><input id="checkBox110" type="checkbox"><span class="n">dst</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">img1_bg</span><span class="p">,</span><span class="n">img2_fg</span><span class="p">)</span></button>
-                    <button class="button" type="button"><input id="checkBox111" type="checkbox"><span class="n">img1</span><span class="p">[</span><span class="mi"><input type="number" value="0" style="width: 50px; height: 20px; color:#099"></span><span class="p">:</span><span class="n">rows</span><span class="p">,</span><span class="mi"><input type="number" value="0" style="width: 50px; height: 20px; color:#099"></span><span class="p">:</span><span class="n">cols</span><span class="p">]</span><span class="o">=</span><span class="n">dst</span>
-                      <input type="range" min="0%" max="100%" value="0" step="0.1%"><input type="range" min="0%" max="100%" value="0" step="0.1%">
-                    </button>
+<span class="c1"># Put logo in ROI and modify the main image</span>
+<button class="button"
+        type="button"
+        id="code_2_step_10"
+        node_name="add"
+        onclick="buttonAction(this)"
+        command1=""
+><input id="checkBox110" type="checkbox"><span class="n">dst</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">img1_bg</span><span class="p">,</span><span class="n">img2_fg</span><span class="p">)</span></button>
+<button class="button"
+        type="button"
+        id="code_2_step_11"
+        node_name="applyROI"
+        onclick="buttonAction(this)"
+        comman1=""
+><input id="checkBox111" type="checkbox"><span class="n">img1</span><span class="p">[</span><span class="mi"><input type="number" value="0" style="width: 50px; height: 20px; color:#099"></span><span class="p">:</span><span class="n">rows</span><span class="p">,</span><span class="mi"><input type="number" value="0" style="width: 50px; height: 20px; color:#099"></span><span class="p">:</span><span class="n">cols</span><span class="p">]</span><span class="o">=</span><span class="n">dst</span>
+  <input type="range" min="0%" max="100%" value="0" step="0.1%"><input type="range" min="0%" max="100%" value="0" step="0.1%">
+</button>
 
-                    <span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s1">'res'</span><span class="p">,</span><span class="n">img1</span><span class="p">)</span>
-                    <span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-                    <span class="n">cv2</span><span class="o">.</span><span class="n">destroyAllWindows</span><span class="p">()</span>
+<span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s1">'res'</span><span class="p">,</span><span class="n">img1</span><span class="p">)</span>
+<span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">cv2</span><span class="o">.</span><span class="n">destroyAllWindows</span><span class="p">()</span>
 
-                    <span>Help buttons:<input type="button" value="view Center"></span><span>&nbsp;</span><span class="n"><input type="reset" value="setup Reset"></span>
+<span>Help buttons:<input type="button" value="view Center"></span><span>&nbsp;</span><span class="n"><input type="reset" value="setup Reset"></span>
                   </pre>
                 </div>
               </div>

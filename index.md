@@ -1,6 +1,7 @@
 ## laboratory
     Simple-OCVLSimpleImageSampleNode
     Simple-OCVLSimpleImageViewerNode
+    Simple-OCVLSimpleROINode
     Ext-OCVLImageViewerNode
     Ext-OCVLImageSampleNode
     Ext-OCVLCustomInputNode
@@ -8,6 +9,7 @@
     Ext-OCVLBitwiseNode
     Ext-OCVLROINode
     Ext-OCVLTypeConvertNode
+    OCVLSimpelAapplyROINode
     ---
     OCVLSplashNode
     OCVLAuthNode
@@ -25,7 +27,12 @@
 ># Operations on arrays
     ---
     OCVLabsdiffNode
+    OCVLaddNode
     OCVLaddWeightedNode
+    OCVLbitwise_andNode
+    OCVLbitwise_notNode
+    OCVLbitwise_orNode
+    OCVLbitwise_xorNode
     OCVLborderInterpolateNode
     OCVLcalcCovarMatrixNode
     OCVLcartToPolarNode
