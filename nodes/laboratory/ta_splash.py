@@ -29,7 +29,7 @@ class OCVLSplashNode(OCVLPreviewNode):
     is_licence_key = BoolProperty(name="Licence Key", default=False)
     licence_key_in = StringProperty(name="Licence Key", default="", description="licence_key_in", maxlen=600)
 
-    auth = BoolProperty(name="Auth", default=False)
+    auth = BoolProperty(default=False)
     docs = BoolProperty(default=False)
     history = BoolProperty(default=False)
 

@@ -22,7 +22,8 @@ import cv2
 import numpy as np
 from bpy.types import Header, Menu
 from bpy.types import INFO_HT_header as INFO_HT_header_old
-from bpy.types import NODE_HT_header as NODE_HT_header_old
+from bpy.types import INFO_MT_file as INFO_MT_file_old
+from bpy.types import INFO_MT_help as INFO_MT_help_old
 from bpy.types import (
 NODE_PT_grease_pencil,
 NODE_PT_tools_grease_pencil_brush,
@@ -47,7 +48,8 @@ TEXT_MT_templates,
 
 )
 
-INFO_HT_header_old = INFO_HT_header_old
+from .sverchok_point import NODEVIEW_MT_AddPresetOps
+
 
 class NODE_HT_header_new(Header):
     bl_space_type = 'NODE_EDITOR'
@@ -105,9 +107,9 @@ class INFO_HT_header_new(Header):
 
         if context.area.show_menus:
             sub = row.row(align=True)
-            sub.menu("INFO_MT_file")
+            sub.menu("INFO_MT_file_new")
             sub.menu("INFO_MT_window")
-            sub.menu("INFO_MT_help")
+            sub.menu("INFO_MT_help_new")
 
         if window.screen.show_fullscreen:
             # layout.operator("screen.back_to_previous", icon='SCREEN_BACK', text="Back to Previous")
@@ -124,26 +126,69 @@ class INFO_HT_header_new(Header):
         layout.template_reports_banner()
 
         row = layout.row(align=True)
-        row.operator("wm.splash", text="", icon='BLENDER', emboss=False)
+        row.operator("node.show_node_splash", text="", icon='COLOR', emboss=False)
         row.label(text=cv_lab_info(scene=scene))
 
-        # XXX: BEFORE RELEASE, MOVE FILE MENU OUT OF INFO!!!
-        """
-        sinfo = context.space_data
-        row = layout.row(align=True)
-        row.prop(sinfo, "show_report_debug", text="Debug")
-        row.prop(sinfo, "show_report_info", text="Info")
-        row.prop(sinfo, "show_report_operator", text="Operators")
-        row.prop(sinfo, "show_report_warning", text="Warnings")
-        row.prop(sinfo, "show_report_error", text="Errors")
 
-        row = layout.row()
-        row.enabled = sinfo.show_report_operator
-        row.operator("info.report_replay")
+class INFO_MT_file_new(Menu):
+    bl_label = "File"
 
-        row.menu("INFO_MT_report")
-        """
+    def draw(self, context):
+        layout = self.layout
 
+        layout.operator_context = 'INVOKE_AREA'
+        layout.operator("wm.read_homefile", text="New", icon='NEW')
+        layout.operator("wm.open_mainfile", text="Open...", icon='FILE_FOLDER')
+        layout.menu("INFO_MT_file_open_recent", icon='OPEN_RECENT')
+        layout.operator("wm.revert_mainfile", icon='FILE_REFRESH')
+        layout.operator("wm.recover_last_session", icon='RECOVER_LAST')
+        layout.operator("wm.recover_auto_save", text="Recover Auto Save...", icon='RECOVER_AUTO')
+
+        layout.separator()
+
+        layout.operator_context = 'EXEC_AREA' if context.blend_data.is_saved else 'INVOKE_AREA'
+        layout.operator("wm.save_mainfile", text="Save", icon='FILE_TICK')
+
+        layout.operator_context = 'INVOKE_AREA'
+        layout.operator("wm.save_as_mainfile", text="Save As...", icon='SAVE_AS')
+        layout.operator_context = 'INVOKE_AREA'
+        layout.operator("wm.save_as_mainfile", text="Save Copy...", icon='SAVE_COPY').copy = True
+
+        layout.separator()
+
+        layout.operator_context = 'EXEC_AREA'
+        if bpy.data.is_dirty and context.user_preferences.view.use_quit_dialog:
+            layout.operator_context = 'INVOKE_SCREEN'  # quit dialog
+        layout.operator("wm.quit_blender", text="Quit", icon='QUIT')
+
+
+class INFO_MT_help_new(Menu):
+    bl_label = "Help"
+
+    def draw(self, context):
+        layout = self.layout
+
+        layout.operator(
+                "wm.url_open", text="OCVL Documentation", icon='HELP',
+                ).url = "http://opencv-laboratory.readthedocs.io/en/latest/?badge=latest"
+        layout.operator(
+                "wm.url_open", text="OpenCV Documentation", icon='HELP',
+                ).url = "https://docs.opencv.org/3.0-beta/index.html"
+        layout.operator(
+                "wm.url_open", text="Blender Documentation", icon='HELP',
+                ).url = "https://docs.blender.org/manual/en/dev/editors/node_editor/introduction.html"
+        layout.separator()
+
+        layout.operator(
+                "wm.url_open", text="OCVL Web Panel", icon='URL',
+                ).url = "https://ocvl-cms.herokuapp.com/admin/login/"
+        layout.operator(
+                "wm.url_open", text="OCVL Blog", icon='URL',
+                ).url = "http://kube.pl/"
+
+        layout.separator()
+
+        layout.operator("node.show_node_splash", icon='COLOR')
 # https://github.com/trevortomesh/Blender-Python-Learning-Environment/blob/master/BPyLE/lin/blenderPyLE-2.64a-linux64/2.64/scripts/startup/bl_ui/space_info.py
 
 
@@ -189,14 +234,20 @@ classes_to_unregister = [
     IMAGE_PT_tools_grease_pencil_sculpt,
     IMAGE_PT_tools_grease_pencil_draw,
 
-    # TEXT_MT_templates,
+    NODEVIEW_MT_AddPresetOps,
 
+    # TEXT_MT_templates,
     INFO_HT_header_old,
-    # NODE_HT_header_old,
+    INFO_MT_file_old,
+    INFO_MT_help_old,
+
+
 ]
 classes = [
     INFO_HT_header_new,
-    # NODE_HT_header_new,
+    INFO_MT_file_new,
+    INFO_MT_help_new,
+
     ]
 
 

@@ -50,7 +50,6 @@ import bpy
 if __name__ != "ocvl":
     sys.modules["ocvl"] = sys.modules[__name__]
 
-from .ui import INFO_HT_header_new, INFO_HT_header_old
 from .logger_conf import logger
 from .auth import register_extended_operators, unregister_extended_operators
 from .tutorial_engine import operatores as tutorial_operatores
@@ -61,13 +60,10 @@ IS_WORK_ON_COPY_INPUT = True
 
 
 def register():
-    try:
-        bpy.utils.unregister_class(INFO_HT_header_old)
-    except:
-        logger.info("INFO_HT_header_old Unregistered")
-    bpy.utils.register_class(INFO_HT_header_new)
-    from .operatores import register
-    register()
+    from . import ui
+    from . import operatores
+    ui.register()
+    operatores.register()
     register_extended_operators()
 
     tutorial_operatores.register()
@@ -77,8 +73,9 @@ def register():
 
 
 def unregister():
-    bpy.utils.unregister_class(INFO_HT_header_new)
-    from .extend.extended_operatores import unregister
-    unregister()
+    from . import ui
+    from . import operatores
+    ui.unregister()
+    operatores.unregister()
     unregister_extended_operators()
     tutorial_operatores.unregister()

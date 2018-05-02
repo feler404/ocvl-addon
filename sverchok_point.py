@@ -15,11 +15,11 @@ from sverchok.node_tree import SverchCustomTreeNode
 from sverchok.data_structure import node_id
 from sverchok.ui import nodeview_bgl_viewer_draw_mk2
 from sverchok.utils.context_managers import sv_preferences
-
+from sverchok.ui.nodeview_space_menu import NODEVIEW_MT_AddPresetOps
 
 utils_needs = SverchCustomTreeNode, node_id, nodeview_bgl_viewer_draw_mk2, sv_preferences
 logger = getLogger(__name__)
-
+NODEVIEW_MT_AddPresetOps = NODEVIEW_MT_AddPresetOps
 
 class MockSverchokAddonPreferences(AddonPreferences):
     bl_idname = "sverchok"
@@ -148,6 +148,56 @@ def auto_gather_node_classes_new():
                     ...
 
 
+def juggle_and_join_new(node_cats):
+    '''
+    this step post processes the extended catagorization used
+    by ctrl+space dynamic menu, and attempts to merge previously
+    joined catagories. Why? Because the default menu gets very
+    long if there are too many categories.
+
+    The only real alternative to this approach is to write a
+    replacement for nodeitems_utils which respects categories
+    and submenus.
+
+    '''
+    node_cats = node_cats.copy()
+
+    # join beta and alpha node cats
+
+    if 'Beta Nodes' in node_cats:
+        alpha = node_cats.pop('Alpha Nodes', [])
+        node_cats['Beta Nodes'].extend(alpha)
+
+    # put masks into list main
+    for ltype in ["List Masks", "List Mutators"]:
+
+        if "List Main" in node_cats:
+            node_refs = node_cats.pop(ltype)
+            node_cats["List Main"].extend(node_refs)
+
+    if 'BPY Data' in node_cats:
+        objects_cat = node_cats.pop('Objects', [])
+        node_cats['BPY Data'].extend(objects_cat)
+
+    # add extended gens to Gens menu
+    if "Generators Extended" in node_cats:
+        gen_ext = node_cats.pop("Generators Extended", [])
+        node_cats["Generator"].extend(gen_ext)
+
+    return node_cats
+
+
+ui_modules_new = [
+    "color_def", "sv_IO_panel", "sv_examples_menu",
+    "sv_panels", "nodeview_rclick_menu", "nodeview_space_menu", "nodeview_keymaps",
+    "monad", "sv_icons","nodes_replacement", "presets",
+    # bgl modules
+    "viewer_draw", "viewer_draw_mk2", "nodeview_bgl_viewer_draw", "nodeview_bgl_viewer_draw_mk2",
+    "index_viewer_draw", "bgl_callback_3dview",
+    # show git info
+    "development",
+]
+
 def soft_reload_menu():
     """
     Function to reloading menu with nodes by COMM nad PRO versions.
@@ -157,6 +207,7 @@ def soft_reload_menu():
     sverchok.core.root_modules = ["node_tree", "data_structure",  "ui", "nodes", "old_nodes", "sockets"]  # "menu", "core", "utils",
     sverchok.menu.make_node_cats = make_node_cats_new
     sverchok.core.make_node_list = make_node_list_new
+    sverchok.menu.juggle_and_join = juggle_and_join_new
     sverchok.utils.auto_gather_node_classes = auto_gather_node_classes_new
     from sverchok.menu import reload_menu
     reload_menu()
@@ -191,6 +242,7 @@ def reload_ocvl_operators_modules():
 def reload_sverchok_addon():
     sverchok.core.root_modules = ["node_tree", "data_structure",  "ui", "nodes", "old_nodes", "sockets"]  # "menu", "core", "utils",
     sverchok.menu.make_node_cats = make_node_cats_new
+    sverchok.menu.juggle_and_join = juggle_and_join_new
     sverchok.core.make_node_list = make_node_list_new
     sverchok.utils.auto_gather_node_classes = auto_gather_node_classes_new
 

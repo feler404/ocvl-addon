@@ -7,6 +7,7 @@ import urllib.parse
 from bpy.props import StringProperty
 from pynput.keyboard import Key, Controller
 
+from .tutorial_engine.engine_app import NodeCommandHandler
 from .nodes.laboratory.ta_auth import AUTH_NODE_NAME
 from .utils import convert_to_gl_image, cv_register_class, cv_unregister_class
 from sverchok.core.socket_data import SvNoDataError
@@ -220,6 +221,26 @@ class OCVLChangeThemeOrangeOperator(bpy.types.Operator):
             menu_idname="USERPREF_MT_interface_theme_presets")
         return {'FINISHED'}
 
+
+class OCVLShowNodeSplashOperator(bpy.types.Operator):
+    bl_idname = "node.show_node_splash"
+    bl_label = "Show Node Splash"
+
+    def execute(self, context):
+        NodeCommandHandler.clear_node_groups()
+        NodeCommandHandler.get_or_create_node_tree()
+        NodeCommandHandler.create_node("OCVLAuthNode", location=(520, 560))
+        NodeCommandHandler.create_node("OCVLHistoryNode", location=(-300, 220))
+        NodeCommandHandler.create_node("OCVLDocsNode", location=(-300, 100))
+        NodeCommandHandler.create_node("OCVLSplashNode", location=(-60, 460))
+
+        NodeCommandHandler.connect_nodes("Splash", "history", "History", "history")
+        NodeCommandHandler.connect_nodes("Splash", "docs", "Docs", "docs")
+        NodeCommandHandler.connect_nodes("Auth", "auth", "Splash", "auth")
+        NodeCommandHandler.view_all()
+        return {'FINISHED'}
+
+
 def register():
     cv_register_class(OCVLImageFullScreenOperator)
     cv_register_class(EscapeFullScreenOperator)
@@ -228,9 +249,11 @@ def register():
     cv_register_class(OCVLRequestsSplashOperator)
     cv_register_class(OCVLChangeThemeLightOperator)
     cv_register_class(OCVLChangeThemeDarkOperator)
+    cv_register_class(OCVLShowNodeSplashOperator)
 
 
 def unregister():
+    cv_unregister_class(OCVLShowNodeSplashOperator)
     cv_unregister_class(OCVLChangeThemeDarkOperator)
     cv_unregister_class(OCVLChangeThemeLightOperator)
     cv_unregister_class(OCVLRequestsSplashOperator)
