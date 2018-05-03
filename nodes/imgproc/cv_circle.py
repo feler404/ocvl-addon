@@ -1,6 +1,6 @@
 import cv2
 import uuid
-
+from gettext import gettext as _
 from bpy.props import EnumProperty, StringProperty, IntProperty, FloatVectorProperty, IntVectorProperty
 
 from ...utils import cv_register_class, cv_unregister_class, LINE_TYPE_ITEMS, OCVLNode, updateNode
@@ -9,21 +9,25 @@ from ...utils import cv_register_class, cv_unregister_class, LINE_TYPE_ITEMS, OC
 class OCVLcircleNode(OCVLNode):
     bl_icon = 'GREASEPENCIL'
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()))
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()))
+    _doc = _("Draws a circle.")
+
+    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
+        description=_("Input image."))
+    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()),
+        description=_("Output image."))
 
     center_in = IntVectorProperty(default=(0, 0), size=2, update=updateNode,
-        description="Center of the circle.")
+        description=_("Center of the circle."))
     radius_in = IntProperty(default=50, min=1, max=100, update=updateNode,
-        description="Radius of the circle..")
+        description=_("Radius of the circle."))
     color_in = FloatVectorProperty(update=updateNode, default=(.7, .7, .1, 1.0), size=4, min=0.0, max=1.0, subtype='COLOR',
-        description="Circle color.")
+        description=_("Circle color."))
     thickness_in = IntProperty(default=2, min=-1, max=10, update=updateNode,
-        description="Thickness of the circle outline, if positive. Negative thickness means that a filled circle is to be drawn.")
+        description=_("Thickness of the circle outline, if positive. Negative thickness means that a filled circle is to be drawn."))
     lineType_in = EnumProperty(items=LINE_TYPE_ITEMS, default="LINE_AA",update=updateNode,
-        description="Type of the circle boundary. See the line description.")
+        description=_("Type of the circle boundary. See the line description."))
     shift_in = IntProperty(default=0, min=0, max=10, update=updateNode,
-        description="Number of fractional bits in the coordinates of the center and in the radius value.")
+        description=_("Number of fractional bits in the coordinates of the center and in the radius value."))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "image_in")

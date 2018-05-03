@@ -1,11 +1,14 @@
 import cv2
 import uuid
+from gettext import gettext as _
 from bpy.props import EnumProperty, StringProperty, IntVectorProperty
 
 from ...utils import cv_register_class, cv_unregister_class, BORDER_TYPE_ITEMS, OCVLNode, updateNode, DEVELOP_STATE_BETA
 
 
 class OCVLblurNode(OCVLNode):
+
+    _doc = _("Blurs an image using the normalized box filter.")
 
     bl_icon = 'FILTER'
     bl_develop_state = DEVELOP_STATE_BETA
@@ -18,15 +21,17 @@ class OCVLblurNode(OCVLNode):
         anchor_y = value[1] if -1 <= value[1] < self.ksize_in[1] else self.anchor_in[1]
         self["anchor_in"] = (anchor_x, anchor_y)
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()))
+    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
+        description=_("Input image."))
     ksize_in = IntVectorProperty(default=(1, 1), update=updateNode, min=1, max=30, size=2,
-        description='Blurring kernel size.')
+        description=_("Blurring kernel size."))
     anchor_in = IntVectorProperty(default=(-1, -1), update=updateNode, get=get_anchor, set=set_anchor, size=2,
-        description="Bnchor point; default value Point(-1,-1) means that the anchor is at the kernel center.")
+        description=_("Bnchor point; default value Point(-1,-1) means that the anchor is at the kernel center."))
     borderType_in = EnumProperty(items=BORDER_TYPE_ITEMS, default='None', update=updateNode,
-        description="Border mode used to extrapolate pixels outside of the image, see cv::BorderTypes.")
+        description=_("Border mode used to extrapolate pixels outside of the image, see cv::BorderTypes."))
 
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()))
+    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()),
+        description=_("Output image."))
 
     def sv_init(self, context):
         self.width = 150

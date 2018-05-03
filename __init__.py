@@ -61,10 +61,23 @@ DEBUG = True
 
 
 def register():
+<<<<<<< HEAD
     from . import ui
     from . import operatores
     ui.register()
     operatores.register()
+=======
+    try:
+        bpy.utils.unregister_class(INFO_HT_header_old)
+    except:
+        logger.info("INFO_HT_header_old Unregistered")
+    try:
+        bpy.utils.register_class(INFO_HT_header_new)
+    except:
+        pass
+    from .operatores import register
+    register()
+>>>>>>> dokumentacja od arrowedLine do convertMaps
     register_extended_operators()
 
     tutorial_operatores.register()
