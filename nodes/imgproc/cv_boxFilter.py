@@ -1,11 +1,14 @@
 import cv2
 import uuid
+from gettext import gettext as _
 from bpy.props import EnumProperty, StringProperty, IntVectorProperty, BoolProperty
 
 from ...utils import cv_register_class, cv_unregister_class, BORDER_TYPE_ITEMS, COLOR_DEPTH_ITEMS, OCVLNode, updateNode
 
 
 class OCVLboxFilterNode(OCVLNode):
+
+    _doc = _("Blurs an image using the box filter.")
 
     bl_icon = 'FILTER'
 
@@ -17,19 +20,21 @@ class OCVLboxFilterNode(OCVLNode):
         anchor_y = value[1] if -1 <= value[1] < self.ksize_in[1] else self.anchor_in[1]
         self["anchor_in"] = (anchor_x, anchor_y)
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()))
+    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
+        description=_("Input image."))
     ksize_in = IntVectorProperty(default=(3, 3), min=1, max=30, size=2, update=updateNode,
-        description='Blurring kernel size.')
+        description=_("Blurring kernel size."))
     anchor_in = IntVectorProperty(default=(-1, -1), update=updateNode, get=get_anchor, set=set_anchor, size=2,
-        description="Anchor point.")
+        description=_("Anchor point."))
     ddepth_in = EnumProperty(items=COLOR_DEPTH_ITEMS, default='CV_8U', update=updateNode,
-        description="The output image depth.")
+        description=_("The output image depth."))
     normalize_in = BoolProperty(default=True, update=updateNode,
-        description="Flag, specifying whether the kernel is normalized by its area or not.")
+        description=_("Flag, specifying whether the kernel is normalized by its area or not."))
     borderType_in = EnumProperty(items=BORDER_TYPE_ITEMS, default='None', update=updateNode,
-        description="pixel extrapolation method, see cv::BorderTypes")
+        description=_("Pixel extrapolation method, see cv::BorderTypes"))
 
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()))
+    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()),
+        description=_("Output image."))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "image_in")

@@ -1,5 +1,6 @@
 import cv2
 import uuid
+from gettext import gettext as _
 from bpy.props import StringProperty
 
 from ...utils import cv_register_class, cv_unregister_class, OCVLNode
@@ -7,8 +8,10 @@ from ...utils import cv_register_class, cv_unregister_class, OCVLNode
 
 class OCVLboxPointsNode(OCVLNode):
 
+    _doc = _("Finds the four vertices of a rotated rect. Useful to draw the rotated rectangle.")
+
     rect_in = StringProperty(default=str(uuid.uuid4()),
-        description="Points and angle in one list")
+        description=_("Points and angle in one list."))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "rect_in")

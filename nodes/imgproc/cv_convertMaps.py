@@ -1,5 +1,6 @@
 import cv2
 import uuid
+from gettext import gettext as _
 from bpy.props import EnumProperty, StringProperty, BoolProperty
 
 from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode
@@ -14,15 +15,21 @@ OUTPUT_MAP_TYPE_ITEMS = (
 
 class OCVLconvertMapsNode(OCVLNode):
 
-    map1_in = StringProperty(name="map1_in", default=str(uuid.uuid4()))
-    map2_in = StringProperty(name="map2_in", default=str(uuid.uuid4()))
-    dstmap1_out = StringProperty(name="dstmap1_out", default=str(uuid.uuid4()))
-    dstmap2_out = StringProperty(name="dstmap2_out", default=str(uuid.uuid4()))
+    _doc = _("Converts image transformation maps from one representation to another.")
+
+    map1_in = StringProperty(name="map1_in", default=str(uuid.uuid4()),
+        description=_("The first input map of type CV_16SC2 , CV_32FC1 , or CV_32FC2 ."))
+    map2_in = StringProperty(name="map2_in", default=str(uuid.uuid4()),
+        description=_("The second input map of type CV_16UC1 , CV_32FC1 , or none (empty matrix), respectively."))
+    dstmap1_out = StringProperty(name="dstmap1_out", default=str(uuid.uuid4()),
+        description=_("The first output map that has the type dstmap1type and the same size as src ."))
+    dstmap2_out = StringProperty(name="dstmap2_out", default=str(uuid.uuid4()),
+        description=_("The second output map."))
 
     dstmap1type_in = EnumProperty(items=OUTPUT_MAP_TYPE_ITEMS, default='CV_16SC2', update=updateNode,
-        description='Type of the first output map that should be.')
+        description=_("Type of the first output map that should be."))
     nninterpolation_in = BoolProperty(default=False, update=updateNode,
-        description="Flag indicating whether the fixed-point maps are used for the nearest-neighbor or for a more complex interpolation.")
+        description=_("Flag indicating whether the fixed-point maps are used for the nearest-neighbor or for a more complex interpolation."))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "map1_in")

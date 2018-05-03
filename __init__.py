@@ -65,7 +65,10 @@ def register():
         bpy.utils.unregister_class(INFO_HT_header_old)
     except:
         logger.info("INFO_HT_header_old Unregistered")
-    bpy.utils.register_class(INFO_HT_header_new)
+    try:
+        bpy.utils.register_class(INFO_HT_header_new)
+    except:
+        pass
     from .operatores import register
     register()
     register_extended_operators()

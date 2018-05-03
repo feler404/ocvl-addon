@@ -1,5 +1,6 @@
 import cv2
 import uuid
+from gettext import gettext as _
 from bpy.props import EnumProperty, StringProperty, IntProperty, FloatProperty
 
 from ...utils import cv_register_class, cv_unregister_class, BORDER_TYPE_ITEMS, OCVLNode, updateNode
@@ -8,16 +9,19 @@ from ...utils import cv_register_class, cv_unregister_class, BORDER_TYPE_ITEMS, 
 class OCVLbilateralFilterNode(OCVLNode):
     bl_icon = 'FILTER'
 
-    d_in = IntProperty(default=2, min=1, max=10, update=updateNode,
-        description="Diameter of each pixel neighborhood that is used during filtering. If it is non-positive, it is computed from sigmaSpace.")
-    sigmaColor_in = FloatProperty(default=75, min=0, max=255, update=updateNode,
-        description="Filter sigma in the color space.")
-    sigmaSpace_in = FloatProperty(default=75, min=0, max=255, update=updateNode,
-        description="Filter sigma in the coordinate space.")
-    borderType_in = EnumProperty(items=BORDER_TYPE_ITEMS, default='None', update=updateNode,
-        description="Border mode used to extrapolate pixels outside of the image, see cv::BorderTypes.")
+    _doc = _("Applies the bilateral filter to an image.")
 
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()))
+    d_in = IntProperty(default=2, min=1, max=10, update=updateNode,
+        description=_("Diameter of each pixel neighborhood that is used during filtering. If it is non-positive, it is computed from sigmaSpace."))
+    sigmaColor_in = FloatProperty(default=75, min=0, max=255, update=updateNode,
+        description=_("Filter sigma in the color space."))
+    sigmaSpace_in = FloatProperty(default=75, min=0, max=255, update=updateNode,
+        description=_("Filter sigma in the coordinate space."))
+    borderType_in = EnumProperty(items=BORDER_TYPE_ITEMS, default='None', update=updateNode,
+        description=_("Border mode used to extrapolate pixels outside of the image, see cv::BorderTypes."))
+
+    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()),
+        description=_("Output image."))
 
     def sv_init(self, context):
         self.width = 150
