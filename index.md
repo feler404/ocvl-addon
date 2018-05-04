@@ -1,21 +1,18 @@
 ## laboratory
-    Simple-OCVLSimpleImageSampleNode
-    Simple-OCVLSimpleImageViewerNode
-    Simple-OCVLSimpleROINode
-    Ext-OCVLImageViewerNode
-    Ext-OCVLImageSampleNode
-    Ext-OCVLCustomInputNode
-    Ext-OCVLStethoscopeNode
-    Ext-OCVLBitwiseNode
-    Ext-OCVLROINode
-    Ext-OCVLTypeConvertNode
-    OCVLSimpleApplyROINode
+    OCVLImageViewerNode
+    OCVLImageSampleNode
+    OCVLCustomInputNode
+    OCVLStethoscopeNode
+    OCVLBitwiseNode
+    OCVLROINode
+    OCVLTypeConvertNode
+    OCVLApplyROINode
     ---
-    OCVLSplashNode
-    OCVLAuthNode
-    OCVLHistoryNode
-    OCVLDocsNode
-    OCVLThemeNode
+    Hidden-OCVLSplashNode
+    Hidden-OCVLAuthNode
+    Hidden-OCVLHistoryNode
+    Hidden-OCVLDocsNode
+    Hidden-OCVLThemeNode
 ## core
 ># Data Struct
     ---

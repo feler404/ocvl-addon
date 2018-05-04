@@ -46,7 +46,7 @@ class OCVLImageImporterOp(bpy.types.Operator):
         return {'RUNNING_MODAL'}
 
 
-class OCVLSimpleImageSampleNode(OCVLPreviewNode):
+class OCVLImageSampleNode(OCVLPreviewNode):
     ''' Image sample '''
     bl_icon = 'IMAGE_DATA'
 
@@ -160,18 +160,16 @@ class OCVLSimpleImageSampleNode(OCVLPreviewNode):
         self.process()
 
 
-if ocvl_auth.ocvl_ext:
+if ocvl_auth.ocvl_pro_version_auth:
     from ...extend.laboratory.ta_image_sample import OCVLImageSampleNode
 
 
 def register():
     cv_register_class(OCVLImageImporterOp)
     cv_register_class(OCVLImageSampleNode)
-    cv_register_class(OCVLSimpleImageSampleNode)
 
 
 def unregister():
-    cv_unregister_class(OCVLSimpleImageSampleNode)
     cv_unregister_class(OCVLImageSampleNode)
     cv_unregister_class(OCVLImageImporterOp)
 

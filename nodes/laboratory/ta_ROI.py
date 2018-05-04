@@ -11,7 +11,7 @@ from ...auth import ocvl_auth
 
 
 
-class OCVLSimpleROINode(OCVLNode):
+class OCVLROINode(OCVLNode):
     ''' Get region of image.
         .   @param img Image.
         .   @param pt1 First point of the ROI segment.
@@ -50,14 +50,13 @@ class OCVLSimpleROINode(OCVLNode):
 
 
 
-if ocvl_auth.ocvl_ext:
+if ocvl_auth.ocvl_pro_version_auth:
     from ...extend.laboratory.ta_ROI import OCVLROINode
 
-    def register():
-        cv_register_class(OCVLROINode)
-        cv_register_class(OCVLSimpleROINode)
+
+def register():
+    cv_register_class(OCVLROINode)
 
 
-    def unregister():
-        cv_unregister_class(OCVLSimpleROINode)
-        cv_unregister_class(OCVLROINode)
+def unregister():
+    cv_unregister_class(OCVLROINode)

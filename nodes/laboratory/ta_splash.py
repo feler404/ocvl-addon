@@ -13,6 +13,8 @@ from ...auth import (
     PRO_VERSION,
     OCVL_LINK_TO_STORE,
     OCVL_LINK_TO_CREATE_ACCOUNT,
+    OCVL_VERSION,
+    OCVL_AUTHORS,
 )
 
 logger = getLogger(__name__)
@@ -46,13 +48,25 @@ class OCVLSplashNode(OCVLPreviewNode):
     def wrapped_process(self):
         current_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)))
         baner_dir = os.path.abspath(os.path.join(current_dir, "../../datafiles/"))
-        loc_filepath = os.path.join(baner_dir, "ocvl_baner.png")
         loc_filepath = os.path.join(baner_dir, "splash_banner.png")
         image = cv2.imread(loc_filepath)
         if ocvl_auth.ocvl_version is COMMUNITY_VERSION:
             image = image[0:512, 0:1024]
+            font_color = (0, 233, 0)
+            img_org = (330, 107)
         else:
             image = image[512:1024, 0:1024]
+            font_color = (236, 189, 0)
+            img_org = (358, 107)
+        author_text = "{} Copyright(C) 2018".format(OCVL_AUTHORS)
+        font_face = cv2.FONT_HERSHEY_PLAIN
+        font_scale = thickness = 1
+
+
+        image = cv2.putText(image, "v.{}".format(OCVL_VERSION), img_org, cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, font_color)
+        retval, baseLine = cv2.getTextSize(author_text, font_face, font_scale, thickness)
+
+        image = cv2.putText(image, author_text, (1024 - retval[0] - 10, 505), font_face, font_scale, (255, 255, 255))
         image, self.image_out = self._update_node_cache(image=image, resize=False)
         self.make_textures(image, uuid_=self.image_out, width=1024, height=1024)
 

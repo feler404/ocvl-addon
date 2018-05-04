@@ -11,7 +11,7 @@ from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNod
 from ...auth import ocvl_auth
 
 
-class OCVLSimpleApplyROINode(OCVLNode):
+class OCVLApplyROINode(OCVLNode):
 
     bl_develop_state = DEVELOP_STATE_BETA
 
@@ -44,14 +44,13 @@ class OCVLSimpleApplyROINode(OCVLNode):
         self.refresh_output_socket("image_out", image_out, is_uuid_type=True)
 
 
-if ocvl_auth.ocvl_ext:
+if ocvl_auth.ocvl_pro_version_auth:
+    pass
     # from ...extend.laboratory.ta_ROI import OCVLROINode
 
-    def register():
-        # cv_register_class(OCVLAapplyROINode)
-        cv_register_class(OCVLSimpleApplyROINode)
+def register():
+    cv_register_class(OCVLApplyROINode)
 
 
-    def unregister():
-        cv_unregister_class(OCVLSimpleApplyROINode)
-        # cv_unregister_class(OCVLAapplyROINode)
+def unregister():
+    cv_unregister_class(OCVLApplyROINode)

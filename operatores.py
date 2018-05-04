@@ -17,6 +17,7 @@ from .auth import ocvl_auth, auth_pro_confirm, auth_pro_reject, OCVL_PANEL_URL
 
 logger = logging.getLogger(__name__)
 
+
 class EscapeFullScreenOperator(bpy.types.Operator):
     """Tooltip"""
     bl_idname = "screen.escape_full_screen"

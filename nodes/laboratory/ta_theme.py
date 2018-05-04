@@ -28,7 +28,6 @@ class OCVLThemeNode(OCVLPreviewNode):
         col_split.operator('node.change_theme_dark', text='Dark', icon="OUTLINER_DATA_LAMP")
 
 
-
 def register():
     cv_register_class(OCVLThemeNode)
 
