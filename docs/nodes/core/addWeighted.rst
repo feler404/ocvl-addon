@@ -1,38 +1,33 @@
-﻿AddWeighted
-=================
-.. image:: http://kube.pl/wp-content/uploads/2018/03/AddWeighted_1.png
+addWeighted
+===========
+.. image:: http://kube.pl/wp-content/uploads/2018/04/addWeighted_1.png
 
-Funkcja
+Functionality
+-------------
+Calculates the weighted sum of two arrays.
+
+
+Inputs
+------
+- alpha_in – Weight of the first array elements.
+- beta_in – Weight of the second array elements.
+- dtype_in – Desired depth of the destination image, see @ref filter_depths 'combinations'.
+- gamma_in – Scalar added to each sum.
+- image_1_in – First input array.
+- image_2_in – Second input array.
+
+
+Outputs
 -------
+- image_out – Output image.
 
-Oblicza ważoną sumę dwóch tablic.
+
+Locals
+------
+- loc_auto_resize – Automatic adjust size image.
 
 
-Atrybuty wejściowe
-------------------
-- image_in_1 – obraz wejściowy pierwszy
-- image_in_2 - obraz wejściowy drugi
-- alpha - waga elementów pierwszej tablicy
-- beta - waga elementów drugiej tablicy
-- gamma - skalar dodany do każdej sumy
+Examples
+--------
+.. image:: http://kube.pl/wp-content/uploads/2018/04/addWeighted_2.png
 
-Atrybuty wyjściowe
-------------------
-- image_out – obraz wyjściowy
-
-Atrybuty wewnętrzne
--------------------
-- automatyczne dopasowanie rozmiaru obrazu
-
- - OFF - brak
- - FIRST - zmienia rozmiar względem pierwszego obrazu
- - SECOND - zmienia rozmiar względem drugiego rozmiaru
-
-- pożądana głębia koloru
-
- - CV_8U - kolor 8 bitowy
- - CV_16U - kolor 16 bitowy
-
-Przykłady zastosowania
-----------------------
-.. image:: http://kube.pl/wp-content/uploads/2018/03/AddWeighted_2.png

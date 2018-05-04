@@ -1,34 +1,32 @@
-﻿boxFilter
-=================
-.. image:: http://kube.pl/wp-content/uploads/2018/03/boxFilter_1.png
+boxFilter
+=========
+.. image:: http://kube.pl/wp-content/uploads/2018/04/boxFilter_1.png
 
-Funkcja
+Functionality
+-------------
+Blurs an image using the box filter.
+
+
+Inputs
+------
+- anchor_in – Anchor point.
+- borderType_in – Pixel extrapolation method, see cv::BorderTypes
+- ddepth_in – The output image depth.
+- image_in – Input image.
+- ksize_in – Blurring kernel size.
+- normalize_in – Flag, specifying whether the kernel is normalized by its area or not.
+
+
+Outputs
 -------
-
-Zamazuje obraz za pomocą filtra skrzynek.
-
-
-Atrybuty wejściowe
-------------------
-- image_in – obraz wejściowy
-- ksize_in - obszar rozmycia w odniesieniu do jądra
-- anchor_in – punkt zakotwiczenia, wartość domyślna ustawiona na (-1,-1) oznacza, że punkt zakotwiczenia znajduje się w centrum jądra
+- image_out – Output image.
 
 
-Atrybuty wyjściowe
-------------------
-- image_out – obraz wyjściowy
-
-Atrybuty wewnętrzne
--------------------
-- ddepth_in - błębia koloru na wyjściu
-
- - CV_16U - kolor 16 bitowy
- - CV_8U - kolor 8 bitowy
-
-- borderType_in - tryb graniczny używany do eksploratacji pikseli poza obrazem (BORDER_REFLECT, BORDER_ISOLATED, BORDER_DEFAULT, BORDER_TRANSPARENT, BORDER_REFLECT_101, BORDER_WRAP, BORDER_REPLICATE, BORDER_CONSTANT)
+Locals
+------
 
 
-Przykłady zastosowania
-----------------------
-.. image:: http://kube.pl/wp-content/uploads/2018/03/boxFilter_2.png
+Examples
+--------
+.. image:: http://kube.pl/wp-content/uploads/2018/04/boxFilter_2.png
+

@@ -1,31 +1,30 @@
-﻿split
-=================
-.. image:: http://kube.pl/wp-content/uploads/2018/03/split_1.png
+split
+=====
+.. image:: http://kube.pl/wp-content/uploads/2018/04/split_1.png
 
-Funkcja
+Functionality
+-------------
+Divides a multi-channel array into several single-channel arrays.
+
+
+Inputs
+------
+- image_in – Input multi-channel array.
+
+
+Outputs
 -------
-
-Dzieli tablicę wielokanałową na kilka tablic jednokanałowych. 
-
-
-Atrybuty wejściowe
-------------------
-
-- image_in – obraz wejściowy
+- layer_0_out – Channel 0.
+- layer_1_out – Channel 1.
+- layer_2_out – Channel 2.
+- layer_3_out – Channel 3.
 
 
-Atrybuty wyjściowe
-------------------
-
-- layer_0_out – kanał 0
-- layer_1_out – kanał 1
-- layer_2_out – kanał 2
-- layer_3_out – kanał 3 
+Locals
+------
 
 
-.. note :: Węzeł działa dynamicznie. Jeśli na wejściu pojawi się obraz BGR to kanały na wyjściu to odpowiednio niebieski, zielony i czerwony. Jeśli na wejściu mamy RGB to kanały na wyjściu są czerwony, zielony, niebieski. 
+Examples
+--------
+.. image:: http://kube.pl/wp-content/uploads/2018/04/split_2.png
 
-
-Przykłady zastosowania
-----------------------
-.. image:: http://kube.pl/wp-content/uploads/2018/03/split_2.png

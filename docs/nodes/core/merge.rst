@@ -1,29 +1,29 @@
-﻿merge
-=================
-.. image:: http://kube.pl/wp-content/uploads/2018/03/merge_1.png
+merge
+=====
+.. image:: http://kube.pl/wp-content/uploads/2018/04/merge_1.png
 
-Funkcja
+Functionality
+-------------
+Creates one multichannel array out of several single-channel ones.
+
+
+Inputs
+------
+- layer_0_in – First channel Blue.
+- layer_1_in – Second channel Green.
+- layer_2_in – Third channel Red.
+
+
+Outputs
 -------
-
-Tworzy jedną tablicę wielokanałową z kilku jednokanałowych.
-
-
-Atrybuty wejściowe
-------------------
-
-- layer_0_in – pierwszy kanał Blue
-- layer_1_in – drugi kanał Green
-- layer_2_in – trzeci kanał Red
+- image_out – Image output.
 
 
-Atrybuty wyjściowe
-------------------
-
-- image_out – obraz wyjściowy
-
-.. note :: W przykładzie użytwo węzła cvtColor by stworzyć jednokanałową tablicę, obraz w skali szarości. Węzeł merge na wejściu kanału Red tworzy tablicę wielokanałową.
+Locals
+------
 
 
-Przykłady zastosowania
-----------------------
-.. image:: http://kube.pl/wp-content/uploads/2018/03/merge_2.png
+Examples
+--------
+.. image:: http://kube.pl/wp-content/uploads/2018/04/merge_2.png
+

@@ -1,32 +1,31 @@
-﻿cornerHarris
+cornerHarris
 ============
+.. image:: http://kube.pl/wp-content/uploads/2018/04/cornerHarris_1.png
 
-.. image:: http://kube.pl/wp-content/uploads/2018/03/cornerHarris_01.png
+Functionality
+-------------
+Harris corner detector.
 
-Funkcja
+
+Inputs
+------
+- blockSize_in – Neighborhood size (see the details on cornerEigenValsAndVecs ).
+- borderType_in – Pixel extrapolation method. See cv::BorderTypes.
+- image_in – Input single-channel 8-bit or floating-point image.
+- k_in – Harris detector free parameter. See the formula below.
+- ksize_in – Aperture parameter for the Sobel operator.
+
+
+Outputs
 -------
+- image_out – Image to store the Harris detector responses.
 
-Znajduje kluczowe punkty obrazu - rogi Harrisa.
 
-Atrybuty wejściowe
-------------------
+Locals
+------
 
-- image_in – obraz wejściowy
-- blockSize_in - obszar wokół danego piksela, który jest uwzględniany w obliczeniach macierzy autokorelacji pochodnych
-- ksize_in – rozmiar operatora Sobela
-- k_in – czułość (im mniejsza wartość liczby, tym większa czułość algorytmu)
 
-Atrybuty wyjściowe
-------------------
+Examples
+--------
+.. image:: http://kube.pl/wp-content/uploads/2018/04/cornerHarris_2.png
 
-- image_out – obraz wyjściowy
-
-Atrybuty wewnętrzne
--------------------
-
-- borderType_in – tryb graniczny używany do eksploratacji pikseli poza obrazem (BORDER_REFLECT, BORDER_ISOLATED, BORDER_DEFAULT, BORDER_TRANSPARENT, BORDER_REFLECT_101, BORDER_WRAP, BORDER_REPLICATE, BORDER_CONSTANT)
-
-Przykłady zastosowania
-----------------------
-
-.. image:: http://kube.pl/wp-content/uploads/2018/03/cornerHarris_11.png

@@ -1,3 +1,32 @@
-============
 ellipse2Poly
 ============
+.. image:: http://kube.pl/wp-content/uploads/2018/04/ellipse2Poly_1.png
+
+Functionality
+-------------
+Approximates an elliptic arc with a polyline.
+
+
+Inputs
+------
+- angle_in – Ellipse rotation angle in degrees.
+- arcEnd_in – Ending angle of the elliptic arc in degrees.
+- arcStart_in – Starting angle of the elliptic arc in degrees.
+- axes_in – Half of the size of the ellipse main axes.
+- center_in – Center of the ellipse.
+- delta_in – Angle between the subsequent polyline vertices. It defines the approximation accuracy.
+
+
+Outputs
+-------
+- pts_out – Output vector of polyline vertices.
+
+
+Locals
+------
+
+
+Examples
+--------
+.. image:: http://kube.pl/wp-content/uploads/2018/04/ellipse2Poly_2.png
+

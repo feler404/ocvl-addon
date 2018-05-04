@@ -1,34 +1,32 @@
-﻿threshold
+threshold
 =========
+.. image:: http://kube.pl/wp-content/uploads/2018/04/threshold_1.png
 
-.. image:: http://kube.pl/wp-content/uploads/2018/03/threshold_01.png
+Functionality
+-------------
+Applies a fixed-level threshold to each array element.
 
-Funkcja
+
+Inputs
+------
+- image_in – Input array (single-channel, 8-bit or 32-bit floating point).
+- maxval_in – Maximum value to use with the THRESH_BINARY and THRESH_BINARY_INV thresholding types
+- thresh_in – Threshold value.
+- type_in – Thresholding type (see the cv::ThresholdTypes).
+
+
+Outputs
 -------
+- mask_out – Output mask.
+- thresh_out – Threshold value output.
 
-Stosuje próg ustalonego poziomu do każdego elementu tablicy.
 
-Atrybuty wejściowe
-------------------
+Locals
+------
+- loc_invert – Invert output mask.
 
-- image_in – obraz wejściowy
-- thresh_in – wartość progowa wejściowa
-- maxval_in – maksymalna wartość dla operacji górnych
 
-Atrybuty wyjściowe
-------------------
+Examples
+--------
+.. image:: http://kube.pl/wp-content/uploads/2018/04/threshold_2.png
 
-- mask_out – maska wyjściowa
-- thresh_out – próg wyjściowy
-
-Atrybuty wewnętrzne
--------------------
-
-- inverse – odwrotność wartości
-
-Przykłady zastosowania
-----------------------
-
-.. image:: http://kube.pl/wp-content/uploads/2018/03/threshold_11.png
-.. image:: http://kube.pl/wp-content/uploads/2018/03/threshold_12.png
-.. image:: http://kube.pl/wp-content/uploads/2018/03/threshold_13.png

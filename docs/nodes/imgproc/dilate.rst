@@ -1,27 +1,30 @@
-﻿dilate
-=================
-.. image:: http://kube.pl/wp-content/uploads/2018/03/dilate_1.png
+dilate
+======
+.. image:: http://kube.pl/wp-content/uploads/2018/04/dilate_1.png
 
-Funkcja
+Functionality
+-------------
+Dilates an image by using a specific structuring element.
+
+
+Inputs
+------
+- anchor_in – Position of the anchor within the element.
+- image_in – Input image.
+- iterations_in – Number of times erosion is applied.
+- ksize_in – Structuring element used for erosion.
+
+
+Outputs
 -------
-
-Rozszerza obraz za pomocą określonego elementu strukturyzacji.
-
-
-Atrybuty wejściowe
-------------------
-
-- image_in – obraz wejściowy
-- ksize_in – obszar rozszerzenia w odniesieniu do jądra
-- anchor_in – punkt zakotwiczenia, wartość domyślna ustawiona na (-1,-1) oznacza, że punkt zakotwiczenia znajduje się w centrum jądra
-- iterations_in – ile razy rozszerzenie jest zastosowana
-
-Atrybuty wyjściowe
-------------------
-
-- image_out – obraz wyjściowy
+- image_out – Output image.
 
 
-Przykłady zastosowania
-----------------------
-.. image:: http://kube.pl/wp-content/uploads/2018/03/dilate_2.png
+Locals
+------
+
+
+Examples
+--------
+.. image:: http://kube.pl/wp-content/uploads/2018/04/dilate_2.png
+

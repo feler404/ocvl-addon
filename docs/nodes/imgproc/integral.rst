@@ -1,29 +1,28 @@
-﻿integral
-=================
-.. image:: http://kube.pl/wp-content/uploads/2018/03/integral_01.png
+integral
+========
+.. image:: http://kube.pl/wp-content/uploads/2018/04/integral_1.png
 
-Funkcja
+Functionality
+-------------
+Calculates the integral of an image.
+
+
+Inputs
+------
+- image_in – Input image as W x H, 8-bit or floating-point (32f or 64f).
+- sdepth_in – Desired depth of the integral and the tilted integral images, CV_32S, CV_32F, or CV_64F.
+
+
+Outputs
 -------
-
-Oblicza całkę obrazu.
-
-
-Atrybuty wejściowe
-------------------
-
-- image_in – obraz wejściowy
-
-Atrybuty wyjściowe
-------------------
-
-- sum_out – suma wyjściowa
-
-Atrybuty wewnętrzne
--------------------
-
-- sdepth_in - pożadana głębokość integralnych i nachylonych całkowych obrazów, CV_32S, CV_32F lub CV_64F
+- sum_out – Integral image as (W+1) x (H+1) , 32-bit integer or floating-point (32f or 64f).
 
 
-Przykłady zastosowania
-----------------------
-.. image:: http://kube.pl/wp-content/uploads/2018/03/integral_02.png
+Locals
+------
+
+
+Examples
+--------
+.. image:: http://kube.pl/wp-content/uploads/2018/04/integral_2.png
+

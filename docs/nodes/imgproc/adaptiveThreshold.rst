@@ -1,36 +1,32 @@
-﻿adaptiveThreshold
+adaptiveThreshold
 =================
+.. image:: http://kube.pl/wp-content/uploads/2018/04/adaptiveThreshold_1.png
 
-.. image:: http://kube.pl/wp-content/uploads/2018/03/adaptiveThreshold_01.png
+Functionality
+-------------
+Applies an adaptive threshold to an array.
 
-Funkcja
+
+Inputs
+------
+- C_in – Constant subtracted from the mean or weighted mean.
+- adaptiveMethod_in – Adaptive thresholding algorithm to use, see cv::AdaptiveThresholdTypes .
+- blockSize_in – Size of a pixel neighborhood that is used to calculate a threshold value for the pixel.
+- image_in – Source 8-bit single-channel image.
+- maxValue_in – Non-zero value assigned to the pixels for which the condition is satisfied.
+- thresholdType_in – Thresholding type that must be either THRESH_BINARY or THRESH_BINARY_INV, etc.
+
+
+Outputs
 -------
+- image_out – Destination image of the same size and the same type as src.
 
-Progowanie adaptacyjne - próg obliczany jest dla małych regionów obrazu. Dzięki temu otrzymujemy różne progi dla poszczególnych regionów tego samego obrazu, co daje lepsze wyniki dla obrazów o nierównomiernym oświetleniu. 
 
-Atrybuty wejściowe
-------------------
+Locals
+------
 
-- image_in – obraz wejściowy
-- maxValue_in – maksymalna wartość dla operacji górnych
-- C_in – stała odejmowana od średniej lub średniej ważonej
 
-Atrybuty wyjściowe
-------------------
+Examples
+--------
+.. image:: http://kube.pl/wp-content/uploads/2018/04/adaptiveThreshold_2.png
 
-- image_out – obraz wyjściowy
-
-Atrybuty wewnętrzne
--------------------
-
-- adaptiveMethod_in - metoda progowania adaptacyjnego
-    - ADAPTIVE_THRESH_GAUSSIAN_C – piksele w obszarze wokół punktu ważone są według okna gaussowskiego
-    - ADAPTIVE_THRESH_MEAN_C – wszystkie piksele w obszarze ważone są jednakowo
-- thresholdType_in – typ progowania: THRESH_BINARY, THRESH_BINARY_INV, THRESH_TRUNC, THRESH_TOZERO, THRESH_TOZERO_INV, THRESH_MASK, THRESH_OTSU, THRESH_TRIANGLE
-- 3, 5, 7 – rozmiar obszaru pikseli stosowany do obliczenia wartości progowych dla pikseli
-
-Przykłady zastosowania
-----------------------
-
-.. image:: http://kube.pl/wp-content/uploads/2018/03/adaptiveThreshold_11.png
-.. image:: http://kube.pl/wp-content/uploads/2018/03/adaptiveThreshold_12.png

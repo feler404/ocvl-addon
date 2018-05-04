@@ -1,36 +1,34 @@
 Sobel
-============
+=====
+.. image:: http://kube.pl/wp-content/uploads/2018/04/Sobel_1.png
 
-.. image:: http://kube.pl/wp-content/uploads/2018/03/Sobel_01.png
+Functionality
+-------------
+Calculates the first, second, third, or mixed image derivatives using an extended Sobel operator.
 
-Funkcja
+
+Inputs
+------
+- borderType_in – Pixel extrapolation method, see cv::BorderTypes.
+- ddepth_in – Desired depth of the destination image.
+- delta_in – Optional delta value that is added to the results prior to storing them in dst.
+- dx_in – Order of the derivative x.
+- dy_in – Order of the derivative y.
+- image_in – Input image.
+- ksize_in – Aperture size used to compute the second-derivative filters.
+- scale_in – Optional scale factor for the computed Laplacian values.
+
+
+Outputs
 -------
+- image_out – Output image.
 
-Oblicza pochodne dowolnie wysokiego rzędu, jak również dla mieszanych pochodnych cząstkowych.
 
-Atrybuty wejściowe
--------------------
+Locals
+------
 
-- image_in – obraz wejściowy
-- dx_in - rząd odpowiedniej pochodnej dla X
-- dy_in - rząd odpowiedniej pochodnej dla Y
-- ksize_in - rozmiar przedłużonego jądra Sobela ; musi to być 1, 3, 5 lub 7
-- scale_in - opcjonalny współczynnik skali dla wyliczonych wartości pochodnych; domyślnie nie stosuje się skalowania
-- delta_in - opcjonalna wartość przesunięcia dodawana do wyników przed przypisaniem
 
-Atrybuty wyjściowe
-------------------
+Examples
+--------
+.. image:: http://kube.pl/wp-content/uploads/2018/04/Sobel_2.png
 
-- image_out – obraz wyjściowy
-
-Atrybuty wewnętrzne
--------------------
-- borderType_in – tryb graniczny używany do eksploratacji pikseli poza obrazem (BORDER_REFLECT, BORDER_ISOLATED, BORDER_DEFAULT, BORDER_TRANSPARENT, BORDER_REFLECT_101, BORDER_WRAP, BORDER_REPLICATE, BORDER_CONSTANT)
-- ddepth_in - głębia pikseli wyniku (CV_8U, CV_16U)
-
-Przykłady zastosowania
-----------------------
-.. image:: http://kube.pl/wp-content/uploads/2018/03/Sobel_11.png
-.. image:: http://kube.pl/wp-content/uploads/2018/03/Sobel_12.png
-.. image:: http://kube.pl/wp-content/uploads/2018/03/Sobel_13.png
-.. image:: http://kube.pl/wp-content/uploads/2018/03/Sobel_14.png

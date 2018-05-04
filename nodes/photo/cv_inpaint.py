@@ -6,12 +6,14 @@ from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNod
 
 
 class OCVLinpaintNode(OCVLNode):
+    _doc = "doc"
     bl_flags_list = 'INPAINT_NS, INPAINT_TELEA'
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()))
+    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
+                              description="desc")
     inpaintMask_in = StringProperty(name="inpaintMask_in", default=str(uuid.uuid4()),
         description="Inpainting mask, 8-bit 1-channel image. Non-zero pixels indicate the area that needs to be inpainted.")
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()))
+    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()), description="desc")
 
     inpaintRadius_in = FloatProperty(default=3, min=1, max=10, update=updateNode,
         description="Radius of a circular neighborhood of each point inpainted that is considered by the algorithm.")

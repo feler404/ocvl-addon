@@ -1,31 +1,31 @@
-﻿GaussianBlur
-=================
-.. image:: http://kube.pl/wp-content/uploads/2018/03/gaussianblur_1.png
+GaussianBlur
+============
+.. image:: http://kube.pl/wp-content/uploads/2018/04/GaussianBlur_1.png
 
-Funkcja
+Functionality
+-------------
+Blurs an image using a Gaussian filter.
+
+
+Inputs
+------
+- borderType_in – Pixel extrapolation method, see cv::BorderTypes.
+- image_in – Input image.
+- ksize_in – Gaussian kernel size.
+- sigmaX_in – Gaussian kernel standard deviation in X direction.
+- sigmaY_in – Gaussian kernel standard deviation in Y direction.
+
+
+Outputs
 -------
-
-Zamazuje obraz za pomocą filtru Gaussa.
-
-
-Atrybuty wejściowe
-------------------
-- image_in – obraz wejściowy
-- ksize_in - obszar rozmycia w odniesieniu do jądra
-- sigmaX_in - Odchylenie standardowe Gaussa w kierunku X.
-- sigmaY_in - Odchylenie standardowe Gaussa w kierunku Y.
+- image_out – Output image.
 
 
-Atrybuty wyjściowe
-------------------
-- image_out – obraz wyjściowy
-
-Atrybuty wewnętrzne
--------------------
-
-- borderType_in - tryb graniczny używany do eksploratacji pikseli poza obrazem (BORDER_REFLECT, BORDER_ISOLATED, BORDER_DEFAULT, BORDER_TRANSPARENT, BORDER_REFLECT_101, BORDER_WRAP, BORDER_REPLICATE, BORDER_CONSTANT)
+Locals
+------
 
 
-Przykłady zastosowania
-----------------------
-.. image:: http://kube.pl/wp-content/uploads/2018/03/gaussianblur_2.png
+Examples
+--------
+.. image:: http://kube.pl/wp-content/uploads/2018/04/GaussianBlur_2.png
+

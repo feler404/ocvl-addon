@@ -1,35 +1,28 @@
-﻿flip
+flip
 ====
+.. image:: http://kube.pl/wp-content/uploads/2018/04/flip_1.png
 
-.. image:: http://kube.pl/wp-content/uploads/2018/03/flip_01.png
+Functionality
+-------------
+Flips a 2D array around vertical, horizontal, or both axes.
 
-Funkcja
+
+Inputs
+------
+- flipCode_in – Flag to specify how to flip the array.
+- image_in – Input array.
+
+
+Outputs
 -------
+- image_out – Output array of the same size and type as src.
 
-Przerzut obrazu na zdefiniowaną oś.
 
-Atrybuty wejściowe
-------------------
+Locals
+------
 
-- image_in - obraz wejściowy
 
-Atrybuty wyjściowe
-------------------
-
-- image_out - obraz wyjściowy
-
-Atrybuty wewnętrzne
--------------------
-
-- sposób przerzucania obrazu
-    - Vertical - przerzucanie obrazu w pionie, według osi X
-    - Horizontal - przerzucanie obrazu w poziomie, według osi Y
-    - Simultaneous - jednoczesne przerzucanie obrazu w pionie i poziomie, według osi X i Y
-
-Przykłady zastosowania
-----------------------
-
-.. image:: http://kube.pl/wp-content/uploads/2018/03/flip_11.png
-.. image:: http://kube.pl/wp-content/uploads/2018/03/flip_12.png
-.. image:: http://kube.pl/wp-content/uploads/2018/03/flip_13.png
+Examples
+--------
+.. image:: http://kube.pl/wp-content/uploads/2018/04/flip_2.png
 

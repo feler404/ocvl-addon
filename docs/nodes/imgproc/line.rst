@@ -1,40 +1,32 @@
-﻿line
-=================
-.. image:: http://kube.pl/wp-content/uploads/2018/03/line_1.png
+line
+====
+.. image:: http://kube.pl/wp-content/uploads/2018/04/line_1.png
 
-Funkcja
+Functionality
+-------------
+Draws a line segment connecting two points.
+
+
+Inputs
+------
+- color_in – Line color.
+- image_in – Input image
+- lineType_in – Line type. See the line for details.
+- pt1_in – First point of the line segment.
+- pt2_in – Second point of the line segment.
+- thickness_in – Line thickness.
+
+
+Outputs
 -------
-
-Rysuje odcinek linii łączący dwa punkty.
-
-
-Atrybuty wejściowe
-------------------
-
-- image_in – obraz wejściowy
-- pt1 – pierwszy punkt odcinka linii
-- pt2 – drugi punkt odcinka linii
-- thickness_in – grubość linii
-- shift_in – liczba frakcyjnych bitów w punkcie współrzędnych
-- color_in – kolor linii: 
-
- - R – czerwony kanał
- - G – zielony kanał
- - B – niebieski kanał
- - A – alpha kanał
+- image_out – Output image
 
 
-Atrybuty wewnętrzne
--------------------
-
-- line_type_in – (LINE_AA, LINE_8, LINE_4)
-
-Atrybuty wyjściowe
-------------------
-
-- image_out – obraz wyjściowy
+Locals
+------
 
 
-Przykłady zastosowania
-----------------------
-.. image:: http://kube.pl/wp-content/uploads/2018/03/line_2.png
+Examples
+--------
+.. image:: http://kube.pl/wp-content/uploads/2018/04/line_2.png
+

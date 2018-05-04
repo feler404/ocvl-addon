@@ -1,33 +1,27 @@
-﻿filter2D
+filter2d
 ========
+.. image:: http://kube.pl/wp-content/uploads/2018/04/filter2d_1.png
 
-.. image:: http://kube.pl/wp-content/uploads/2018/03/filter2D_01.png
+Functionality
+-------------
+Convolves an image with the kernel.
 
-Funkcja
+
+Inputs
+------
+- image_in – Input image.
+
+
+Outputs
 -------
+- image_out – Output image.
 
-Konwergacja obrazu z jądrem.
 
-Atrybuty wejściowe
-------------------
+Locals
+------
 
-- image_in – obraz wejściowy
-- kernel_size – jądro korelacji
-- anchor – punkt zakotwiczenia, wartość domyślna ustawiona na (-1,-1) oznacza, że punkt zakotwiczenia znajduje się w centrum jądra
-- delta – opcjonalna wartość dodana do filtrowanych pikseli przed przypisaniem
 
-Atrybuty wyjściowe
-------------------
+Examples
+--------
+.. image:: http://kube.pl/wp-content/uploads/2018/04/filter2d_2.png
 
-- image_out – obraz wyjściowy
-
-Atrybuty wewnętrzne
--------------------
-
-- ddepth – głębia wyniku (CV_8, CV_16)
-- borderType_in – tryb graniczny używany do eksploratacji pikseli poza obrazem (BORDER_REFLECT, BORDER_ISOLATED, BORDER_DEFAULT, BORDER_TRANSPARENT, BORDER_REFLECT_101, BORDER_WRAP, BORDER_REPLICATE, BORDER_CONSTANT)
-
-Przykłady zastosowania
-----------------------
-
-.. image:: http://kube.pl/wp-content/uploads/2018/03/filter2D_11.png

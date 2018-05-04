@@ -1,37 +1,34 @@
-﻿arrowedLine
+arrowedLine
 ===========
+.. image:: http://kube.pl/wp-content/uploads/2018/04/arrowedLine_1.png
 
-.. image:: http://kube.pl/wp-content/uploads/2018/03/arrowedLine_01.png
+Functionality
+-------------
+Draws a arrow segment pointing from the first point to the second one.
 
-Funkcja
+
+Inputs
+------
+- color_in – Line color.
+- image_in – Input image.
+- lineType_in – Line type.
+- pt1_in – First point of the line segment.
+- pt2_in – Second point of the line segment.
+- shift_in – Number of fractional bits in the point coordinates.
+- thickness_in – Line thickness.
+- tipLength_in – The length of the arrow tip in relation to the arrow length.
+
+
+Outputs
 -------
-
-Rysuje segment strzałki wskazujący punkt od pierwszego do drugiego.
-
-Atrybuty wejściowe
-------------------
-
-- image_in - obraz wejściowy na którym rysowana jest strzałka
-- pt1_in - Punkt z którego strzałka się zaczyna
-- pt2_in - punkt w którym strzałka wskazuje
-- thickness_in - grubość linii 
-- shift_in - liczba bitów ułamkowych we współrzędnych środka i wartości promienia
-- color_in - kolor rysowanej strzałki
+- image_out – Output image.
 
 
-Atrybuty wyjściowe
-------------------
-
-- image_out - obraz wyjściowy
-
-Atrybuty wewnętrzne
--------------------
-
-- lineType_in - spójność, typ segmentów linii (LINE_4, LINE_8, LINE_AA)
-- pt1_in, pt2_in - narzędzie wskazywania kursorem punktów pt1, pt2
+Locals
+------
 
 
-Przykłady zastosowania
-----------------------
+Examples
+--------
+.. image:: http://kube.pl/wp-content/uploads/2018/04/arrowedLine_2.png
 
-.. image:: http://kube.pl/wp-content/uploads/2018/03/arrowedLine_02.png

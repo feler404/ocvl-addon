@@ -1,33 +1,31 @@
-﻿erode
-=================
-.. image:: http://kube.pl/wp-content/uploads/2018/03/erode_1.png
+erode
+=====
+.. image:: http://kube.pl/wp-content/uploads/2018/04/erode_1.png
 
-Funkcja
+Functionality
+-------------
+Erodes an image by using a specific structuring element.
+
+
+Inputs
+------
+- anchor_in – Position of the anchor within the element.
+- borderType_in – border mode used to extrapolate pixels outside of the image, see cv::BorderTypes
+- image_in – Input image.
+- iterations_in – Number of times erosion is applied.
+- ksize_in – Structuring element used for erosion.
+
+
+Outputs
 -------
-
-Eroduje obraz za pomocą określonego elementu strukturyzacji. 
-
-
-Atrybuty wejściowe
-------------------
-
-- image_in – obraz wejściowy
-- ksize_in – obszar erozji w odniesieniu do jądra
-- anchor_in – punkt zakotwiczenia, wartość domyślna ustawiona na (-1,-1) oznacza, że punkt zakotwiczenia znajduje się w centrum jądra
-- iterations_in – ile razy erozja jest zastosowana
+- image_out – Output image.
 
 
-Atrybuty wyjściowe
-------------------
-
-- image_out – obraz wyjściowy
-
-Atrybuty wewnętrzne
--------------------
-
-- borderType_in –  metoda ekstrapolacji pikseli (wybrane tryby: BORDER_REFLECT, BORDER_ISOLATED, BORDER_DEFAULT, BORDER_TRANSPARENT, BORDER_REFLECT_101, BORDER_WRAP, BORDER_REPLICATE, BORDER_CONSTANT)
+Locals
+------
 
 
-Przykłady zastosowania
-----------------------
-.. image:: http://kube.pl/wp-content/uploads/2018/03/erode_2.png
+Examples
+--------
+.. image:: http://kube.pl/wp-content/uploads/2018/04/erode_2.png
+

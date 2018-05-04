@@ -1,29 +1,29 @@
-﻿cvtColor
+cvtColor
 ========
+.. image:: http://kube.pl/wp-content/uploads/2018/04/cvtColor_1.png
 
-.. image:: http://kube.pl/wp-content/uploads/2018/03/cvtColor_01.png
+Functionality
+-------------
+Converts an image from one color space to another.
 
-Funkcja
+
+Inputs
+------
+- code_in – Color space conversion code (see cv::ColorConversionCodes).
+- dstCn_in – Number of channels in the destination image; if the parameter is 0, the number of the channels is derived automatically from input image and code.
+- image_in – Input image: 8-bit unsigned, 16-bit unsigned ( CV_16UC... ), or single-precision floating-point.
+
+
+Outputs
 -------
+- image_out – Output image of the same size and depth as input image.
 
-Konwertuje obraz z jednej przestrzeni kolorów (liczby kanałów) na inną przy zachowaniu tego samego typu danych.
 
-Atrybuty wejściowe
-------------------
+Locals
+------
 
-- image_in – obraz wejściowy
-- code – kod konwersji przestrzeni kolorów 
-    - COLOR_BGR2RGB – transformacja z przestrzeni kolorów BGR na RGB 
-    - COLOR_BGR2GREY – transformacja z przestrzeni kolorów BGR do skali szarości
-- dstCn – liczba kanałów w docelowym obrazie
 
-Atrybuty wyjściowe
-------------------
+Examples
+--------
+.. image:: http://kube.pl/wp-content/uploads/2018/04/cvtColor_2.png
 
-- image_out – obraz wyjściowy
-
-Przykłady zastosowania
-----------------------
-
-.. image:: http://kube.pl/wp-content/uploads/2018/03/cvtColor_11.png
-.. image:: http://kube.pl/wp-content/uploads/2018/03/cvtColor_12.png
