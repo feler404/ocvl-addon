@@ -11,7 +11,7 @@ class OCVLgetDefaultNewCameraMatrixNode(OCVLNode):
 
     _doc = _("Returns the default new camera matrix.")
 
-    cameraMatrix_in = StringProperty(name="cameraMatrix_in", default=str(uuid.uuid4()),
+    cameraMatrix_in = StringProperty(default=str(uuid.uuid4()),
         description=_("Input camera matrix."))
     imgsize_in = IntVectorProperty(default=(100, 100), min=1, max=2048, size=2, update=updateNode,
         description=_("Camera view image size in pixels."))

@@ -16,7 +16,7 @@
         onclick="buttonAction(this)"
         node_name="SimpleImageSample"
         command1="?command=create_node&node_name=OCVLSimpleImageSampleNode&location=(200,201)"
-        command2="?command=create_node&node_name=OCVLSimpleImageViewerNode&location=(500,202)"
+        command2="?command=create_node&node_name=OCVLImageViewerNode&location=(500,202)"
         command3="?command=connect_nodes&node_input=SimpleImageViewer&input_name=image_in&node_output=SimpleImageSample&output_name=image_out"
 ><input id="checkBox" type="checkbox"><span class="n">img1</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span> <span class="p">(</span><span class="s1">'ml.png'</span><span class="p">)</span></button>
 
@@ -26,7 +26,7 @@
         node_name="SimpleImageSample.001"
         command1="?command=delete_node&node_name=SimpleImageViewer"
         command2="?command=create_node&node_name=OCVLSimpleImageSampleNode&location=(200,501)"
-        command3="?command=create_node&node_name=OCVLSimpleImageViewerNode&location=(500,202)"
+        command3="?command=create_node&node_name=OCVLImageViewerNode&location=(500,202)"
         command4="?command=connect_nodes&node_input=SimpleImageViewer&input_name=image_in&node_output=SimpleImageSample.001&output_name=image_out"
 
 ><input id="checkBox" type="checkbox"><span class="n">img2</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span> <span class="p">(</span><span class="s1">'opencv_logo.jpg'</span><span class="p">)</span></button>
@@ -39,7 +39,7 @@
         command2="?command=create_node&node_name=OCVLaddWeightedNode&location=(500,202)"
         command3="?command=connect_nodes&node_input=addWeighted&input_name=image_1_in&node_output=SimpleImageSample.001&output_name=image_out"
         command4="?command=connect_nodes&node_input=addWeighted&input_name=image_2_in&node_output=SimpleImageSample&output_name=image_out"
-        command5="?command=create_node&node_name=OCVLSimpleImageViewerNode&location=(700,202)"
+        command5="?command=create_node&node_name=OCVLImageViewerNode&location=(700,202)"
         command6="?command=connect_nodes&node_input=SimpleImageViewer&input_name=image_in&node_output=addWeighted&output_name=image_out"
 ><input id="checkBox" type="checkbox"><span class="n">dst</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">addWeighted</span>
 <span class="p">(</span><span class="n">img1</span><span class="p">,</span> <span class="mf"><input

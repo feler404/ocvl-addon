@@ -28,7 +28,9 @@ class OCVLHistoryNode(OCVLPreviewNode):
         col_split = col.split(0.5, align=True)
         col_split.operator('node.change_theme_light', text='Light', icon="OUTLINER_OB_LAMP")
         col_split.operator('node.change_theme_dark', text='Dark', icon="OUTLINER_DATA_LAMP")
-
+        row = layout.row()
+        col = row.column()
+        col.operator('node.tutorial_mode', text="Tutorial - First steps", icon='PARTICLES')
 
 def register():
     cv_register_class(OCVLHistoryNode)
