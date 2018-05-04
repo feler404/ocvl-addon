@@ -1,5 +1,6 @@
 import cv2
 import uuid
+from gettext import gettext as _
 from bpy.props import EnumProperty, StringProperty, IntProperty, BoolProperty
 
 from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode
@@ -15,18 +16,24 @@ TYPE_THRESHOLD_ITEMS = (
 
 
 class OCVLthresholdNode(OCVLNode):
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()))
-    mask_out = StringProperty(name="mask_out", default=str(uuid.uuid4()))
-    thresh_out = IntProperty(name="thresh_out", default=0)
+
+    _doc = _("Applies a fixed-level threshold to each array element.")
+
+    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
+        description=_("Input array (single-channel, 8-bit or 32-bit floating point)."))
+    mask_out = StringProperty(name="mask_out", default=str(uuid.uuid4()),
+        description=_("Output mask."))
+    thresh_out = IntProperty(name="thresh_out", default=0,
+        description=_("Threshold value output."))           #cos tu moze nie brzmiec
 
     thresh_in = IntProperty(default=127, min=0, max=255, update=updateNode,
-        description="Threshold value.")
+        description=_("Threshold value."))
     maxval_in = IntProperty(default=255, min=0, max=255, update=updateNode,
-        description="Maximum value to use with the THRESH_BINARY and THRESH_BINARY_INV thresholding types")
+        description=_("Maximum value to use with the THRESH_BINARY and THRESH_BINARY_INV thresholding types"))
     type_in = EnumProperty(items=TYPE_THRESHOLD_ITEMS, default="THRESH_BINARY", update=updateNode,
-        description="Thresholding type (see the cv::ThresholdTypes).")
+        description=_("Thresholding type (see the cv::ThresholdTypes)."))
     loc_invert = BoolProperty(default=False, update=updateNode,
-        description="Invert output mask.")
+        description=_("Invert output mask."))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "image_in")

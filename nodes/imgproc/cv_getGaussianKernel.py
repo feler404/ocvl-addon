@@ -1,5 +1,6 @@
 import cv2
 import uuid
+from gettext import gettext as _
 from bpy.props import EnumProperty, StringProperty, IntProperty, FloatProperty
 
 from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode, COEFFICIENTS_TYPE_ITEMS
@@ -7,16 +8,19 @@ from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNod
 
 class OCVLgetGaussianKernelNode(OCVLNode):
 
-    kernel_out = StringProperty(name="kernel_out", default=str(uuid.uuid4()))
+    _doc = _("Returns Gaussian filter coefficients.")
+
+    kernel_out = StringProperty(name="kernel_out", default=str(uuid.uuid4()),
+        description=_("Output kernel."))
 
     ksize_in = IntProperty(default=5, update=updateNode, min=1, max=30,
-        description='Aperture size. It should be odd.')
+        description=_("Aperture size. It should be odd."))
     sigma_in = FloatProperty(default=0.35, min=0, max=1, update=updateNode,
-        description="Gaussian standard deviation.")
+        description=_("Gaussian standard deviation."))
     # normalize_in = BoolProperty(default=False, update=updateNode,
     #     description='Flag indicating whether to normalize (scale down) the filter coefficients or not.')
     ktype_in = EnumProperty(items=COEFFICIENTS_TYPE_ITEMS, default='CV_32F', update=updateNode,
-        description="Type of filter coefficients. It can be CV_32f or CV_64F.")
+        description=_("Type of filter coefficients. It can be CV_32f or CV_64F."))
 
     def sv_init(self, context):
         self.inputs.new('StringsSocket', "ksize_in").prop_name = 'ksize_in'

@@ -1,6 +1,7 @@
 import cv2
 import uuid
 import numpy as np
+from gettext import gettext as _
 from bpy.props import EnumProperty, StringProperty, IntProperty, IntVectorProperty
 
 from ...utils import cv_register_class, cv_unregister_class, BORDER_TYPE_ITEMS, OCVLNode, MORPH_TYPE_ITEMS, updateNode
@@ -9,8 +10,12 @@ from ...utils import cv_register_class, cv_unregister_class, BORDER_TYPE_ITEMS, 
 class OCVLmorphologyExNode(OCVLNode):
     bl_icon = 'FILTER'
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()))
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()))
+    _doc = _("Performs advanced morphological transformations.")
+
+    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
+        description=_("Source image. The number of channels can be arbitrary. The depth should be one of CV_8U, CV_16U, CV_16S, CV_32F` or ``CV_64F."))
+    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()),
+        description=_("Destination image of the same size and type as src ."))
 
     def get_anchor(self):
         return self.get("anchor_in", (-1, -1))
@@ -21,15 +26,15 @@ class OCVLmorphologyExNode(OCVLNode):
         self["anchor_in"] = (anchor_x, anchor_y)
 
     ksize_in = IntVectorProperty(default=(3, 3), update=updateNode, min=1, max=30, size=2,
-        description='Structuring element used for erosion.')
+        description=_("Structuring element used for erosion."))
     anchor_in = IntVectorProperty(default=(-1, -1), update=updateNode, get=get_anchor, set=set_anchor, size=2,
-        description="Position of the anchor within the element.")
+        description=_("Position of the anchor within the element."))
     iterations_in = IntProperty(default=2, min=1, max=10, update=updateNode,
-        description="Number of times erosion is applied.")
+        description=_("Number of times erosion is applied."))
     op_in = EnumProperty(items=MORPH_TYPE_ITEMS, default='MORPH_BLACKHAT', update=updateNode,
-        description="Type of a morphological operation, see cv::MorphTypes.")
+        description=_("Type of a morphological operation, see cv::MorphTypes."))
     borderType_in = EnumProperty(items=BORDER_TYPE_ITEMS, default='None', update=updateNode,
-        description="Border mode used to extrapolate pixels outside of the image, see cv::BorderTypes")
+        description=_("Border mode used to extrapolate pixels outside of the image, see cv::BorderTypes"))
 
     def sv_init(self, context):
         self.width = 150

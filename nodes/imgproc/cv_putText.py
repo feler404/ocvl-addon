@@ -1,5 +1,6 @@
 import cv2
 import uuid
+from gettext import gettext as _
 from bpy.props import EnumProperty, StringProperty, IntProperty, FloatVectorProperty, BoolProperty, IntVectorProperty
 
 from ...utils import cv_register_class, cv_unregister_class, OCVLNode, FONT_FACE_ITEMS, LINE_TYPE_ITEMS, updateNode
@@ -8,25 +9,29 @@ from ...utils import cv_register_class, cv_unregister_class, OCVLNode, FONT_FACE
 class OCVLputTextNode(OCVLNode):
     bl_icon = 'GREASEPENCIL'
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()))
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()))
+    _doc = _("Draws a text string.")
+
+    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
+        description=_("Input image."))
+    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()),
+        description=_("Output image."))
 
     text = StringProperty(default="OpenCV", update=updateNode,
-        description="Text string to be drawn.")
+        description=_("Text string to be drawn."))
     org = IntVectorProperty(default=(0, 0), size=2, update=updateNode,
-        description="Bottom-left corner of the text string in the image.")
+        description=_("Bottom-left corner of the text string in the image."))
     fontScale = IntProperty(default=5, min=1, max=30,update=updateNode,
-        description="scale factor that is multiplied by the font-specific base size.")
+        description=_("Scale factor that is multiplied by the font-specific base size."))
     fontFace = EnumProperty(items=FONT_FACE_ITEMS, default="FONT_HERSHEY_SIMPLEX", update=updateNode,
-        description="Font type, see cv::HersheyFonts.")
+        description=_("Font type, see cv::HersheyFonts."))
     color = FloatVectorProperty(update=updateNode, default=(.9, .9, .2, 1.0), size=4, min=0.0, max=1.0, subtype='COLOR',
-        description="Text color.")
+        description=_("Text color."))
     thickness = IntProperty(default=2, min=1, max=10, update=updateNode,
-        description="Thickness of the lines used to draw a text.")
+        description=_("Thickness of the lines used to draw a text."))
     lineType = EnumProperty(items=LINE_TYPE_ITEMS, default="LINE_AA",update=updateNode,
-        description="Line type. See the line for details.")
+        description=_("Line type. See the line for details."))
     bottomLeftOrigin = BoolProperty(default=False, update=updateNode,
-        description="When true, the image data origin is at the bottom-left corner. Otherwise, it is at the top-left corner.")
+        description=_("When true, the image data origin is at the bottom-left corner. Otherwise, it is at the top-left corner."))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "image_in")

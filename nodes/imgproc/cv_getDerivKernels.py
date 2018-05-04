@@ -1,26 +1,33 @@
 import cv2
 import uuid
 import numpy as np
+from gettext import gettext as _
 from bpy.props import EnumProperty, StringProperty, IntProperty, BoolProperty
 
 from ...utils import cv_register_class, cv_unregister_class, OCVLNode, COEFFICIENTS_TYPE_ITEMS, updateNode
 
 
 class OCVLGetDerivKernelsNode(OCVLNode):
-    kx_out = StringProperty(name="kx_out", default=str(uuid.uuid4()))
-    ky_out = StringProperty(name="ky_out", default=str(uuid.uuid4()))
-    kernel_out = StringProperty(name="kernel_out", default=str(uuid.uuid4()))
+
+    _doc = _("Returns filter coefficients for computing spatial image derivatives.")
+
+    kx_out = StringProperty(name="kx_out", default=str(uuid.uuid4()),
+        description=_("Output matrix of row filter coefficients. It has the type ktype ."))
+    ky_out = StringProperty(name="ky_out", default=str(uuid.uuid4()),
+        description=_("Output matrix of column filter coefficients. It has the type ktype ."))
+    kernel_out = StringProperty(name="kernel_out", default=str(uuid.uuid4()),
+        description=_("Output kernel."))
 
     dx_in = IntProperty(default=3, min=1, max=10, update=updateNode,
-        description="Derivative order in respect of x.")
+        description=_("Derivative order in respect of x."))
     dy_in = IntProperty(default=3, min=1, max=10, update=updateNode,
-        description="Derivative order in respect of y.")
+        description=_("Derivative order in respect of y."))
     ksize_in = IntProperty(default=1, update=updateNode, min=1, max=30,
-        description='Aperture size. It can be CV_SCHARR, 1, 3, 5, or 7.')
+        description=_("Aperture size. It can be CV_SCHARR, 1, 3, 5, or 7."))
     normalize_in = BoolProperty(default=False, update=updateNode,
-        description='Flag indicating whether to normalize (scale down) the filter coefficients or not.')
+        description=_("Flag indicating whether to normalize (scale down) the filter coefficients or not."))
     ktype_in = EnumProperty(items=COEFFICIENTS_TYPE_ITEMS, default='CV_32F', update=updateNode,
-        description="Type of filter coefficients. It can be CV_32f or CV_64F.")
+        description=_("Type of filter coefficients. It can be CV_32f or CV_64F."))
 
     def sv_init(self, context):
         self.inputs.new('StringsSocket', "dx_in").prop_name = 'dx_in'
