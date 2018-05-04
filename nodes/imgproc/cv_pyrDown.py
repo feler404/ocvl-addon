@@ -1,5 +1,6 @@
 import cv2
 import uuid
+from gettext import gettext as _
 from bpy.props import StringProperty, IntProperty
 
 from ...utils import cv_register_class, cv_unregister_class, updateNode, OCVLNode
@@ -7,10 +8,13 @@ from ...utils import cv_register_class, cv_unregister_class, updateNode, OCVLNod
 
 class OCVLpyrDownNode(OCVLNode):
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()))
+    _doc = _("Blurs an image and downsamples it.")
+
+    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
+        description=_("Input image."))
 
     image_0_out = StringProperty(name="image_0_out", default=str(uuid.uuid4()))
-    image_1_out = StringProperty(name="image_1_out", default=str(uuid.uuid4()))
+    image_1_out = StringProperty(name="image_1_out", default=str(uuid.uuid4()))         #ciekawe co tu mam wpisac hehe
     image_2_out = StringProperty(name="image_2_out", default=str(uuid.uuid4()))
     image_3_out = StringProperty(name="image_3_out", default=str(uuid.uuid4()))
     image_4_out = StringProperty(name="image_4_out", default=str(uuid.uuid4()))
@@ -22,7 +26,7 @@ class OCVLpyrDownNode(OCVLNode):
     image_full_out = StringProperty(name="image_full_out", default=str(uuid.uuid4()))
 
     loc_pyramid_size = IntProperty(default=3, min=1, max=10, update=updateNode,
-        description='Number levels of pyramids.')
+        description=_("Number levels of pyramids."))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "image_in")

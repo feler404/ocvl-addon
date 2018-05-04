@@ -1,5 +1,6 @@
 import cv2
 import uuid
+from gettext import gettext as _
 from bpy.props import EnumProperty, StringProperty, IntVectorProperty, FloatProperty
 
 from ...utils import cv_register_class, cv_unregister_class, OCVLNode, INTERPOLATION_ITEMS, updateNode
@@ -19,22 +20,26 @@ PROPS_MAPS = {
 
 class OCVLresizeNode(OCVLNode):
 
+    _doc = _("Resizes an image.")
+
     def update_layout(self, context):
         self.update_sockets(context)
         updateNode(self, context)
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()))
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()))
+    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
+        description=_("Input image."))
+    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()),
+        description=_("Output image."))
 
     dsize_in = IntVectorProperty(default=(100, 100), min=1, max=1024, size=2, update=updateNode,
-        description='Output image size.')
+        description=_("Output image size."))
     fx_in = FloatProperty(default=0.5, min=0.000001, max=0.999999, update=updateNode,
-        description="Fx and fy and let the function compute the destination image size.")
+        description=_("Fx and fy and let the function compute the destination image size."))
     fy_in = FloatProperty(default=0.5, min=0.000001, max=0.999999, update=updateNode,
-        description="Fx and fy and let the function compute the destination image size.")
+        description=_("Fx and fy and let the function compute the destination image size."))
     interpolation_in = EnumProperty(items=INTERPOLATION_ITEMS, default='INTER_NEAREST', update=updateNode,
-        description="Interpolation method.")
-    loc_resize_mode = EnumProperty(items=RESIZE_MODE_ITEMS, default="SIZE", update=update_layout)
+        description=_("Interpolation method."))
+    loc_resize_mode = EnumProperty(items=RESIZE_MODE_ITEMS, default="SIZE", update=update_layout)           #brak opisu
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "image_in")

@@ -1,24 +1,33 @@
 import cv2
 import uuid
 import numpy as np
+from gettext import gettext as _
 from bpy.props import EnumProperty, StringProperty
 
 from ...utils import cv_register_class, cv_unregister_class, updateNode, OCVLNode, TEMPLATE_MATCH_MODE_ITEMS
 
 
 class OCVLmatchTemplateNode(OCVLNode):
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()))
-    templ_in = StringProperty(name="templ_in", default=str(uuid.uuid4()))
-    mask_in = StringProperty(name="templ_in", default=str(uuid.uuid4()))
 
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()))
-    result_out = StringProperty(name="result_out", default=str(uuid.uuid4()))
+    _doc = _("Compares a template against overlapped image regions.")
+
+    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
+        description=_("Image where the search is running. It must be 8-bit or 32-bit floating-point."))
+    templ_in = StringProperty(name="templ_in", default=str(uuid.uuid4()),
+        description=_("Searched template. It must be not greater than the source image and have the same data type."))
+    mask_in = StringProperty(name="templ_in", default=str(uuid.uuid4()),
+        description=_("Input mask."))
+
+    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()),
+        description=_("Output image."))
+    result_out = StringProperty(name="result_out", default=str(uuid.uuid4()),
+        description=_("Map of comparison results. It must be single-channel 32-bit floating-point."))
 
     def get_anchor(self):
         return self.get("anchor_in", (-1, -1))
 
     method_in = EnumProperty(items=TEMPLATE_MATCH_MODE_ITEMS, default='TM_CCOEFF_NORMED', update=updateNode,
-        description="Parameter specifying the comparison method, see cv::TemplateMatchModes.")
+        description=_("Parameter specifying the comparison method, see cv::TemplateMatchModes."))
 
     def sv_init(self, context):
         self.width = 150

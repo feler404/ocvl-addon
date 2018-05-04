@@ -1,5 +1,6 @@
 import cv2
 import uuid
+from gettext import gettext as _
 from bpy.props import EnumProperty, StringProperty, IntProperty
 
 from ...utils import cv_register_class, cv_unregister_class, BORDER_TYPE_ITEMS, OCVLNode, updateNode, \
@@ -8,17 +9,23 @@ from ...utils import cv_register_class, cv_unregister_class, BORDER_TYPE_ITEMS, 
 
 class OCVLremapNode(OCVLNode):
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()))
-    map1_in = StringProperty(name="map1_in", default=str(uuid.uuid4()))
-    map2_in = StringProperty(name="map2_in", default=str(uuid.uuid4()))
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()))
+    _doc = _("Applies a generic geometrical transformation to an image.")
+
+    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
+        description=_("Input image."))
+    map1_in = StringProperty(name="map1_in", default=str(uuid.uuid4()),
+        description=_("The first map of either (x,y) points or just x values having the type CV_16SC2 , CV_32FC1 , or CV_32FC2 ."))
+    map2_in = StringProperty(name="map2_in", default=str(uuid.uuid4()),
+        description=_("The second map of y values having the type CV_16UC1 , CV_32FC1 , or none (empty map if map1 is (x,y) points), respectively."))
+    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()),
+        description=_("Output image. It has the same size as map1 and the same type as src ."))
 
     interpolation_in = EnumProperty(items=INTERPOLATION_ITEMS, default='INTER_NEAREST', update=updateNode,
-        description="Interpolation method.")
+        description=_("Interpolation method."))
     borderMode_in = EnumProperty(items=BORDER_TYPE_ITEMS, default='None', update=updateNode,
-        description="Border mode used to extrapolate pixels outside of the image, see cv::BorderTypes.")
+        description=_("Border mode used to extrapolate pixels outside of the image, see cv::BorderTypes."))
     borderValue_in = IntProperty(default=0, min=0, max=255, update=updateNode,
-        description="Value used in case of a constant border; by default, it equals 0.")
+        description=_("Value used in case of a constant border; by default, it equals 0."))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "image_in")

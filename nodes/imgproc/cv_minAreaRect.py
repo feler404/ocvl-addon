@@ -1,5 +1,6 @@
 import cv2
 import uuid
+from gettext import gettext as _
 from bpy.props import StringProperty, BoolProperty
 
 from ...utils import cv_register_class, cv_unregister_class, updateNode, OCVLNode
@@ -7,10 +8,12 @@ from ...utils import cv_register_class, cv_unregister_class, updateNode, OCVLNod
 
 class OCVLminAreaRectNode(OCVLNode):
 
+    _doc = _("Finds a rotated rectangle of the minimum area enclosing the input 2D point set.")
+
     points_in = StringProperty(default=str(uuid.uuid4()),
-        description="Input vector of 2D points, stored in std::vector\<\> or Mat")
+        description=_("Input vector of 2D points, stored in std::vector\<\> or Mat"))
     loc_from_findContours = BoolProperty(default=True, update=updateNode,
-        description="If linked with findContour node switch to True")
+        description=_("If linked with findContour node switch to True"))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "points_in")

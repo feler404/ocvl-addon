@@ -1,5 +1,6 @@
 import cv2
 import uuid
+from gettext import gettext as _
 from bpy.props import EnumProperty, StringProperty, BoolProperty, FloatProperty
 
 from ...utils import cv_register_class, cv_unregister_class, updateNode, OCVLNode, DISTANCE_TYPE_ITEMS
@@ -7,18 +8,20 @@ from ...utils import cv_register_class, cv_unregister_class, updateNode, OCVLNod
 
 class OCVLfitLineNode(OCVLNode):
 
+    _doc = _("Fits a line to a 2D or 3D point set.")
+
     points_in = StringProperty(default=str(uuid.uuid4()),
-        description="Input vector of 2D points, stored in std::vector\<\> or Mat")
+        description=_("Input vector of 2D points, stored in std::vector\<\> or Mat"))
     distType_in = EnumProperty(items=DISTANCE_TYPE_ITEMS, default="DIST_L1", update=updateNode,
-        description="Distance used by the M-estimator, see cv::DistanceTypes.")
+        description=_("Distance used by the M-estimator, see cv::DistanceTypes."))
     param_in = FloatProperty(default=0, min=0, max=1,
-        description="Numerical parameter ( C ) for some types of distances. If it is 0, an optimal value is chosen.")
+        description=_("Numerical parameter ( C ) for some types of distances. If it is 0, an optimal value is chosen."))
     reps_in = FloatProperty(default=0, min=0, max=1,
-        description="Sufficient accuracy for the radius (distance between the coordinate origin and the line).")
+        description=_("Sufficient accuracy for the radius (distance between the coordinate origin and the line)."))
     aeps_in = FloatProperty(default=0.01, min=0, max=1,
-        description="Sufficient accuracy for the angle. 0.01 would be a good default value for reps and aeps.")
+        description=_("Sufficient accuracy for the angle. 0.01 would be a good default value for reps and aeps."))
     loc_from_findContours = BoolProperty(default=True, update=updateNode,
-        description="If linked with findContour node switch to True")
+        description=_("If linked with findContour node switch to True"))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "points_in")

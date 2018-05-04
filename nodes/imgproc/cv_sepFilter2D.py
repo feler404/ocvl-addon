@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 import uuid
+from gettext import gettext as _
 from bpy.props import EnumProperty, StringProperty, IntProperty, IntVectorProperty
 
 from ...utils import cv_register_class, cv_unregister_class, BORDER_TYPE_ITEMS, COLOR_DEPTH_ITEMS, updateNode, OCVLNode, \
@@ -11,8 +12,12 @@ class OCVLsepFilter2dNode(OCVLNode):
     bl_icon = 'FILTER'
     bl_develop_state = DEVELOP_STATE_ALPHA
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()))
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()))
+    _doc = _("Applies a separable linear filter to an image.")
+
+    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
+        description=_("Input image."))
+    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()),
+        description=_("Output image"))
 
     def get_anchor(self):
         return self.get("anchor", (-1, -1))
@@ -24,15 +29,15 @@ class OCVLsepFilter2dNode(OCVLNode):
 
 
     kernel_size_in = IntVectorProperty(default=(1, 1), update=updateNode, min=1, max=30, size=2,
-        description='Coefficients for filtering each row and column.')
+        description=_("Coefficients for filtering each row and column."))
     ddepth_in = EnumProperty(items=COLOR_DEPTH_ITEMS, default='CV_8U', update=updateNode,
-        description="Destination image depth, see @ref filter_depths 'combinations'")
+        description=_("Destination image depth, see @ref filter_depths 'combinations'"))
     anchor_in = IntVectorProperty(default=(-1, -1), update=updateNode, get=get_anchor, set=set_anchor, size=2,
-        description="Anchor position within the kernel. The default value \f$(-1,-1)\f$ means that the anchor is at the kernel center.")
+        description=_("Anchor position within the kernel. The default value \f$(-1,-1)\f$ means that the anchor is at the kernel center."))
     delta_in = IntProperty(default=0, update=updateNode, min=0, max=255,
-        description='Value added to the filtered results before storing them.')
+        description=_("Value added to the filtered results before storing them."))
     borderType_in = EnumProperty(items=BORDER_TYPE_ITEMS, default='None', update=updateNode,
-        description="Pixel extrapolation method, see cv::BorderTypes")
+        description=_("Pixel extrapolation method, see cv::BorderTypes"))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "image_in")

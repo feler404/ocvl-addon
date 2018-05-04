@@ -1,6 +1,6 @@
 import cv2
 import uuid
-
+from gettext import gettext as _
 from bpy.props import EnumProperty, StringProperty, IntProperty, FloatVectorProperty, IntVectorProperty
 
 from ...utils import cv_register_class, cv_unregister_class, OCVLNode, LINE_TYPE_ITEMS, updateNode
@@ -22,8 +22,12 @@ PROPS_MAPS = {
 class OCVLrectangleNode(OCVLNode):
     bl_icon = 'GREASEPENCIL'
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()))
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()))
+    _doc = _("Draws a simple, thick, or filled up-right rectangle.")
+
+    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
+        description=_("Input image."))
+    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()),
+        description=_("Output image."))
 
     def update_layout(self, context):
         self.update_sockets(context)
@@ -31,32 +35,32 @@ class OCVLrectangleNode(OCVLNode):
 
     # INPUT MODE PROPERTIES
     pt1_in = IntVectorProperty(default=(0, 0), size=2, update=updateNode,
-        description="Vertex of the rectangle.")
+        description=_("Vertex of the rectangle."))
     pt2_in = IntVectorProperty(default=(1, 1), size=2, update=updateNode,
-        description="Vertex of the rectangle opposite to pt1.")
+        description=_("Vertex of the rectangle opposite to pt1."))
 
     x_in = IntProperty(default=0, update=updateNode,
-        description="X for point of top left corner.")
+        description=_("X for point of top left corner."))
     y_in = IntProperty(default=0, update=updateNode,
-        description="Y for point of top left corner.")
+        description=_("Y for point of top left corner."))
     w_in = IntProperty(default=0, update=updateNode,
-        description="Weight of rectangle.")
+        description=_("Weight of rectangle."))
     h_in = IntProperty(default=0, update=updateNode,
-        description="Height of rectangle.")
+        description=_("Height of rectangle."))
 
     rect_in = IntVectorProperty(default=(0, 0, 0, 0), size=4, update=updateNode,
-        description="X, Y, Weight, Height in one vector.")
+        description=_("X, Y, Weight, Height in one vector."))
 
     # COMMON PROPERTIES
     color_in = FloatVectorProperty(update=updateNode, default=(.7, .7, .1, 1.0), size=4, min=0.0, max=1.0, subtype='COLOR',
-        description="Rectangle color or brightness (grayscale image).")
+        description=_("Rectangle color or brightness (grayscale image)."))
     thickness_in = IntProperty(default=2, min=-1, max=10, update=updateNode,
-        description="Thickness of lines that make up the rectangle. Negative values, like CV_FILLED, mean that the function has to draw a filled rectangle.")
+        description=_("Thickness of lines that make up the rectangle. Negative values, like CV_FILLED, mean that the function has to draw a filled rectangle."))
     lineType_in = EnumProperty(items=LINE_TYPE_ITEMS, default="LINE_AA",update=updateNode,
-        description="Type of the line. See the line description.")
+        description=_("Type of the line. See the line description."))
     shift_in = IntProperty(default=0, min=1, max=100, update=updateNode,
-        description="Number of fractional bits in the point coordinates.")
-    loc_input_mode = EnumProperty(items=INPUT_MODE_ITEMS, default="PT1, PT2", update=update_layout)
+        description=_("Number of fractional bits in the point coordinates."))
+    loc_input_mode = EnumProperty(items=INPUT_MODE_ITEMS, default="PT1, PT2", update=update_layout)                 #brak opisu
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "image_in")

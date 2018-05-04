@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 import uuid
+from gettext import gettext as _
 from bpy.props import EnumProperty, StringProperty, IntProperty, IntVectorProperty
 
 from ...utils import cv_register_class, cv_unregister_class, BORDER_TYPE_ITEMS, COLOR_DEPTH_ITEMS, updateNode, OCVLNode
@@ -9,8 +10,12 @@ from ...utils import cv_register_class, cv_unregister_class, BORDER_TYPE_ITEMS, 
 class OCVLfilter2dNode(OCVLNode):
     bl_icon = 'FILTER'
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()))
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()))
+    _doc = _("Convolves an image with the kernel.")
+
+    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
+        description=_("Input image."))
+    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()),
+        description=_("Output image."))
 
     def get_anchor(self):
         return self.get("anchor", (-1, -1))
@@ -22,15 +27,15 @@ class OCVLfilter2dNode(OCVLNode):
 
 
     kernel_size = IntVectorProperty(default=(1, 1), update=updateNode, min=1, max=30, size=2,
-        description='convolution kernel (or rather a correlation kernel), a single-channel floating point matrix; if you want to apply different kernels to different channels, split the image into separate color planes using split and process them individually.')
+        description=_("Convolution kernel (or rather a correlation kernel), a single-channel floating point matrix; if you want to apply different kernels to different channels, split the image into separate color planes using split and process them individually."))
     ddepth = EnumProperty(items=COLOR_DEPTH_ITEMS, default='CV_8U', update=updateNode,
-        description="desired depth of the destination image, see @ref filter_depths 'combinations'")
+        description=_("Desired depth of the destination image, see @ref filter_depths 'combinations'"))
     anchor = IntVectorProperty(default=(-1, -1), update=updateNode, get=get_anchor, set=set_anchor, size=2,
-        description="anchor of the kernel that indicates the relative position of a filtered point within the kernel; the anchor should lie within the kernel; default value (-1,-1) means that the anchor is at the kernel center.")
+        description=_("Anchor of the kernel that indicates the relative position of a filtered point within the kernel; the anchor should lie within the kernel; default value (-1,-1) means that the anchor is at the kernel center."))
     delta = IntProperty(default=0, update=updateNode, min=0, max=255,
-        description='optional value added to the filtered pixels before storing them in dst.')
+        description=_("Optional value added to the filtered pixels before storing them in dst."))
     borderType = EnumProperty(items=BORDER_TYPE_ITEMS, default='None', update=updateNode,
-        description="pixel extrapolation method, see cv::BorderTypes")
+        description=_("Pixel extrapolation method, see cv::BorderTypes"))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "image_in")

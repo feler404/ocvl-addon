@@ -1,16 +1,23 @@
 import cv2
 import uuid
 import numpy as np
+from gettext import gettext as _
 from bpy.props import StringProperty
 
 from ...utils import cv_register_class, cv_unregister_class, OCVLNode
 
 
 class OCVLgetAffineTransformNode(OCVLNode):
-    pts1_in = StringProperty(name="pts1_in", default=str(uuid.uuid4()))
-    pts2_in = StringProperty(name="pts2_in", default=str(uuid.uuid4()))
 
-    matrix_out = StringProperty(name="matrix_out", default=str(uuid.uuid4()))
+    _doc = _("Calculates an affine transform from three pairs of the corresponding points.")
+
+    pts1_in = StringProperty(name="pts1_in", default=str(uuid.uuid4()),
+        description=_("Pts1 input."))
+    pts2_in = StringProperty(name="pts2_in", default=str(uuid.uuid4()),
+        description=_("Pts2 input."))
+
+    matrix_out = StringProperty(name="matrix_out", default=str(uuid.uuid4()),
+        description=_("Output matrix."))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "pts1_in")
