@@ -45,6 +45,16 @@ classes_to_unregister = node_classes_to_unregister + image_viewer_classes_to_unr
 classes = node_classes+ image_viewer_class + filebrowser_class + info_classes + console_clasess + text_classes
 
 
+
+class OCVLScriptReloadMockOperator(bpy.types.Operator):
+    """Tooltip"""
+    bl_idname = "script.reload"
+    bl_label = "Script Reload Mock"
+
+    def execute(self, context):
+        return {'FINISHED'}
+
+
 def remove_panels():
     for pt in bpy.types.Panel.__subclasses__():
         if pt.bl_space_type == 'NODE_EDITOR':
@@ -55,6 +65,9 @@ def remove_panels():
 
 def register():
     unregister(classes_to_unregister)
+
+    if not DEBUG:
+        bpy.utils.register_class(OCVLScriptReloadMockOperator)
 
     for class_ in classes:
         bpy.utils.register_class(class_)
