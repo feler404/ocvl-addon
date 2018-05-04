@@ -1,9 +1,19 @@
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode, DEVELOP_STATE_BETA
+import uuid
+
+import cv2
+import numpy as np
+from bpy.props import EnumProperty, StringProperty
+
+from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode
 from ...auth import ocvl_auth
 
 
 class OCVLCustomInputNode(OCVLNode):
-    bl_develop_state = DEVELOP_STATE_BETA
+    ''' Input from custom input Python code.
+
+    '''
+    bl_icon = 'TEXT'
+
 
 
 

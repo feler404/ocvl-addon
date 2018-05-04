@@ -189,6 +189,7 @@ class OCVLChangeThemeLightOperator(bpy.types.Operator):
         bpy.ops.script.execute_preset(
             filepath=filepath,
             menu_idname="USERPREF_MT_interface_theme_presets")
+        bpy.ops.wm.save_userpref()
         return {'FINISHED'}
 
 
@@ -204,8 +205,8 @@ class OCVLChangeThemeDarkOperator(bpy.types.Operator):
         bpy.ops.script.execute_preset(
             filepath=filepath,
             menu_idname="USERPREF_MT_interface_theme_presets")
+        bpy.ops.wm.save_userpref()
         return {'FINISHED'}
-
 
 
 class OCVLChangeThemeOrangeOperator(bpy.types.Operator):
