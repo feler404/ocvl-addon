@@ -13,12 +13,12 @@ class OCVLidftNode(OCVLNode):
 
     _doc = _("Calculates the inverse Discrete Fourier Transform of a 1D or 2D array.")
 
-    src_in = StringProperty(name="src_in", default=str(uuid.uuid4()), description="Input floating-point real or complex array.")
+    src_in = StringProperty(name="src_in", default=str(uuid.uuid4()), description=_("Input floating-point real or complex array."))
     flags_in = BoolVectorProperty(default=[False for i in bl_flags_list.split(",")], size=len(bl_flags_list.split(",")),
         update=updateNode, subtype="NONE", description=bl_flags_list)
-    nonzeroRows_in = IntProperty(default=0, min=0, update=updateNode, description="Number of dst rows to process.")
+    nonzeroRows_in = IntProperty(default=0, min=0, update=updateNode, description=_("Number of dst rows to process."))
 
-    dst_out = StringProperty(name="dst_out", default=str(uuid.uuid4()), description="Output array whose size and type depend on the flags.")
+    dst_out = StringProperty(name="dst_out", default=str(uuid.uuid4()), description=_("Output array whose size and type depend on the flags."))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "src_in")

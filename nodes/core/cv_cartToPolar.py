@@ -8,23 +8,23 @@ from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNod
 
 class OCVLcartToPolarNode(OCVLNode):
 
-    _doc = _("")
+    _doc = _("Calculates the magnitude and angle of 2D vectors.")
     _note = _("")
     _see_also = _("")
 
 
     x_in = StringProperty(name="x_in", default=str(uuid.uuid4()),
-        description="")
+        description=_("Array of x-coordinates; this must be a single-precision or double-precision floating-point array."))
     y_in = StringProperty(name="y_in", default=str(uuid.uuid4()),
-        description="")
+        description=_("Array of y-coordinates, that must have the same size and same type as x."))
 
     angleInDegrees_in = BoolProperty(default=False, update=updateNode,
-        description="")
+        description=_("A flag, indicating whether the angles are measured in radians (which is by default), or in degrees."))
 
     magnitude_out = StringProperty(name="magnitude_out", default=str(uuid.uuid4()),
-        description="")
+        description=_("Output array of magnitudes of the same size and type as x."))
     angle_out = StringProperty(name="angle_out", default=str(uuid.uuid4()),
-        description="")
+        description=_("Output array of angles that has the same size and type as x; the angles are measured in radians (from 0 to 2*Pi) or in degrees (0 to 360 degrees)."))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "x_in")

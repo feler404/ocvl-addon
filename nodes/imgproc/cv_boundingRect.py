@@ -1,5 +1,6 @@
 import cv2
 import uuid
+from gettext import gettext as _
 from bpy.props import StringProperty, BoolProperty, IntVectorProperty
 
 from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode
@@ -7,14 +8,16 @@ from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNod
 
 class OCVLboundingRectNode(OCVLNode):
 
+    _doc = _("Calculates the up-right bounding rectangle of a point set.")
+
     points_in = StringProperty(default=str(uuid.uuid4()), update=updateNode,
-        description="Input 2D point set, stored in std::vector or Mat.")
+        description=_("Input 2D point set, stored in std::vector or Mat."))
 
     pt1_out = IntVectorProperty(default=(0, 0), size=2)
     pt2_out = IntVectorProperty(default=(0, 0), size=2)
 
     loc_from_findContours = BoolProperty(default=True, update=updateNode,
-        description="If linked with findContour node switch to True")
+        description=_("If linked with findContour node switch to True"))
 
     def sv_init(self, context):
         self.inputs.new('StringsSocket', "points_in")

@@ -8,12 +8,12 @@ from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNod
 
 class OCVLdeterminantNode(OCVLNode):
 
-    _doc = _("")
+    _doc = _("Returns the determinant of a square floating-point matrix.")
     _note = _("")
     _see_also = _("")
 
     mtx_in = StringProperty(name="mtx_in", default=str(uuid.uuid4()),
-        description="Input matrix that must have CV_32FC1 or CV_64FC1 type and square size.")
+        description=_("Input matrix that must have CV_32FC1 or CV_64FC1 type and square size."))
 
     retval_out = FloatProperty(name="retval_out",
         description="")

@@ -1,5 +1,6 @@
 import cv2
 import uuid
+from gettext import gettext as _
 from bpy.props import StringProperty, IntVectorProperty
 
 from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode
@@ -8,15 +9,18 @@ from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNod
 class OCVLclipLineNode(OCVLNode):
     bl_icon = 'GREASEPENCIL'
 
-    imgRect_in = StringProperty(name="imgRect_in", default=str(uuid.uuid4()))
+    _doc = _("Clips the line against the image rectangle.")
+
+    imgRect_in = StringProperty(name="imgRect_in", default=str(uuid.uuid4()),
+        description=_("Image rectangle."))
     retval_out = StringProperty(name="retval_out", default=str(uuid.uuid4()))
     pt1_out = StringProperty(name="pt1_out", default=str(uuid.uuid4()))
     pt2_out = StringProperty(name="pt2_out", default=str(uuid.uuid4()))
 
     pt1_in = IntVectorProperty(default=(0, 0), size=2, min=0, update=updateNode,
-        description="First point of the line segment.")
+        description=_("First point of the line segment."))
     pt2_in = IntVectorProperty(default=(1, 1), size=2, min=0, update=updateNode,
-        description="First point of the line segment.")
+        description=_("Second point of the line segment."))
 
     def sv_init(self, context):
         self.width = 200

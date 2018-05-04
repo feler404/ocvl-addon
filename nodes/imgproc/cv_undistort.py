@@ -1,5 +1,6 @@
 import cv2
 import uuid
+from gettext import gettext as _
 from bpy.props import StringProperty
 
 from ...utils import cv_register_class, cv_unregister_class, OCVLNode, DEVELOP_STATE_BETA
@@ -9,12 +10,19 @@ class OCVLundistortNode(OCVLNode):
 
     bl_develop_state = DEVELOP_STATE_BETA
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()))
-    cameraMatrix_in = StringProperty(name="cameraMatrix_in", default=str(uuid.uuid4()))
-    distCoeffs_in = StringProperty(name="distCoeffs_in", default=str(uuid.uuid4()))
-    newCameraMatrix_in = StringProperty(name="newCameraMatrix_in", default=str(uuid.uuid4()))
+    _doc = _("Transforms an image to compensate for lens distortion.")
 
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()))
+    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
+        description=_("Input (distorted) image."))
+    cameraMatrix_in = StringProperty(name="cameraMatrix_in", default=str(uuid.uuid4()),
+        description=_("Input camera matrix"))
+    distCoeffs_in = StringProperty(name="distCoeffs_in", default=str(uuid.uuid4()),
+        description=_("Input vector of distortion coefficients (k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6]]) of 4, 5, or 8 elements."))
+    newCameraMatrix_in = StringProperty(name="newCameraMatrix_in", default=str(uuid.uuid4()),
+        description=_("Camera matrix of the distorted image. By default, it is the same as cameraMatrix but you may additionally scale and shift the result by using a different matrix."))
+
+    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()),
+        description=_("Output (corrected) image."))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "image_in")

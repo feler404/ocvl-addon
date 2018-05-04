@@ -1,6 +1,7 @@
 import cv2
 import uuid
 import numpy as np
+from gettext import gettext as _
 from bpy.props import EnumProperty, StringProperty, IntProperty, IntVectorProperty
 
 from ...utils import cv_register_class, cv_unregister_class, BORDER_TYPE_ITEMS, OCVLNode, updateNode
@@ -9,8 +10,10 @@ from ...utils import cv_register_class, cv_unregister_class, BORDER_TYPE_ITEMS, 
 class OCVLerodeNode(OCVLNode):
     bl_icon = 'FILTER'
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()))
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()))
+    _doc=_("Erodes an image by using a specific structuring element.")
+
+    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()), description=_("Input image."))
+    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()), description=_("Output image."))
 
     def get_anchor(self):
         return self.get("anchor_in", (-1, -1))
@@ -21,13 +24,13 @@ class OCVLerodeNode(OCVLNode):
         self["anchor_in"] = (anchor_x, anchor_y)
 
     ksize_in = IntVectorProperty(default=(3, 3), update=updateNode, min=1, max=30, size=2,
-        description='Structuring element used for erosion.')
+        description=_("Structuring element used for erosion."))
     anchor_in = IntVectorProperty(default=(-1, -1), update=updateNode, get=get_anchor, set=set_anchor, size=2,
-        description="Position of the anchor within the element.")
+        description=_("Position of the anchor within the element."))
     iterations_in = IntProperty(default=2, min=1, max=10, update=updateNode,
-        description="Number of times erosion is applied.")
+        description=_("Number of times erosion is applied."))
     borderType_in = EnumProperty(items=BORDER_TYPE_ITEMS, default='None', update=updateNode,
-        description="border mode used to extrapolate pixels outside of the image, see cv::BorderTypes")
+        description=_("border mode used to extrapolate pixels outside of the image, see cv::BorderTypes"))
 
     def sv_init(self, context):
         self.width = 150

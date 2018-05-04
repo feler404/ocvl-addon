@@ -1,5 +1,6 @@
 import cv2
 import uuid
+from gettext import gettext as _
 from bpy.props import EnumProperty, StringProperty, IntProperty, FloatVectorProperty, BoolProperty
 
 from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode, LINE_TYPE_ITEMS
@@ -8,21 +9,25 @@ from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNod
 class OCVLpolylinesNode(OCVLNode):
     bl_icon = 'GREASEPENCIL'
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()))
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()))
+    _doc = _("Draws several polygonal curves.")
+
+    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
+        description=_("Input image."))
+    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()),
+        description=_("Output image."))
 
     pts_in = StringProperty(default=str(uuid.uuid4()), update=updateNode,
-        description="Array of polygonal curves.")
+        description=_("Array of polygonal curves."))
     isClosed_in = BoolProperty(default=False, update=updateNode,
-        description="Flag indicating whether the drawn polylines are closed or not. If they are closed, the function draws a line from the last vertex of each curve to its first vertex.")
+        description=_("Flag indicating whether the drawn polylines are closed or not. If they are closed, the function draws a line from the last vertex of each curve to its first vertex."))
     color_in = FloatVectorProperty(update=updateNode, default=(.7, .7, .1, 1.0), size=4, min=0.0, max=1.0, subtype='COLOR',
-        description="Polyline color.")
+        description=_("Polyline color."))
     thickness_in = IntProperty(default=2, min=1, max=10, update=updateNode,
-        description="Thickness of the polyline edges.")
+        description=_("Thickness of the polyline edges."))
     lineType_in = EnumProperty(items=LINE_TYPE_ITEMS, default="LINE_AA", update=updateNode,
-        description="Type of the line segments. See the line description.")
+        description=_("Type of the line segments. See the line description."))
     shift_in = IntProperty(default=0, min=0, max=100, update=updateNode,
-        description="Number of fractional bits in the vertex coordinates.")
+        description=_("Number of fractional bits in the vertex coordinates."))
 
     def sv_init(self, context):
         self.width = 150

@@ -1,5 +1,6 @@
 import cv2
 import uuid
+from gettext import gettext as _
 from bpy.props import StringProperty, BoolProperty, FloatProperty
 
 from ...utils import cv_register_class, cv_unregister_class, updateNode, OCVLNode
@@ -7,14 +8,16 @@ from ...utils import cv_register_class, cv_unregister_class, updateNode, OCVLNod
 
 class OCVLcontourAreaNode(OCVLNode):
 
+    _doc = _("Calculates a contour area.")
+
     contour_in = StringProperty(name="contour_in", default=str(uuid.uuid4()),
-        description="Input vector of 2D points (contour vertices), stored in std::vector or Mat.")
+        description=_("Input vector of 2D points (contour vertices), stored in std::vector or Mat."))
     area_out = FloatProperty(default=0.0,
-        description="Area of contour.")
+        description=_("Area of contour."))
     oriented_out = BoolProperty(default=False, update=updateNode,
-        description="Oriented area flag. If it is true, the function returns a signed area value, depending on the contour orientation (clockwise or counter-clockwise).")
+        description=_("Oriented area flag. If it is true, the function returns a signed area value, depending on the contour orientation (clockwise or counter-clockwise)."))
     loc_from_findContours = BoolProperty(default=True, update=updateNode,
-        description="If linked with findContour node switch to True")
+        description=_("If linked with findContour node switch to True"))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "contour_in")

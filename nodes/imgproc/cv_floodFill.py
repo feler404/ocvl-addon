@@ -1,6 +1,7 @@
 import cv2
 import uuid
 import numpy as np
+from gettext import gettext as _
 from bpy.props import StringProperty, BoolProperty, IntVectorProperty, FloatVectorProperty
 
 from ...utils import cv_register_class, cv_unregister_class, updateNode, OCVLNode
@@ -20,24 +21,26 @@ KERNEL_SIZE_ITEMS = (
 
 class OCVLfloodFillNode(OCVLNode):
 
+    _doc = _("Fills a connected component with the given color.")
+
     image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
-        description="Source 8-bit single-channel image.")
+        description=_("Source 8-bit single-channel image."))
     image_out = StringProperty(name="image_out", default=str(uuid.uuid4()),
-        description="Destination image of the same size and the same type as src.")
+        description=_("Destination image of the same size and the same type as src."))
     rect_out = IntVectorProperty(default=(0, 0, 1, 1), size=4)
 
     seedPoint_in = IntVectorProperty(default=(0, 0), size=2, update=updateNode,
-        description="Starting point.")
+        description=_("Starting point."))
     newVal_in = FloatVectorProperty(update=updateNode, default=(.1, .1, .1, 1.0), size=4, min=0.0, max=1.0, subtype='COLOR',
-        description="New value of the repainted domain pixels.")
+        description=_("New value of the repainted domain pixels."))
     loDiff_in = FloatVectorProperty(update=updateNode, default=(.1, .1, .1, 1.0), size=4, min=0.0, max=1.0, subtype='COLOR',
-        description="Maximal lower brightness/color difference between the currently observed pixel and one of its neighbors belonging to the component, or a seed pixel being added to the component.")
+        description=_("Maximal lower brightness/color difference between the currently observed pixel and one of its neighbors belonging to the component, or a seed pixel being added to the component."))
     upDiff_in = FloatVectorProperty(update=updateNode, default=(.9, .9, .9, 1.0), size=4, min=0.0, max=1.0, subtype='COLOR',
-        description="Maximal upper brightness/color difference between the currently observed pixel and one of its neighbors belonging to the component, or a seed pixel being added to the component.")
+        description=_("Maximal upper brightness/color difference between the currently observed pixel and one of its neighbors belonging to the component, or a seed pixel being added to the component."))
     flag_fixed_range_in = BoolProperty(default=False, update=updateNode,
-        description="If set, the difference between the current pixel and seed pixel is considered. Otherwise, the difference between neighbor pixels is considered (that is, the range is floating).")
+        description=_("If set, the difference between the current pixel and seed pixel is considered. Otherwise, the difference between neighbor pixels is considered (that is, the range is floating)."))
     flag_mask_only_in = BoolProperty(default=False, update=updateNode,
-        description="If set, the function does not change the image ( newVal is ignored), and only fills the mask with the value specified in bits 8-16 of flags as described above.")
+        description=_("If set, the function does not change the image ( newVal is ignored), and only fills the mask with the value specified in bits 8-16 of flags as described above."))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "image_in")

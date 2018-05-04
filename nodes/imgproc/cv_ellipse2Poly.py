@@ -1,7 +1,7 @@
 import cv2
 import uuid
 import numpy as np
-
+from gettext import gettext as _
 from bpy.props import StringProperty, IntProperty, IntVectorProperty
 
 from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode
@@ -22,20 +22,22 @@ PROPS_MAPS = {
 class OCVLellipse2PolyNode(OCVLNode):
     bl_icon = 'GREASEPENCIL'
 
-    pts_out = StringProperty(name="pts_out", default=str(uuid.uuid4()))
+    _doc=_("Approximates an elliptic arc with a polyline.")
+
+    pts_out = StringProperty(name="pts_out", default=str(uuid.uuid4()), description=_("Output vector of polyline vertices."))
 
     center_in = IntVectorProperty(default=(0, 0), size=2, update=updateNode,
-        description="Center of the ellipse.")
+        description=_("Center of the ellipse."))
     axes_in = IntVectorProperty(default=(1, 1), size=2, min=0, max=1000, update=updateNode,
-        description="Half of the size of the ellipse main axes.")
+        description=_("Half of the size of the ellipse main axes."))
     angle_in = IntProperty(default=30, min=0, max=360, update=updateNode,
-        description="Ellipse rotation angle in degrees.")
+        description=_("Ellipse rotation angle in degrees."))
     arcStart_in = IntProperty(default=0, min=0, max=360, update=updateNode,
-        description="Starting angle of the elliptic arc in degrees.")
+        description=_("Starting angle of the elliptic arc in degrees."))
     arcEnd_in = IntProperty(default=270, min=0, max=360, update=updateNode,
-        description="Ending angle of the elliptic arc in degrees.")
+        description=_("Ending angle of the elliptic arc in degrees."))
     delta_in = IntProperty(default=40, min=0, max=360, update=updateNode,
-       description=" Angle between the subsequent polyline vertices. It defines the approximation accuracy.")
+       description=_("Angle between the subsequent polyline vertices. It defines the approximation accuracy."))
 
     def sv_init(self, context):
         self.inputs.new('SvColorSocket', 'center_in').prop_name = 'center_in'

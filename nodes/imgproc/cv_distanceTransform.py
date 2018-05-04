@@ -1,5 +1,6 @@
 import cv2
 import uuid
+from gettext import gettext as _
 from bpy.props import EnumProperty, StringProperty
 
 from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode, DEVELOP_STATE_BETA, DISTANCE_TYPE_FOR_TRANSFORM_ITEMS
@@ -14,13 +15,15 @@ MASK_SIZE_ITEMS = (
 class OCVLdistanceTransformNode(OCVLNode):
     bl_develop_state = DEVELOP_STATE_BETA
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()))
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()))
+    _doc=_("Calculates the distance to the closest zero pixel for each pixel of the source image.")
+
+    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()), description=_("8-bit, single-channel (binary) source image."))
+    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()), description=_("Output image with calculated distances."))
 
     distanceType_in = EnumProperty(items=DISTANCE_TYPE_FOR_TRANSFORM_ITEMS, default='DIST_L2', update=updateNode,
-        description="Type of distance. It can be CV_DIST_L1, CV_DIST_L2 , or CV_DIST_C.")
+        description=_("Type of distance. It can be CV_DIST_L1, CV_DIST_L2 , or CV_DIST_C."))
     maskSize_in = EnumProperty(items=MASK_SIZE_ITEMS, default='3', update=updateNode,
-        description="Size of the distance transform mask.")
+        description=_("Size of the distance transform mask."))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "image_in")

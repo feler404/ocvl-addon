@@ -1,5 +1,6 @@
 import cv2
 import uuid
+from gettext import gettext as _
 from bpy.props import StringProperty, IntVectorProperty, FloatProperty
 
 from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode
@@ -7,14 +8,17 @@ from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNod
 
 class OCVLgetRotationMatrix2DNode(OCVLNode):
 
-    map_matrix_out = StringProperty(name="map_matrix", default=str(uuid.uuid4()))
+    _doc = _("Calculates an affine matrix of 2D rotation.")
+
+    map_matrix_out = StringProperty(name="map_matrix", default=str(uuid.uuid4()),
+        description=_("The output affine transformation, 2x3 floating-point matrix."))
 
     center_in = IntVectorProperty(default=(2, 2), min=1, max=30, size=2, update=updateNode,
-        description='Center of the rotation in the source image.')
+        description=_("Center of the rotation in the source image."))
     angle_in = FloatProperty(default=45, min=0, max=360, step=10, update=updateNode,
-        description="Rotation angle in degrees.")
+        description=_("Rotation angle in degrees."))
     scale_in = FloatProperty(default=1, min=0, max=10, update=updateNode,
-        description="Isotropic scale factor.")
+        description=_("Isotropic scale factor."))
 
     def sv_init(self, context):
         self.width = 180
