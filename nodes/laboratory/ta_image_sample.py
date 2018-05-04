@@ -20,7 +20,8 @@ IMAGE_MODE_ITEMS = [
 
 class OCVLImageImporterOp(bpy.types.Operator):
     bl_idname = "image.image_importer"
-    bl_label = "OCVL Image Import Operator"
+    bl_label = "Open"
+    bl_options = {'REGISTER'}
 
     n_id = StringProperty(default='')
 

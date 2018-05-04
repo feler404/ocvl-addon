@@ -227,18 +227,21 @@ class OCVLShowNodeSplashOperator(bpy.types.Operator):
     bl_label = "Show Node Splash"
 
     def execute(self, context):
-        NodeCommandHandler.clear_node_groups()
-        NodeCommandHandler.get_or_create_node_tree()
-        NodeCommandHandler.create_node("OCVLAuthNode", location=(520, 560))
-        NodeCommandHandler.create_node("OCVLHistoryNode", location=(-300, 220))
-        NodeCommandHandler.create_node("OCVLDocsNode", location=(-300, 100))
-        NodeCommandHandler.create_node("OCVLSplashNode", location=(-60, 460))
+        for area in bpy.context.screen.areas:
+            if area.type == 'NODE_EDITOR':
+                NodeCommandHandler.clear_node_groups()
+                NodeCommandHandler.get_or_create_node_tree()
+                NodeCommandHandler.create_node("OCVLAuthNode", location=(520, 560))
+                NodeCommandHandler.create_node("OCVLHistoryNode", location=(-300, 220))
+                NodeCommandHandler.create_node("OCVLDocsNode", location=(-300, 100))
+                NodeCommandHandler.create_node("OCVLSplashNode", location=(-60, 460))
 
-        NodeCommandHandler.connect_nodes("Splash", "history", "History", "history")
-        NodeCommandHandler.connect_nodes("Splash", "docs", "Docs", "docs")
-        NodeCommandHandler.connect_nodes("Auth", "auth", "Splash", "auth")
-        NodeCommandHandler.view_all()
-        return {'FINISHED'}
+                NodeCommandHandler.connect_nodes("Splash", "history", "History", "history")
+                NodeCommandHandler.connect_nodes("Splash", "docs", "Docs", "docs")
+                NodeCommandHandler.connect_nodes("Auth", "auth", "Splash", "auth")
+                NodeCommandHandler.view_all()
+                return {'FINISHED'}
+        return {'CANCELLED'}
 
 
 def register():
