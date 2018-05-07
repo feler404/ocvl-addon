@@ -1,3 +1,4 @@
+import textwrap
 import uuid
 import time
 import cv2
@@ -7,7 +8,7 @@ import numpy as np
 from itertools import chain
 from uuid import UUID
 from logging import getLogger
-from bpy.props import StringProperty
+from bpy.props import StringProperty, IntProperty
 
 from . import IS_WORK_ON_COPY_INPUT
 from .auth import ocvl_auth
@@ -19,7 +20,7 @@ nvBGL2 = nodeview_bgl_viewer_draw_mk2
 sv_preferences = sv_preferences
 
 NODE_COLOR_REQUIRE_DATE = (1, 0.3, 0)
-
+WRAP_TEXT_SIZE_FOR_ERROR_DISPLAY = 75
 
 if not hasattr(np, 'opencv_handler'):
     np.opencv_handler = {}
@@ -481,6 +482,14 @@ class OCVLNode(bpy.types.Node, SverchCustomTreeNode):
         for msg in self.n_meta.split("\n"):
             layout.label(msg)
 
+        if self.n_error:
+            layout.label("Error(in line {}): ".format(self.n_error_line))
+            layout.label("*" * WRAP_TEXT_SIZE_FOR_ERROR_DISPLAY)
+            lines = textwrap.wrap(self.n_error, WRAP_TEXT_SIZE_FOR_ERROR_DISPLAY)
+            for line in lines:
+                layout.label(line)
+            layout.label("*" * WRAP_TEXT_SIZE_FOR_ERROR_DISPLAY)
+
     def get_node_origin(self, props_name=None):
         node_tree = self.id_data.name
         node_name = self.name
@@ -592,6 +601,8 @@ def cv_register_class(cls):
     if cls.__name__.endswith("Node"):
         cls.n_id = StringProperty(default='')
         cls.n_meta = StringProperty(default='')
+        cls.n_error = StringProperty(default='')
+        cls.n_error_line = IntProperty(default=0)
         cls.bl_idname = cls.__name__
         cls.bl_label = getattr(cls, 'bl_label', cls.bl_idname[4:-4])
         cls.bl_icon = 'OUTLINER_OB_EMPTY'

@@ -234,7 +234,7 @@ class OCVLShowNodeSplashOperator(bpy.types.Operator):
                 NodeCommandHandler.clear_node_groups()
                 NodeCommandHandler.get_or_create_node_tree()
                 NodeCommandHandler.create_node("OCVLAuthNode", location=(520, 560))
-                NodeCommandHandler.create_node("OCVLHistoryNode", location=(-300, 220))
+                NodeCommandHandler.create_node("OCVLHistoryNode", location=(-300, 240))
                 NodeCommandHandler.create_node("OCVLDocsNode", location=(-300, 100))
                 NodeCommandHandler.create_node("OCVLSplashNode", location=(-60, 460))
 

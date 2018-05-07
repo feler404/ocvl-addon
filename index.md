@@ -86,6 +86,7 @@
     OCVLsepFilter2dNode
     OCVLSobelNode
     OCVLScharrNode
+    OCVLinpaintNode
 ># Geometric Transformations
     ---
     OCVLconvertMapsNode
@@ -153,12 +154,12 @@
     OCVLHoughLinesNode
     OCVLHoughLinesPNode
     OCVLmatchTemplateNode
-## photo
-    OCVLinpaintNode
+>## photo
+>    OCVLinpaintNode
 ## objdetect
     OCVLCascadeClassifierNode
-## video
-    OCVLcreateBackgroundSubtractorMOG2Node
+>## video
+>    OCVLcreateBackgroundSubtractorMOG2Node
 
 >## Number
 >## Alpha Nodes
