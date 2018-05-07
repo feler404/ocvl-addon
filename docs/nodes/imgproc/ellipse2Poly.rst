@@ -1,6 +1,6 @@
 ellipse2Poly
 ============
-.. image:: http://kube.pl/wp-content/uploads/2018/04/ellipse2Poly_1.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/ellipse2Poly_1.png
 
 Functionality
 -------------
@@ -28,5 +28,5 @@ Locals
 
 Examples
 --------
-.. image:: http://kube.pl/wp-content/uploads/2018/04/ellipse2Poly_2.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/ellipse2Poly_2.png
 

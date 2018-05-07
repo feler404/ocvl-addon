@@ -1,6 +1,6 @@
 matchTemplate
 =============
-.. image:: http://kube.pl/wp-content/uploads/2018/04/matchTemplate_1.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/matchTemplate_1.png
 
 Functionality
 -------------
@@ -27,5 +27,5 @@ Locals
 
 Examples
 --------
-.. image:: http://kube.pl/wp-content/uploads/2018/04/matchTemplate_2.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/matchTemplate_2.png
 

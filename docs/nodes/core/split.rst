@@ -1,6 +1,6 @@
 split
 =====
-.. image:: http://kube.pl/wp-content/uploads/2018/04/split_1.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/split_1.png
 
 Functionality
 -------------
@@ -26,5 +26,5 @@ Locals
 
 Examples
 --------
-.. image:: http://kube.pl/wp-content/uploads/2018/04/split_2.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/split_2.png
 

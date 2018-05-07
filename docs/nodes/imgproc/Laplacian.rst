@@ -1,6 +1,6 @@
 Laplacian
 =========
-.. image:: http://kube.pl/wp-content/uploads/2018/04/Laplacian_1.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/Laplacian_1.png
 
 Functionality
 -------------
@@ -28,5 +28,5 @@ Locals
 
 Examples
 --------
-.. image:: http://kube.pl/wp-content/uploads/2018/04/Laplacian_2.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/Laplacian_2.png
 

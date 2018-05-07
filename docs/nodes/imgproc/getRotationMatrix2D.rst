@@ -1,6 +1,6 @@
 getRotationMatrix2D
 ===================
-.. image:: http://kube.pl/wp-content/uploads/2018/04/getRotationMatrix2D_1.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/getRotationMatrix2D_1.png
 
 Functionality
 -------------
@@ -25,5 +25,5 @@ Locals
 
 Examples
 --------
-.. image:: http://kube.pl/wp-content/uploads/2018/04/getRotationMatrix2D_2.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/getRotationMatrix2D_2.png
 

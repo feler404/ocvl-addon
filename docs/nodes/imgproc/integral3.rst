@@ -1,6 +1,6 @@
 integral3
 =========
-.. image:: http://kube.pl/wp-content/uploads/2018/04/integral3_1.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/integral3_1.png
 
 Functionality
 -------------
@@ -27,5 +27,5 @@ Locals
 
 Examples
 --------
-.. image:: http://kube.pl/wp-content/uploads/2018/04/integral3_2.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/integral3_2.png
 

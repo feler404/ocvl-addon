@@ -1,6 +1,6 @@
 cvtColor
 ========
-.. image:: http://kube.pl/wp-content/uploads/2018/04/cvtColor_1.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/cvtColor_1.png
 
 Functionality
 -------------
@@ -25,5 +25,5 @@ Locals
 
 Examples
 --------
-.. image:: http://kube.pl/wp-content/uploads/2018/04/cvtColor_2.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/cvtColor_2.png
 

@@ -1,6 +1,6 @@
 meanStdDev
 ==========
-.. image:: http://kube.pl/wp-content/uploads/2018/04/meanStdDev_1.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/meanStdDev_1.png
 
 Functionality
 -------------
@@ -25,5 +25,5 @@ Locals
 
 Examples
 --------
-.. image:: http://kube.pl/wp-content/uploads/2018/04/meanStdDev_2.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/meanStdDev_2.png
 

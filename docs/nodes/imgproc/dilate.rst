@@ -1,6 +1,6 @@
 dilate
 ======
-.. image:: http://kube.pl/wp-content/uploads/2018/04/dilate_1.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/dilate_1.png
 
 Functionality
 -------------
@@ -26,5 +26,5 @@ Locals
 
 Examples
 --------
-.. image:: http://kube.pl/wp-content/uploads/2018/04/dilate_2.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/dilate_2.png
 

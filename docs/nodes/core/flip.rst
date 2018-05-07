@@ -1,6 +1,6 @@
 flip
 ====
-.. image:: http://kube.pl/wp-content/uploads/2018/04/flip_1.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/flip_1.png
 
 Functionality
 -------------
@@ -24,5 +24,5 @@ Locals
 
 Examples
 --------
-.. image:: http://kube.pl/wp-content/uploads/2018/04/flip_2.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/flip_2.png
 

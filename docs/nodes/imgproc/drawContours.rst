@@ -1,6 +1,6 @@
 drawContours
 ============
-.. image:: http://kube.pl/wp-content/uploads/2018/04/drawContours_1.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/drawContours_1.png
 
 Functionality
 -------------
@@ -23,5 +23,5 @@ Locals
 
 Examples
 --------
-.. image:: http://kube.pl/wp-content/uploads/2018/04/drawContours_2.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/drawContours_2.png
 

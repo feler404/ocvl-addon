@@ -1,6 +1,6 @@
 sepFilter2d
 ===========
-.. image:: http://kube.pl/wp-content/uploads/2018/04/sepFilter2d_1.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/sepFilter2d_1.png
 
 Functionality
 -------------
@@ -28,5 +28,5 @@ Locals
 
 Examples
 --------
-.. image:: http://kube.pl/wp-content/uploads/2018/04/sepFilter2d_2.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/sepFilter2d_2.png
 

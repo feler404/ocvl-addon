@@ -1,6 +1,6 @@
 arrowedLine
 ===========
-.. image:: http://kube.pl/wp-content/uploads/2018/04/arrowedLine_1.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/arrowedLine_1.png
 
 Functionality
 -------------
@@ -30,5 +30,5 @@ Locals
 
 Examples
 --------
-.. image:: http://kube.pl/wp-content/uploads/2018/04/arrowedLine_2.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/arrowedLine_2.png
 

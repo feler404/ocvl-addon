@@ -1,6 +1,6 @@
 boxFilter
 =========
-.. image:: http://kube.pl/wp-content/uploads/2018/04/boxFilter_1.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/boxFilter_1.png
 
 Functionality
 -------------
@@ -28,5 +28,5 @@ Locals
 
 Examples
 --------
-.. image:: http://kube.pl/wp-content/uploads/2018/04/boxFilter_2.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/boxFilter_2.png
 

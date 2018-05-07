@@ -1,6 +1,6 @@
 absdiff
 =======
-.. image:: http://kube.pl/wp-content/uploads/2018/04/absdiff_1.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/absdiff_1.png
 
 Functionality
 -------------
@@ -24,5 +24,5 @@ Locals
 
 Examples
 --------
-.. image:: http://kube.pl/wp-content/uploads/2018/04/absdiff_2.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/absdiff_2.png
 
