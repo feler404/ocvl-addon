@@ -1,6 +1,7 @@
 cornerHarris
 ============
-.. image:: http://kube.pl/wp-content/uploads/2018/01/cornerHarris_1.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/cornerHarris_01.png
+
 
 Functionality
 -------------
@@ -27,5 +28,6 @@ Locals
 
 Examples
 --------
-.. image:: http://kube.pl/wp-content/uploads/2018/01/cornerHarris_2.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/cornerHarris_11.png
+
 

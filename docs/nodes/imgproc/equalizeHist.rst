@@ -1,6 +1,7 @@
 equalizeHist
 ============
-.. image:: http://kube.pl/wp-content/uploads/2018/01/equalizeHist_1.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/equalizeHist_01.png
+
 
 Functionality
 -------------
@@ -23,5 +24,6 @@ Locals
 
 Examples
 --------
-.. image:: http://kube.pl/wp-content/uploads/2018/01/equalizeHist_2.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/equalizeHist_11.png
+
 

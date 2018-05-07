@@ -1,6 +1,6 @@
 morphologyEx
 ============
-.. image:: http://kube.pl/wp-content/uploads/2018/01/morphologyEx_1.png
+
 
 Functionality
 -------------
@@ -28,5 +28,5 @@ Locals
 
 Examples
 --------
-.. image:: http://kube.pl/wp-content/uploads/2018/01/morphologyEx_2.png
+
 

@@ -1,6 +1,6 @@
 HoughLines
 ==========
-.. image:: http://kube.pl/wp-content/uploads/2018/01/HoughLines_1.png
+
 
 Functionality
 -------------
@@ -32,5 +32,5 @@ Locals
 
 Examples
 --------
-.. image:: http://kube.pl/wp-content/uploads/2018/01/HoughLines_2.png
+
 

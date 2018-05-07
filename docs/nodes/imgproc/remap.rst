@@ -1,6 +1,6 @@
 remap
 =====
-.. image:: http://kube.pl/wp-content/uploads/2018/01/remap_1.png
+
 
 Functionality
 -------------
@@ -28,5 +28,5 @@ Locals
 
 Examples
 --------
-.. image:: http://kube.pl/wp-content/uploads/2018/01/remap_2.png
+
 

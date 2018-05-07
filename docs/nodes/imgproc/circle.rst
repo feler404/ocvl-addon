@@ -1,6 +1,7 @@
 circle
 ======
-.. image:: http://kube.pl/wp-content/uploads/2018/01/circle_1.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/circle_01.png
+
 
 Functionality
 -------------
@@ -29,5 +30,8 @@ Locals
 
 Examples
 --------
-.. image:: http://kube.pl/wp-content/uploads/2018/01/circle_2.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/circle_11.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/circle_12.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/circle_13.png
+
 

@@ -1,6 +1,7 @@
 convexHull
 ==========
-.. image:: http://kube.pl/wp-content/uploads/2018/01/convexHull_1.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/convexHull_01.png
+
 
 Functionality
 -------------
@@ -26,5 +27,7 @@ Locals
 
 Examples
 --------
-.. image:: http://kube.pl/wp-content/uploads/2018/01/convexHull_2.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/convexHull_11.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/convexHull_12.png
+
 

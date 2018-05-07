@@ -1,6 +1,6 @@
 gemm
 ====
-.. image:: http://kube.pl/wp-content/uploads/2018/01/gemm_1.png
+
 
 Functionality
 -------------
@@ -28,5 +28,5 @@ Locals
 
 Examples
 --------
-.. image:: http://kube.pl/wp-content/uploads/2018/01/gemm_2.png
+
 

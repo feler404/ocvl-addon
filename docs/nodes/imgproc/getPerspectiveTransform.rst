@@ -1,6 +1,6 @@
 getPerspectiveTransform
 =======================
-.. image:: http://kube.pl/wp-content/uploads/2018/01/getPerspectiveTransform_1.png
+
 
 Functionality
 -------------
@@ -24,5 +24,5 @@ Locals
 
 Examples
 --------
-.. image:: http://kube.pl/wp-content/uploads/2018/01/getPerspectiveTransform_2.png
+
 

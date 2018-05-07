@@ -1,6 +1,6 @@
 log
 ===
-.. image:: http://kube.pl/wp-content/uploads/2018/01/log_1.png
+
 
 Functionality
 -------------
@@ -23,5 +23,5 @@ Locals
 
 Examples
 --------
-.. image:: http://kube.pl/wp-content/uploads/2018/01/log_2.png
+
 

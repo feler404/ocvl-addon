@@ -1,6 +1,7 @@
 addWeighted
 ===========
-.. image:: http://kube.pl/wp-content/uploads/2018/01/addWeighted_1.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/addWeighted_01.png
+
 
 Functionality
 -------------
@@ -29,5 +30,6 @@ Locals
 
 Examples
 --------
-.. image:: http://kube.pl/wp-content/uploads/2018/01/addWeighted_2.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/addWeighted_11.png
+
 

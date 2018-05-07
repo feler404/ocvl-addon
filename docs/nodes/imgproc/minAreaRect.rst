@@ -1,6 +1,7 @@
 minAreaRect
 ===========
-.. image:: http://kube.pl/wp-content/uploads/2018/01/minAreaRect_1.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/minAreaRect_01.png
+
 
 Functionality
 -------------
@@ -23,5 +24,7 @@ Locals
 
 Examples
 --------
-.. image:: http://kube.pl/wp-content/uploads/2018/01/minAreaRect_2.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/minAreaRect_11.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/minAreaRect_12.png
+
 

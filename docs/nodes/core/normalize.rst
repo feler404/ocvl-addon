@@ -1,6 +1,7 @@
 normalize
 =========
-.. image:: http://kube.pl/wp-content/uploads/2018/01/normalize_1.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/normalize_01.png
+
 
 Functionality
 -------------
@@ -27,5 +28,6 @@ Locals
 
 Examples
 --------
-.. image:: http://kube.pl/wp-content/uploads/2018/01/normalize_2.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/normalize_11.png
+
 

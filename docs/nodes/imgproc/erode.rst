@@ -1,6 +1,7 @@
 erode
 =====
-.. image:: http://kube.pl/wp-content/uploads/2018/01/erode_1.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/erode_01.png
+
 
 Functionality
 -------------
@@ -27,5 +28,6 @@ Locals
 
 Examples
 --------
-.. image:: http://kube.pl/wp-content/uploads/2018/01/erode_2.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/erode_11.png
+
 

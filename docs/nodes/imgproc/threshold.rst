@@ -1,6 +1,7 @@
 threshold
 =========
-.. image:: http://kube.pl/wp-content/uploads/2018/01/threshold_1.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/threshold_01.png
+
 
 Functionality
 -------------
@@ -28,5 +29,8 @@ Locals
 
 Examples
 --------
-.. image:: http://kube.pl/wp-content/uploads/2018/01/threshold_2.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/threshold_11.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/threshold_12.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/threshold_13.png
+
 

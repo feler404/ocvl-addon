@@ -1,6 +1,7 @@
 bilateralFilter
 ===============
-.. image:: http://kube.pl/wp-content/uploads/2018/01/bilateralFilter_1.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/bilateralFilter_01.png
+
 
 Functionality
 -------------
@@ -26,5 +27,6 @@ Locals
 
 Examples
 --------
-.. image:: http://kube.pl/wp-content/uploads/2018/01/bilateralFilter_2.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/bilateralFilter_11.png
+
 

@@ -1,6 +1,7 @@
 Sobel
 =====
-.. image:: http://kube.pl/wp-content/uploads/2018/01/Sobel_1.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/Sobel_01.png
+
 
 Functionality
 -------------
@@ -30,5 +31,9 @@ Locals
 
 Examples
 --------
-.. image:: http://kube.pl/wp-content/uploads/2018/01/Sobel_2.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/Sobel_11.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/Sobel_12.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/Sobel_13.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/Sobel_14.png
+
 

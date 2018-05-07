@@ -1,6 +1,6 @@
 dft
 ===
-.. image:: http://kube.pl/wp-content/uploads/2018/01/dft_1.png
+
 
 Functionality
 -------------
@@ -25,5 +25,5 @@ Locals
 
 Examples
 --------
-.. image:: http://kube.pl/wp-content/uploads/2018/01/dft_2.png
+
 

@@ -1,6 +1,7 @@
 findContours
 ============
-.. image:: http://kube.pl/wp-content/uploads/2018/01/findContours_1.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/findContours_01.png
+
 
 Functionality
 -------------
@@ -28,5 +29,9 @@ Locals
 
 Examples
 --------
-.. image:: http://kube.pl/wp-content/uploads/2018/01/findContours_2.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/findContours_11.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/findContours_12.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/findContours_13.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/findContours_14.png
+
 

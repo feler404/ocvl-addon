@@ -1,6 +1,7 @@
 copyMakeBorder
 ==============
-.. image:: http://kube.pl/wp-content/uploads/2018/01/copyMakeBorder_1.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/copyMakeBorder_01.png
+
 
 Functionality
 -------------
@@ -29,5 +30,7 @@ Locals
 
 Examples
 --------
-.. image:: http://kube.pl/wp-content/uploads/2018/01/copyMakeBorder_2.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/copyMakeBorder_11.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/copyMakeBorder_12.png
+
 

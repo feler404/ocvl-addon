@@ -1,6 +1,7 @@
 polylines
 =========
-.. image:: http://kube.pl/wp-content/uploads/2018/01/polylines_1.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/polylines_01.png
+
 
 Functionality
 -------------
@@ -29,5 +30,6 @@ Locals
 
 Examples
 --------
-.. image:: http://kube.pl/wp-content/uploads/2018/01/polylines_2.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/polylines_11.png
+
 

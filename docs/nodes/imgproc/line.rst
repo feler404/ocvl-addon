@@ -1,6 +1,7 @@
 line
 ====
-.. image:: http://kube.pl/wp-content/uploads/2018/01/line_1.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/line_01.png
+
 
 Functionality
 -------------
@@ -28,5 +29,6 @@ Locals
 
 Examples
 --------
-.. image:: http://kube.pl/wp-content/uploads/2018/01/line_2.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/line_11.png
+
 

@@ -1,6 +1,7 @@
 convertScaleAbs
 ===============
-.. image:: http://kube.pl/wp-content/uploads/2018/01/convertScaleAbs_1.png
+.. image:: http://kube.pl/wp-content/uploads/2018/01/convertScaleAbs_01.png
+
 
 Functionality
 -------------
@@ -25,5 +26,5 @@ Locals
 
 Examples
 --------
-.. image:: http://kube.pl/wp-content/uploads/2018/01/convertScaleAbs_2.png
+
 
