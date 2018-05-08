@@ -1,8 +1,11 @@
 import os
+import webbrowser
 
 import bpy
 import time
 import logging
+
+from bpy.props import StringProperty
 
 from .settings import TUTORIAL_HEARTBEAT_INTERVAL
 from .engine_app import NodeCommandHandler
@@ -63,6 +66,8 @@ class TutorialModeOperator(bpy.types.Operator):
     bl_idname = "node.tutorial_mode"
     bl_label = "Node Tutorial Mode"
 
+    loc_tutorial_path = StringProperty(default="")
+
     def execute(self, context):
         bpy.ops.node.clean_desk()
         NodeCommandHandler.clear_node_groups()
@@ -73,7 +78,11 @@ class TutorialModeOperator(bpy.types.Operator):
 
         # self._timer = context.window_manager.event_timer_add(1, context.window)
         # context.window_manager.modal_handler_add(self)
-        return {'CANCELLED'}
+        if self.loc_tutorial_path:
+            url = "file://" + self.loc_tutorial_path
+            webbrowser.open(url)
+            logger.info("Opne tutorial from URL: {}".format(url))
+        return {'FINISHED'}
 
 
 def orange_theme():

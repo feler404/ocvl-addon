@@ -47,7 +47,7 @@ def jupyter_engine_worker():
     call([com, "notebook"])
 
 
-engine_worker_thread = StoppableThread(target=tutorial_engine_worker)
-jupyter_worker_thread = StoppableThread(target=jupyter_engine_worker)
+engine_worker_thread = StoppableThread(target=tutorial_engine_worker, daemon=True)
+jupyter_worker_thread = StoppableThread(target=jupyter_engine_worker, daemon=True)
 bpy.engine_worker_thread = engine_worker_thread
 bpy.jupyter_worker_thread = jupyter_worker_thread

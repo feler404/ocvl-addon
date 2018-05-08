@@ -30,7 +30,7 @@ class OCVLHistoryNode(OCVLPreviewNode):
         col_split.operator('node.change_theme_dark', text='Dark', icon="OUTLINER_DATA_LAMP")
         row = layout.row()
         col = row.column()
-        col.operator('node.tutorial_mode', text="Tutorial - First steps", icon='PARTICLES')
+        col.operator('node.tutorial_mode', text="Tutorial - First steps", icon='PARTICLES').loc_tutorial_path = ""
 
 def register():
     cv_register_class(OCVLHistoryNode)

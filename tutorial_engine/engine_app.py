@@ -18,7 +18,10 @@ from .settings import (
     TUTORIAL_ENGINE_DEFAULT_VIEWER_NAME,
     TUTORIAL_ENGINE_DEFAULT_INPUT_NAME,
     TUTORIAL_ENGINE_DEFAULT_OUTPUT_NAME,
-    TUTORIAL_ASSETS_PATH)
+    TUTORIAL_ASSETS_PATH,
+    TUTORIAL_ENGINE_DEBUG
+)
+
 
 logger = getLogger(__name__)
 
@@ -273,6 +276,7 @@ def tutorial_engine_app():
         (r"/favicon.ico", web.ErrorHandler, {'status_code': 404}),
 
     ],
-        debug=True,
-        autoreload=True
+
+        debug=TUTORIAL_ENGINE_DEBUG,
+        autoreload=TUTORIAL_ENGINE_DEBUG
     )

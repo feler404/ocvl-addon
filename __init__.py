@@ -52,15 +52,17 @@ if __name__ != "ocvl":
 
 from .logger_conf import logger
 from .auth import register_extended_operators, unregister_extended_operators
-from .tutorial_engine import operatores as tutorial_operatores
+
 bpy.context.user_preferences.view.show_splash = False
 
 BASE_DIR = os.path.dirname(__file__)
 IS_WORK_ON_COPY_INPUT = True
 DEBUG = True
+DEBUG = False
 
 
 def register():
+    from .tutorial_engine import operatores as tutorial_operatores
     from . import ui
     from . import operatores
     ui.register()
@@ -73,6 +75,7 @@ def register():
 
 
 def unregister():
+    from .tutorial_engine import operatores as tutorial_operatores
     from . import ui
     from . import operatores
     ui.unregister()

@@ -75,3 +75,4 @@ venv
 
 local_test.py
 extend/
+*.ipynb
