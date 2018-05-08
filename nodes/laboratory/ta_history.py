@@ -1,6 +1,3 @@
-import cv2
-import os
-import uuid
 from logging import getLogger
 from bpy.props import BoolProperty, StringProperty
 
@@ -30,7 +27,7 @@ class OCVLHistoryNode(OCVLPreviewNode):
         col_split.operator('node.change_theme_dark', text='Dark', icon="OUTLINER_DATA_LAMP")
         row = layout.row()
         col = row.column()
-        col.operator('node.tutorial_mode', text="Tutorial - First steps", icon='PARTICLES').loc_tutorial_path = ""
+        col.operator('node.tutorial_mode', text="Tutorial - mode", icon='PARTICLES').loc_tutorial_path = ""
 
 def register():
     cv_register_class(OCVLHistoryNode)

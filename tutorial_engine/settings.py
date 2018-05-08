@@ -13,3 +13,7 @@ TUTORIAL_HEARTBEAT_INTERVAL = 0.5
 current_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)))
 TUTORIAL_ASSETS_PATH = os.path.abspath(os.path.join(current_dir, "../tutorials"))
 TUTORIAL_ENGINE_DEBUG = DEBUG
+
+
+current_path = os.path.abspath(__file__)
+TUTORIAL_PATH = os.path.join(current_path, "../../tutorials")

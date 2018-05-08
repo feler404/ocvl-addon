@@ -8,6 +8,7 @@
     OCVLTypeConvertNode
     OCVLApplyROINode
     ---
+    OCVLFirstStepsNode
     Hidden-OCVLSplashNode
     Hidden-OCVLAuthNode
     Hidden-OCVLHistoryNode

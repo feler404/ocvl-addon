@@ -7,7 +7,8 @@ import logging
 
 from bpy.props import StringProperty
 
-from .settings import TUTORIAL_HEARTBEAT_INTERVAL
+from ..tutorial_engine.worker import print_keyborad_worker
+from .settings import TUTORIAL_HEARTBEAT_INTERVAL, TUTORIAL_PATH
 from .engine_app import NodeCommandHandler
 
 bpy.worker_queue = []
@@ -85,6 +86,85 @@ class TutorialModeOperator(bpy.types.Operator):
         return {'FINISHED'}
 
 
+class TutorialModeCommandOperator(bpy.types.Operator):
+    bl_idname = "node.tutorial_mode_command"
+    bl_label = "Node Tutorial Mode Command"
+
+    loc_command = StringProperty(default="")
+
+    def execute(self, context):
+
+        if self.loc_command == "connect_sample_and_view":
+            nt = NodeCommandHandler.get_or_create_node_tree()
+            NodeCommandHandler.connect_nodes(node_input="ImageViewer", node_output="ImageSample", input_name="image_in", output_name="image_out")
+            return {'FINISHED'}
+
+        elif self.loc_command == "connect_sample_and_view_and_blur":
+            nt = NodeCommandHandler.get_or_create_node_tree()
+            NodeCommandHandler.connect_nodes(node_input="ImageViewer", node_output="blur", input_name="image_in", output_name="image_out")
+            NodeCommandHandler.connect_nodes(node_input="blur", node_output="ImageSample", input_name="image_in", output_name="image_out")
+            return {'FINISHED'}
+
+        elif self.loc_command == "set_ksize_on_blur":
+            nt = NodeCommandHandler.get_or_create_node_tree()
+            blur = nt.nodes.get('blur')
+            blur.ksize_in = (10, 10)
+            return {'FINISHED'}
+
+        elif self.loc_command == "file_mode_for_image_sample":
+            nt = NodeCommandHandler.get_or_create_node_tree()
+            blur = nt.nodes.get('ImageSample.001')
+            blur.loc_image_mode = "FILE"
+            return {'FINISHED'}
+
+        elif self.loc_command == "select_file_for_sample":
+            nt = NodeCommandHandler.get_or_create_node_tree()
+            blur = nt.nodes.get('ImageSample.001')
+            full_tutorial_path = os.path.abspath(os.path.join(TUTORIAL_PATH, "common/ml.png"))
+            blur.loc_filepath = full_tutorial_path
+            return {'FINISHED'}
+
+        elif self.loc_command == "connect_addweighted_first_input":
+            nt = NodeCommandHandler.get_or_create_node_tree()
+            NodeCommandHandler.connect_nodes(node_input="addWeighted", node_output="ImageSample.001", input_name="image_1_in", output_name="image_out")
+            return {'FINISHED'}
+
+        elif self.loc_command == "connect_addweighted_second_input":
+            nt = NodeCommandHandler.get_or_create_node_tree()
+            NodeCommandHandler.connect_nodes(node_input="addWeighted", node_output="blur", input_name="image_2_in", output_name="image_out")
+            return {'FINISHED'}
+
+        elif self.loc_command == "connect_addweighted_output":
+            nt = NodeCommandHandler.get_or_create_node_tree()
+            NodeCommandHandler.connect_nodes(node_input="ImageViewer", node_output="addWeighted", input_name="image_in", output_name="image_out")
+            return {'FINISHED'}
+
+        elif self.loc_command:
+            keyborad_worker_thread = print_keyborad_worker(text=self.loc_command)
+            keyborad_worker_thread.start()
+
+        return {'FINISHED'}
+
+
+class TutorialShowFirstStepCommandOperator(bpy.types.Operator):
+    bl_idname = "node.tutorial_show_first_step"
+    bl_label = "Node Tutorial Show First Step"
+
+    loc_command = StringProperty(default="")
+
+    def execute(self, context):
+        for area in bpy.context.screen.areas:
+            if area.type == 'NODE_EDITOR':
+                NodeCommandHandler.clear_node_groups()
+                NodeCommandHandler.get_or_create_node_tree()
+                NodeCommandHandler.create_node("OCVLFirstStepsNode", location=(0, 0))
+                NodeCommandHandler.view_all()
+                return {'FINISHED'}
+        return {'CANCELLED'}
+
+
+
+
 def orange_theme():
     current_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)))
     themes_dir = os.path.abspath(os.path.join(current_dir, "../../../presets/interface_theme"))
@@ -97,8 +177,12 @@ def orange_theme():
 def register():
     bpy.utils.register_class(ModalTimerOperator)
     bpy.utils.register_class(TutorialModeOperator)
+    bpy.utils.register_class(TutorialModeCommandOperator)
+    bpy.utils.register_class(TutorialShowFirstStepCommandOperator)
 
 
 def unregister():
+    bpy.utils.unregister_class(TutorialShowFirstStepCommandOperator)
+    bpy.utils.unregister_class(TutorialModeCommandOperator)
     bpy.utils.unregister_class(TutorialModeOperator)
     bpy.utils.unregister_class(ModalTimerOperator)

@@ -58,7 +58,6 @@ bpy.context.user_preferences.view.show_splash = False
 BASE_DIR = os.path.dirname(__file__)
 IS_WORK_ON_COPY_INPUT = True
 DEBUG = True
-DEBUG = False
 
 
 def register():
