@@ -21,6 +21,7 @@ utils_needs = SverchCustomTreeNode, node_id, nodeview_bgl_viewer_draw_mk2, sv_pr
 logger = getLogger(__name__)
 
 
+
 class MockSverchokAddonPreferences(AddonPreferences):
     bl_idname = "sverchok"
 
@@ -148,36 +149,92 @@ def auto_gather_node_classes_new():
                     ...
 
 
+def juggle_and_join_new(node_cats):
+    '''
+    this step post processes the extended catagorization used
+    by ctrl+space dynamic menu, and attempts to merge previously
+    joined catagories. Why? Because the default menu gets very
+    long if there are too many categories.
+
+    The only real alternative to this approach is to write a
+    replacement for nodeitems_utils which respects categories
+    and submenus.
+
+    '''
+    node_cats = node_cats.copy()
+
+    # join beta and alpha node cats
+
+    if 'Beta Nodes' in node_cats:
+        alpha = node_cats.pop('Alpha Nodes', [])
+        node_cats['Beta Nodes'].extend(alpha)
+
+    # put masks into list main
+    for ltype in ["List Masks", "List Mutators"]:
+
+        if "List Main" in node_cats:
+            node_refs = node_cats.pop(ltype)
+            node_cats["List Main"].extend(node_refs)
+
+    if 'BPY Data' in node_cats:
+        objects_cat = node_cats.pop('Objects', [])
+        node_cats['BPY Data'].extend(objects_cat)
+
+    # add extended gens to Gens menu
+    if "Generators Extended" in node_cats:
+        gen_ext = node_cats.pop("Generators Extended", [])
+        node_cats["Generator"].extend(gen_ext)
+
+    return node_cats
+
+
+def _replace_sv_objectes():
+    sverchok.core.root_modules = ["node_tree", "data_structure",  "ui", "nodes", "old_nodes", "sockets"]  # "menu", "core", "utils",
+    sverchok.menu.make_node_cats = make_node_cats_new
+    sverchok.core.make_node_list = make_node_list_new
+    sverchok.menu.juggle_and_join = juggle_and_join_new
+    sverchok.utils.auto_gather_node_classes = auto_gather_node_classes_new
+
+
 def soft_reload_menu():
     """
     Function to reloading menu with nodes by COMM nad PRO versions.
 
     :return:
     """
-    sverchok.core.root_modules = ["node_tree", "data_structure",  "ui", "nodes", "old_nodes", "sockets"]  # "menu", "core", "utils",
-    sverchok.menu.make_node_cats = make_node_cats_new
-    sverchok.core.make_node_list = make_node_list_new
-    sverchok.utils.auto_gather_node_classes = auto_gather_node_classes_new
+    _replace_sv_objectes()
     from sverchok.menu import reload_menu
     reload_menu()
 
 
-
-def reload_ocvl_nodes_classes():
+def reload_ocvl_nodes_modules():
     import ocvl.extend
     EXTENDED_NODE_PATH = getattr(ocvl.extend, "EXTENDED_NODE_PATH", "")
-    EXTENDED_NODE_FILES = getattr(ocvl.extend, "EXTENDED_NODE_FILES", "")
+    EXTENDED_NODE_FILES = getattr(ocvl.extend, "EXTENDED_NODE_FILES", [])
     for node_file in EXTENDED_NODE_FILES:
         node_module = importlib.import_module("{}.{}".format(EXTENDED_NODE_PATH, node_file))
         importlib.reload(node_module)
-        logger.info("Reload OCVL class: {}".format(node_module))
+        logger.info("Reload OCVL module: {}".format(node_module))
+
+    NODE_PATH = "ocvl.nodes.laboratory"
+    NODE_FILES = ['ta_viewer_image', 'ta_splash']
+    for node_file in NODE_FILES:
+        node_module = importlib.import_module("{}.{}".format(NODE_PATH, node_file))
+        importlib.reload(node_module)
+        logger.info("Reload OCVL module: {}".format(node_module))
+
+
+def reload_ocvl_operators_modules():
+
+    MODULES = ["ocvl.operatores", "ocvl.tutorial_engine.operatores"]
+    for module in MODULES:
+        node_module = importlib.import_module(module)
+        importlib.reload(node_module)
+        logger.info("Reload OCVL module: {}".format(node_module))
 
 
 def reload_sverchok_addon():
-    sverchok.core.root_modules = ["node_tree", "data_structure",  "ui", "nodes", "old_nodes", "sockets"]  # "menu", "core", "utils",
-    sverchok.menu.make_node_cats = make_node_cats_new
-    sverchok.core.make_node_list = make_node_list_new
-    sverchok.utils.auto_gather_node_classes = auto_gather_node_classes_new
+    _replace_sv_objectes()
 
     sverchok_addon = bpy.context.user_preferences.addons.get("sverchok")
     if sverchok_addon:
@@ -189,7 +246,8 @@ def reload_sverchok_addon():
         bpy.ops.wm.addon_enable(module=sverchok_addon.module)
     else:
         logger.info("Skip disable/enable {}".format(sverchok_addon.module))
-        reload_ocvl_nodes_classes()
+        reload_ocvl_nodes_modules()
+        reload_ocvl_operators_modules()
 
 
 def reload_ocvl_addon():

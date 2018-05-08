@@ -50,17 +50,23 @@ import bpy
 if __name__ != "ocvl":
     sys.modules["ocvl"] = sys.modules[__name__]
 
-from .ui import INFO_HT_header_new, INFO_HT_header_old
 from .logger_conf import logger
 from .auth import register_extended_operators, unregister_extended_operators
-
+from .tutorial_engine import operatores as tutorial_operatores
 bpy.context.user_preferences.view.show_splash = False
 
 BASE_DIR = os.path.dirname(__file__)
 IS_WORK_ON_COPY_INPUT = True
+DEBUG = True
 
 
 def register():
+<<<<<<< HEAD
+    from . import ui
+    from . import operatores
+    ui.register()
+    operatores.register()
+=======
     try:
         bpy.utils.unregister_class(INFO_HT_header_old)
     except:
@@ -71,14 +77,18 @@ def register():
         pass
     from .operatores import register
     register()
+>>>>>>> dokumentacja od arrowedLine do convertMaps
     register_extended_operators()
+
+    tutorial_operatores.register()
     from .tutorial_engine.worker import engine_worker_thread
     # engine_worker_thread.start()
 
 
-
 def unregister():
-    bpy.utils.unregister_class(INFO_HT_header_new)
-    from .extend.extended_operatores import unregister
-    unregister()
+    from . import ui
+    from . import operatores
+    ui.unregister()
+    operatores.unregister()
     unregister_extended_operators()
+    tutorial_operatores.unregister()

@@ -36,12 +36,13 @@ class OCVLthresholdNode(OCVLNode):
         description=_("Invert output mask."))
 
     def sv_init(self, context):
+        self.width = 200
         self.inputs.new("StringsSocket", "image_in")
         self.inputs.new('StringsSocket', "thresh_in").prop_name = 'thresh_in'
         self.inputs.new('StringsSocket', "maxval_in").prop_name = 'maxval_in'
 
-        self.outputs.new("StringsSocket", "mask_out")
-        self.outputs.new("StringsSocket", "thresh_out")
+        self.outputs.new("StringsSocket", "image_out")
+        self.outputs.new("StringsSocket", "retval_out")
 
     def wrapped_process(self):
         self.check_input_requirements(["image_in"])
@@ -53,11 +54,11 @@ class OCVLthresholdNode(OCVLNode):
             'type_in': self.get_from_props("type_in"),
             }
 
-        thresh_out, mask_out = self.process_cv(fn=cv2.threshold, kwargs=kwargs)
+        retval_out, image_out = self.process_cv(fn=cv2.threshold, kwargs=kwargs)
         if self.get_from_props("loc_invert"):
-            mask_out = 255 - mask_out
-        self.refresh_output_socket("mask_out", mask_out, is_uuid_type=True)
-        self.refresh_output_socket("thresh_out", thresh_out)
+            image_out = 255 - image_out
+        self.refresh_output_socket("image_out", image_out, is_uuid_type=True)
+        self.refresh_output_socket("retval_out", retval_out)
 
     def draw_buttons(self, context, layout):
         self.add_button(layout, "type_in")

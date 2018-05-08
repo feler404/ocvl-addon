@@ -4,7 +4,7 @@ import bpy
 from tornado.ioloop import IOLoop
 from logging import getLogger
 
-from .egine_app import tutorial_engine_app
+from .engine_app import tutorial_engine_app
 from .settings import TUTORIAL_ENGINE_PORT
 
 logger = getLogger(__name__)
@@ -37,9 +37,17 @@ def tutorial_engine_worker():
     tornado.log.enable_pretty_logging()
     app = tutorial_engine_app()
     app.listen(TUTORIAL_ENGINE_PORT)
-    logger.info("Tutorial Engine worker started.")
+    logger.info("Tutorial Engine worker started on port={}.".format(TUTORIAL_ENGINE_PORT))
     IOLoop.current().start()
 
 
+def jupyter_engine_worker():
+    from subprocess import call
+    com = "/Users/dawidaniol/Downloads/blender-2.79-macOS-10.6/blender.app/Contents/Resources/2.79/python/bin/jupyter"
+    call([com, "notebook"])
+
+
 engine_worker_thread = StoppableThread(target=tutorial_engine_worker)
+jupyter_worker_thread = StoppableThread(target=jupyter_engine_worker)
 bpy.engine_worker_thread = engine_worker_thread
+bpy.jupyter_worker_thread = jupyter_worker_thread

@@ -20,7 +20,8 @@ IMAGE_MODE_ITEMS = [
 
 class OCVLImageImporterOp(bpy.types.Operator):
     bl_idname = "image.image_importer"
-    bl_label = "OCVL Image Import Operator"
+    bl_label = "Open Image"
+    bl_options = {'REGISTER'}
 
     n_id = StringProperty(default='')
 
@@ -45,7 +46,7 @@ class OCVLImageImporterOp(bpy.types.Operator):
         return {'RUNNING_MODAL'}
 
 
-class OCVLSimpleImageSampleNode(OCVLPreviewNode):
+class OCVLImageSampleNode(OCVLPreviewNode):
     ''' Image sample '''
     bl_icon = 'IMAGE_DATA'
 
@@ -61,6 +62,8 @@ class OCVLSimpleImageSampleNode(OCVLPreviewNode):
 
     width_in = IntProperty(default=100, min=1, max=1024, update=updateNode, name="width_in")
     height_in = IntProperty(default=100, min=1, max=1020, update=updateNode, name="height_in")
+    width_out = IntProperty(default=0, name="width_out")
+    height_out = IntProperty(default=0, name="height_out")
     image_out = StringProperty(default=str(uuid.uuid4()))
 
     loc_name_image = StringProperty(default='', update=update_prop_search)
@@ -70,6 +73,8 @@ class OCVLSimpleImageSampleNode(OCVLPreviewNode):
     def sv_init(self, context):
         self.width = 200
         self.outputs.new('StringsSocket', 'image_out')
+        self.outputs.new('StringsSocket', 'width_out')
+        self.outputs.new('StringsSocket', 'height_out')
         self.update_layout(context)
 
         if not np.bl_listener:
@@ -108,12 +113,14 @@ class OCVLSimpleImageSampleNode(OCVLPreviewNode):
         image, self.image_out = self._update_node_cache(image=image, resize=False, uuid_=uuid_)
 
         self.outputs['image_out'].sv_set(self.image_out)
+        self.refresh_output_socket("height_out", image.shape[0])
+        self.refresh_output_socket("width_out", image.shape[1])
         self.make_textures(image, uuid_=self.image_out)
         self._add_meta_info(image)
 
     def _add_meta_info(self, image):
-        self.n_meta = "\n".join(["Width: {}".format(image.shape[0]),
-                                 "Height: {}".format(image.shape[1]),
+        self.n_meta = "\n".join(["Width: {}".format(image.shape[1]),
+                                 "Height: {}".format(image.shape[0]),
                                  "Channels: {}".format(image.shape[2]),
                                  "DType: {}".format(image.dtype),
                                  "Size: {}".format(image.size)])
@@ -141,7 +148,7 @@ class OCVLSimpleImageSampleNode(OCVLPreviewNode):
         if self.n_id not in self.texture:
             return
 
-        location_y = 20 if self.loc_image_mode in ["PLANE", "RANDOM"] else 0
+        location_y = -20 if self.loc_image_mode in ["PLANE", "RANDOM"] else -40
         self.draw_preview(layout=layout, prop_name="image_out", location_x=10, location_y=location_y)
 
     def copy(self, node):
@@ -153,18 +160,16 @@ class OCVLSimpleImageSampleNode(OCVLPreviewNode):
         self.process()
 
 
-if ocvl_auth.ocvl_ext:
+if ocvl_auth.ocvl_pro_version_auth:
     from ...extend.laboratory.ta_image_sample import OCVLImageSampleNode
 
 
 def register():
     cv_register_class(OCVLImageImporterOp)
     cv_register_class(OCVLImageSampleNode)
-    cv_register_class(OCVLSimpleImageSampleNode)
 
 
 def unregister():
-    cv_unregister_class(OCVLSimpleImageSampleNode)
     cv_unregister_class(OCVLImageSampleNode)
     cv_unregister_class(OCVLImageImporterOp)
 

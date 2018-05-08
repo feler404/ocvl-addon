@@ -13,6 +13,8 @@ from ...auth import (
     PRO_VERSION,
     OCVL_LINK_TO_STORE,
     OCVL_LINK_TO_CREATE_ACCOUNT,
+    OCVL_VERSION,
+    OCVL_AUTHORS,
 )
 
 logger = getLogger(__name__)
@@ -29,7 +31,7 @@ class OCVLSplashNode(OCVLPreviewNode):
     is_licence_key = BoolProperty(name="Licence Key", default=False)
     licence_key_in = StringProperty(name="Licence Key", default="", description="licence_key_in", maxlen=600)
 
-    auth = BoolProperty(name="Auth", default=False)
+    auth = BoolProperty(default=False)
     docs = BoolProperty(default=False)
     history = BoolProperty(default=False)
 
@@ -37,8 +39,8 @@ class OCVLSplashNode(OCVLPreviewNode):
 
     def sv_init(self, context):
         self.width = 512
-        self.use_custom_color = True
-        self.color = (0, 0, 0)
+        # self.use_custom_color = True
+        # self.color = (0, 0, 0)
         self.outputs.new("StringsSocket", "auth")
         self.inputs.new("StringsSocket", "history")
         self.inputs.new("StringsSocket", "docs")
@@ -46,15 +48,27 @@ class OCVLSplashNode(OCVLPreviewNode):
     def wrapped_process(self):
         current_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)))
         baner_dir = os.path.abspath(os.path.join(current_dir, "../../datafiles/"))
-        loc_filepath = os.path.join(baner_dir, "ocvl_baner.png")
         loc_filepath = os.path.join(baner_dir, "splash_banner.png")
         image = cv2.imread(loc_filepath)
         if ocvl_auth.ocvl_version is COMMUNITY_VERSION:
             image = image[0:512, 0:1024]
+            font_color = (0, 233, 0)
+            img_org = (330, 107)
         else:
             image = image[512:1024, 0:1024]
+            font_color = (236, 189, 0)
+            img_org = (358, 107)
+        author_text = "{} Copyright(C) 2018".format(OCVL_AUTHORS)
+        font_face = cv2.FONT_HERSHEY_PLAIN
+        font_scale = thickness = 1
+
+
+        image = cv2.putText(image, "v.{}".format(OCVL_VERSION), img_org, cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, font_color)
+        retval, baseLine = cv2.getTextSize(author_text, font_face, font_scale, thickness)
+
+        image = cv2.putText(image, author_text, (1024 - retval[0] - 10, 505), font_face, font_scale, (255, 255, 255))
         image, self.image_out = self._update_node_cache(image=image, resize=False)
-        self.make_textures(image, uuid_=self.image_out, width=1024, height=512)
+        self.make_textures(image, uuid_=self.image_out, width=1024, height=1024)
 
     def _update_node_cache(self, image=None, resize=False, uuid_=None):
         old_image_out = self.image_out
@@ -64,7 +78,7 @@ class OCVLSplashNode(OCVLPreviewNode):
         return image, uuid_
 
     def draw_buttons(self, context, layout):
-        self.draw_preview(layout=layout, prop_name="image_out", location_x=10, location_y=50)
+        self.draw_preview(layout=layout, prop_name="image_out", location_x=10, location_y=50, proportion=0.5)
         if ocvl_auth.ocvl_version is COMMUNITY_VERSION:
             self.layout_for_community_version(context, layout)
         if ocvl_auth.ocvl_version is PRO_VERSION:
@@ -121,6 +135,7 @@ class OCVLSplashNode(OCVLPreviewNode):
             row = layout.row()
             col = row.column()
             col_split = col.split(0.5, align=True)
+            col_split.operator('node.tutorial_mode', text="Tutorial - First steps", icon='PARTICLES')
             col_split.operator('node.clean_desk', text="Start with blank desk - Community version", icon='RESTRICT_VIEW_OFF')
 
 

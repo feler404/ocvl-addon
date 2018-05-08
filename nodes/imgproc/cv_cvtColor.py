@@ -20,6 +20,7 @@ class OCVLcvtColorNode(OCVLNode):
         description=_("Number of channels in the destination image; if the parameter is 0, the number of the channels is derived automatically from input image and code."))
 
     def sv_init(self, context):
+        self.width = 200
         self.inputs.new("StringsSocket", "image_in")
         self.inputs.new("StringsSocket", "code_in").prop_name = "code_in"
         self.inputs.new("StringsSocket", "dstCn_in").prop_name = "dstCn_in"

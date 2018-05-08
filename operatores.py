@@ -1,3 +1,5 @@
+import os
+
 import bpy
 import logging
 import time
@@ -5,7 +7,7 @@ import urllib.parse
 from bpy.props import StringProperty
 from pynput.keyboard import Key, Controller
 
-from .tutorial_engine.egine_app import NodeCommandHandler
+from .tutorial_engine.engine_app import NodeCommandHandler
 from .nodes.laboratory.ta_auth import AUTH_NODE_NAME
 from .utils import convert_to_gl_image, cv_register_class, cv_unregister_class
 from sverchok.core.socket_data import SvNoDataError
@@ -14,6 +16,7 @@ import requests
 from .auth import ocvl_auth, auth_pro_confirm, auth_pro_reject, OCVL_PANEL_URL
 
 logger = logging.getLogger(__name__)
+
 
 class EscapeFullScreenOperator(bpy.types.Operator):
     """Tooltip"""
@@ -173,54 +176,73 @@ class OCVLRequestsSplashOperator(bpy.types.Operator):
                 return link.to_node
         return fall_back
 
-bpy.worker_queue = []
-handler = NodeCommandHandler
-class ModalTimerOperator(bpy.types.Operator):
-    """Operator which runs its self from a timer"""
-    bl_idname = "wm.modal_timer_operator"
-    bl_label = "Modal Timer Operator"
 
-    _timer = None
-    _count = 0
-    _wait = 0
-
-    def modal(self, context, event):
-        if event.type == 'ESC':
-            return self.cancel(context)
-
-        if self._wait > 0:
-            self._wait += 1
-            return {'PASS_THROUGH'}
-
-        if self._count == 0:
-            # finished ok.
-            return self.cancel(context)
-
-        if event.type == 'TIMER':
-            if self._wait % 2 == 0:
-                print(time.time())
-            try:
-                if bpy.worker_queue:
-                    request = bpy.worker_queue.pop(0)
-                    logger.info("Pop request from queue. Command: {}, kwargs: {}".format(request.get("command"), request.get("kwargs")))
-                    getattr(handler, request.get("command"))(**request.get("kwargs"))
-
-            except Exception as e:
-                logger.exception("{}".format(e))
-
-
-
-        return {'PASS_THROUGH'}
+class OCVLChangeThemeLightOperator(bpy.types.Operator):
+    """Tooltip"""
+    bl_idname = "node.change_theme_light"
+    bl_label = "Theme light"
 
     def execute(self, context):
-        self._count = 16
-        self._timer = context.window_manager.event_timer_add(1, context.window)
-        context.window_manager.modal_handler_add(self)
-        return {'RUNNING_MODAL'}
+        current_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)))
+        themes_dir = os.path.abspath(os.path.join(current_dir, "../../presets/interface_theme"))
+        filepath = os.path.join(themes_dir, "softblend.xml")
+        bpy.ops.script.execute_preset(
+            filepath=filepath,
+            menu_idname="USERPREF_MT_interface_theme_presets")
+        bpy.ops.wm.save_userpref()
+        return {'FINISHED'}
 
-    def cancel(self, context):
-        context.area.header_text_set()
-        context.window_manager.event_timer_remove(self._timer)
+
+class OCVLChangeThemeDarkOperator(bpy.types.Operator):
+    """Tooltip"""
+    bl_idname = "node.change_theme_dark"
+    bl_label = "Theme dark"
+
+    def execute(self, context):
+        current_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)))
+        themes_dir = os.path.abspath(os.path.join(current_dir, "../../presets/interface_theme"))
+        filepath = os.path.join(themes_dir, "graph.xml")
+        bpy.ops.script.execute_preset(
+            filepath=filepath,
+            menu_idname="USERPREF_MT_interface_theme_presets")
+        bpy.ops.wm.save_userpref()
+        return {'FINISHED'}
+
+
+class OCVLChangeThemeOrangeOperator(bpy.types.Operator):
+    """Tooltip"""
+    bl_idname = "node.change_themeorange"
+    bl_label = "Theme orange"
+
+    def execute(self, context):
+        current_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)))
+        themes_dir = os.path.abspath(os.path.join(current_dir, "../../presets/interface_theme"))
+        filepath = os.path.join(themes_dir, "blend_swap_5.xml")
+        bpy.ops.script.execute_preset(
+            filepath=filepath,
+            menu_idname="USERPREF_MT_interface_theme_presets")
+        return {'FINISHED'}
+
+
+class OCVLShowNodeSplashOperator(bpy.types.Operator):
+    bl_idname = "node.show_node_splash"
+    bl_label = "Show Node Splash"
+
+    def execute(self, context):
+        for area in bpy.context.screen.areas:
+            if area.type == 'NODE_EDITOR':
+                NodeCommandHandler.clear_node_groups()
+                NodeCommandHandler.get_or_create_node_tree()
+                NodeCommandHandler.create_node("OCVLAuthNode", location=(520, 560))
+                NodeCommandHandler.create_node("OCVLHistoryNode", location=(-300, 220))
+                NodeCommandHandler.create_node("OCVLDocsNode", location=(-300, 100))
+                NodeCommandHandler.create_node("OCVLSplashNode", location=(-60, 460))
+
+                NodeCommandHandler.connect_nodes("Splash", "history", "History", "history")
+                NodeCommandHandler.connect_nodes("Splash", "docs", "Docs", "docs")
+                NodeCommandHandler.connect_nodes("Auth", "auth", "Splash", "auth")
+                NodeCommandHandler.view_all()
+                return {'FINISHED'}
         return {'CANCELLED'}
 
 
@@ -230,11 +252,15 @@ def register():
     cv_register_class(OCVLShowTextInTextEditorOperator)
     cv_register_class(OCVLClearDeskOperator)
     cv_register_class(OCVLRequestsSplashOperator)
-    cv_register_class(ModalTimerOperator)
+    cv_register_class(OCVLChangeThemeLightOperator)
+    cv_register_class(OCVLChangeThemeDarkOperator)
+    cv_register_class(OCVLShowNodeSplashOperator)
 
 
 def unregister():
-    cv_unregister_class(ModalTimerOperator)
+    cv_unregister_class(OCVLShowNodeSplashOperator)
+    cv_unregister_class(OCVLChangeThemeDarkOperator)
+    cv_unregister_class(OCVLChangeThemeLightOperator)
     cv_unregister_class(OCVLRequestsSplashOperator)
     cv_unregister_class(OCVLClearDeskOperator)
     cv_unregister_class(OCVLShowTextInTextEditorOperator)

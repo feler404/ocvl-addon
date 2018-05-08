@@ -1,18 +1,18 @@
 ## laboratory
-    Simple-OCVLSimpleImageSampleNode
-    Simple-OCVLSimpleImageViewerNode
-    Ext-OCVLImageViewerNode
-    Ext-OCVLImageSampleNode
-    Ext-OCVLCustomInputNode
-    Ext-OCVLStethoscopeNode
-    Ext-OCVLBitwiseNode
-    Ext-OCVLROINode
-    Ext-OCVLTypeConvertNode
+    OCVLImageViewerNode
+    OCVLImageSampleNode
+    OCVLCustomInputNode
+    OCVLStethoscopeNode
+    OCVLBitwiseNode
+    OCVLROINode
+    OCVLTypeConvertNode
+    OCVLApplyROINode
     ---
-    OCVLSplashNode
-    OCVLAuthNode
-    OCVLHistoryNode
-    OCVLDocsNode
+    Hidden-OCVLSplashNode
+    Hidden-OCVLAuthNode
+    Hidden-OCVLHistoryNode
+    Hidden-OCVLDocsNode
+    Hidden-OCVLThemeNode
 ## core
 ># Data Struct
     ---
@@ -25,7 +25,12 @@
 ># Operations on arrays
     ---
     OCVLabsdiffNode
+    OCVLaddNode
     OCVLaddWeightedNode
+    OCVLbitwise_andNode
+    OCVLbitwise_notNode
+    OCVLbitwise_orNode
+    OCVLbitwise_xorNode
     OCVLborderInterpolateNode
     OCVLcalcCovarMatrixNode
     OCVLcartToPolarNode
@@ -156,12 +161,12 @@
     OCVLcreateBackgroundSubtractorMOG2Node
 
 >## Number
-## Alpha Nodes
-## Beta Nodes
-## List Masks
-## List Main
-## List Mutators
-## Objects
-## BPY Data
-## Generators Extended
-## Generator
+>## Alpha Nodes
+>## Beta Nodes
+>## List Masks
+>## List Main
+>## List Mutators
+>## Objects
+>## BPY Data
+>## Generators Extended
+>## Generator
