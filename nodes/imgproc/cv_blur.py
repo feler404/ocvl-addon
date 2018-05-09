@@ -54,6 +54,17 @@ class OCVLblurNode(OCVLNode):
         image_out = self.process_cv(fn=cv2.blur, kwargs=kwargs)
         self.refresh_output_socket("image_out", image_out, is_uuid_type=True)
 
+    def generate_code(self, prop_name, exit_prop_name):
+        lines = []
+        if prop_name == 'image_out':
+            if self.inputs["image_in"].is_linked:
+                node_linked = self.inputs["image_in"].links[0].from_node
+                socket_name = self.inputs["image_in"].links[0].from_socket.name
+                lines.extend(node_linked.generate_code(socket_name, "src"))
+            lines.append('ksize_in = {}'.format(self.get_from_props("ksize_in")))
+            lines.append("{} = cv2.blur(src=src, ksize_in=ksize_in)".format(exit_prop_name))
+        return lines
+
     def draw_buttons(self, context, layout):
         self.add_button(layout, 'borderType_in')
 

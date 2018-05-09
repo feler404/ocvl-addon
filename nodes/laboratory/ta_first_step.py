@@ -33,9 +33,6 @@ TEXT_STEP_13 = "Step 13 - connect output addWeighted to viewer"
 TEXT_STEP_14 = "Step 14 - show image in image mode"
 
 
-
-
-
 TIP_STEP_1 = "If you press SPACE BAR, search menu shows"
 TIP_STEP_2 = "If you press SPACE BAR, search menu shows"
 TIP_STEP_3 = "Grab green spot by side image_out and drag to green spot image_in"

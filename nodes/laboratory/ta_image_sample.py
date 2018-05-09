@@ -18,34 +18,6 @@ IMAGE_MODE_ITEMS = [
     ]
 
 
-class OCVLImageImporterOp(bpy.types.Operator):
-    bl_idname = "image.image_importer"
-    bl_label = "Open Image"
-    bl_options = {'REGISTER'}
-
-    n_id = StringProperty(default='')
-
-    filepath = StringProperty(
-        name="File Path",
-        description="Filepath used for importing the font file",
-        maxlen=1024, default="", subtype='FILE_PATH')
-
-    origin = StringProperty("")
-
-    def execute(self, context):
-        node_tree, node_name = self.origin.split('|><|')
-        node = bpy.data.node_groups[node_tree].nodes[node_name]
-        node.loc_filepath = self.filepath
-        node.loc_name_image = ''
-        node.process()
-        return {'FINISHED'}
-
-    def invoke(self, context, event):
-        wm = context.window_manager
-        wm.fileselect_add(self)
-        return {'RUNNING_MODAL'}
-
-
 class OCVLImageSampleNode(OCVLPreviewNode):
     ''' Image sample '''
     bl_icon = 'IMAGE_DATA'
@@ -118,6 +90,12 @@ class OCVLImageSampleNode(OCVLPreviewNode):
         self.make_textures(image, uuid_=self.image_out)
         self._add_meta_info(image)
 
+    def generate_code(self, prop_name, exit_prop_name):
+        lines = []
+        if prop_name == 'image_out':
+            lines.append("{} = cv2.imread({})".format(exit_prop_name, self.loc_filepath))
+        return lines
+
     def _add_meta_info(self, image):
         self.n_meta = "\n".join(["Width: {}".format(image.shape[1]),
                                  "Height: {}".format(image.shape[0]),
@@ -165,11 +143,9 @@ if ocvl_auth.ocvl_pro_version_auth:
 
 
 def register():
-    cv_register_class(OCVLImageImporterOp)
     cv_register_class(OCVLImageSampleNode)
 
 
 def unregister():
     cv_unregister_class(OCVLImageSampleNode)
-    cv_unregister_class(OCVLImageImporterOp)
 

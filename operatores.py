@@ -246,6 +246,49 @@ class OCVLShowNodeSplashOperator(bpy.types.Operator):
         return {'CANCELLED'}
 
 
+class OCVLImageImporterOperator(bpy.types.Operator):
+    bl_idname = "image.image_importer"
+    bl_label = "Open Image"
+    bl_options = {'REGISTER'}
+
+    n_id = StringProperty(default='')
+
+    filepath = StringProperty(
+        name="File Path",
+        description="Filepath used for importing the font file",
+        maxlen=1024, default="", subtype='FILE_PATH')
+
+    origin = StringProperty("")
+
+    def execute(self, context):
+        node_tree, node_name = self.origin.split('|><|')
+        node = bpy.data.node_groups[node_tree].nodes[node_name]
+        node.loc_filepath = self.filepath
+        node.loc_name_image = ''
+        node.process()
+        return {'FINISHED'}
+
+    def invoke(self, context, event):
+        wm = context.window_manager
+        wm.fileselect_add(self)
+        return {'RUNNING_MODAL'}
+
+
+class OCVLGeneratePythonCodeOperator(bpy.types.Operator):
+    bl_idname = "node.generate_python_code"
+    bl_label = "Generate code"
+    bl_options = {'INTERNAL'}
+
+    n_id = StringProperty(default='')
+    origin = StringProperty("")
+
+    def execute(self, context):
+        node_tree, node_name = self.origin.split('|><|')
+        node = bpy.data.node_groups[node_tree].nodes[node_name]
+        node.generate_code()
+        return {'FINISHED'}
+
+
 def register():
     cv_register_class(OCVLImageFullScreenOperator)
     cv_register_class(EscapeFullScreenOperator)
@@ -255,9 +298,13 @@ def register():
     cv_register_class(OCVLChangeThemeLightOperator)
     cv_register_class(OCVLChangeThemeDarkOperator)
     cv_register_class(OCVLShowNodeSplashOperator)
+    cv_register_class(OCVLImageImporterOperator)
+    cv_register_class(OCVLGeneratePythonCodeOperator)
 
 
 def unregister():
+    cv_unregister_class(OCVLGeneratePythonCodeOperator)
+    cv_unregister_class(OCVLImageImporterOperator)
     cv_unregister_class(OCVLShowNodeSplashOperator)
     cv_unregister_class(OCVLChangeThemeDarkOperator)
     cv_unregister_class(OCVLChangeThemeLightOperator)
