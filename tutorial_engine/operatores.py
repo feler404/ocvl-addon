@@ -8,7 +8,7 @@ import logging
 from bpy.props import StringProperty
 
 from ..tutorial_engine.worker import print_keyborad_worker
-from .settings import TUTORIAL_HEARTBEAT_INTERVAL, TUTORIAL_PATH
+from .settings import TUTORIAL_HEARTBEAT_INTERVAL, TUTORIAL_PATH, TUTORIAL_HEARTBEAT_INTERVAL_TIP_REFRESH
 from .engine_app import NodeCommandHandler
 
 bpy.worker_queue = []
@@ -16,9 +16,9 @@ handler = NodeCommandHandler
 logger = logging.getLogger(__name__)
 
 
-class ModalTimerOperator(bpy.types.Operator):
-    """Operator which runs its self from a timer"""
-    bl_idname = "wm.modal_timer_operator"
+class ModalTimerConsumerRequestOperator(bpy.types.Operator):
+    """Operator grab and run requests from queue - from Tornado"""
+    bl_idname = "wm.modal_timer_consumer_request_operator"
     bl_label = "Modal Timer Operator"
 
     _timer = None
@@ -53,6 +53,45 @@ class ModalTimerOperator(bpy.types.Operator):
 
     def execute(self, context):
         self._timer = context.window_manager.event_timer_add(TUTORIAL_HEARTBEAT_INTERVAL, context.window)
+        context.window_manager.modal_handler_add(self)
+        return {'RUNNING_MODAL'}
+
+    def cancel(self, context):
+        context.area.header_text_set()
+        context.window_manager.event_timer_remove(self._timer)
+        return {'CANCELLED'}
+
+
+class ModalTimerRefreshFirstStepsTipOperator(bpy.types.Operator):
+    """"""
+    bl_idname = "wm.modal_timer_refresh_first_steps_tip_operator"
+    bl_label = "Modal Timer Operator"
+
+    _timer = None
+    _heartbeat_counter = 0
+    _absence_count = 0
+
+    def modal(self, context, event):
+
+        if event.type == 'TIMER':
+            self._heartbeat_counter += 1
+            if self._heartbeat_counter % 10 == 0:
+                print("{} - {} - {}".format(time.time(), __name__, bpy.tutorial_first_step))
+
+            for area in bpy.context.screen.areas:
+                if area.type == 'NODE_EDITOR':
+                    if "Tip" in bpy.data.node_groups[0].nodes:
+                        bpy.data.node_groups[0].nodes["Tip"].wrapped_process()
+                    else:
+                        self._absence_count += 1
+
+        if self._absence_count > 10:
+            return {'CANCELLED'}
+
+        return {'PASS_THROUGH'}
+
+    def execute(self, context):
+        self._timer = context.window_manager.event_timer_add(TUTORIAL_HEARTBEAT_INTERVAL_TIP_REFRESH, context.window)
         context.window_manager.modal_handler_add(self)
         return {'RUNNING_MODAL'}
 
@@ -120,7 +159,7 @@ class TutorialModeCommandOperator(bpy.types.Operator):
         elif self.loc_command == "select_file_for_sample":
             nt = NodeCommandHandler.get_or_create_node_tree()
             blur = nt.nodes.get('ImageSample.001')
-            full_tutorial_path = os.path.abspath(os.path.join(TUTORIAL_PATH, "common/ml.png"))
+            full_tutorial_path = os.path.abspath(os.path.join(TUTORIAL_PATH, "first_steps/ml.png"))
             blur.loc_filepath = full_tutorial_path
             return {'FINISHED'}
 
@@ -158,11 +197,12 @@ class TutorialShowFirstStepCommandOperator(bpy.types.Operator):
                 NodeCommandHandler.clear_node_groups()
                 NodeCommandHandler.get_or_create_node_tree()
                 NodeCommandHandler.create_node("OCVLFirstStepsNode", location=(0, 0))
+                NodeCommandHandler.create_node("OCVLTipNode", location=(400, 0))
+                NodeCommandHandler.connect_nodes("Tip", "tip", "FirstSteps", "tip")
                 NodeCommandHandler.view_all()
+                bpy.ops.wm.modal_timer_refresh_first_steps_tip_operator()
                 return {'FINISHED'}
         return {'CANCELLED'}
-
-
 
 
 def orange_theme():
@@ -175,14 +215,16 @@ def orange_theme():
 
 
 def register():
-    bpy.utils.register_class(ModalTimerOperator)
+    bpy.utils.register_class(ModalTimerConsumerRequestOperator)
     bpy.utils.register_class(TutorialModeOperator)
     bpy.utils.register_class(TutorialModeCommandOperator)
     bpy.utils.register_class(TutorialShowFirstStepCommandOperator)
+    bpy.utils.register_class(ModalTimerRefreshFirstStepsTipOperator)
 
 
 def unregister():
+    bpy.utils.unregister_class(ModalTimerRefreshFirstStepsTipOperator)
     bpy.utils.unregister_class(TutorialShowFirstStepCommandOperator)
     bpy.utils.unregister_class(TutorialModeCommandOperator)
     bpy.utils.unregister_class(TutorialModeOperator)
-    bpy.utils.unregister_class(ModalTimerOperator)
+    bpy.utils.unregister_class(ModalTimerConsumerRequestOperator)

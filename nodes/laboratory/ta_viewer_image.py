@@ -38,7 +38,7 @@ class OCVLImageViewerNode(OCVLPreviewNode):
     def draw_buttons(self, context, layout):
         col = layout.column(align=True)
         col.operator('image.image_full_screen', text='', icon="FULLSCREEN").origin = self.get_node_origin()
-        col.operator('node.generate_python_code', text='', icon="FULLSCREEN").origin = self.get_node_origin()
+        # col.operator('node.generate_python_code', text='', icon="FULLSCREEN").origin = self.get_node_origin()
         self.draw_preview(layout=layout, prop_name="image_in", location_x=10, location_y=40)
 
 

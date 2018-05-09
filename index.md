@@ -9,6 +9,7 @@
     OCVLApplyROINode
     ---
     OCVLFirstStepsNode
+    OCVLTipNode
     Hidden-OCVLSplashNode
     Hidden-OCVLAuthNode
     Hidden-OCVLHistoryNode

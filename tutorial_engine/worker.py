@@ -29,7 +29,7 @@ class StoppableThread(threading.Thread):
 
     def start(self, *args, **kwargs):
         logger.info("Worker tread started.")
-        bpy.ops.wm.modal_timer_operator()
+        bpy.ops.wm.modal_timer_consumer_request_operator()
         logger.info("Modal timer operator started.")
         super().start(*args, **kwargs)
 

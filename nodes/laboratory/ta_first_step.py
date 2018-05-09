@@ -5,7 +5,7 @@ import os
 import uuid
 import bpy
 from logging import getLogger
-from bpy.props import BoolProperty, StringProperty
+from bpy.props import BoolProperty, StringProperty, IntProperty
 
 from ...nodes.laboratory.ta_docs import draw_docs_buttons
 from ...tutorial_engine.settings import TUTORIAL_PATH
@@ -65,11 +65,13 @@ class TutorialFirstStep:
         self.layout = layout
         self.col = col
         self.node = node
+        self.step = 1
 
     def start(self):
         return self.step_1()
 
     def step_1(self):
+        self.step = 1
         nt = NodeCommandHandler.get_or_create_node_tree()
 
         if nt.nodes.get('ImageSample'):
@@ -80,6 +82,7 @@ class TutorialFirstStep:
             show_long_tip(TIP_STEP_1, self.col)
 
     def step_2(self):
+        self.step = 2
         nt = NodeCommandHandler.get_or_create_node_tree()
         if nt.nodes.get('ImageViewer'):
             self.col.label(text=TEXT_STEP_2, icon="FILE_TICK")
@@ -89,6 +92,7 @@ class TutorialFirstStep:
             show_long_tip(TIP_STEP_2, self.col)
 
     def step_3(self):
+        self.step = 3
         nt = NodeCommandHandler.get_or_create_node_tree()
         img_sample = nt.nodes.get('ImageSample')
         img_viewer = nt.nodes.get('ImageViewer')
@@ -100,6 +104,7 @@ class TutorialFirstStep:
             show_long_tip(TIP_STEP_3, self.col)
 
     def step_4(self):
+        self.step = 4
         nt = NodeCommandHandler.get_or_create_node_tree()
         if nt.nodes.get('blur'):
             self.col.label(text=TEXT_STEP_4, icon="FILE_TICK")
@@ -109,6 +114,7 @@ class TutorialFirstStep:
             show_long_tip(TIP_STEP_4, self.col)
 
     def step_5(self):
+        self.step = 5
         nt = NodeCommandHandler.get_or_create_node_tree()
         img_sample = nt.nodes.get('ImageSample')
         img_viewer = nt.nodes.get('ImageViewer')
@@ -122,6 +128,7 @@ class TutorialFirstStep:
             show_long_tip(TIP_STEP_5, self.col)
 
     def step_6(self):
+        self.step = 6
         nt = NodeCommandHandler.get_or_create_node_tree()
         blur = nt.nodes.get('blur')
 
@@ -133,6 +140,7 @@ class TutorialFirstStep:
             show_long_tip(TIP_STEP_6, self.col)
 
     def step_7(self):
+        self.step = 7
         nt = NodeCommandHandler.get_or_create_node_tree()
 
         if nt.nodes.get('ImageSample.001'):
@@ -143,6 +151,7 @@ class TutorialFirstStep:
             show_long_tip(TIP_STEP_7, self.col)
 
     def step_8(self):
+        self.step = 8
         nt = NodeCommandHandler.get_or_create_node_tree()
         image_sample = nt.nodes.get('ImageSample.001')
         if image_sample and image_sample.loc_image_mode == "FILE":
@@ -153,6 +162,7 @@ class TutorialFirstStep:
             show_long_tip(TIP_STEP_8, self.col)
 
     def step_9(self):
+        self.step = 9
         nt = NodeCommandHandler.get_or_create_node_tree()
         image_sample = nt.nodes.get('ImageSample.001')
         if image_sample and image_sample.loc_image_mode == "FILE" and image_sample.loc_filepath != "" :
@@ -163,6 +173,7 @@ class TutorialFirstStep:
             show_long_tip(TIP_STEP_9, self.col)
 
     def step_10(self):
+        self.step = 10
         nt = NodeCommandHandler.get_or_create_node_tree()
         add_weighted = nt.nodes.get('addWeighted')
         if add_weighted:
@@ -173,6 +184,7 @@ class TutorialFirstStep:
             show_long_tip(TIP_STEP_10, self.col)
 
     def step_11(self):
+        self.step = 11
         nt = NodeCommandHandler.get_or_create_node_tree()
         add_weighted = nt.nodes.get('addWeighted')
         if add_weighted and add_weighted.inputs["image_1_in"].is_linked:
@@ -183,6 +195,7 @@ class TutorialFirstStep:
             show_long_tip(TIP_STEP_11, self.col)
 
     def step_12(self):
+        self.step = 12
         nt = NodeCommandHandler.get_or_create_node_tree()
         add_weighted = nt.nodes.get('addWeighted')
         if add_weighted and add_weighted.inputs["image_1_in"].is_linked and add_weighted.inputs["image_2_in"].is_linked:
@@ -193,6 +206,7 @@ class TutorialFirstStep:
             show_long_tip(TIP_STEP_12, self.col)
 
     def step_13(self):
+        self.step = 13
         nt = NodeCommandHandler.get_or_create_node_tree()
         add_weighted = nt.nodes.get('addWeighted')
         if add_weighted and add_weighted.inputs["image_1_in"].is_linked and add_weighted.inputs["image_2_in"].is_linked and add_weighted.outputs["image_out"].is_linked:
@@ -203,6 +217,7 @@ class TutorialFirstStep:
             show_long_tip(TIP_STEP_13, self.col)
 
     def step_14(self):
+        self.step = 14
         self.col.label(text=TEXT_STEP_14, icon="FILE_TICK")
         self.col.operator('image.image_full_screen', text="Show image on full screen", icon="FULLSCREEN").origin = "TutorialNodeTree|><|ImageViewer"
         self.col.operator('node.clean_desk', text="Start with blank desk - Community version", icon='RESTRICT_VIEW_OFF')
@@ -213,10 +228,11 @@ class TutorialFirstStep:
 class OCVLFirstStepsNode(OCVLPreviewNode):
     origin = StringProperty("")
     docs = BoolProperty(default=False)
+    tip = IntProperty(default=1)
 
     def sv_init(self, context):
         self.width = 340
-        # self.outputs.new("StringsSocket", "docs")
+        self.outputs.new("StringsSocket", "tip")
 
     def wrapped_process(self):
         pass
@@ -232,6 +248,7 @@ class OCVLFirstStepsNode(OCVLPreviewNode):
             row.prop(self, "docs", expand=True,  text="More tutorials")
         if self.docs:
             draw_docs_buttons(col, layout, self)
+        bpy.tutorial_first_step = tutorial.step
 
 
 def register():
