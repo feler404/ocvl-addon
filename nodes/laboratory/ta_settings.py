@@ -6,13 +6,13 @@ from ...utils import cv_register_class, cv_unregister_class, OCVLPreviewNode, up
 logger = getLogger(__name__)
 
 
-class OCVLHistoryNode(OCVLPreviewNode):
+class OCVLSettingsNode(OCVLPreviewNode):
     origin = StringProperty("")
-    history = BoolProperty(default=False)
+    settings = BoolProperty(default=False)
 
     def sv_init(self, context):
         self.width = 180
-        self.outputs.new("StringsSocket", "history")
+        self.outputs.new("StringsSocket", "settings")
 
     def wrapped_process(self):
         pass
@@ -30,8 +30,8 @@ class OCVLHistoryNode(OCVLPreviewNode):
         col.operator('node.tutorial_mode', text="Tutorial - mode", icon='PARTICLES').loc_tutorial_path = ""
 
 def register():
-    cv_register_class(OCVLHistoryNode)
+    cv_register_class(OCVLSettingsNode)
 
 
 def unregister():
-    cv_unregister_class(OCVLHistoryNode)
+    cv_unregister_class(OCVLSettingsNode)
