@@ -16,7 +16,7 @@ from bpy.types import (
 
 
 from ..auth import ocvl_auth
-from .. import DEBUG
+from ..auth import DEBUG
 sv_tree_types = {'SverchCustomTreeType', 'SverchGroupTreeType'}
 
 

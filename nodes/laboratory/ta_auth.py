@@ -6,7 +6,7 @@ from ...auth import (
     ocvl_auth, ocvl_user, ANONYMOUS, OCVL_GITHUB_ISSUE_TEMPLATE, COMMUNITY_VERSION,
     OCVL_LINK_UPGRADE_PROGRAM_TO_PRO,
     OCVL_LINK_TO_OCVL_PANEL,
-)
+    OCVL_LINK_TO_CREATE_ACCOUNT)
 
 logger = getLogger(__name__)
 
@@ -32,8 +32,8 @@ class OCVLAuthNode(OCVLPreviewNode):
             icon = 'QUESTION'
             if ocvl_auth.ocvl_version == COMMUNITY_VERSION:
                 col = layout.column(align=True)
-                col.operator('wm.url_open', text="Upgrade program to PRO".format(self.bl_label),
-                             icon='SOLO_ON').url = OCVL_LINK_UPGRADE_PROGRAM_TO_PRO
+                # col.operator('wm.url_open', text="Upgrade program to PRO".format(self.bl_label), icon='SOLO_ON').url = OCVL_LINK_UPGRADE_PROGRAM_TO_PRO
+                col.operator('wm.url_open', text="Create account".format(self.bl_label), icon='INFO').url = OCVL_LINK_TO_CREATE_ACCOUNT
         elif self.status_code == 200:
             col = layout.column(align=True)
             col.operator('wm.url_open', text="OCVL Web Panel".format(self.bl_label),

@@ -13,7 +13,7 @@ from .utils import convert_to_gl_image, cv_register_class, cv_unregister_class
 from sverchok.core.socket_data import SvNoDataError
 import requests
 
-from .auth import ocvl_auth, auth_pro_confirm, auth_pro_reject, OCVL_PANEL_URL
+from .auth import ocvl_auth, auth_pro_confirm, auth_pro_reject, OCVL_PANEL_URL, auth_problem
 
 logger = logging.getLogger(__name__)
 
@@ -154,9 +154,15 @@ class OCVLRequestsSplashOperator(bpy.types.Operator):
     def invoke(self, context, event):
         node_tree, node_name, fn_name, fn_args = self.origin.split('|><|')
         node = bpy.data.node_groups[node_tree].nodes[node_name]
-        url = "{}{}{}".format(OCVL_PANEL_URL, fn_name, fn_args)
-        response = requests.get(url=url)
         auth_node = self._get_auth_node(node_tree, node)
+        url = "{}{}{}".format(OCVL_PANEL_URL, fn_name, fn_args)
+        try:
+            response = requests.get(url=url)
+        except Exception as e:
+            logger.error("Request error: URL: {}, exception: {}".format(url, e))
+            auth_problem(node, url, str(e))
+            response = requests.Response()
+
         if response.status_code == 200:
             auth_pro_confirm(node, url, response)
         else:
@@ -234,11 +240,11 @@ class OCVLShowNodeSplashOperator(bpy.types.Operator):
                 NodeCommandHandler.clear_node_groups()
                 NodeCommandHandler.get_or_create_node_tree()
                 NodeCommandHandler.create_node("OCVLAuthNode", location=(520, 560))
-                NodeCommandHandler.create_node("OCVLHistoryNode", location=(-300, 240))
+                NodeCommandHandler.create_node("OCVLSettingsNode", location=(-300, 240))
                 NodeCommandHandler.create_node("OCVLDocsNode", location=(-300, 100))
                 NodeCommandHandler.create_node("OCVLSplashNode", location=(-60, 460))
 
-                NodeCommandHandler.connect_nodes("Splash", "history", "History", "history")
+                NodeCommandHandler.connect_nodes("Splash", "settings", "Settings", "settings")
                 NodeCommandHandler.connect_nodes("Splash", "docs", "Docs", "docs")
                 NodeCommandHandler.connect_nodes("Auth", "auth", "Splash", "auth")
                 NodeCommandHandler.view_all()

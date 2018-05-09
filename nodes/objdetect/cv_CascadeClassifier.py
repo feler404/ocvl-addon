@@ -3,11 +3,10 @@ import uuid
 import os
 from bpy.props import EnumProperty, StringProperty, IntProperty, FloatProperty, IntVectorProperty, BoolVectorProperty
 
-import ocvl
+from ...auth import BASE_DIR
 from ...utils import cv_register_class, OCVLNode, updateNode
 
 
-BASE_DIR = ocvl.BASE_DIR
 HAAR_CASCADE_DIR = 'datafiles/haarcascade'
 
 

@@ -10,8 +10,7 @@ from uuid import UUID
 from logging import getLogger
 from bpy.props import StringProperty, IntProperty
 
-from . import IS_WORK_ON_COPY_INPUT
-from .auth import ocvl_auth
+from .auth import ocvl_auth, IS_WORK_ON_COPY_INPUT
 from .sverchok_point import SverchCustomTreeNode, node_id, nodeview_bgl_viewer_draw_mk2, sv_preferences
 from sverchok.core.socket_data import SvNoDataError
 

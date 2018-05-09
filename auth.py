@@ -1,19 +1,27 @@
-from collections import OrderedDict
-from os.path import dirname
-from urllib import parse
-import logging
 import json
-import bpy
 import os
+import logging
+from collections import OrderedDict
+from urllib import parse
+from os.path import dirname
+
+import bpy
 
 
 from . import bl_info
 
 logger = logging.getLogger(__name__)
 
+#  SETTINGS
+bpy.context.user_preferences.view.show_splash = False
+IS_WORK_ON_COPY_INPUT = True
+DEBUG = True
+
+#  CONSTANTS
 ANONYMOUS = "Anonymous"
 COMMUNITY_VERSION = "COMMUNITY_VERSION"
 PRO_VERSION = "PRO_VERSION"
+BASE_DIR = os.path.dirname(__file__)
 
 OCVL_PANEL_URL = "http://127.0.0.1:5000/"
 OCVL_GITHUB_ISSUE_TEMPLATE = "https://github.com/feler404/ocvl-addon/issues/new?title={title}&body={body}"
@@ -28,8 +36,15 @@ OCVL_HIDDEN_NODE_PREFIX = "Hidden-"
 OCVL_LINK_UPGRADE_PROGRAM_TO_PRO = 'https://ocvl-cms.herokuapp.com/admin/login/'
 OCVL_LINK_TO_OCVL_PANEL = 'https://ocvl-cms.herokuapp.com/admin/login/'
 OCVL_LINK_TO_STORE = 'http://kube.pl/'
-OCVL_LINK_TO_CREATE_ACCOUNT = 'http://kube.pl/'
+OCVL_LINK_TO_CREATE_ACCOUNT = 'https://ocvl-cms.herokuapp.com/admin/login/'
 
+OCVL_APP_DATA_USER_DIR = os.path.join(bpy.utils.resource_path('USER'), "config")
+OCVL_APP_DATA_USER_FILE_NAME = "ocvl_auth.txt"
+APP_DATA_USER_SETTINGS = {
+    "first_run": None,
+    "auth_token": None,
+
+}
 
 class Auth:
 
@@ -78,11 +93,11 @@ class Auth:
             return "OCVLImageViewerNode"
 
 
-
 class User:
 
     instance = None
     auth = None
+    settings = None
     name = ANONYMOUS
     tutorials = [{"name": "First steps",
                   "icon": "PARTICLE_DATA",
@@ -97,16 +112,39 @@ class User:
             User.instance = object.__new__(cls)
         return User.instance
 
-    def __init__(self, auth):
+    def __init__(self, auth, settings):
         self.auth = auth
+        self
 
     @property
     def is_login(self):
         return self.name != ANONYMOUS
 
 
+class Settings:
+
+    _settings = {}
+
+    def __init__(self):
+        self._settings = self.get_or_create_settings()
+
+    def get_or_create_settings(self):
+        full_path = os.path.join(OCVL_APP_DATA_USER_DIR, OCVL_APP_DATA_USER_FILE_NAME)
+        if os.path.isfile(full_path):
+            logger.info("Load settings file: {}".format(full_path))
+            with open(full_path, "r") as fp:
+                return json.load(fp)
+            print("Load settings file: {}".format(full_path))
+        else:
+            logger.info("Create settings file: {}".format(full_path))
+            with open(full_path, "w") as fp:
+                json.dump(APP_DATA_USER_SETTINGS, fp)
+            return APP_DATA_USER_SETTINGS
+
+
 ocvl_auth = Auth()
-ocvl_user = User(ocvl_auth)
+ocvl_settings = Settings()
+ocvl_user = User(ocvl_auth, ocvl_settings)
 
 
 def auth_pro_confirm(node, url, response):
@@ -130,6 +168,12 @@ def auth_pro_reject(node, url, response):
     logger.info("Authentication rejected for {}".format(ocvl_user.name))
 
 
+def auth_problem(node, url, reason):
+    parsed = parse.urlparse(url)
+    ocvl_user.name = str(parse.parse_qs(parsed.query).get('login', [ANONYMOUS])[0])
+    logger.info("Authentication rejected for {}".format(ocvl_user.name))
+
+
 def register_extended_operators():
     if ocvl_auth.ocvl_ext:
         from .extend.extended_operatores import register; register()
@@ -145,7 +189,7 @@ def auth_make_node_cats_new():
     this loads the index.md file and converts it to an OrderedDict of node categories.
 
     '''
-    from . import DEBUG
+    from .auth import DEBUG
     index_path = os.path.join(dirname(__file__), 'index.md')
 
     node_cats = OrderedDict()

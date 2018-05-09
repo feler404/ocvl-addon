@@ -33,7 +33,7 @@ from .console import classes_to_unregister as console_classes_to_unregister
 from .console import classes as console_clasess
 from .text import classes_to_unregister as text_classes_to_unregister
 from .text import classes as text_classes
-from .. import DEBUG
+from ..auth import DEBUG
 
 
 

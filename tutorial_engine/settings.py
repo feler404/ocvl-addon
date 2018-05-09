@@ -1,6 +1,6 @@
 import os
 import bpy
-from .. import DEBUG
+from ..auth import DEBUG
 
 
 bpy.tutorial_first_step = 1

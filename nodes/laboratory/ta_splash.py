@@ -33,7 +33,7 @@ class OCVLSplashNode(OCVLPreviewNode):
 
     auth = BoolProperty(default=False)
     docs = BoolProperty(default=False)
-    history = BoolProperty(default=False)
+    settings = BoolProperty(default=False)
 
     is_splash_loaded = BoolProperty(default=False)
 
@@ -42,7 +42,7 @@ class OCVLSplashNode(OCVLPreviewNode):
         # self.use_custom_color = True
         # self.color = (0, 0, 0)
         self.outputs.new("StringsSocket", "auth")
-        self.inputs.new("StringsSocket", "history")
+        self.inputs.new("StringsSocket", "settings")
         self.inputs.new("StringsSocket", "docs")
 
     def wrapped_process(self):
@@ -86,6 +86,7 @@ class OCVLSplashNode(OCVLPreviewNode):
 
     def layout_for_community_version(self, context, layout):
         self.layout_start_work(context, layout)
+        self.layout_auth_form(context, layout)
 
     def layout_add_store_link(self, row):
         row.operator('wm.recover_last_session', text='Recover last session', icon="RECOVER_LAST")
@@ -108,6 +109,15 @@ class OCVLSplashNode(OCVLPreviewNode):
             text = tutorial.get("name")
             icon = tutorial.get("icon", "URL")
             col_split.operator('wm.url_open', text=text.format(self.bl_label), icon=icon).url = 'http://kube.pl/'
+
+    def layout_auth_form(self, context, layout):
+        row = layout.row()
+        row.prop(self, "login_in", "Login")
+        row.prop(self, "password_in", "Password")
+        row.prop(self, "is_remember_in", "Remember")
+        get_args = OCVL_AUTH_PARAMS_LOGIN_PASSWORD_TEMPALTE.format(login=self.login_in, password=self.password_in)
+        get_fn_url = 'login'
+        row.operator('node.requests_splash', text='Submit', icon='FILE_TICK').origin = self.get_node_origin(props_name=[get_fn_url, get_args])
 
     def layout_for_pro_version(self, context, layout):
         if ocvl_auth.ocvl_pro_version_auth:
