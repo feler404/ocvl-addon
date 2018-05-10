@@ -1,5 +1,6 @@
 import cv2
 import uuid
+from gettext import gettext as _
 from bpy.props import StringProperty
 
 from ...utils import cv_register_class, cv_unregister_class, OCVLNode, DEVELOP_STATE_BETA
@@ -8,11 +9,17 @@ from ...utils import cv_register_class, cv_unregister_class, OCVLNode, DEVELOP_S
 class OCVLMahalanobisNode(OCVLNode):
     bl_develop_state = DEVELOP_STATE_BETA
 
-    v1_in = StringProperty(name="v1_in", default=str(uuid.uuid4()))
-    v2_in = StringProperty(name="v2_in", default=str(uuid.uuid4()))
-    icovar_in = StringProperty(name="icovar_in", default=str(uuid.uuid4()))
+    _doc = _("Calculates the Mahalanobis distance between two vectors.")
 
-    retval_out = StringProperty(name="retval_out", default=str(uuid.uuid4()))
+    v1_in = StringProperty(name="v1_in", default=str(uuid.uuid4()),
+        description=_("First 1D input vector."))
+    v2_in = StringProperty(name="v2_in", default=str(uuid.uuid4()),
+        description=_("Second 1D input vector."))
+    icovar_in = StringProperty(name="icovar_in", default=str(uuid.uuid4()),
+        description=_("Inverse covariance matrix."))
+
+    retval_out = StringProperty(name="retval_out", default=str(uuid.uuid4()),
+        description=_("Return value."))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "v1_in")

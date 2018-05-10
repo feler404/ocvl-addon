@@ -1,12 +1,18 @@
 from bpy.props import IntProperty, IntVectorProperty
-
+from gettext import gettext as _
 from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode
 
 
 class OCVLRotatedRectNode(OCVLNode):
-    center_in = IntVectorProperty(default=(10, 10), size=2, min=0, max=2048)
-    size_in = IntVectorProperty(default=(10, 10), size=2, min=0, max=2048)
-    angle_in = IntProperty(default=10, min=0, max=360, update=updateNode, subtype='ANGLE')
+
+    _doc = _("Rotated Rect node.")
+
+    center_in = IntVectorProperty(default=(10, 10), size=2, min=0, max=2048,
+        description=_("Center input."))
+    size_in = IntVectorProperty(default=(10, 10), size=2, min=0, max=2048,
+        description=_("Size input."))
+    angle_in = IntProperty(default=10, min=0, max=360, update=updateNode, subtype='ANGLE',
+        description=_("Angle input."))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "center_in").prop_name = "center_in"

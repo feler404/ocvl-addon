@@ -1,5 +1,6 @@
 import cv2
 import uuid
+from gettext import gettext as _
 from bpy.props import StringProperty
 
 from ...utils import cv_register_class, cv_unregister_class, OCVLNode
@@ -7,10 +8,14 @@ from ...utils import cv_register_class, cv_unregister_class, OCVLNode
 
 class OCVLLUTNode(OCVLNode):
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()))
+    _doc = _("Performs a look-up table transform of an array.")
 
-    lut_in = StringProperty(name="lut_in", default=str(uuid.uuid4()))
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()))
+    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
+        description=_("Input array of 8-bit elements."))
+    lut_in = StringProperty(name="lut_in", default=str(uuid.uuid4()),
+        description=_("Look-up table of 256 elements; in case of multi-channel input array, the table should either have a single channel (in this case the same table is used for all channels) or the same number of channels as in the input array."))
+    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()),
+        description=_("Output array of the same size and number of channels as src, and the same depth as lut."))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "image_in")

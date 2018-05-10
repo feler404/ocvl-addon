@@ -1,16 +1,26 @@
 import cv2
+from gettext import gettext as _
 from bpy.props import IntProperty, FloatProperty, FloatVectorProperty
 
 from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode
 
 
 class OCVLKeyPointNode(OCVLNode):
-    pt_in = FloatVectorProperty(default=(10, 10), size=2, min=0, max=2048)
-    size_in = FloatProperty(default=10, min=0, max=100, update=updateNode)
-    angle_in = FloatProperty(default=-1, min=-1, max=360, update=updateNode)
-    response_in = FloatProperty(default=0, min=0, max=100, update=updateNode)
-    octave_in = IntProperty(default=0, min=0, max=100, update=updateNode)
-    class_id_in = IntProperty(default=-1, min=-1, max=100, update=updateNode)
+
+    _doc = _("The keypoint constructors")
+
+    pt_in = FloatVectorProperty(default=(10, 10), size=2, min=0, max=2048,
+        description=_("The x & y coordinates of the keypoint."))
+    size_in = FloatProperty(default=10, min=0, max=100, update=updateNode,
+        description=_("Keypoint diameter."))
+    angle_in = FloatProperty(default=-1, min=-1, max=360, update=updateNode,
+        description=_("Keypoint orientation."))
+    response_in = FloatProperty(default=0, min=0, max=100, update=updateNode,
+        description=_("Keypoint detector response on the keypoint (that is, strength of the keypoint)."))
+    octave_in = IntProperty(default=0, min=0, max=100, update=updateNode,
+        description=_("Pyramid octave in which the keypoint has been detected."))
+    class_id_in = IntProperty(default=-1, min=-1, max=100, update=updateNode,
+        description=_("Object id."))
 
 
     def sv_init(self, context):

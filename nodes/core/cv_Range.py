@@ -1,11 +1,16 @@
 from bpy.props import IntProperty
-
+from gettext import gettext as _
 from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode
 
 
 class OCVLRangeNode(OCVLNode):
-    start_in = IntProperty(default=10, min=0, update=updateNode)
-    end_in = IntProperty(default=10, min=0, update=updateNode)
+
+    _doc = _("Range.")
+
+    start_in = IntProperty(default=10, min=0, update=updateNode,
+        description=_("Start input."))
+    end_in = IntProperty(default=10, min=0, update=updateNode,
+        description=_("End input."))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "start_in").prop_name = "start_in"
