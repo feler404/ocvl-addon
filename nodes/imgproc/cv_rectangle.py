@@ -60,7 +60,8 @@ class OCVLrectangleNode(OCVLNode):
         description=_("Type of the line. See the line description."))
     shift_in = IntProperty(default=0, min=1, max=100, update=updateNode,
         description=_("Number of fractional bits in the point coordinates."))
-    loc_input_mode = EnumProperty(items=INPUT_MODE_ITEMS, default="PT1, PT2", update=update_layout)                 #brak opisu
+    loc_input_mode = EnumProperty(items=INPUT_MODE_ITEMS, default="PT1, PT2", update=update_layout,
+        description=_("Loc input mode."))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "image_in")

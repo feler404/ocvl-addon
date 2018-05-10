@@ -27,7 +27,8 @@ class OCVLfloodFillNode(OCVLNode):
         description=_("Source 8-bit single-channel image."))
     image_out = StringProperty(name="image_out", default=str(uuid.uuid4()),
         description=_("Destination image of the same size and the same type as src."))
-    rect_out = IntVectorProperty(default=(0, 0, 1, 1), size=4)
+    rect_out = IntVectorProperty(default=(0, 0, 1, 1), size=4,
+        description=_("Rect output."))
 
     seedPoint_in = IntVectorProperty(default=(0, 0), size=2, update=updateNode,
         description=_("Starting point."))

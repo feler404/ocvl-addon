@@ -13,17 +13,17 @@ class OCVLpyrUpNode(OCVLNode):
     image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
         description=_("Input image."))
 
-    image_0_out = StringProperty(name="image_0_out", default=str(uuid.uuid4()))
-    image_1_out = StringProperty(name="image_1_out", default=str(uuid.uuid4()))
-    image_2_out = StringProperty(name="image_2_out", default=str(uuid.uuid4()))
-    image_3_out = StringProperty(name="image_3_out", default=str(uuid.uuid4()))
-    image_4_out = StringProperty(name="image_4_out", default=str(uuid.uuid4()))
-    image_5_out = StringProperty(name="image_5_out", default=str(uuid.uuid4()))     #nie wiem co tu opisac
-    image_6_out = StringProperty(name="image_6_out", default=str(uuid.uuid4()))
-    image_7_out = StringProperty(name="image_7_out", default=str(uuid.uuid4()))
-    image_8_out = StringProperty(name="image_8_out", default=str(uuid.uuid4()))
-    image_9_out = StringProperty(name="image_9_out", default=str(uuid.uuid4()))
-    image_full_out = StringProperty(name="image_full_out", default=str(uuid.uuid4()))
+    image_0_out = StringProperty(name="image_0_out", default=str(uuid.uuid4()), description=_("Image 0 output."))
+    image_1_out = StringProperty(name="image_1_out", default=str(uuid.uuid4()), description=_("Image 1 output."))
+    image_2_out = StringProperty(name="image_2_out", default=str(uuid.uuid4()), description=_("Image 2 output."))
+    image_3_out = StringProperty(name="image_3_out", default=str(uuid.uuid4()), description=_("Image 3 output."))
+    image_4_out = StringProperty(name="image_4_out", default=str(uuid.uuid4()), description=_("Image 4 output."))
+    image_5_out = StringProperty(name="image_5_out", default=str(uuid.uuid4()), description=_("Image 5 output."))
+    image_6_out = StringProperty(name="image_6_out", default=str(uuid.uuid4()), description=_("Image 6 output."))
+    image_7_out = StringProperty(name="image_7_out", default=str(uuid.uuid4()), description=_("Image 7 output."))
+    image_8_out = StringProperty(name="image_8_out", default=str(uuid.uuid4()), description=_("Image 8 output."))
+    image_9_out = StringProperty(name="image_9_out", default=str(uuid.uuid4()), description=_("Image 9 output."))
+    image_full_out = StringProperty(name="image_full_out", default=str(uuid.uuid4()), description=_("Image full output."))
 
     loc_pyramid_size = IntProperty(default=3, min=1, max=10, update=updateNode,
         description=_("Number levels of pyramids."))

@@ -18,7 +18,8 @@ class OCVLgetDefaultNewCameraMatrixNode(OCVLNode):
     centerPrincipalPoint_in = BoolProperty(default=False, update=updateNode,
         description=_("Location of the principal point in the new camera matrix. The parameter indicates whether this location should be at the image center or not."))
 
-    retval_out = StringProperty(name="retval_out", default=str(uuid.uuid4()))
+    retval_out = StringProperty(name="retval_out", default=str(uuid.uuid4()),
+        description=_("Return value."))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "cameraMatrix_in")

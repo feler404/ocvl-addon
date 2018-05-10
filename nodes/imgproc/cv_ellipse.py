@@ -21,9 +21,12 @@ PROPS_MAPS = {
 class OCVLellipseNode(OCVLNode):
     bl_icon = 'GREASEPENCIL'
 
-    _doc=_("Draws a simple or thick elliptic arc or fills an ellipse sector.")
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()), description=_("Input image."))
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()), description=_("Output image."))
+    _doc = _("Draws a simple or thick elliptic arc or fills an ellipse sector.")
+
+    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
+        description=_("Input image."))
+    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()),
+        description=_("Output image."))
 
     def update_layout(self, context):
         self.update_sockets(context)

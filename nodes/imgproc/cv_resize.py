@@ -39,7 +39,8 @@ class OCVLresizeNode(OCVLNode):
         description=_("Fx and fy and let the function compute the destination image size."))
     interpolation_in = EnumProperty(items=INTERPOLATION_ITEMS, default='INTER_NEAREST', update=updateNode,
         description=_("Interpolation method."))
-    loc_resize_mode = EnumProperty(items=RESIZE_MODE_ITEMS, default="SIZE", update=update_layout)           #brak opisu
+    loc_resize_mode = EnumProperty(items=RESIZE_MODE_ITEMS, default="SIZE", update=update_layout,
+        description=_("Loc resize mode."))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "image_in")

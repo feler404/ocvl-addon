@@ -1,5 +1,6 @@
 import cv2
 import uuid
+from gettext import gettext as _
 from bpy.props import EnumProperty, StringProperty, IntVectorProperty, BoolVectorProperty
 
 from ...utils import cv_register_class, cv_unregister_class, BORDER_TYPE_ITEMS, OCVLNode, updateNode, DEVELOP_STATE_ALPHA
@@ -9,20 +10,24 @@ class OCVLwarpAffineNode(OCVLNode):
     bl_develop_state = DEVELOP_STATE_ALPHA
     bl_flags_list = 'INTER_LINEAR, INTER_NEAREST, WARP_INVERSE_MAP'
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()))
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()))
+    _doc = _("Applies an affine transformation to an image.")
+
+    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
+        description=_("Input image."))
+    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()),
+        description=_("Output image."))
 
     M_in = StringProperty(name="M_in", default=str(uuid.uuid4()),
-        description="Transformation matrix.")
+        description=_("Transformation matrix."))
 
     dsize_in = IntVectorProperty(default=(100, 100), update=updateNode, min=1, max=2028, size=2,
-        description='Size of the output image.')
+        description=_("Size of the output image."))
     flags_in = BoolVectorProperty(default=[False for i in bl_flags_list.split(",")], size=len(bl_flags_list.split(",")),
         update=updateNode, subtype="NONE", description=bl_flags_list)
     borderMode_in = EnumProperty(items=BORDER_TYPE_ITEMS, default='None', update=updateNode,
-        description="border mode used to extrapolate pixels outside of the image, see cv::BorderTypes")
+        description=_("Border mode used to extrapolate pixels outside of the image, see cv::BorderTypes"))
     borderValue_in = EnumProperty(items=BORDER_TYPE_ITEMS, default='None', update=updateNode,
-        description="border mode used to extrapolate pixels outside of the image, see cv::BorderTypes")
+        description=_("Border mode used to extrapolate pixels outside of the image, see cv::BorderTypes"))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "image_in")
