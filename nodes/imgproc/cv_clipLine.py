@@ -13,9 +13,9 @@ class OCVLclipLineNode(OCVLNode):
 
     imgRect_in = StringProperty(name="imgRect_in", default=str(uuid.uuid4()),
         description=_("Image rectangle."))
-    retval_out = StringProperty(name="retval_out", default=str(uuid.uuid4()))
-    pt1_out = StringProperty(name="pt1_out", default=str(uuid.uuid4()))
-    pt2_out = StringProperty(name="pt2_out", default=str(uuid.uuid4()))
+    retval_out = StringProperty(name="retval_out", default=str(uuid.uuid4()), description=_("Return value."))
+    pt1_out = StringProperty(name="pt1_out", default=str(uuid.uuid4()), description=_("Pt1 output."))
+    pt2_out = StringProperty(name="pt2_out", default=str(uuid.uuid4()), description=_("Pt2 output."))
 
     pt1_in = IntVectorProperty(default=(0, 0), size=2, min=0, update=updateNode,
         description=_("First point of the line segment."))

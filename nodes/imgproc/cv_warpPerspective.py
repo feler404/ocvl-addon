@@ -1,5 +1,6 @@
 import cv2
 import uuid
+from gettext import gettext as _
 from bpy.props import EnumProperty, StringProperty, IntProperty, IntVectorProperty, BoolVectorProperty
 
 from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode, BORDER_MODE_ITEMS, DEVELOP_STATE_BETA
@@ -9,20 +10,24 @@ class OCVLwarpPerspectiveNode(OCVLNode):
     bl_develop_state = DEVELOP_STATE_BETA
     bl_flags_list = 'INTER_LINEAR, WARP_FILL_OUTLIERS'
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()))
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()))
+    _doc = _("Applies a perspective transformation to an image.")
+
+    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
+        description=_("Image input."))
+    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()),
+        description=_("Image output."))
 
     M_in = StringProperty(name="M_in", default=str(uuid.uuid4()),
-        description="Transformation matrix.")
+        description=_("Transformation matrix."))
 
     dsize_in = IntVectorProperty(default=(100, 100), update=updateNode, min=1, max=2028, size=2,
-        description='Size of the output image.')
+        description=_("Size of the output image."))
     flags_in = BoolVectorProperty(default=[False for i in bl_flags_list.split(",")], size=len(bl_flags_list.split(",")),
         update=updateNode, subtype="NONE", description=bl_flags_list)
     borderMode_in = EnumProperty(items=BORDER_MODE_ITEMS, default='BORDER_CONSTANT', update=updateNode,
-        description="Pixel extrapolation method (BORDER_CONSTANT or BORDER_REPLICATE).")
+        description=_("Pixel extrapolation method (BORDER_CONSTANT or BORDER_REPLICATE)."))
     borderValue_in = IntProperty(default=0, min=0, max=255, update=updateNode,
-        description="Value used in case of a constant border; by default, it equals 0.")
+        description=_("Value used in case of a constant border; by default, it equals 0."))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "image_in")

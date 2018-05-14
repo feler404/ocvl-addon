@@ -1,13 +1,20 @@
 from bpy.props import IntProperty
-
+from gettext import gettext as _
 from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode
 
 
 class OCVLRectNode(OCVLNode):
-    x_in = IntProperty(default=10, min=0, max=2048, update=updateNode)
-    y_in = IntProperty(default=10, min=0, max=2048, update=updateNode)
-    width_in = IntProperty(default=10, min=0, max=2048, update=updateNode)
-    height_in = IntProperty(default=10, min=0, max=2048, update=updateNode)
+
+    _doc = _("Rect.")
+
+    x_in = IntProperty(default=10, min=0, max=2048, update=updateNode,
+        description=_("X input."))
+    y_in = IntProperty(default=10, min=0, max=2048, update=updateNode,
+        description=_("Y input."))
+    width_in = IntProperty(default=10, min=0, max=2048, update=updateNode,
+        description=_("Width input."))
+    height_in = IntProperty(default=10, min=0, max=2048, update=updateNode,
+        description=_("Height input."))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "x_in").prop_name = "x_in"

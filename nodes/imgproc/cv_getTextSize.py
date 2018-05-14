@@ -13,7 +13,8 @@ class OCVLgetTextSizeNode(OCVLNode):
 
     baseLine_out = StringProperty(name="baseLine_out", default=str(uuid.uuid4()),
         description=_("Output parameter - y-coordinate of the baseline relative to the bottom-most text point."))
-    retval_out = StringProperty(name="retval_out", default=str(uuid.uuid4()))
+    retval_out = StringProperty(name="retval_out", default=str(uuid.uuid4()),
+        description=_("Return value."))
 
     text_in = StringProperty(default="OpenCV", update=updateNode,
         description=_("Text string to be drawn."))

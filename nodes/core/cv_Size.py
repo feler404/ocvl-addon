@@ -1,11 +1,16 @@
 from bpy.props import IntProperty
-
+from gettext import gettext as _
 from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode
 
 
 class OCVLSizeNode(OCVLNode):
-    width_in = IntProperty(default=10, min=0, max=2048, update=updateNode)
-    height_in = IntProperty(default=10, min=0, max=2048, update=updateNode)
+
+    _doc = _("Size node.")
+
+    width_in = IntProperty(default=10, min=0, max=2048, update=updateNode,
+        description=_("Width input."))
+    height_in = IntProperty(default=10, min=0, max=2048, update=updateNode,
+        description=_("Height input."))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "width_in").prop_name = "width_in"

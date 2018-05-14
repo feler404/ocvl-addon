@@ -12,11 +12,16 @@ class OCVLeigenNode(OCVLNode):
 
     _doc = _("Calculates eigenvalues and eigenvectors of a symmetric matrix.")
 
-    src_in = StringProperty(name="src_in", default=str(uuid.uuid4()), description=_("Input matrix that must have CV_32FC1 or CV_64FC1 type, square size and be symmetrical."))
+    src_in = StringProperty(name="src_in", default=str(uuid.uuid4()),
+        description=_("Input matrix that must have CV_32FC1 or CV_64FC1 type, square size and be symmetrical."))
 
-    retval_out = StringProperty(name="retval_out", default=str(uuid.uuid4()))
-    eigenvalues_out = StringProperty(name="eigenvalues_out", default=str(uuid.uuid4()), description=_("Output vector of eigenvalues of the same type as src; the eigenvalues are stored in the descending order."))
-    eigenvectors_out = StringProperty(name="eigenvectors_out", default=str(uuid.uuid4()), description=_("Output matrix of eigenvectors; it has the same size and type as src."))
+    retval_out = StringProperty(name="retval_out", default=str(uuid.uuid4()),
+        description=_("Return value."))
+    eigenvalues_out = StringProperty(name="eigenvalues_out", default=str(uuid.uuid4()),
+        description=_("Output vector of eigenvalues of the same type as src; the eigenvalues are stored in the descending order."))
+    eigenvectors_out = StringProperty(name="eigenvectors_out", default=str(uuid.uuid4()),
+        description=_("Output matrix of eigenvectors; it has the same size and type as src."))
+
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "src_in")

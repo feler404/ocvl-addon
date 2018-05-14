@@ -13,8 +13,8 @@ class OCVLboundingRectNode(OCVLNode):
     points_in = StringProperty(default=str(uuid.uuid4()), update=updateNode,
         description=_("Input 2D point set, stored in std::vector or Mat."))
 
-    pt1_out = IntVectorProperty(default=(0, 0), size=2)
-    pt2_out = IntVectorProperty(default=(0, 0), size=2)
+    pt1_out = IntVectorProperty(default=(0, 0), size=2, description=_("Pt1 output."))
+    pt2_out = IntVectorProperty(default=(0, 0), size=2, description=_("Pt2 output."))
 
     loc_from_findContours = BoolProperty(default=True, update=updateNode,
         description=_("If linked with findContour node switch to True"))

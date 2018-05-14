@@ -12,12 +12,15 @@ class OCVLinvertNode(OCVLNode):
 
     _doc =_("Finds the inverse or pseudo-inverse of a matrix.")
 
-    src_in = StringProperty(name="src_in", default=str(uuid.uuid4()), description=_("Input floating-point M x N matrix."))
+    src_in = StringProperty(name="src_in", default=str(uuid.uuid4()),
+        description=_("Input floating-point M x N matrix."))
     flags_in = BoolVectorProperty(default=[False for i in bl_flags_list.split(",")], size=len(bl_flags_list.split(",")),
         update=updateNode, subtype="NONE", description=bl_flags_list)
 
-    dst_out = StringProperty(name="dst_out", default=str(uuid.uuid4()), description=_("Output matrix of N x M size and the same type as src."))
-    retval_out = StringProperty(name="retval_out", default=str(uuid.uuid4()))
+    dst_out = StringProperty(name="dst_out", default=str(uuid.uuid4()),
+        description=_("Output matrix of N x M size and the same type as src."))
+    retval_out = StringProperty(name="retval_out", default=str(uuid.uuid4()),
+        description=_("Return value."))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "src_in")
