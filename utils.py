@@ -574,6 +574,19 @@ class OCVLPreviewNode(OCVLNode):
         self._draw_preview(location_x=location_x, location_y=location_y, width=width, height=height)
 
     def _draw_preview(self, location_x=0, location_y=0, width=0, height=0, hide=False):
+
+        if self.n_id not in self.texture:
+            logger.debug("Preview node without texture. Node:{}".format(self.n_id))
+            return
+
+        if not self.texture[self.n_id]:
+            logger.debug("Empty texture for node. Node:{}".format(self.n_id))
+            return
+
+        if isinstance(self.texture[self.n_id], (str,)):
+            logger.debug("Texture is string instance for node: {}".format(self.n_id))
+            return
+
         nvBGL2.callback_disable(self.n_id)
 
         draw_data = {
@@ -593,7 +606,9 @@ class OCVLPreviewNode(OCVLNode):
                      )
             }
 
+
         nvBGL2.callback_enable(self.n_id, draw_data)
+
 
 
 def cv_register_class(cls):

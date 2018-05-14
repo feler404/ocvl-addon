@@ -5,7 +5,7 @@ Wstęp
 Wstęp do OpenCV
 ===============
 
-OpenCV (Open Source Computer Vision Library http://opencv.org) jest otwartą biblioteką zawierającą kilkaste algorytmów
+OpenCV (Open Source Computer Vision Library http://opencv.org) jest otwartą biblioteką zawierającą kilkaset algorytmów
 komputerowego widzenia na licencji BSD. Biblioteka OpenCV jest podzielna na moduły i ten podział jest też
 odzwierciedlony OpenCV Laboratory.
 
@@ -22,7 +22,7 @@ odzwierciedlony OpenCV Laboratory.
 Wstęp do Blender-a
 ==================
 Blender to darmowy i open source pakiet do tworzenia 3D. Obsługuje on całe modelowanie rurociągów 3D, takielunek,
-animację, symulację, rendering, komponowanie i śledzenie ruchu, a nawet edycję wideo i tworzenie gier. Zaawansowani
+animację, symulację, rendering, komponowanie i ledzenie ruchu, a nawet edycję wideo i tworzenie gier. Zaawansowani
 użytkownicy wykorzystują interfejs API Blendera do obsługi skryptów w języku Python w celu dostosowania aplikacji i
 pisania specjalistycznych narzędzi; często są one zawarte w przyszłych wydaniach Blendera. Blender jest dobrze
 dopasowany do osób i małych studiów, które korzystają z jednolitego systemu i elastycznego procesu rozwoju. Przykłady
