@@ -27,5 +27,6 @@ Locals
 
 Examples
 --------
+.. image:: http://kube.pl/wp-content/uploads/2018/01/GaussianBlur_11.png
 
 

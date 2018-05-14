@@ -1,5 +1,6 @@
 Canny
 =====
+.. image:: http://kube.pl/wp-content/uploads/2018/01/Canny_01.png
 
 
 Functionality
@@ -27,5 +28,6 @@ Locals
 
 Examples
 --------
+.. image:: http://kube.pl/wp-content/uploads/2018/01/Canny_11.png
 
 

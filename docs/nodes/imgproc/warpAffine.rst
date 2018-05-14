@@ -1,25 +1,34 @@
 warpAffine
 ==========
+.. image:: http://kube.pl/wp-content/uploads/2018/01/warpAffine_01.png
 
-.. image:: http://kube.pl/wp-content/uploads/2018/03/warpAffine_01.png
 
-Funkcja
+Functionality
+-------------
+Applies an affine transformation to an image.
+
+
+Inputs
+------
+- M_in – Transformation matrix.
+- borderMode_in – Border mode used to extrapolate pixels outside of the image, see cv::BorderTypes
+- borderValue_in – Border mode used to extrapolate pixels outside of the image, see cv::BorderTypes
+- dsize_in – Size of the output image.
+- flags_in – INTER_LINEAR, INTER_NEAREST, WARP_INVERSE_MAP
+- image_in – Input image.
+
+
+Outputs
 -------
+- image_out – Output image.
 
-Przekształca afinicznie obraz.
 
-Atrybuty wejściowe
--------------------
+Locals
+------
 
-- image_in – obraz wejściowy
-- M_in - macierz transformacji 2x3
-- dsize_in - docelowy rozmiar obrazu
 
-Atrybuty wyjściowe
-------------------
+Examples
+--------
+.. image:: http://kube.pl/wp-content/uploads/2018/01/warpAffine_11.png
 
-- image_out – obraz wyjściowy
 
-Przykłady zastosowania
-----------------------
-.. image:: http://kube.pl/wp-content/uploads/2018/03/warpAffine_11.png

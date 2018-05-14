@@ -2,11 +2,7 @@ import cv2
 import uuid
 from bpy.props import StringProperty
 from gettext import gettext as _
-<<<<<<< HEAD
-from ...extend.utils import cv_register_class, cv_unregister_class, OCVLNode
-=======
 from ...utils import cv_register_class, cv_unregister_class, OCVLNode
->>>>>>> c2800635a4a052aee0764babc2d18d4610d5776f
 
 
 class OCVLequalizeHistNode(OCVLNode):

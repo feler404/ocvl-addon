@@ -54,7 +54,8 @@ class OCVLellipseNode(OCVLNode):
         description=_("Thickness of the ellipse arc outline, if positive. Otherwise, this indicates that a filled ellipse sector is to be drawn."))
     lineType_in = EnumProperty(items=LINE_TYPE_ITEMS, default="LINE_AA",update=updateNode,
         description=_("Type of the ellipse boundary. See the line description."))
-    loc_input_mode = EnumProperty(items=INPUT_NODE_ITEMS, default="SIMPLE", update=update_layout)
+    loc_input_mode = EnumProperty(items=INPUT_NODE_ITEMS, default="SIMPLE", update=update_layout,
+        description=_("Input mode."))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "image_in")

@@ -1,61 +1,41 @@
-﻿rectangle
+rectangle
 =========
+.. image:: http://kube.pl/wp-content/uploads/2018/01/rectangle_01.png
 
-.. image:: http://kube.pl/wp-content/uploads/2018/03/rectangle_01.png
 
-Funkcja
+Functionality
+-------------
+Draws a simple, thick, or filled up-right rectangle.
+
+
+Inputs
+------
+- color_in – Rectangle color or brightness (grayscale image).
+- h_in – Height of rectangle.
+- image_in – Input image.
+- lineType_in – Type of the line. See the line description.
+- pt1_in – Vertex of the rectangle.
+- pt2_in – Vertex of the rectangle opposite to pt1.
+- rect_in – X, Y, Weight, Height in one vector.
+- shift_in – Number of fractional bits in the point coordinates.
+- thickness_in – Thickness of lines that make up the rectangle. Negative values, like CV_FILLED, mean that the function has to draw a filled rectangle.
+- w_in – Weight of rectangle.
+- x_in – X for point of top left corner.
+- y_in – Y for point of top left corner.
+
+
+Outputs
 -------
-
-Funkcja rysująca. Rysuje prosty, gruby lub wypełniony prawostronny prostokąt.
-
-Atrybuty wejściowe
-------------------
-
-- Dla trybu X, Y, W, H
-
- - image_in - obraz wejściowy na którym rysowany jest obiekt
- - color_in - kolor rysowanej linii prostokąta
- - thickness_in - grubość linii (wartość -1 pozwala otrzymać wypełnienie narysowanego obiektu)
- - shift_in - liczba bitów ułamkowych we współrzędnych środka i wartości promienia
- - x_in - X dla punktu górnego lewego rogu
- - y_in - Y dla punktu górnego lewego rogu
- - w_in - waga prostokąta
- - h_in - wysokość prostokąta
-
-- Dla trybu PT1, PT2
-
- - image_in - obraz wejściowy na którym rysowany jest obiekt
- - color_in - kolor rysowanej linii prostokąta
- - thickness_in - grubość linii (wartość -1 pozwala otrzymać wypełnienie narysowanego obiektu)
- - shift_in - liczba bitów ułamkowych we współrzędnych środka i wartości promienia
- - pt1_in - wierzchołek prostokąta
- - pt2_in - wierzchołek prstokąta przeciwnego do punktu pt1
-
-- Dla trybu Rect
-
- - image_in - obraz wejściowy na którym rysowany jest obiekt
- - color_in - kolor rysowanej linii prostokąta
- - thickness_in - grubość linii (wartość -1 pozwala otrzymać wypełnienie narysowanego obiektu)
- - shift_in - liczba bitów ułamkowych we współrzędnych środka i wartości promienia
- - rect_in - X, Y, waga i wysokość w jednym wektorze
+- image_out – Output image.
 
 
-Atrybuty wyjściowe
-------------------
+Locals
+------
+- loc_input_mode – Loc input mode.
 
-- image_out - obraz wyjściowy
 
-Atrybuty wewnętrzne
--------------------
+Examples
+--------
+.. image:: http://kube.pl/wp-content/uploads/2018/01/rectangle_11.png
 
-- lineType_in - spójność, typ segmentów linii (LINE_4, LINE_8, LINE_AA)
-- tryb pracy węzła
-    
- - X, Y, W, H
- - PT1, PT2
- - Rect
 
-Przykłady zastosowania
-----------------------
-
-.. image:: http://kube.pl/wp-content/uploads/2018/03/rectangle_02.png

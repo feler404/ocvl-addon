@@ -1,34 +1,34 @@
-﻿resize
+resize
 ======
+.. image:: http://kube.pl/wp-content/uploads/2018/01/resize_01.png
 
-.. image:: http://kube.pl/wp-content/uploads/2018/03/resize_01.png
 
-Funkcja
+Functionality
+-------------
+Resizes an image.
+
+
+Inputs
+------
+- dsize_in – Output image size.
+- fx_in – Fx and fy and let the function compute the destination image size.
+- fy_in – Fx and fy and let the function compute the destination image size.
+- image_in – Input image.
+- interpolation_in – Interpolation method.
+
+
+Outputs
 -------
+- image_out – Output image.
 
-Zmiana wielkości obrazu.
 
-Atrybuty wejściowe
-------------------
+Locals
+------
+- loc_resize_mode – Loc resize mode.
 
-- image_in – obraz wejściowy
-- dsize_in – docelowy rozmiar obrazu
 
-Atrybuty wyjściowe
-------------------
+Examples
+--------
+.. image:: http://kube.pl/wp-content/uploads/2018/01/resize_11.png
 
-- image_out – obraz wyjściowy
 
-Atrybuty wewnętrzne
--------------------
-
-- size – rozmiar
-- factor - dzielnik
-    - fx – współczynnik skali w osi poziomej X
-    - fy – współczynnik skali w osi pionowej Y
-- interpolation_in – metoda interpolacji (INTER_AREA, INTER_BITS, INTER_BITS2, INTER_CUBIC, INTER_LANCZOS4, INTER_LINEAR, INTER_MAX, INTER_NEAREST, INTER_TAB_SIZE, INTER_TAB_SIZE2)
-
-Przykłady zastosowania
-----------------------
-
-.. image:: http://kube.pl/wp-content/uploads/2018/03/resize_11.png
