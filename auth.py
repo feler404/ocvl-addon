@@ -6,7 +6,7 @@ from urllib import parse
 from os.path import dirname
 
 import bpy
-
+import requests
 
 from . import bl_info
 
@@ -24,6 +24,8 @@ PRO_VERSION = "PRO_VERSION"
 BASE_DIR = os.path.dirname(__file__)
 
 OCVL_PANEL_URL = "http://127.0.0.1:5000/"
+OCVL_PANEL_LOGIN_URL = "http://127.0.0.1:5000/api-token-auth/"
+OCVL_PANEL_PRODUCTS_URL = "http://127.0.0.1:5000/api/product/"
 OCVL_GITHUB_ISSUE_TEMPLATE = "https://github.com/feler404/ocvl-addon/issues/new?title={title}&body={body}"
 OCVL_AUTHORS = " & ".join(map(str, bl_info['author']))
 OCVL_VERSION = ".".join(map(str, bl_info['version']))
@@ -35,7 +37,7 @@ OCVL_HIDDEN_NODE_PREFIX = "Hidden-"
 
 OCVL_LINK_UPGRADE_PROGRAM_TO_PRO = 'https://ocvl-cms.herokuapp.com/admin/login/'
 OCVL_LINK_TO_OCVL_PANEL = 'https://ocvl-cms.herokuapp.com/admin/login/'
-OCVL_LINK_TO_STORE = 'http://kube.pl/'
+OCVL_LINK_TO_STORE = 'http://0.0.0.0:5000/shop/'
 OCVL_LINK_TO_CREATE_ACCOUNT = 'https://ocvl-cms.herokuapp.com/admin/login/'
 
 OCVL_APP_DATA_USER_DIR = os.path.join(bpy.utils.resource_path('USER'), "config")
@@ -95,30 +97,36 @@ class Auth:
 
 class User:
 
-    instance = None
-    auth = None
+    _instance = None
+    token = None
+    auth_instance = None
+    is_login = None
     settings = None
     name = ANONYMOUS
+    password = ""
+    local_tutorials = []
     tutorials = [{"name": "First steps",
                   "icon": "PARTICLE_DATA",
                   "purchase_time": None,
-                  "content": "<html>Tut</html>"
+                  "package_site": "http://kube.pl/"
                 }]
     tutorials = []
     assets = []
 
     def __new__(cls, *args, **kwargs):
-        if not User.instance:
-            User.instance = object.__new__(cls)
-        return User.instance
+        if not User._instance:
+            User._instance = object.__new__(cls)
+        return User._instance
 
     def __init__(self, auth, settings):
-        self.auth = auth
-        self
+        self.auth_instance = auth
+        self.settings = settings
+        self.name = settings._settings.get("login", ANONYMOUS)
+        self.password = settings._settings.get("password", "")
 
     @property
     def is_login(self):
-        return self.name != ANONYMOUS
+        return self.name != ANONYMOUS and self.token is not None
 
 
 class Settings:
@@ -147,28 +155,40 @@ ocvl_settings = Settings()
 ocvl_user = User(ocvl_auth, ocvl_settings)
 
 
-def auth_pro_confirm(node, url, response):
+def auth_refresh_token(ocvl_user=ocvl_user):
+    login_data = {"username": ocvl_user.username, "password": ocvl_user.password}
+    response = requests.post(OCVL_PANEL_LOGIN_URL, data=login_data, headers={"Referer": "OCVL client"})
     if response.status_code == 200:
+        auth_remote_confirm(login_data, response)
+    else:
+        auth_remote_reject(OCVL_PANEL_LOGIN_URL, response)
+
+
+def auth_remote_confirm(login_data, response, node=None):
+    if node:
         node.auth = True
-        ocvl_auth.set_attr_auth("ocvl_pro_version_auth", True)
-        ocvl_user.name = "Dawid"
-        logger.info("Authentication confirm for {}".format(ocvl_user.name))
+    # ocvl_auth.set_attr_auth("ocvl_pro_version_auth", True)
+    ocvl_user.token = response.json().get("token")
+    ocvl_user.name = login_data["username"]
+    products_response = requests.get(OCVL_PANEL_PRODUCTS_URL, headers={"Authorization": "JWT {}".format(ocvl_user.token)})
+    logger.info("Authentication confirm for {}".format(ocvl_user.name))
 
-        content = response.json()
-        ocvl_user.tutorials.extend(content.get("tutorials", []))
-        ocvl_user.assets = content.get("assets", [])
-        logger.info("Content payload {} for user {}".format(content, ocvl_user.name))
-        from .sverchok_point import soft_reload_menu
-        soft_reload_menu()
+    products = products_response.json()
+    logger.info("Products content: {}".format(products))
+    ocvl_user.tutorials.extend(products)
+    # ocvl_user.assets = content.get("assets", [])
+    logger.info("Content payload {} for user {}".format(products, ocvl_user.name))
+    from .sverchok_point import soft_reload_menu
+    soft_reload_menu()
 
 
-def auth_pro_reject(node, url, response):
+def auth_remote_reject(url, response, node=None):
     parsed = parse.urlparse(url)
     ocvl_user.name = str(parse.parse_qs(parsed.query).get('login', [ANONYMOUS])[0])
     logger.info("Authentication rejected for {}".format(ocvl_user.name))
 
 
-def auth_problem(node, url, reason):
+def auth_problem(url, reason, node=None):
     parsed = parse.urlparse(url)
     ocvl_user.name = str(parse.parse_qs(parsed.query).get('login', [ANONYMOUS])[0])
     logger.info("Authentication rejected for {}".format(ocvl_user.name))

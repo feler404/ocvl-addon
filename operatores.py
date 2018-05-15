@@ -13,7 +13,8 @@ from .utils import convert_to_gl_image, cv_register_class, cv_unregister_class
 from sverchok.core.socket_data import SvNoDataError
 import requests
 
-from .auth import ocvl_auth, auth_pro_confirm, auth_pro_reject, OCVL_PANEL_URL, auth_problem
+from .auth import ocvl_auth, auth_remote_confirm, auth_remote_reject, OCVL_PANEL_URL, auth_problem, OCVL_PANEL_LOGIN_URL, \
+    OCVL_PANEL_PRODUCTS_URL
 
 logger = logging.getLogger(__name__)
 
@@ -146,32 +147,31 @@ class OCVLClearDeskOperator(bpy.types.Operator):
 
 class OCVLRequestsSplashOperator(bpy.types.Operator):
     """Tooltip"""
-    bl_idname = "node.requests_splash"
+    bl_idname = "node.login_in_request_in_splash"
     bl_label = "Requests Splash"
 
     origin = StringProperty("")
 
     def invoke(self, context, event):
-        node_tree, node_name, fn_name, fn_args = self.origin.split('|><|')
+        node_tree, node_name, username, password = self.origin.split('|><|')
         node = bpy.data.node_groups[node_tree].nodes[node_name]
         auth_node = self._get_auth_node(node_tree, node)
-        url = "{}{}{}".format(OCVL_PANEL_URL, fn_name, fn_args)
         try:
-            response = requests.get(url=url)
+            logger.info("Request: {}".format(OCVL_PANEL_LOGIN_URL))
+            login_data = {"username": username, "password": password}
+            response = requests.post(OCVL_PANEL_LOGIN_URL, data=login_data, headers={"Referer": "OCVL client"})
         except Exception as e:
-            logger.error("Request error: URL: {}, exception: {}".format(url, e))
-            auth_problem(node, url, str(e))
+            logger.error("Request error: URL: {}, exception: {}".format(OCVL_PANEL_LOGIN_URL, e))
+            auth_problem(OCVL_PANEL_LOGIN_URL, str(e))
             response = requests.Response()
 
         if response.status_code == 200:
-            auth_pro_confirm(node, url, response)
+            auth_remote_confirm(login_data, response, node=node)
         else:
-            auth_pro_reject(node, url, response)
+            auth_remote_reject(OCVL_PANEL_LOGIN_URL, response)
         auth_node["status_code"] = response.status_code
         auth_node["response_content"] = response.content
 
-        logger.info("Request: {}".format(url))
-        logger.info("Response: {}, payload: {}".format(response, response.content))
 
         return {'FINISHED'}
 

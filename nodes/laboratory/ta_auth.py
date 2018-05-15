@@ -22,12 +22,14 @@ class OCVLAuthNode(OCVLPreviewNode):
         self.inputs.new("StringsSocket", "auth")
 
     def wrapped_process(self):
-        pass
+        if ocvl_user.is_login:
+            self.status_code = 200
 
     def draw_buttons(self, context, layout):
         name = ocvl_user.name
         msg = ""
         icon = 'QUESTION'
+
         if self.status_code == 0:
             icon = 'QUESTION'
             if ocvl_auth.ocvl_version == COMMUNITY_VERSION:
@@ -36,8 +38,13 @@ class OCVLAuthNode(OCVLPreviewNode):
                 col.operator('wm.url_open', text="Create account".format(self.bl_label), icon='INFO').url = OCVL_LINK_TO_CREATE_ACCOUNT
         elif self.status_code == 200:
             col = layout.column(align=True)
-            col.operator('wm.url_open', text="OCVL Web Panel".format(self.bl_label),
-                         icon='URL').url = OCVL_LINK_TO_OCVL_PANEL
+            for i, tutorial in enumerate(ocvl_user.tutorials):
+                if i % 2:
+                    col_split = col.split(0.5, align=True)
+                text = tutorial.get("name")
+                icon = tutorial.get("icon", "URL")
+                col.operator('wm.url_open', text=text.format(self.bl_label),
+                                   icon=icon).url = tutorial.get("package_site", "http://kube.pl")
             icon = 'FILE_TICK'
         elif self.status_code == 401:
             msg = "Incorrect credentials / Licence Key"

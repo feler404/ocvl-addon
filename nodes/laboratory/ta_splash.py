@@ -46,6 +46,8 @@ class OCVLSplashNode(OCVLPreviewNode):
         self.inputs.new("StringsSocket", "docs")
 
     def wrapped_process(self):
+        self.login_in = ocvl_user.name
+        self.password_in = ocvl_user.password
         current_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)))
         baner_dir = os.path.abspath(os.path.join(current_dir, "../../datafiles/"))
         loc_filepath = os.path.join(baner_dir, "splash_banner.png")
@@ -86,12 +88,13 @@ class OCVLSplashNode(OCVLPreviewNode):
 
     def layout_for_community_version(self, context, layout):
         self.layout_start_work(context, layout)
-        self.layout_auth_form(context, layout)
+        if not ocvl_user.is_login:
+            self.layout_auth_form(context, layout)
 
     def layout_add_store_link(self, row):
         row.operator('wm.recover_last_session', text='Recover last session', icon="RECOVER_LAST")
         if ocvl_user.is_login:
-            row.operator('wm.url_open', text="Store".format(self.bl_label), icon='MOD_CLOTH').url = OCVL_LINK_TO_STORE
+            row.operator('wm.url_open', text="Store".format(self.bl_label), icon='MOD_CLOTH').url = OCVL_LINK_TO_STORE + "?token={}".format(ocvl_user.token)
         else:
             row.operator('wm.url_open', text="Create account".format(self.bl_label), icon='INFO').url = OCVL_LINK_TO_CREATE_ACCOUNT
 
@@ -103,21 +106,22 @@ class OCVLSplashNode(OCVLPreviewNode):
         col = row.column()
         col_split = col.split(0.5, align=True)
         col_split.operator('node.tutorial_show_first_step', text="Tutorial - First steps", icon='PARTICLES')
-        for i, tutorial in enumerate(ocvl_user.tutorials):
+        for i, tutorial in enumerate(ocvl_user.local_tutorials):
             if i % 2:
                 col_split = col.split(0.5, align=True)
             text = tutorial.get("name")
             icon = tutorial.get("icon", "URL")
-            col_split.operator('wm.url_open', text=text.format(self.bl_label), icon=icon).url = 'http://kube.pl/'
+            col_split.operator('wm.url_open', text=text.format(self.bl_label), icon=icon).url = ocvl_user.tutorials.get("package_site", "http://kube.pl")
 
     def layout_auth_form(self, context, layout):
         row = layout.row()
         row.prop(self, "login_in", "Login")
         row.prop(self, "password_in", "Password")
         row.prop(self, "is_remember_in", "Remember")
-        get_args = OCVL_AUTH_PARAMS_LOGIN_PASSWORD_TEMPALTE.format(login=self.login_in, password=self.password_in)
-        get_fn_url = 'login'
-        row.operator('node.requests_splash', text='Submit', icon='FILE_TICK').origin = self.get_node_origin(props_name=[get_fn_url, get_args])
+        # get_args = OCVL_AUTH_PARAMS_LOGIN_PASSWORD_TEMPALTE.format(login=self.login_in, password=self.password_in)
+        username = self.login_in
+        password = self.password_in
+        row.operator('node.login_in_request_in_splash', text='Submit', icon='FILE_TICK').origin = self.get_node_origin(props_name=[username, password])
 
     def layout_for_pro_version(self, context, layout):
         if ocvl_auth.ocvl_pro_version_auth:
@@ -142,7 +146,7 @@ class OCVLSplashNode(OCVLPreviewNode):
                 get_args = OCVL_AUTH_PARAMS_LICENCE_KEY_TEMPALTE.format(licence_key=self.licence_key_in)
                 get_fn_url = 'licence'
             row = layout.row()
-            row.operator('node.requests_splash', text='Submit', icon='FILE_TICK').origin = self.get_node_origin(props_name=[get_fn_url, get_args])
+            row.operator('node.login_in_request_in_splash', text='Submit', icon='FILE_TICK').origin = self.get_node_origin(props_name=[get_fn_url, get_args])
             row = layout.row()
             col = row.column()
             col_split = col.split(0.5, align=True)
