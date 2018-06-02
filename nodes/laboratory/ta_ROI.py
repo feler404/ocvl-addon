@@ -51,8 +51,8 @@ class OCVLROINode(OCVLNode):
 
 
 if ocvl_auth.ocvl_pro_version_auth:
-    pass
-    # from ...extend.laboratory.ta_ROI import OCVLROINode
+    # pass
+    from ...extend.laboratory.ta_ROI import OCVLROINode
 
 
 def register():

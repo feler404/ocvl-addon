@@ -79,7 +79,6 @@ class TutorialFirstStep:
             return self.step_2()
         else:
             self.col.operator('node.tutorial_mode_command', text=TEXT_STEP_1, icon='NODETREE').loc_command = ' imagesample!'
-            show_long_tip(TIP_STEP_1, self.col)
 
     def step_2(self):
         self.step = 2
@@ -89,7 +88,6 @@ class TutorialFirstStep:
             return self.step_3()
         else:
             self.col.operator('node.tutorial_mode_command', text=TEXT_STEP_2, icon='NODETREE').loc_command = ' imageviewer!'
-            show_long_tip(TIP_STEP_2, self.col)
 
     def step_3(self):
         self.step = 3
@@ -101,7 +99,6 @@ class TutorialFirstStep:
             return self.step_4()
         else:
             self.col.operator('node.tutorial_mode_command', text=TEXT_STEP_3,icon='NODETREE').loc_command = 'connect_sample_and_view'
-            show_long_tip(TIP_STEP_3, self.col)
 
     def step_4(self):
         self.step = 4
@@ -111,7 +108,6 @@ class TutorialFirstStep:
             return self.step_5()
         else:
             self.col.operator('node.tutorial_mode_command', text=TEXT_STEP_4, icon='NODETREE').loc_command = ' blur!'
-            show_long_tip(TIP_STEP_4, self.col)
 
     def step_5(self):
         self.step = 5
@@ -125,7 +121,6 @@ class TutorialFirstStep:
             return self.step_6()
         else:
             self.col.operator('node.tutorial_mode_command', text=TEXT_STEP_5,icon='NODETREE').loc_command = 'connect_sample_and_view_and_blur'
-            show_long_tip(TIP_STEP_5, self.col)
 
     def step_6(self):
         self.step = 6
@@ -137,7 +132,6 @@ class TutorialFirstStep:
             return self.step_7()
         else:
             self.col.operator('node.tutorial_mode_command', text=TEXT_STEP_6, icon='NODETREE').loc_command = 'set_ksize_on_blur'
-            show_long_tip(TIP_STEP_6, self.col)
 
     def step_7(self):
         self.step = 7
@@ -148,7 +142,6 @@ class TutorialFirstStep:
             return self.step_8()
         else:
             self.col.operator('node.tutorial_mode_command', text=TEXT_STEP_7, icon='NODETREE').loc_command = ' imagesample!'
-            show_long_tip(TIP_STEP_7, self.col)
 
     def step_8(self):
         self.step = 8
@@ -159,7 +152,6 @@ class TutorialFirstStep:
             return self.step_9()
         else:
             self.col.operator('node.tutorial_mode_command', text=TEXT_STEP_8, icon='NODETREE').loc_command = 'file_mode_for_image_sample'
-            show_long_tip(TIP_STEP_8, self.col)
 
     def step_9(self):
         self.step = 9
@@ -170,7 +162,6 @@ class TutorialFirstStep:
             return self.step_10()
         else:
             self.col.operator('node.tutorial_mode_command', text=TEXT_STEP_9, icon='NODETREE').loc_command = 'select_file_for_sample'
-            show_long_tip(TIP_STEP_9, self.col)
 
     def step_10(self):
         self.step = 10
@@ -181,7 +172,6 @@ class TutorialFirstStep:
             return self.step_11()
         else:
             self.col.operator('node.tutorial_mode_command', text=TEXT_STEP_10, icon='NODETREE').loc_command = ' addweighted!'
-            show_long_tip(TIP_STEP_10, self.col)
 
     def step_11(self):
         self.step = 11
@@ -192,7 +182,6 @@ class TutorialFirstStep:
             return self.step_12()
         else:
             self.col.operator('node.tutorial_mode_command', text=TEXT_STEP_11, icon='NODETREE').loc_command = 'connect_addweighted_first_input'
-            show_long_tip(TIP_STEP_11, self.col)
 
     def step_12(self):
         self.step = 12
@@ -203,7 +192,6 @@ class TutorialFirstStep:
             return self.step_13()
         else:
             self.col.operator('node.tutorial_mode_command', text=TEXT_STEP_12, icon='NODETREE').loc_command = 'connect_addweighted_second_input'
-            show_long_tip(TIP_STEP_12, self.col)
 
     def step_13(self):
         self.step = 13
@@ -214,14 +202,12 @@ class TutorialFirstStep:
             return self.step_14()
         else:
             self.col.operator('node.tutorial_mode_command', text=TEXT_STEP_13, icon='NODETREE').loc_command = 'connect_addweighted_output'
-            show_long_tip(TIP_STEP_13, self.col)
 
     def step_14(self):
         self.step = 14
         self.col.label(text=TEXT_STEP_14, icon="FILE_TICK")
         self.col.operator('image.image_full_screen', text="Show image on full screen", icon="FULLSCREEN").origin = "TutorialNodeTree|><|ImageViewer"
         self.col.operator('node.clean_desk', text="Start with blank desk - Community version", icon='RESTRICT_VIEW_OFF')
-        show_long_tip(TIP_STEP_14, self.col)
         return True
 
 

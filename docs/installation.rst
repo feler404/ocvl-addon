@@ -1,48 +1,47 @@
-**********
-Instalacja
-**********
+************
+Installation
+************
 
-Instalacja z pakietu binarnego
-==============================
+Installation from a binary package
+==================================
 
-Jeśli program instalowany jest z pakietu binarnego, wszystkie zależności są już zawerte w tym pakiecie.
-Jeśli więc system spełnia minimalne wymagania, po instalacji pakietu binarnego program będzie gotowy do pracy.
+If the program is installed from a binary package, all dependencies are already in this package.
+So if the system meets the minimum requirements, the program will be ready for use after installing the binary package.
+
+Installation of the source package directly in Blender
+======================================================
+
+In case you want to install the program from the source code, we need to meet several prerequisites.
+
+- Blender (https://www.blender.org/download/) - suggested version 2.49
+- opencv-python (https://pypi.python.org/pypi/opencv-python) - suggested version 3.1.0.1
+- pynput - (https://pypi.python.org/pypi/pynput/1.3.10) - suggested version 1.3.10
+- tornado - (https://pypi.python.org/pypi/tornado/5.0.2) - suggested version 4.5.3
+- sverchok addon - (https://github.com/nortikin/sverchok) - suggested version cae276520184c94b877ffc88e196469086e9f7eb
 
 
-Instalacja pakietu źródłowego bezpośrednio w Blender-rze
-========================================================
-
-W przypadku gdy chcemy zainstalować program z kodu źródłowego, potrzebujemy spełnić kilka warunków wstępnych.
-
-- Blender (https://www.blender.org/download/) - sugerowana wersja 2.49
-- opencv-python (https://pypi.python.org/pypi/opencv-python) - sugerowana wersja 3.1.0.1
-- pynput - (https://pypi.python.org/pypi/pynput/1.3.10) - sugerowna wersja 1.3.10
-- tornado - (https://pypi.python.org/pypi/tornado/5.0.2) - sugerowana wersja 4.5.3
-- sverchok addon - (https://github.com/nortikin/sverchok) - sugerowana wersja cae276520184c94b877ffc88e196469086e9f7eb
-
-
-Instalacja Belnder-a
+Belnder installation
 --------------------
-Blender-a można pobrać ze strony programu http://blender.org/ . OCVL działa stabilnie na wersji 2.49 i zalecana jest
-instalacja wej wersji Blender-a.
+Blender can be downloaded from the program website http://blender.org/. OCVL works steadily on version 2.49 and it is recommended
+installation of this version of Blender.
 
-Instalacja OpenCV, pynput, tornado
-----------------------------------
+Installation of OpenCV, pynput, tornado
+---------------------------------------
 
-Do instalacja pakietów `python`-owych najlepiej użyć `pip`-a. Domślnie `Python` znajdujący się w Blender-rze nie zawiera
-`Pip`-a i trzeba go zainstalować jako pierwszego.
-`Pip`-a można pobrać z: `https://bootstrap.pypa.io/get-pip.py`. Później wystarczy uruchmić skrypt z pozimu Python-a.
+To install `python` packages, it is best to use `pip`. By default, 'Pip' is not included in Blenders
+Python and you must install it first.
+`Pip` can be downloaded from:` https: // bootstrap.pypa.io / get-pip.py`. Then just run the Python script.
 
-W zależności od systemu operacyjnego i wersji Blendera, Python może mieć różną nazwe i miejsce.
-Oto przykładowe położenie Python-a w Blender-rze:
+Depending on the operating system and version of Blender, Python may have a different name and location.
+Here's an example of Python's location in Blender:
 `~/Downloads/blender-2.79-macOS-10.6/blender.app/Contents/Resources/2.79/python/bin/python3.5m`
-Instalacja Pip-a będzie wyglądać:
+The Pip installation will look like:
 `~/Downloads/blender-2.79-macOS-10.6/blender.app/Contents/Resources/2.79/python/bin/python3.5m ./get-pip.py`
 
-Teraz mając Pip-a można instalować pakiety bezpośrednio za jego pośrednictwem. Pip w zależności od systemu może
-zainstalować się jako skrypt lub jako modul.
+Now with Pip you can install packages directly through it. Pip depending on the system can
+install itself as a script or as a module.
 
-teraz już można instalować pakiety:
+Now you can install packages:
     ../python/bin/python3.5m ../python/bin/pip install pynput==1.3.10
     ../python/bin/python3.5m ../python/bin/pip install opencv-python==3.1.0.5
     ../python/bin/python3.5m ../python/bin/pip install tornado==4.5.3
@@ -56,11 +55,11 @@ teraz już można instalować pakiety:
     ln -s ~/workspace/tales/ocvl-addon ocvl
 
 
-Dodanie dodatku OCVL do Blender-a
----------------------------------
-Po ściągnięciu OCVL (https://github.com/feler404/ocvl-addon), wystarczy go rozpakować i skompiować do katalogu addons
+Installation of OCVL addon to Blender
+----------------------------------------
+After downloading OCVL (https://github.com/feler404/ocvl-addon), just unpack it and copy it to the addons directory
 
-Uruchomienie Blender-a z dodadkiem
-----------------------------------
-Aby Blender mógł poprawnie uruchmoć wszsytkie dodatki trzeba go uruchmic przez komende:
+Running Blender with addon
+--------------------------
+In order for Blender to be able to run all the add-ons correctly, it must be run by the command:
 `./blender --addons ocvl,sverchok`

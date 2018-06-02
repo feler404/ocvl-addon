@@ -5,6 +5,7 @@ import bpy
 from logging import getLogger
 from bpy.props import BoolProperty, StringProperty, IntProperty
 
+from . import ta_first_step
 from .ta_first_step import show_long_tip, TIP_STEP_2
 from ...utils import cv_register_class, cv_unregister_class, OCVLPreviewNode
 
@@ -41,9 +42,7 @@ class OCVLTipNode(OCVLPreviewNode):
     def draw_buttons(self, context, layout):
         self.draw_preview(layout=layout, prop_name="image_out", location_x=10, location_y=70, proportion=0.5)
         col = layout.column(align=True)
-        show_long_tip("""afsdf asdf adsfoiuadsiufads iuf halsdjkfl askjdhfl akjsdhfl aksjdhfl adksjhfl askdjfl akdjs flakjdsf"
-                      "alsdjfal sdkjf alsdkjf alsdkjf alsd asdf asldkjfhl adksjhfl aksdjhfl kajsdhfl akjsdl kj 
-                       adflkajsdf lkajsdhfl kjadshfl kajsdhfl aksdjhlasdkjhlasfdjk""", col)
+        show_long_tip(getattr(ta_first_step, 'TIP_STEP_{}'.format(bpy.tutorial_first_step)), col)
 
 
 def register():

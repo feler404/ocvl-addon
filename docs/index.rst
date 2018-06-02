@@ -14,8 +14,11 @@ Content:
    Installation <installation>
    Dependencies <dependencies>
    Introduction <introduction>
+   Node mode <node_mode>
+   Display mode <display_node>
+   Node connect <node_connect>
+   Node view <node_view>
    Nodes <nodes>
-   Panels <panels>
 
 
 

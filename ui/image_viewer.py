@@ -112,7 +112,7 @@ classes_to_unregister = [
     IMAGE_PT_tools_grease_pencil_edit,
     IMAGE_PT_tools_grease_pencil_brushcurves,
     IMAGE_PT_tools_grease_pencil_sculpt,
-    IMAGE_PT_tools_grease_pencil_draw,
+    # IMAGE_PT_tools_grease_pencil_draw,
     IMAGE_PT_image_properties,
 
     IMAGE_HT_header_old,

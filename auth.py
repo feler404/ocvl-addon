@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 #  SETTINGS
 bpy.context.user_preferences.view.show_splash = False
 IS_WORK_ON_COPY_INPUT = True
-DEBUG = True
+DEBUG = False
 
 #  CONSTANTS
 ANONYMOUS = "Anonymous"
@@ -50,12 +50,12 @@ APP_DATA_USER_SETTINGS = {
 
 class Auth:
 
-    _ocvl_version = COMMUNITY_VERSION
-    # _ocvl_version = PRO_VERSION
+    # _ocvl_version = COMMUNITY_VERSION
+    _ocvl_version = PRO_VERSION
     _ocvl_ext = None
     _ocvl_first_running = True
-    _ocvl_pro_version_auth = False
-    # _ocvl_pro_version_auth = True
+    # _ocvl_pro_version_auth = False
+    _ocvl_pro_version_auth = True
 
     instance = None
 
