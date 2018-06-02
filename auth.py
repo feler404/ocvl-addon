@@ -39,6 +39,7 @@ OCVL_LINK_UPGRADE_PROGRAM_TO_PRO = 'https://ocvl-cms.herokuapp.com/admin/login/'
 OCVL_LINK_TO_OCVL_PANEL = 'https://ocvl-cms.herokuapp.com/admin/login/'
 OCVL_LINK_TO_STORE = 'http://0.0.0.0:5000/shop/'
 OCVL_LINK_TO_CREATE_ACCOUNT = 'https://ocvl-cms.herokuapp.com/admin/login/'
+OCVL_LINK_TO_MORE_TUTORIALS = 'http://tutorials.ocvl.teredo.tech/'
 
 OCVL_APP_DATA_USER_DIR = os.path.join(bpy.utils.resource_path('USER'), "config")
 OCVL_APP_DATA_USER_FILE_NAME = "ocvl_auth.txt"

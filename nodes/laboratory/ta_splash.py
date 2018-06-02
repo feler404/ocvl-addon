@@ -15,7 +15,7 @@ from ...auth import (
     OCVL_LINK_TO_CREATE_ACCOUNT,
     OCVL_VERSION,
     OCVL_AUTHORS,
-)
+    OCVL_LINK_TO_MORE_TUTORIALS)
 
 logger = getLogger(__name__)
 
@@ -106,6 +106,7 @@ class OCVLSplashNode(OCVLPreviewNode):
         col = row.column()
         col_split = col.split(0.5, align=True)
         col_split.operator('node.tutorial_show_first_step', text="Tutorial - First steps", icon='PARTICLES')
+        col_split.operator('wm.url_open', text="More mutorials".format(self.bl_label), icon='INFO').url = OCVL_LINK_TO_MORE_TUTORIALS
         for i, tutorial in enumerate(ocvl_user.local_tutorials):
             if i % 2:
                 col_split = col.split(0.5, align=True)
