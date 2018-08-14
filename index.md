@@ -7,6 +7,7 @@
     OCVLROINode
     OCVLTypeConvertNode
     OCVLApplyROINode
+    OCVLgoodFeaturesToTrackNode
     ---
     Hidden-OCVLFirstStepsNode
     Hidden-OCVLTipNode
