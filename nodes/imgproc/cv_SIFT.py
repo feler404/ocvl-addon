@@ -59,7 +59,7 @@ class OCVLSIFTNode(OCVLNode):
         }
 
         sift = cv2.xfeatures2d.SIFT_create(**kwargs_init)
-        keypoints_out = self.process_cv(fn=sift.detect, kwargs=kwargs_detect)
+        keypoints_out = self.process_cv(fn=sift.detect, kwargs=kwargs_detect)[0]
         self.refresh_output_socket("keypoints_out", keypoints_out, is_uuid_type=True)
 
 
