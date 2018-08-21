@@ -81,9 +81,6 @@ class OCVLgoodFeaturesToTrackNode(OCVLNode):
             cv2.circle(image_out, (x, y), 3, 255, -1)
         self.refresh_output_socket("image_out", image_out, is_uuid_type=True)
 
-    # def draw_buttons(self, context, layout):
-    #     self.add_button_get_points(layout=layout, props_name=('seedPoint_in',))
-
 
 def register():
     cv_register_class(OCVLgoodFeaturesToTrackNode)
