@@ -1,5 +1,6 @@
 import cv2
 import uuid
+import numpy as np
 from gettext import gettext as _
 from bpy.props import StringProperty, BoolProperty, IntProperty, FloatProperty
 
@@ -35,7 +36,7 @@ class OCVLdrawKeypointsNode(OCVLNode):
 
         kwargs = {
             'image_in': self.get_from_props("image_in"),
-            'outImage': self.get_from_props("image_in"),
+            'outImage': np.zeros(self.get_from_props("image_in").shape),
             'keypoints_in': self.get_from_props("keypoints_in"),
             'flags_in': cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS
             }

@@ -30,6 +30,8 @@ class OCVLSIFTNode(OCVLNode):
 
     keypoints_out = StringProperty(default=str(uuid.uuid4()),
         description=_("Output vector of detected keypoints."))
+    descriptors_out = StringProperty(default=str(uuid.uuid4()),
+        description=_("Output vector of detected descriptors."))
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "image_in")
@@ -41,6 +43,7 @@ class OCVLSIFTNode(OCVLNode):
         self.inputs.new("StringsSocket", "sigma_in").prop_name = "sigma_in"
 
         self.outputs.new("StringsSocket", "keypoints_out")
+        self.outputs.new("StringsSocket", "descriptors_out")
 
     def wrapped_process(self):
         self.check_input_requirements(["image_in"])
@@ -54,13 +57,14 @@ class OCVLSIFTNode(OCVLNode):
             }
 
         kwargs_detect = {
-            'images': [self.get_from_props("image_in")],
-            'masks': None,
+            'image': self.get_from_props("image_in"),
+            'mask': None,
         }
 
         sift = cv2.xfeatures2d.SIFT_create(**kwargs_init)
-        keypoints_out = self.process_cv(fn=sift.detect, kwargs=kwargs_detect)[0]
+        keypoints_out, descriptors_out = self.process_cv(fn=sift.detectAndCompute, kwargs=kwargs_detect)
         self.refresh_output_socket("keypoints_out", keypoints_out, is_uuid_type=True)
+        self.refresh_output_socket("descriptors_out", descriptors_out, is_uuid_type=True)
 
 
 def register():

@@ -9,6 +9,7 @@
     OCVLApplyROINode
     OCVLgoodFeaturesToTrackNode
     OCVLSIFTNode
+    OCVLSURFNode
     OCVLdrawKeypointsNode
     ---
     Hidden-OCVLFirstStepsNode
