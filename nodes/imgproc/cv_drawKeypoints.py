@@ -16,7 +16,7 @@ class OCVLdrawKeypointsNode(OCVLNode):
     image_in = StringProperty(default=str(uuid.uuid4()),
         description=_("Source image."))
 
-    keypoints_in = IntProperty(default=0, min=0, max=100, update=updateNode,
+    keypoints_in = StringProperty(default=str(uuid.uuid4()), update=updateNode,
         description=_("Keypoints from the source image."))
     # color_in = FloatProperty(default=1.6, min=0.1, max=5., update=updateNode,
     #     description="The sigma of the Gaussian applied to the input image at the octave #0.")
@@ -27,12 +27,12 @@ class OCVLdrawKeypointsNode(OCVLNode):
 
     def sv_init(self, context):
         self.inputs.new("StringsSocket", "image_in")
-        self.inputs.new("StringsSocket", "keypoints_in").prop_name = "keypoints_in"
+        self.inputs.new("StringsSocket", "keypoints_in")
 
         self.outputs.new("StringsSocket", "outImage_out")
 
     def wrapped_process(self):
-        self.check_input_requirements(["image_in"])
+        self.check_input_requirements(["image_in", "keypoints_in"])
 
         kwargs = {
             'image_in': self.get_from_props("image_in"),
