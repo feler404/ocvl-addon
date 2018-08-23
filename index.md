@@ -11,6 +11,7 @@
     OCVLSIFTNode
     OCVLSURFNode
     OCVLFastFeatureDetectorNode
+    OCVLBriefDescriptorExtractorNode
     OCVLdrawKeypointsNode
     ---
     Hidden-OCVLFirstStepsNode

@@ -54,10 +54,12 @@ class OCVLFastFeatureDetectorNode(OCVLNode):
             'mask': None  # self.get_from_props("mask_in"),
         })
 
-        print(kwargs_init)
         fast = cv2.FastFeatureDetector_create(**kwargs_init)
         keypoints_out = self.process_cv(fn=fast.detect, kwargs=kwargs_detect)
         self.refresh_output_socket("keypoints_out", keypoints_out, is_uuid_type=True)
+
+    def draw_buttons(self, context, layout):
+        self.add_button(layout, prop_name='type_in')
 
 
 def register():
