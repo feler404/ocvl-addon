@@ -10,6 +10,7 @@
     OCVLgoodFeaturesToTrackNode
     OCVLSIFTNode
     OCVLSURFNode
+    OCVLFastFeatureDetectorNode
     OCVLdrawKeypointsNode
     ---
     Hidden-OCVLFirstStepsNode
