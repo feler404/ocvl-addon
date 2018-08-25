@@ -1,6 +1,7 @@
 ## laboratory
     OCVLImageViewerNode
     OCVLImageSampleNode
+    OCVLVideoSampleNode
     OCVLCustomInputNode
     OCVLStethoscopeNode
     OCVLBitwiseNode
