@@ -13,6 +13,7 @@
     OCVLFastFeatureDetectorNode
     OCVLBriefDescriptorExtractorNode
     OCVLORBNode
+    OCVLBFMatcherNode
     OCVLdrawKeypointsNode
     ---
     Hidden-OCVLFirstStepsNode
