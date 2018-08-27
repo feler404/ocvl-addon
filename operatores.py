@@ -296,43 +296,6 @@ class OCVLGeneratePythonCodeOperator(bpy.types.Operator):
         return {'FINISHED'}
 
 
-class ModalTimerRefreshRTSPImageOperator(bpy.types.Operator):
-    """"""
-    bl_idname = "wm.modal_timer_refresh_rtsp_image_operator"
-    bl_label = "Modal Timer Operator"
-
-    _timer = None
-    _heartbeat_counter = 0
-    _absence_count = 0
-
-    def modal(self, context, event):
-
-        if event.type == 'TIMER':
-            self._heartbeat_counter += 1
-            if self._heartbeat_counter % 10 == 0:
-                print("{} - {}".format(time.time(), __name__))
-
-            for area in bpy.context.screen.areas:
-                if area.type == 'NODE_EDITOR':
-                    if "VideoSample" in bpy.data.node_groups[0].nodes:
-                        bpy.data.node_groups[0].nodes["VideoSample"].wrapped_process()
-
-        if self._absence_count > 10:
-            return {'CANCELLED'}
-
-        return {'PASS_THROUGH'}
-
-    def execute(self, context):
-        self._timer = context.window_manager.event_timer_add(TUTORIAL_HEARTBEAT_INTERVAL_RTSP_REFRESH, context.window)
-        context.window_manager.modal_handler_add(self)
-        return {'RUNNING_MODAL'}
-
-    def cancel(self, context):
-        context.area.header_text_set()
-        context.window_manager.event_timer_remove(self._timer)
-        return {'CANCELLED'}
-
-
 def register():
     cv_register_class(OCVLImageFullScreenOperator)
     cv_register_class(EscapeFullScreenOperator)
@@ -344,7 +307,6 @@ def register():
     cv_register_class(OCVLShowNodeSplashOperator)
     cv_register_class(OCVLImageImporterOperator)
     cv_register_class(OCVLGeneratePythonCodeOperator)
-    cv_register_class(ModalTimerRefreshRTSPImageOperator)
 
 
 def unregister():
@@ -358,4 +320,3 @@ def unregister():
     cv_unregister_class(OCVLShowTextInTextEditorOperator)
     cv_unregister_class(EscapeFullScreenOperator)
     cv_unregister_class(OCVLImageFullScreenOperator)
-    cv_unregister_class(ModalTimerRefreshRTSPImageOperator)
