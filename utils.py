@@ -380,9 +380,9 @@ class OCVLNode(bpy.types.Node, SverchCustomTreeNode):
                 return tuple(prop)
 
     def _get_sockets_by_socket_name(self, socket_name):
-        if "_in" in socket_name:
+        if socket_name.endswith("_in") or socket_name.startswith("loc_"):
             return self.inputs
-        if "_out" in socket_name:
+        if socket_name.endswith("_out"):
             return self.outputs
 
     def update_sockets_for_node_mode(self, props_maps, node_mode):

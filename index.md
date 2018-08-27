@@ -9,7 +9,6 @@
     OCVLTypeConvertNode
     OCVLApplyROINode
     OCVLgoodFeaturesToTrackNode
-    OCVLSIFTNode
     OCVLSURFNode
     OCVLFastFeatureDetectorNode
     OCVLBriefDescriptorExtractorNode
@@ -169,6 +168,8 @@
 >    OCVLinpaintNode
 ## objdetect
     OCVLCascadeClassifierNode
+>    OCVLSIFTNode
+    OCVLFeature2DNode
 >## video
 >    OCVLcreateBackgroundSubtractorMOG2Node
 
