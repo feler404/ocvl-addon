@@ -44,18 +44,20 @@ class OCVLBFMatcherNode(OCVLNode):
         self.check_input_requirements(["queryDescriptors_in", "trainDescriptors_in"])
 
         kwargs_init = self.clean_kwargs({
+
             })
 
         kwargs_detect = self.clean_kwargs({
+            "queryDescriptors_in": self.get_from_props("queryDescriptors_in"),
         })
 
-        if isinstance(kwargs_detect['mask'], str):
-            kwargs_detect['mask'] = np.ones(kwargs_detect['image'].shape)
+        # if isinstance(kwargs_detect['mask'], str):
+        #     kwargs_detect['mask'] = np.ones(kwargs_detect['image'].shape)
 
-        orb = cv2.ORB_create(**kwargs_init)
-        keypoints_out, descriptors_out = self.process_cv(fn=orb.detectAndCompute, kwargs=kwargs_detect)
-        self.refresh_output_socket("keypoints_out", keypoints_out, is_uuid_type=True)
-        self.refresh_output_socket("descriptors_out", descriptors_out, is_uuid_type=True)
+        bfm = cv2.BFMatcher_create(**kwargs_init)
+        bfm.add(self.get_from_props("trainDescriptors_in"))
+        matches_out = self.process_cv(fn=bfm.match, kwargs=kwargs_detect)
+        self.refresh_output_socket("matches_out", matches_out, is_uuid_type=True)
 
     def draw_buttons(self, context, layout):
         self.add_button(layout, prop_name='scoreType_in')
