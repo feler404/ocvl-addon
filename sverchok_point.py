@@ -226,7 +226,7 @@ def reload_ocvl_nodes_modules():
 
 def reload_ocvl_operators_modules():
 
-    MODULES = ["ocvl.operatores", "ocvl.tutorial_engine.operatores"]
+    MODULES = ["ocvl.operatores.operatores", "ocvl.tutorial_engine.operatores"]  # TODO: add operatores fof feature 2D
     for module in MODULES:
         node_module = importlib.import_module(module)
         importlib.reload(node_module)

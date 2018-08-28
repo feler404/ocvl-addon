@@ -2,18 +2,17 @@ import os
 
 import bpy
 import logging
+import requests
 import time
 import urllib.parse
 from bpy.props import StringProperty
 from pynput.keyboard import Key, Controller
-
-from .tutorial_engine.engine_app import NodeCommandHandler
-from .nodes.laboratory.ta_auth import AUTH_NODE_NAME
-from .utils import convert_to_gl_image, cv_register_class, cv_unregister_class
 from sverchok.core.socket_data import SvNoDataError
-import requests
 
-from .auth import ocvl_auth, auth_remote_confirm, auth_remote_reject, OCVL_PANEL_URL, auth_problem, OCVL_PANEL_LOGIN_URL, \
+from ..tutorial_engine.engine_app import NodeCommandHandler
+from ..nodes.laboratory.ta_auth import AUTH_NODE_NAME
+from ..utils import convert_to_gl_image, cv_register_class, cv_unregister_class
+from ..auth import ocvl_auth, auth_remote_confirm, auth_remote_reject, OCVL_PANEL_URL, auth_problem, OCVL_PANEL_LOGIN_URL, \
     OCVL_PANEL_PRODUCTS_URL
 
 logger = logging.getLogger(__name__)

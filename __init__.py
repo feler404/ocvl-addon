@@ -43,8 +43,6 @@ bl_info = {
 
 
 import sys
-import os
-
 
 if __name__ != "ocvl":
     sys.modules["ocvl"] = sys.modules[__name__]
@@ -55,18 +53,22 @@ from .auth import register_extended_operators, unregister_extended_operators
 def register():
     from .tutorial_engine import operatores as tutorial_operatores
     from . import ui
-    from . import operatores
+    from .operatores import operatores
+    from .operatores import feature2d_abc
     ui.register()
     operatores.register()
     register_extended_operators()
     tutorial_operatores.register()
+    feature2d_abc.register()
 
 
 def unregister():
     from .tutorial_engine import operatores as tutorial_operatores
     from . import ui
-    from . import operatores
+    from .operatores import operatores
+    from .operatores import feature2d_abc
     ui.unregister()
     operatores.unregister()
     unregister_extended_operators()
     tutorial_operatores.unregister()
+    feature2d_abc.unregister()

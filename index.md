@@ -168,7 +168,7 @@
 >    OCVLinpaintNode
 ## objdetect
     OCVLCascadeClassifierNode
->    OCVLSIFTNode
+    OCVLSIFTNode
     OCVLFeature2DNode
 >## video
 >    OCVLcreateBackgroundSubtractorMOG2Node

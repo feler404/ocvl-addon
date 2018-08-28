@@ -3,7 +3,9 @@ import uuid
 from gettext import gettext as _
 from bpy.props import StringProperty, BoolProperty, IntProperty, FloatProperty, EnumProperty
 
-from .cv_Feature2D import OCVLFeature2DNode, WORK_MODE_ITEMS
+from .cv_Feature2D import OCVLFeature2DNode, WORK_MODE_ITEMS, STATE_MODE_ITEMS
+from ...operatores.feature2d_abc import InitFeature2DOperator
+from ...globals import FEATURE2D_INSTANCES_DICT
 from ...utils import cv_register_class, cv_unregister_class, updateNode
 
 
@@ -11,6 +13,7 @@ class OCVLSIFTNode(OCVLFeature2DNode):
 
     _doc = _("Class for extracting keypoints and computing descriptors using the Scale Invariant Feature Transform (SIFT) algorithm by D. Lowe")
     _url = "https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_feature2d/py_sift_intro/py_sift_intro.html"
+    _init_method = cv2.xfeatures2d.SIFT_create
 
     def update_layout(self, context):
         self.update_sockets(context)
@@ -23,12 +26,14 @@ class OCVLSIFTNode(OCVLFeature2DNode):
     keypoints_out = StringProperty(default=str(uuid.uuid4()), description=_(""))
     descriptors_out = StringProperty(default=str(uuid.uuid4()), description=_(""))
 
+    loc_file_load = StringProperty(default="/", description=_(""))
+    loc_file_save = StringProperty(default="/", description=_(""))
     loc_work_mode = EnumProperty(items=WORK_MODE_ITEMS, default="DETECT-COMPUTE", update=update_layout, description=_(""))
-    loc_load_file = StringProperty(default="/", description=_(""))
-    loc_save_file = StringProperty(default="/", description=_(""))
+    loc_state_mode = EnumProperty(items=STATE_MODE_ITEMS, default="INIT", update=update_layout, description=_(""))
     loc_descriptor_size = IntProperty(default=0, description=_(""))
     loc_descriptor_type = IntProperty(default=0, description=_(""))
     loc_default_norm = IntProperty(default=0, description=_(""))
+    loc_class_repr = StringProperty(default="", description=_(""))
 
     nfeatures_init = IntProperty(default=0, min=0, max=100, update=updateNode,
         description=_("The number of best features to retain."))
@@ -42,38 +47,52 @@ class OCVLSIFTNode(OCVLFeature2DNode):
         description="The sigma of the Gaussian applied to the input image at the octave #0.")
 
     def sv_init(self, context):
-        self.inputs.new("StringsSocket", "nfeatures_init").prop_name = "nfeatures_init"
-        self.inputs.new("StringsSocket", "nOctaveLayers_init").prop_name = "nOctaveLayers_init"
-        self.inputs.new("StringsSocket", "contrastThreshold_init").prop_name = "contrastThreshold_init"
-        self.inputs.new("StringsSocket", "edgeThreshold_init").prop_name = "edgeThreshold_init"
-        self.inputs.new("StringsSocket", "sigma_init").prop_name = "sigma_init"
         super().sv_init(context)
 
     def wrapped_process(self):
+        sift = FEATURE2D_INSTANCES_DICT.get("{}.{}".format(self.id_data.name, self.name))
+
+        if self.loc_work_mode == "DETECT":
+            self._detect(sift)
+        elif self.loc_work_mode == "COMPUTE":
+            self._compute(sift)
+        elif self.loc_work_mode == "DETECT-COMPUTE":
+            self._detect_and_compute(sift)
+
+    def _detect(self, sift):
         self.check_input_requirements(["image_in"])
-
-        kwargs_init = {
-            'nfeatures': self.get_from_props("nfeatures_init"),
-            'nOctaveLayers': self.get_from_props("nOctaveLayers_init"),
-            'contrastThreshold': self.get_from_props("contrastThreshold_init"),
-            'edgeThreshold': self.get_from_props("edgeThreshold_init"),
-            'sigma': self.get_from_props("sigma_init"),
-            }
-
-        kwargs_detect = {
+        kwargs = {
             'image': self.get_from_props("image_in"),
             'mask': None,
         }
+        keypoints_out = self.process_cv(fn=sift.detect, kwargs=kwargs)
+        self.refresh_output_socket("keypoints_out", keypoints_out, is_uuid_type=True)
 
-        sift = cv2.xfeatures2d.SIFT_create(**kwargs_init)
-        keypoints_out, descriptors_out = self.process_cv(fn=sift.detectAndCompute, kwargs=kwargs_detect)
+    def _compute(self, sift):
+        self.check_input_requirements(["image_in", "keypoints_in"])
+        kwargs = {
+            'image': self.get_from_props("image_in"),
+            'keypoints': self.get_from_props("keypoints_in"),
+        }
+
+        keypoints_out, descriptors_out = self.process_cv(fn=sift.compute, kwargs=kwargs)
+        self.refresh_output_socket("keypoints_out", keypoints_out, is_uuid_type=True)
+        self.refresh_output_socket("descriptors_out", descriptors_out, is_uuid_type=True)
+
+    def _detect_and_compute(self, sift):
+        self.check_input_requirements(["image_in"])
+        kwargs = {
+            'image': self.get_from_props("image_in"),
+            'mask': None,
+        }
+        keypoints_out, descriptors_out = self.process_cv(fn=sift.detectAndCompute, kwargs=kwargs)
         self.refresh_output_socket("keypoints_out", keypoints_out, is_uuid_type=True)
         self.refresh_output_socket("descriptors_out", descriptors_out, is_uuid_type=True)
 
 
-# def register():
-#     cv_register_class(OCVLSIFTNode)
-#
-#
-# def unregister():
-#     cv_unregister_class(OCVLSIFTNode)
+def register():
+    cv_register_class(OCVLSIFTNode)
+
+
+def unregister():
+    cv_unregister_class(OCVLSIFTNode)
