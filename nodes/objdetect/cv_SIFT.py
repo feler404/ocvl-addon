@@ -3,8 +3,7 @@ import uuid
 from gettext import gettext as _
 from bpy.props import StringProperty, BoolProperty, IntProperty, FloatProperty, EnumProperty
 
-from .cv_Feature2D import OCVLFeature2DNode, WORK_MODE_ITEMS, STATE_MODE_ITEMS
-from ...operatores.feature2d_abc import InitFeature2DOperator
+from .abc_Feature2D import OCVLFeature2DNode, WORK_MODE_ITEMS, STATE_MODE_ITEMS
 from ...globals import FEATURE2D_INSTANCES_DICT
 from ...utils import cv_register_class, cv_unregister_class, updateNode
 

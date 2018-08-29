@@ -4,7 +4,7 @@ from gettext import gettext as _
 from bpy.props import StringProperty, BoolProperty, IntProperty, FloatProperty, EnumProperty
 
 from ...globals import FEATURE2D_INSTANCES_DICT
-from ...operatores.feature2d_abc import InitFeature2DOperator
+from ...operatores.abc import InitFeature2DOperator
 from ...utils import cv_register_class, cv_unregister_class, updateNode, OCVLNode
 
 
@@ -36,6 +36,8 @@ STATE_MODE_PROPS_MAPS = {
 class OCVLFeature2DNode(OCVLNode):
 
     _doc = _("")
+    ABC_GLOBAL_INSTANCE_DICT_NAME = FEATURE2D_INSTANCES_DICT
+
 
     def update_layout(self, context):
         self.update_sockets(context)
@@ -65,7 +67,7 @@ class OCVLFeature2DNode(OCVLNode):
 
         self.outputs.new("StringsSocket", "keypoints_out")
         self.outputs.new("StringsSocket", "descriptors_out")
-        InitFeature2DOperator.update_feature_instance_dict(self, self.id_data.name, self.name)
+        InitFeature2DOperator.update_class_instance_dict(self, self.id_data.name, self.name)
         FEATURE2D_INSTANCES_DICT.get("{}.{}".format(self.id_data.name, self.name))
         self.update_layout(context)
 
@@ -121,9 +123,9 @@ class OCVLFeature2DNode(OCVLNode):
         self.refresh_output_socket("descriptors_out", descriptors_out, is_uuid_type=True)
 
 
-def register():
-    cv_register_class(OCVLFeature2DNode)
-
-
-def unregister():
-    cv_unregister_class(OCVLFeature2DNode)
+# def register():
+#     cv_register_class(OCVLFeature2DNode)
+#
+#
+# def unregister():
+#     cv_unregister_class(OCVLFeature2DNode)
