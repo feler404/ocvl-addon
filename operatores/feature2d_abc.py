@@ -34,9 +34,26 @@ class InitFeature2DOperator(bpy.types.Operator):
         return {'FINISHED'}
 
 
+
+class Feature2DSaveOperator(bpy.types.Operator):
+    bl_idname = "node.feature_2d_save"
+    bl_label = "Feature 2D save"
+
+    origin = StringProperty("")
+
+    def execute(self, context):
+        node_tree, node_name, *props_name = self.origin.split('|><|')
+        node = bpy.data.node_groups[node_tree].nodes[node_name]
+        self.update_feature_instance_dict(node, node_tree, node_name)
+        return {'FINISHED'}
+
+
+
 def register():
     cv_register_class(InitFeature2DOperator)
+    cv_register_class(Feature2DSaveOperator)
 
 
 def unregister():
     cv_unregister_class(InitFeature2DOperator)
+    cv_unregister_class(Feature2DSaveOperator)

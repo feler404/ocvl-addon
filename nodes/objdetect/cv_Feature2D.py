@@ -90,6 +90,37 @@ class OCVLFeature2DNode(OCVLNode):
         elif self.loc_state_mode == "SAVE":
             layout.row().prop(self, "loc_file_save")
 
+    def _detect(self, sift):
+        self.check_input_requirements(["image_in"])
+        kwargs = {
+            'image': self.get_from_props("image_in"),
+            'mask': None,
+        }
+        keypoints_out = self.process_cv(fn=sift.detect, kwargs=kwargs)
+        self.refresh_output_socket("keypoints_out", keypoints_out, is_uuid_type=True)
+
+    def _compute(self, sift):
+        self.check_input_requirements(["image_in", "keypoints_in"])
+        kwargs = {
+            'image': self.get_from_props("image_in"),
+            'keypoints': self.get_from_props("keypoints_in"),
+        }
+
+        keypoints_out, descriptors_out = self.process_cv(fn=sift.compute, kwargs=kwargs)
+        self.refresh_output_socket("keypoints_out", keypoints_out, is_uuid_type=True)
+        self.refresh_output_socket("descriptors_out", descriptors_out, is_uuid_type=True)
+
+    def _detect_and_compute(self, sift):
+        self.check_input_requirements(["image_in"])
+        kwargs = {
+            'image': self.get_from_props("image_in"),
+            'mask': None,
+        }
+        keypoints_out, descriptors_out = self.process_cv(fn=sift.detectAndCompute, kwargs=kwargs)
+        self.refresh_output_socket("keypoints_out", keypoints_out, is_uuid_type=True)
+        self.refresh_output_socket("descriptors_out", descriptors_out, is_uuid_type=True)
+
+
 def register():
     cv_register_class(OCVLFeature2DNode)
 
