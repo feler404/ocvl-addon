@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 #  SETTINGS
 bpy.context.user_preferences.view.show_splash = False
 IS_WORK_ON_COPY_INPUT = True
-DEBUG = False
+DEBUG = True
 
 #  CONSTANTS
 ANONYMOUS = "Anonymous"

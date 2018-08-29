@@ -65,7 +65,7 @@ class OCVLBFMatcherNode(OCVLNode):
     mask_in = StringProperty(default=str(uuid.uuid4()), description=_(""))
     compactResult_in = BoolProperty(default=False)
 
-    normType_init = EnumProperty(default="NORM_HAMMING", items=NORM_TYPE_ITEMS, update=updateNode, description=_(""))
+    normType_init = EnumProperty(default="NORM_L1", items=NORM_TYPE_ITEMS, update=updateNode, description=_(""))
     crossCheck_init = BoolProperty(default=False, update=updateNode, description=_(""))
     loc_file_save = StringProperty(default="/", description=_(""))
     loc_file_load = StringProperty(default="/", description=_(""))
