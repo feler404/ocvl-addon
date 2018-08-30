@@ -13,7 +13,6 @@
     OCVLFastFeatureDetectorNode
     OCVLBriefDescriptorExtractorNode
     OCVLORBNode
-    OCVLdrawKeypointsNode
     ---
     Hidden-OCVLFirstStepsNode
     Hidden-OCVLTipNode
@@ -169,6 +168,8 @@
     OCVLCascadeClassifierNode
     OCVLSIFTNode
     OCVLBFMatcherNode
+    OCVLdrawKeypointsNode
+    OCVLdrawMatchesNode
 >## video
 >    OCVLcreateBackgroundSubtractorMOG2Node
 
