@@ -168,6 +168,7 @@
     OCVLCascadeClassifierNode
     OCVLSIFTNode
     OCVLBFMatcherNode
+    OCVLfindHomographyNode
     OCVLdrawKeypointsNode
     OCVLdrawMatchesNode
 >## video

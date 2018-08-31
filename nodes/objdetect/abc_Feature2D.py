@@ -38,7 +38,6 @@ class OCVLFeature2DNode(OCVLNode):
     _doc = _("")
     ABC_GLOBAL_INSTANCE_DICT_NAME = FEATURE2D_INSTANCES_DICT
 
-
     def update_layout(self, context):
         self.update_sockets(context)
         updateNode(self, context)
