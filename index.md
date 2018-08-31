@@ -169,6 +169,7 @@
     OCVLSIFTNode
     OCVLBFMatcherNode
     OCVLfindHomographyNode
+    OCVLfindHomography2Node
     OCVLdrawKeypointsNode
     OCVLdrawMatchesNode
 >## video
