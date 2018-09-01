@@ -20,9 +20,17 @@ STREAM_MODE_ITEMS = [
     ]
 
 
+CAMERA_DEVICE_ITEMS = [
+    ("0", "0", "0", "", 0),
+    ("1", "1", "1", "", 1),
+    ("2", "2", "2", "", 2),
+    ("3", "3", "3", "", 3),
+]
+
+
 def reconnect_camera_device(config=0):
     # cap = cv2.VideoCapture("rtsp://admin:12345@192.168.0.4:554")
-    ocvl.VIDEO_CAPTURE_0 = cv2.VideoCapture(config)
+    ocvl.CAMERA_DEVICE_DICT[config] = cv2.VideoCapture(config)
 
 
 class OCVLVideoSampleNode(OCVLPreviewNode):
@@ -47,6 +55,7 @@ class OCVLVideoSampleNode(OCVLPreviewNode):
     loc_name_image = StringProperty(default='', update=update_prop_search)
     loc_filepath = StringProperty(default='', update=updateNode)
     loc_image_mode = EnumProperty(items=STREAM_MODE_ITEMS, default="CAMERA", update=update_layout)
+    loc_camera_device = EnumProperty(items=CAMERA_DEVICE_ITEMS, default="0", update=update_layout)
 
     def sv_init(self, context):
         self.width = 200
@@ -58,11 +67,16 @@ class OCVLVideoSampleNode(OCVLPreviewNode):
         image = None
         uuid_ = None
 
-        if ocvl.VIDEO_CAPTURE_0 and ocvl.VIDEO_CAPTURE_0.isOpened():
-            _, image = ocvl.VIDEO_CAPTURE_0.read()
+        loc_camera_device = int(self.get_from_props("loc_camera_device"))
 
-        if not ocvl.VIDEO_CAPTURE_0 or image is None:
-            reconnect_camera_device()
+        if not ocvl.CAMERA_DEVICE_DICT.get(loc_camera_device):
+            reconnect_camera_device(loc_camera_device)
+
+        if ocvl.CAMERA_DEVICE_DICT.get(loc_camera_device) and ocvl.CAMERA_DEVICE_DICT.get(loc_camera_device).isOpened():
+            _, image = ocvl.CAMERA_DEVICE_DICT.get(loc_camera_device).read()
+
+        if not ocvl.CAMERA_DEVICE_DICT.get(loc_camera_device) or image is None:
+            # reconnect_camera_device()
             image = np.zeros((200, 200, 3), np.uint8)
 
         image, self.image_out = self._update_node_cache(image=image, resize=False, uuid_=uuid_)
@@ -82,6 +96,7 @@ class OCVLVideoSampleNode(OCVLPreviewNode):
         screen = context.screen
         rd = context.scene.render
         self.add_button(layout, "loc_image_mode", expand=True)
+        self.add_button(layout, "loc_camera_device", expand=True)
         row = layout.row()
         sub = row.column(align=True)
         sub.menu("RENDER_MT_framerate_presets", text="Framerate")
@@ -104,7 +119,7 @@ class OCVLVideoSampleNode(OCVLPreviewNode):
         else:
             col_split.operator("screen.animation_play", text="", icon='PAUSE')
 
-        location_y = -50 if self.loc_image_mode in ["PLANE", "RANDOM"] else -70
+        location_y = -80 if self.loc_image_mode in ["PLANE", "RANDOM"] else -100
         self.draw_preview(layout=layout, prop_name="image_out", location_x=10, location_y=location_y)
 
     def copy(self, node):
@@ -114,8 +129,9 @@ class OCVLVideoSampleNode(OCVLPreviewNode):
 
     def free(self):
         super().free()
-        if ocvl.VIDEO_CAPTURE_0.isOpened():
-            ocvl.VIDEO_CAPTURE_0.release()
+        loc_camera_device = int(self.get_from_props("loc_camera_device"))
+        if ocvl.CAMERA_DEVICE_DICT.get(loc_camera_device).isOpened():
+            ocvl.CAMERA_DEVICE_DICT.get(loc_camera_device).release()
 
     def update_sockets(self, context):
         self.process()

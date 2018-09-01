@@ -1,5 +1,5 @@
 # Video capture for default camera
-VIDEO_CAPTURE_0 = None
+CAMERA_DEVICE_DICT = {}
 
 # Dict to keep initializations objects of Feature2D
 FEATURE2D_INSTANCES_DICT = {}
