@@ -167,6 +167,7 @@
 ## objdetect
     OCVLCascadeClassifierNode
     OCVLSIFTNode
+    OCVLSURFNode
     OCVLBFMatcherNode
     OCVLfindHomographyNode
     OCVLfindHomography2Node

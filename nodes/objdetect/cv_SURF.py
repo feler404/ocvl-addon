@@ -9,11 +9,11 @@ from ...globals import FEATURE2D_INSTANCES_DICT
 from ...utils import cv_register_class, cv_unregister_class, updateNode
 
 
-class OCVLSIFTNode(OCVLFeature2DNode):
+class OCVLSURFNode(OCVLFeature2DNode):
 
-    _doc = _("Class for extracting keypoints and computing descriptors using the Scale Invariant Feature Transform (SIFT) algorithm by D. Lowe")
-    _url = "https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_feature2d/py_sift_intro/py_sift_intro.html"
-    _init_method = cv2.xfeatures2d.SIFT_create
+    _doc = _("Class for extracting Speeded Up Robust Features from an image.")
+    _url = "https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_feature2d/py_surf_intro/py_surf_intro.html"
+    _init_method = cv2.xfeatures2d.SURF_create
 
     def update_layout(self, context):
         self.update_sockets(context)
@@ -40,34 +40,29 @@ class OCVLSIFTNode(OCVLFeature2DNode):
     loc_default_norm = IntProperty(default=0, description=_(""))
     loc_class_repr = StringProperty(default="", description=_(""))
 
-    nfeatures_init = IntProperty(default=0, min=0, max=100, update=update_and_init,
-        description=_("The number of best features to retain."))
-    nOctaveLayers_init = IntProperty(default=3, min=1, max=3, update=update_and_init,
-        description=_("The number of layers in each octave."))
-    contrastThreshold_init = FloatProperty(default=0.04, min=0.01, max=0.1, update=update_and_init,
-        description=_("The contrast threshold used to filter out weak features in semi-uniform (low-contrast) regions."))
-    edgeThreshold_init = FloatProperty(default=10, min=0.1, max=100, update=update_and_init,
-        description=_("Size of an average block for computing a derivative covariation matrix over each pixel neighborhood."))
-    sigma_init = FloatProperty(default=1.6, min=0.1, max=5., update=update_and_init,
-        description="The sigma of the Gaussian applied to the input image at the octave #0.")
+    hessianThreshold_init = FloatProperty(default=100, min=10, max=1000, step=100, update=update_and_init, description=_("Threshold for hessian keypoint detector used in SURF."))
+    nOctaves_init = IntProperty(default=4, min=1, max=10, update=update_and_init, description=_("Number of pyramid octaves the keypoint detector will use."))
+    nOctaveLayers_init = IntProperty(default=3, min=1, max=3, update=update_and_init, description=_("Number of octave layers within each octave."))
+    extended_init = BoolProperty(default=False, update=update_and_init, description=_("Extended descriptor flag (true - use extended 128-element descriptors; false - use 64-element descriptors)."))
+    upright_init = BoolProperty(default=False, update=update_and_init, description=_("	Up-right or rotated features flag (true - do not compute orientation of features; false - compute orientation)."))
 
     def sv_init(self, context):
         super().sv_init(context)
 
     def wrapped_process(self):
-        sift = FEATURE2D_INSTANCES_DICT.get("{}.{}".format(self.id_data.name, self.name))
+        surf = FEATURE2D_INSTANCES_DICT.get("{}.{}".format(self.id_data.name, self.name))
 
         if self.loc_work_mode == "DETECT":
-            self._detect(sift)
+            self._detect(surf)
         elif self.loc_work_mode == "COMPUTE":
-            self._compute(sift)
+            self._compute(surf)
         elif self.loc_work_mode == "DETECT-COMPUTE":
-            self._detect_and_compute(sift)
+            self._detect_and_compute(surf)
 
 
 def register():
-    cv_register_class(OCVLSIFTNode)
+    cv_register_class(OCVLSURFNode)
 
 
 def unregister():
-    cv_unregister_class(OCVLSIFTNode)
+    cv_unregister_class(OCVLSURFNode)
