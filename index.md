@@ -8,7 +8,6 @@
     OCVLROINode
     OCVLTypeConvertNode
     OCVLApplyROINode
-    OCVLFastFeatureDetectorNode
     OCVLBriefDescriptorExtractorNode
     ---
     Hidden-OCVLFirstStepsNode
@@ -166,6 +165,7 @@
     OCVLSIFTNode
     OCVLSURFNode
     OCVLORBNode
+    OCVLFastFeatureDetectorNode
     OCVLgoodFeaturesToTrackNode
     OCVLBFMatcherNode
     OCVLfindHomographyNode
