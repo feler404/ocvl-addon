@@ -20,11 +20,11 @@ class OCVLgoodFeaturesToTrackNode(OCVLNode):
         description=_("Optional region of interest."))
     maxCorners_in = IntProperty(default=25, min=1, max=1000, update=updateNode,
         description=_("Output vector of detected corners."))
-    qualityLevel_in = FloatProperty(default=0.01, min=0., max=1., update=updateNode,
+    qualityLevel_in = FloatProperty(default=0.01, min=0.0001, max=0.9999, update=updateNode,
         description=_("Maximum number of corners to return."))
     minDistance_in = FloatProperty(default=10, min=1, max=1000, update=updateNode,
         description=_("Minimum possible Euclidean distance between the returned corners."))
-    blockSize_in = IntProperty(default=3, min=1, max=100, update=updateNode,
+    blockSize_in = IntProperty(default=3, min=2, max=100, update=updateNode,
         description=_("Size of an average block for computing a derivative covariation matrix over each pixel neighborhood."))
     gradientSize_in = IntProperty(default=3, min=1, max=100, update=updateNode,
         description="")
