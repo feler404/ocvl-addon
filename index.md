@@ -166,6 +166,7 @@
     OCVLSURFNode
     OCVLORBNode
     OCVLFastFeatureDetectorNode
+    OCVLBriefDescriptorExtractorNode
     OCVLgoodFeaturesToTrackNode
     OCVLBFMatcherNode
     OCVLfindHomographyNode

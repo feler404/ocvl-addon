@@ -9,26 +9,23 @@ from ...globals import FEATURE2D_INSTANCES_DICT
 from ...utils import cv_register_class, cv_unregister_class, updateNode
 
 
-TYPE_FAST_ITEMS = (
-    ("FastFeatureDetector_TYPE_5_8", "FastFeatureDetector_TYPE_5_8", "FastFeatureDetector_TYPE_5_8", "", 0),
-    ("FastFeatureDetector_TYPE_7_12", "FastFeatureDetector_TYPE_7_12", "FastFeatureDetector_TYPE_7_12", "", 1),
-    ("FastFeatureDetector_TYPE_9_16", "FastFeatureDetector_TYPE_9_16", "FastFeatureDetector_TYPE_9_16", "", 2),
-    ("FastFeatureDetector_THRESHOLD", "FastFeatureDetector_THRESHOLD", "FastFeatureDetector_THRESHOLD", "", 3),
-    ("FastFeatureDetector_NONMAX_SUPPRESSION", "FastFeatureDetector_NONMAX_SUPPRESSION", "FastFeatureDetector_NONMAX_SUPPRESSION", "", 4),
-    ("FastFeatureDetector_FAST_N", "FastFeatureDetector_FAST_N", "FastFeatureDetector_FAST_N", "", 5),
+BYTES_ITEMS = (
+    ("16", "16", "16", "", 0),
+    ("32", "32", "32", "", 1),
+    ("64", "64", "64", "", 2),
 )
 
-FFD_WORK_MODE_ITEMS = (
-    ("DETECT", "DETECT", "DETECT", "", 0),
-    ("COMPUTE", "COMPUTE", "COMPUTE", "CANCEL", 1),
+BDE_WORK_MODE_ITEMS = (
+    ("DETECT", "DETECT", "DETECT", "CANCEL", 0),
+    ("COMPUTE", "COMPUTE", "COMPUTE", "", 1),
     ("DETECT-COMPUTE", "DETECT-COMPUTE", "DETECT-COMPUTE", "CANCEL", 2),
 )
 
-class OCVLFastFeatureDetectorNode(OCVLFeature2DNode):
+class OCVLBriefDescriptorExtractorNode(OCVLFeature2DNode):
 
-    _doc = _("Wrapping class for feature detection using the FAST method.")
-    _url = "https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_feature2d/py_fast/py_fast.html"
-    _init_method = cv2.FastFeatureDetector_create
+    _doc = _("Class for computing BRIEF descriptors described in [27].")
+    _url = "https://docs.opencv.org/3.0-beta/doc/py_tutorials/py_feature2d/py_brief/py_brief.html#brief"
+    _init_method = cv2.xfeatures2d.BriefDescriptorExtractor_create
 
     def update_layout(self, context):
         self.update_sockets(context)
@@ -47,16 +44,15 @@ class OCVLFastFeatureDetectorNode(OCVLFeature2DNode):
 
     loc_file_load = StringProperty(default="/", description=_(""))
     loc_file_save = StringProperty(default="/", description=_(""))
-    loc_work_mode = EnumProperty(items=FFD_WORK_MODE_ITEMS, default="DETECT", update=update_layout, description=_(""))
+    loc_work_mode = EnumProperty(items=BDE_WORK_MODE_ITEMS, default="COMPUTE", update=update_layout, description=_(""))
     loc_state_mode = EnumProperty(items=STATE_MODE_ITEMS, default="INIT", update=update_layout, description=_(""))
     loc_descriptor_size = IntProperty(default=0, description=_(""))
     loc_descriptor_type = IntProperty(default=0, description=_(""))
     loc_default_norm = IntProperty(default=0, description=_(""))
     loc_class_repr = StringProperty(default="", description=_(""))
 
-    threshold_init = IntProperty(default=10, min=1, max=100, update=update_and_init, description=_(""))
-    type_init = EnumProperty(items=TYPE_FAST_ITEMS, default="FastFeatureDetector_TYPE_9_16", update=update_and_init, description=_(""))
-    nonmaxSuppression_init = BoolProperty(default=False, update=update_and_init, description=_(""))
+    bytes_init = EnumProperty(items=BYTES_ITEMS, default="32", update=update_and_init, description=_(""))
+    use_orientation_init = BoolProperty(default=False, update=update_and_init, description=_(""))
 
     def sv_init(self, context):
         super().sv_init(context)
@@ -65,18 +61,19 @@ class OCVLFastFeatureDetectorNode(OCVLFeature2DNode):
         sift = FEATURE2D_INSTANCES_DICT.get("{}.{}".format(self.id_data.name, self.name))
 
         if self.loc_work_mode == "DETECT":
-            self._detect(sift)
-        elif self.loc_work_mode == "COMPUTE":
-            #self._compute(sift)
+            # self._detect(sift)
             pass
+        elif self.loc_work_mode == "COMPUTE":
+            self._compute(sift)
+            # pass
         elif self.loc_work_mode == "DETECT-COMPUTE":
             #self._detect_and_compute(sift)
             pass
 
 
 def register():
-    cv_register_class(OCVLFastFeatureDetectorNode)
+    cv_register_class(OCVLBriefDescriptorExtractorNode)
 
 
 def unregister():
-    cv_unregister_class(OCVLFastFeatureDetectorNode)
+    cv_unregister_class(OCVLBriefDescriptorExtractorNode)

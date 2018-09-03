@@ -16,6 +16,11 @@ class InitClassForNodeOperator(bpy.types.Operator):
             val = getattr(node, key)
             if isinstance(val, str):
                 val = getattr(cv2, val, val)
+                try:
+                    val = int(val)
+                except (ValueError, TypeError):
+                    pass
+
             if key.endswith("_init") and isinstance(val, (int, float, str)):
                 kwargs_init[key.replace("_init", "")] = val
         return kwargs_init
