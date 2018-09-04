@@ -169,6 +169,7 @@
     OCVLBriefDescriptorExtractorNode
     OCVLgoodFeaturesToTrackNode
     OCVLBFMatcherNode
+    OCVLFlannBasedMatcherNode
     OCVLfindHomographyNode
     OCVLfindHomography2Node
     OCVLdrawKeypointsNode
