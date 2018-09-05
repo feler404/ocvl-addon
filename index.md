@@ -167,6 +167,7 @@
     OCVLORBNode
     OCVLFastFeatureDetectorNode
     OCVLBriefDescriptorExtractorNode
+    OCVLBRISKNode
     OCVLgoodFeaturesToTrackNode
     OCVLBFMatcherNode
     OCVLFlannBasedMatcherNode
