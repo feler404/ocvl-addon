@@ -10,8 +10,9 @@ from bpy.props import (
 
 from ...utils import cv_register_class, cv_unregister_class, updateNode, OCVLNode
 
+# https://github.com/opencv/opencv/issues/6072
 
-class OCVLdrawMatchesNode(OCVLNode):
+class OCVLdrawMatchesKnnNode(OCVLNode):
     bl_flags_list = 'DRAW_MATCHES_FLAGS_DEFAULT, DRAW_MATCHES_FLAGS_DRAW_OVER_OUTIMG, DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS, DRAW_MATCHES_FLAGS_NOT_DRAW_SINGLE_POINTS'
     _doc = _("This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts.")
 
@@ -54,19 +55,21 @@ class OCVLdrawMatchesNode(OCVLNode):
         matches1to2_in = self.get_from_props("matches1to2_in")
         loc_max_distance_in = self.get_from_props("loc_max_distance_in")
 
-        good = []
-        for dmatch in matches1to2_in:
-            if dmatch.distance < loc_max_distance_in:
-                good.append(dmatch)
+        # Need to draw only good matches, so create a mask
+        matchesMask = [[0, 0] for i in matches1to2_in]
+
+        # ratio test as per Lowe's paper
+        for i, d_match in enumerate(matches1to2_in):
+            if d_match.distance < loc_max_distance_in:
+                matchesMask[i] = [1, 0]
 
         draw_params = {
             'matchColor': self.get_from_props("matchColor_in"),
             'singlePointColor': self.get_from_props("singlePointColor_in"),
             'flags': self.get_from_props("flags_in"),
-            'matchesMask': None,  # self.get_from_props("matchesMask_in")
+            'matchesMask': matchesMask,  # self.get_from_props("matchesMask_in")
         }
-        drawMatches_partial = partial(cv2.drawMatches, img1, keypoints1_in, img2, keypoints2_in, good, None)
-        outImg_out = self.process_cv(fn=drawMatches_partial, kwargs=draw_params)
+        outImg_out = cv2.drawMatchesKnn(img1=img1, keypoints1=keypoints1_in, img2=img2, keypoints2=keypoints2_in, matches1to2=matches1to2_in, outImg=None, flags=2)
         self.refresh_output_socket("outImg_out", outImg_out, is_uuid_type=True)
 
     def draw_buttons(self, context, layout):
@@ -74,8 +77,8 @@ class OCVLdrawMatchesNode(OCVLNode):
 
 
 def register():
-    cv_register_class(OCVLdrawMatchesNode)
+    cv_register_class(OCVLdrawMatchesKnnNode)
 
 
 def unregister():
-    cv_unregister_class(OCVLdrawMatchesNode)
+    cv_unregister_class(OCVLdrawMatchesKnnNode)

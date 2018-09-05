@@ -174,6 +174,7 @@
     OCVLfindHomography2Node
     OCVLdrawKeypointsNode
     OCVLdrawMatchesNode
+    OCVLdrawMatchesKnnNode
 >## video
 >    OCVLcreateBackgroundSubtractorMOG2Node
 
