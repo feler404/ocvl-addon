@@ -169,6 +169,7 @@
     OCVLBriefDescriptorExtractorNode
     OCVLBRISKNode
     OCVLgoodFeaturesToTrackNode
+    OCVLAgastFeatureDetectorNode
     OCVLBFMatcherNode
     OCVLFlannBasedMatcherNode
     OCVLfindHomographyNode
