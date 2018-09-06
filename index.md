@@ -162,6 +162,7 @@
 >    OCVLinpaintNode
 ## objdetect
     OCVLCascadeClassifierNode
+    OCVLAKAZENode
     OCVLSIFTNode
     OCVLSURFNode
     OCVLORBNode
