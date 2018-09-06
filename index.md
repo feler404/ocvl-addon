@@ -171,6 +171,7 @@
     OCVLBRISKNode
     OCVLgoodFeaturesToTrackNode
     OCVLAgastFeatureDetectorNode
+    OCVLGFTTDetectorNode
     OCVLBFMatcherNode
     OCVLFlannBasedMatcherNode
     OCVLfindHomographyNode
