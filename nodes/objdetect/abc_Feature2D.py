@@ -85,7 +85,10 @@ class OCVLFeature2DNode(OCVLNode):
             layout.operator("node.init_feature_2d", icon='MENU_PANEL').origin = origin
             layout.label("Instance: {}".format(self.loc_class_repr))
             for key in InitFeature2DOperator.get_init_kwargs(self):
-                layout.row().prop(self, "{}_init".format(key))
+                arg_name = key
+                if arg_name.startswith("_"):
+                    arg_name = "T1" + arg_name
+                layout.row().prop(self, "{}_init".format(arg_name))
         elif self.loc_state_mode == "LOAD":
             layout.row().prop(self, "loc_file_load")
         elif self.loc_state_mode == "SAVE":

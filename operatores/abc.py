@@ -11,6 +11,14 @@ class InitClassForNodeOperator(bpy.types.Operator):
 
     @staticmethod
     def get_init_kwargs(node):
+        """
+        Prepare kwargs.
+        Suffix _init - suffix used for initialization of class
+        Prefix T1_ - prefix used for variables begging on underscore example for cv2.MSER_create()
+
+        :param node:
+        :return:
+        """
         kwargs_init = {}
         for key in dir(node):
             val = getattr(node, key)
@@ -22,7 +30,7 @@ class InitClassForNodeOperator(bpy.types.Operator):
                     pass
 
             if key.endswith("_init") and isinstance(val, (int, float, str)):
-                kwargs_init[key.replace("_init", "")] = val
+                kwargs_init[key.replace("_init", "").replace("T1_", "_")] = val
         return kwargs_init
 
     @staticmethod
