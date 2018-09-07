@@ -167,6 +167,7 @@
     OCVLSURFNode
     OCVLORBNode
     OCVLMSERNode
+    OCVLBoostDescNode
     OCVLFastFeatureDetectorNode
     OCVLBriefDescriptorExtractorNode
     OCVLBRISKNode
