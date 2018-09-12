@@ -49,6 +49,12 @@ if __name__ != "ocvl":
 
 from .auth import register_extended_operators, unregister_extended_operators
 
+import cv2
+
+cv2.DAISY_NRM_NONE = cv2.xfeatures2d.DAISY_NRM_NONE
+cv2.DAISY_NRM_PARTIAL = cv2.xfeatures2d.DAISY_NRM_PARTIAL
+cv2.DAISY_NRM_FULL = cv2.xfeatures2d.DAISY_NRM_FULL
+cv2.DAISY_NRM_SIFT = cv2.xfeatures2d.DAISY_NRM_SIFT
 
 def register():
     from .tutorial_engine import operatores as tutorial_operatores

@@ -167,6 +167,7 @@
     OCVLSURFNode
     OCVLORBNode
     OCVLMSERNode
+    OCVLDAISYNode
     OCVLSimpleBlobDetectorNode
     OCVLBoostDescNode
     OCVLFastFeatureDetectorNode
