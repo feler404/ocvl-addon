@@ -65,8 +65,6 @@ class OCVLDAISYNode(OCVLFeature2DNode):
 
     def wrapped_process(self):
         instance = FEATURE2D_INSTANCES_DICT.get("{}.{}".format(self.id_data.name, self.name))
-        print (1111, FEATURE2D_INSTANCES_DICT)
-        print (1111, instance)
 
         if self.loc_work_mode == "DETECT":
             self._detect(instance)
