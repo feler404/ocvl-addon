@@ -16,10 +16,10 @@ FREAK_WORK_MODE_ITEMS = (
 )
 
 
-class OCVLFREAKNode(OCVLFeature2DNode):
+class OCVLLATCHNode(OCVLFeature2DNode):
 
-    _doc = _("Class implementing the FREAK (Fast Retina Keypoint) keypoint descriptor, described in [4].")
-    _init_method = cv2.xfeatures2d.FREAK_create
+    _doc = _("Latch Class for computing the LATCH descriptor.")
+    _init_method = cv2.xfeatures2d.LATCH_create
 
     def update_layout(self, context):
         self.update_sockets(context)
@@ -46,10 +46,11 @@ class OCVLFREAKNode(OCVLFeature2DNode):
     loc_default_norm = IntProperty(default=0, description=_(""))
     loc_class_repr = StringProperty(default="", description=_(""))
 
-    orientationNormalized_init = BoolProperty(default=True, update=update_and_init, description="")
-    scaleNormalized_init = BoolProperty(default=True, update=update_and_init, description="")
-    patternScale_init = FloatProperty(default=22.0, min=0, max=100, update=update_layout, description="")
-    nOctaves_init = IntProperty(default=4, min=1, max=10, update=update_and_init, description="")
+    bytes_init = IntProperty(default=32, min=2, max=256, update=update_and_init, description="")
+    rotationInvariance_init = BoolProperty(default=True, update=update_and_init, description="")
+    half_ssd_size_init = IntProperty(default=3, min=1, max=10, update=update_and_init, description="")
+    sigma_init = FloatProperty(default=2.0, min=0.01, max=9.99, update=update_and_init, description="")
+
 
     def sv_init(self, context):
         super().sv_init(context)
@@ -66,8 +67,8 @@ class OCVLFREAKNode(OCVLFeature2DNode):
 
 
 def register():
-    cv_register_class(OCVLFREAKNode)
+    cv_register_class(OCVLLATCHNode)
 
 
 def unregister():
-    cv_unregister_class(OCVLFREAKNode)
+    cv_unregister_class(OCVLLATCHNode)
