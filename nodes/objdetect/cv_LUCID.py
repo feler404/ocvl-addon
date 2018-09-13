@@ -9,17 +9,17 @@ from ...globals import FEATURE2D_INSTANCES_DICT
 from ...utils import cv_register_class, cv_unregister_class, updateNode
 
 
-LATCH_WORK_MODE_ITEMS = (
+LUCID_WORK_MODE_ITEMS = (
     ("DETECT", "DETECT", "DETECT", "CANCEL", 0),
     ("COMPUTE", "COMPUTE", "COMPUTE", "", 1),
     ("DETECT-COMPUTE", "DETECT-COMPUTE", "DETECT-COMPUTE", "CANCEL", 2),
 )
 
 
-class OCVLLATCHNode(OCVLFeature2DNode):
+class OCVLLUCIDNode(OCVLFeature2DNode):
 
-    _doc = _("Latch Class for computing the LATCH descriptor.")
-    _init_method = cv2.xfeatures2d.LATCH_create
+    _doc = _("Class implementing the locally uniform comparison image descriptor, described in [216].")
+    _init_method = cv2.xfeatures2d.LUCID_create
 
     def update_layout(self, context):
         self.update_sockets(context)
@@ -39,18 +39,15 @@ class OCVLLATCHNode(OCVLFeature2DNode):
 
     loc_file_load = StringProperty(default="/", description=_(""))
     loc_file_save = StringProperty(default="/", description=_(""))
-    loc_work_mode = EnumProperty(items=LATCH_WORK_MODE_ITEMS, default="COMPUTE", update=update_layout, description=_(""))
+    loc_work_mode = EnumProperty(items=LUCID_WORK_MODE_ITEMS, default="COMPUTE", update=update_layout, description=_(""))
     loc_state_mode = EnumProperty(items=STATE_MODE_ITEMS, default="INIT", update=update_layout, description=_(""))
     loc_descriptor_size = IntProperty(default=0, description=_(""))
     loc_descriptor_type = IntProperty(default=0, description=_(""))
     loc_default_norm = IntProperty(default=0, description=_(""))
     loc_class_repr = StringProperty(default="", description=_(""))
 
-    bytes_init = IntProperty(default=32, min=2, max=256, update=update_and_init, description="")
-    rotationInvariance_init = BoolProperty(default=True, update=update_and_init, description="")
-    half_ssd_size_init = IntProperty(default=3, min=1, max=10, update=update_and_init, description="")
-    sigma_init = FloatProperty(default=2.0, min=0.01, max=9.99, update=update_and_init, description="")
-
+    lucid_kernel_init = IntProperty(default=1, min=1, max=9, update=update_and_init, description="")
+    blur_kernel_init = IntProperty(default=1, min=1, max=9, update=update_and_init, description="")
 
     def sv_init(self, context):
         super().sv_init(context)
@@ -67,8 +64,8 @@ class OCVLLATCHNode(OCVLFeature2DNode):
 
 
 def register():
-    cv_register_class(OCVLLATCHNode)
+    cv_register_class(OCVLLUCIDNode)
 
 
 def unregister():
-    cv_unregister_class(OCVLLATCHNode)
+    cv_unregister_class(OCVLLUCIDNode)
