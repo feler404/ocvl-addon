@@ -171,6 +171,7 @@
     OCVLFREAKNode
     OCVLLATCHNode
     OCVLLUCIDNode
+    OCVLStarDetectorNode
     OCVLHarrisLaplaceFeatureDetectorNode
     OCVLSimpleBlobDetectorNode
     OCVLBoostDescNode
