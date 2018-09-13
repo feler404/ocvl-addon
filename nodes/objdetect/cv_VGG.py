@@ -9,17 +9,17 @@ from ...globals import FEATURE2D_INSTANCES_DICT
 from ...utils import cv_register_class, cv_unregister_class, updateNode
 
 
-MSDD_WORK_MODE_ITEMS = (
-    ("DETECT", "DETECT", "DETECT", "", 0),
-    ("COMPUTE", "COMPUTE", "COMPUTE", "CANCEL", 1),
+VGG_WORK_MODE_ITEMS = (
+    ("DETECT", "DETECT", "DETECT", "CANCEL", 0),
+    ("COMPUTE", "COMPUTE", "COMPUTE", "", 1),
     ("DETECT-COMPUTE", "DETECT-COMPUTE", "DETECT-COMPUTE", "CANCEL", 2),
 )
 
 
-class OCVLStarDetectorNode(OCVLFeature2DNode):
+class OCVLVGGNode(OCVLFeature2DNode):
 
-    _doc = _("The class implements the keypoint detector introduced by [2], synonym of StarDetector.")
-    _init_method = cv2.xfeatures2d.StarDetector_create
+    _doc = _("Class implementing VGG (Oxford Visual Geometry Group) descriptor trained end to end...")
+    _init_method = cv2.xfeatures2d.VGG_create
 
     def update_layout(self, context):
         self.update_sockets(context)
@@ -39,19 +39,18 @@ class OCVLStarDetectorNode(OCVLFeature2DNode):
 
     loc_file_load = StringProperty(default="/", description=_(""))
     loc_file_save = StringProperty(default="/", description=_(""))
-    loc_work_mode = EnumProperty(items=MSDD_WORK_MODE_ITEMS, default="DETECT", update=update_layout, description=_(""))
+    loc_work_mode = EnumProperty(items=VGG_WORK_MODE_ITEMS, default="COMPUTE", update=update_layout, description=_(""))
     loc_state_mode = EnumProperty(items=STATE_MODE_ITEMS, default="INIT", update=update_layout, description=_(""))
     loc_descriptor_size = IntProperty(default=0, description=_(""))
     loc_descriptor_type = IntProperty(default=0, description=_(""))
     loc_default_norm = IntProperty(default=0, description=_(""))
     loc_class_repr = StringProperty(default="", description=_(""))
 
-    maxSize_init = IntProperty(default=45, min=1, max=1000, update=update_and_init, description="")
-    responseThreshold_init = IntProperty(default=30, min=1, max=1000, update=update_and_init, description="")
-    lineThresholdProjected_init = IntProperty(default=10, min=1, max=100, update=update_and_init, description="")
-    lineThresholdBinarized_init = IntProperty(default=8, min=1, max=100, update=update_and_init, description="")
-    suppressNonmaxSize_init = IntProperty(default=5, min=1, max=100, update=update_and_init, description="")
-
+    isigma_init = FloatProperty(default=1.4, min=0, max=10, update=update_and_init, description="")
+    img_normalize_init = BoolProperty(default=True, update=update_and_init, description="")
+    use_scale_orientation_init = BoolProperty(default=True, update=update_and_init, description="")
+    scale_factor_init = FloatProperty(default=6.25, min=1, max=10, update=update_and_init, description="")
+    dsc_normalize_init = BoolProperty(default=False, update=update_and_init, description="")
 
     def sv_init(self, context):
         super().sv_init(context)
@@ -68,8 +67,8 @@ class OCVLStarDetectorNode(OCVLFeature2DNode):
 
 
 def register():
-    cv_register_class(OCVLStarDetectorNode)
+    cv_register_class(OCVLVGGNode)
 
 
 def unregister():
-    cv_unregister_class(OCVLStarDetectorNode)
+    cv_unregister_class(OCVLVGGNode)
