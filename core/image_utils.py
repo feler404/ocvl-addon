@@ -13,7 +13,6 @@ TEX_CO_FLIP = [(0, 0), (1, 0), (1, 1), (0, 1)]
 
 
 def tag_redraw_all_nodeviews():
-
     for window in bpy.context.window_manager.windows:
         for area in window.screen.areas:
             if area.type == 'NODE_EDITOR':
@@ -95,6 +94,7 @@ def draw_graphical_data(data):
             draw_text(color, x, y_pos, text_body.format(num_containers))
             break
 
+
 def draw_callback_px(n_id, data):
     space = bpy.context.space_data
 
@@ -130,6 +130,7 @@ def callback_enable(*args):
     CALLBACK_DICT[n_id] = handle_pixel
     tag_redraw_all_nodeviews()
 
+
 def callback_disable(n_id):
     handle_pixel = CALLBACK_DICT.get(n_id, None)
     if not handle_pixel:
@@ -152,6 +153,7 @@ def convert_to_gl_image(image_cv):
 
 
 def init_texture(width, height, texname, texture, internalFormat, format):
+    print(1111, "init_texture")
     bgl.glEnable(bgl.GL_TEXTURE_2D)
     bgl.glBindTexture(bgl.GL_TEXTURE_2D, texname)
     bgl.glActiveTexture(bgl.GL_TEXTURE0)

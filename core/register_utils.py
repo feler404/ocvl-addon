@@ -8,7 +8,6 @@ logger = getLogger(__name__)
 
 
 def ocvl_register(cls):
-    print (1111,cls )
     try:
         # if "bl_rna" not in cls.__dict__:
         bpy.utils.register_class(cls)
@@ -37,6 +36,7 @@ def reload_ocvl_modules():
 def register_node(cls):
     from ocvl.core.node_categories import is_node_class_name
     if is_node_class_name(cls.__name__):
+        print (22222, cls.__name__)
         cls.n_id = StringProperty(default='')
         cls.n_meta = StringProperty(default='')
         cls.n_error = StringProperty(default='')

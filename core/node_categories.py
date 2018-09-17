@@ -17,7 +17,7 @@ class OCVLNodeCategory(NodeCategory):
 
 
 def is_node_class_name(class_name):
-    return class_name.startswith("OCVL") and class_name.endswith("Node") and class_name != "OCVLNode"
+    return class_name.startswith("OCVL") and class_name.endswith("Node") and class_name not in ["OCVLNode", "OCVLPreviewNode"]
 
 
 def autoregister_node_categories(register_mode=True):
@@ -39,11 +39,12 @@ def autoregister_node_categories(register_mode=True):
                     if is_node_class_name(obj_name):
                         node_class = getattr(mod, obj_name)
                         if node_class.ocvl_category:
+                            print (1111, node_class)
                             node_classes_list.append(node_class)
                             _ocvl_auto_register(node_class)
 
     for node_class in node_classes_list:
-        node_categories_dict[node_class.ocvl_category].append(NodeItem(node_class.__name__))
+        node_categories_dict[node_class.ocvl_category].append(NodeItem(node_class.__name__, node_class.__name__))
 
     for category_name in node_categories_dict.keys():
         build_categories.append(OCVLNodeCategory(

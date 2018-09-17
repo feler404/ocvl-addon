@@ -51,14 +51,18 @@ def register():
     from ocvl import logger_conf
     from ocvl.core import node_tree
     from ocvl.core import sockets
+    from ocvl import operatores
     from ocvl.core.register_utils import reload_ocvl_modules
     reload_ocvl_modules()
     node_tree.register()
     sockets.register()
+    operatores.register()
 
 
 def unregister():
     from ocvl.core import node_tree
     from ocvl.core import sockets
+    from ocvl import operatores
     node_tree.unregister()
     sockets.unregister()
+    operatores.unregister()

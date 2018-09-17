@@ -432,7 +432,7 @@ class OCVLPreviewNode(OCVLNode):
 
     def delete_texture(self):
         if self.node_id in self.texture:
-            bgl.glDeleteTextures(2, bgl.Buffer(bgl.GL_INT, 2, self.texture[self.node_id]["name"]))
+            bgl.glDeleteTextures(1, bgl.Buffer(bgl.GL_INT, 1, self.texture[self.node_id]["name"]))
 
     def free(self):
         callback_disable(node_id(self))
@@ -446,8 +446,8 @@ class OCVLPreviewNode(OCVLNode):
 
         texture_mini = bgl.Buffer(bgl.GL_BYTE, resized_image.shape, resized_image)
 
-        name = bgl.Buffer(bgl.GL_INT, 2)
-        bgl.glGenTextures(2, name)
+        name = bgl.Buffer(bgl.GL_INT, 1)
+        bgl.glGenTextures(1, name)
         self.texture[self.node_id] = {"name": name, "uuid": uuid_}
         self.texture[uuid_] = self.node_id
         if len(image.shape) == 3:
@@ -458,7 +458,7 @@ class OCVLPreviewNode(OCVLNode):
             format = bgl.GL_LUMINANCE
         init_texture(width=resized_width,
                      height=resized_height,
-                     texname=name[1],
+                     texname=name[0],
                      texture=texture_mini,
                      internalFormat=internalFormat,
                      format=format)
@@ -481,35 +481,35 @@ class OCVLPreviewNode(OCVLNode):
         self._draw_preview(location_x=location_x, location_y=location_y, width=width, height=height)
 
     def _draw_preview(self, location_x=0, location_y=0, width=0, height=0, hide=False):
-        if self.n_id not in self.texture:
-            logger.debug("Preview node without texture. Node:{}".format(self.n_id))
-            return
+            if self.n_id not in self.texture:
+                logger.debug("Preview node without texture. Node:{}".format(self.n_id))
+                return
 
-        if not self.texture[self.n_id]:
-            logger.debug("Empty texture for node. Node:{}".format(self.n_id))
-            return
+            if not self.texture[self.n_id]:
+                logger.debug("Empty texture for node. Node:{}".format(self.n_id))
+                return
 
-        if isinstance(self.texture[self.n_id], (str,)):
-            logger.debug("Texture is string instance for node: {}".format(self.n_id))
-            return
+            if isinstance(self.texture[self.n_id], (str,)):
+                logger.debug("Texture is string instance for node: {}".format(self.n_id))
+                return
 
-        callback_disable(self.n_id)
+            callback_disable(self.n_id)
 
-        draw_data = {
-            'tree_name': self.id_data.name,
-            'mode': 'custom_function',
-            'custom_function': simple_screen,
-            'loc': (self.location[0] + location_x, self.location[1] + location_y - self.height),
-            'args': (None,
-                     self.texture[self.n_id]["name"][1],
-                     width,
-                     height,
-                     getattr(self, 'r_in', 1),
-                     getattr(self, 'g_in', 1),
-                     getattr(self, 'b_in', 1),
-                     0 if hide else 1,
-                     TEX_CO_FLIP,
-                     )
-            }
+            draw_data = {
+                'tree_name': self.id_data.name,
+                'mode': 'custom_function',
+                'custom_function': simple_screen,
+                'loc': (self.location[0] + location_x, self.location[1] + location_y - self.height),
+                'args': (None,
+                         self.texture[self.n_id]["name"][0],
+                         width,
+                         height,
+                         getattr(self, 'r_in', 1),
+                         getattr(self, 'g_in', 1),
+                         getattr(self, 'b_in', 1),
+                         0 if hide else 1,
+                         TEX_CO_FLIP,
+                         )
+                }
 
-        callback_enable(self.n_id, draw_data)
+            callback_enable(self.n_id, draw_data)

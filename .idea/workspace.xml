@@ -2,23 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1524368b-2f6d-4044-9d40-71907bd5cdda" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/core/exceptions.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/image_utils.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/globals.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/install_requirements.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/logger_conf.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/nodes/ta_image_sample.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/ocvl.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ocvl.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nodes/ta_viewer_image.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/operatores/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/constants.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/image_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/image_utils.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/node_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/node_base.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/node_categories.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/node_categories.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/node_tree.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/node_tree.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/register_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/register_utils.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/sockets.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/sockets.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nodes/node1.py" beforeDir="false" afterPath="$PROJECT_DIR$/nodes/node1.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nodes/ta_image_sample.py" beforeDir="false" afterPath="$PROJECT_DIR$/nodes/ta_image_sample.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -29,46 +22,22 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
+      <file leaf-file-name="ta_viewer_image.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/nodes/ta_viewer_image.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="34">
+              <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="node_base.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/node_base.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="8415">
-              <caret line="495" column="24" selection-start-line="495" selection-start-column="24" selection-end-line="495" selection-end-column="24" />
+            <state relative-caret-position="233">
+              <caret line="298" column="51" selection-start-line="298" selection-start-column="51" selection-end-line="298" selection-end-column="51" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="globals.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/globals.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="18" selection-start-line="2" selection-start-column="18" selection-end-line="2" selection-end-column="18" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="image_utils.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/image_utils.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="21" column="43" lean-forward="true" selection-start-line="21" selection-start-column="43" selection-end-line="21" selection-end-column="43" />
-              <folding>
-                <element signature="e#0#35#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="node1.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/nodes/node1.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="327">
-              <caret line="33" lean-forward="true" selection-start-line="33" selection-end-line="33" />
-              <folding>
-                <element signature="e#0#10#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -85,21 +54,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>self.n_meta = &quot;\nCV time: {0:.2f}ms&quot;.format((time.time() - start) * 1000)</find>
-      <find>ex</find>
-      <find>NODE_COLOR_REQUIRE_DATE =</find>
-      <find>Exception</find>
-      <find>np.zeros((width_in, height_in, 3), np.uint8</find>
-      <find>_update_node_cache</find>
-      <find>sv_set</find>
-      <find>width_in</find>
-      <find>set_Socket</find>
-      <find>self.outputs['image_out'] = self.image_out</find>
-      <find>s_id = socket.socket_id</find>
-      <find>if self.node_id in self.texture:</find>
-      <find>set_soc</find>
-      <find>def _add_meta_info</find>
-      <find>sv_get</find>
       <find>IS_WORK_ON_COPY_INPUT</find>
       <find>exce</find>
       <find>NODE_COLOR_REQUIRE_DATE</find>
@@ -113,8 +67,23 @@
       <find>draw_call</find>
       <find>draw_callback_px</find>
       <find>draw_</find>
-      <find>print</find>
       <find>Spa</find>
+      <find>image.image_full_screen</find>
+      <find>StringProperty</find>
+      <find>update_prop_search</find>
+      <find>image.image_importer</find>
+      <find>def process</find>
+      <find>_get_image_in_from_prop</find>
+      <find>def sv_get</find>
+      <find>socket_id</find>
+      <find>def sv_set</find>
+      <find>draw_preview</find>
+      <find>(OCVLPreviewNode)</find>
+      <find>NodeReroute</find>
+      <find>self.texture</find>
+      <find>name</find>
+      <find>texname=name[],</find>
+      <find>print</find>
     </findStrings>
     <replaceStrings>
       <replace>OCVLNode1NODE</replace>
@@ -133,19 +102,21 @@
         <option value="$PROJECT_DIR$/nodes/__init__.py" />
         <option value="$PROJECT_DIR$/requirements.txt" />
         <option value="$PROJECT_DIR$/install_requirements.sh" />
-        <option value="$PROJECT_DIR$/__init__.py" />
-        <option value="$PROJECT_DIR$/core/register_utils.py" />
-        <option value="$PROJECT_DIR$/core/node_categories.py" />
         <option value="$PROJECT_DIR$/_old_architecture/utils.py" />
         <option value="$PROJECT_DIR$/core/constants.py" />
         <option value="$PROJECT_DIR$/core/exceptions.py" />
-        <option value="$PROJECT_DIR$/core/sockets.py" />
         <option value="$PROJECT_DIR$/core/node_tree.py" />
-        <option value="$PROJECT_DIR$/nodes/ta_image_sample.py" />
         <option value="$PROJECT_DIR$/globals.py" />
-        <option value="$PROJECT_DIR$/core/node_base.py" />
-        <option value="$PROJECT_DIR$/core/image_utils.py" />
         <option value="$PROJECT_DIR$/nodes/node1.py" />
+        <option value="$PROJECT_DIR$/__init__.py" />
+        <option value="$PROJECT_DIR$/core/register_utils.py" />
+        <option value="$PROJECT_DIR$/core/node_categories.py" />
+        <option value="$PROJECT_DIR$/operatores/__init__.py" />
+        <option value="$PROJECT_DIR$/core/sockets.py" />
+        <option value="$PROJECT_DIR$/nodes/ta_image_sample.py" />
+        <option value="$PROJECT_DIR$/core/image_utils.py" />
+        <option value="$PROJECT_DIR$/core/node_base.py" />
+        <option value="$PROJECT_DIR$/nodes/ta_viewer_image.py" />
       </list>
     </option>
   </component>
@@ -185,6 +156,19 @@
             <path>
               <item name="ocvl" type="b2602c69:ProjectViewProjectNode" />
               <item name="ocvl" type="462c0819:PsiDirectoryNode" />
+              <item name="_old_architecture" type="462c0819:PsiDirectoryNode" />
+              <item name="nodes" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ocvl" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ocvl" type="462c0819:PsiDirectoryNode" />
+              <item name="_old_architecture" type="462c0819:PsiDirectoryNode" />
+              <item name="nodes" type="462c0819:PsiDirectoryNode" />
+              <item name="laboratory" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ocvl" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ocvl" type="462c0819:PsiDirectoryNode" />
               <item name="core" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -212,8 +196,8 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/nodes" />
+      <recent name="$PROJECT_DIR$" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -250,10 +234,10 @@
       <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Version Control" />
-      <window_info anchor="bottom" id="Python Console" sideWeight="0.49928468" weight="0.5435898" />
+      <window_info active="true" anchor="bottom" id="Python Console" sideWeight="0.49928468" visible="true" weight="0.0" />
       <window_info anchor="bottom" id="Terminal" weight="0.32948717" />
       <window_info anchor="right" id="Remote Host" weight="0.3297568" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20028612" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20028612" />
       <window_info anchor="bottom" id="Docker" />
       <window_info anchor="right" id="Database" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32948717" />
@@ -334,13 +318,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Downloads/pycharm-blender-master/python_api/pypredef/bpy.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-903">
-          <caret line="50456" column="9" selection-start-line="50456" selection-start-column="9" selection-end-line="50456" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/_old_architecture/globals.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -383,24 +360,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/_old_architecture/operatores/operatores.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/core/__init__.py">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file:///Applications/Blender/blender.app/Contents/Resources/2.79/scripts/modules/nodeitems_utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2087">
-          <caret line="22" column="18" selection-start-line="22" selection-start-column="6" selection-end-line="22" selection-end-column="18" />
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/_old_architecture/logger_conf.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -413,26 +374,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="233">
           <caret line="19" column="6" selection-start-line="19" selection-start-column="3" selection-end-line="19" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/node_categories.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="582">
-          <caret line="68" column="39" lean-forward="true" selection-start-line="68" selection-start-column="39" selection-end-line="68" selection-end-column="39" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/register_utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="26" column="29" lean-forward="true" selection-start-line="26" selection-start-column="29" selection-end-line="26" selection-end-column="29" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -453,13 +394,6 @@
           <folding>
             <element signature="e#0#14#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="424">
-          <caret line="50" column="32" selection-start-line="50" selection-start-column="32" selection-end-line="50" selection-end-column="32" />
         </state>
       </provider>
     </entry>
@@ -487,16 +421,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/nodes/ta_image_sample.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1552">
-          <caret line="92" column="23" lean-forward="true" selection-start-line="92" selection-start-column="23" selection-end-line="92" selection-end-column="23" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/core/constants.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
@@ -514,42 +438,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/sockets.py">
+    <entry file="file://$PROJECT_DIR$/nodes/node1.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-183">
-          <caret line="42" column="62" lean-forward="true" selection-start-line="42" selection-start-column="62" selection-end-line="42" selection-end-column="62" />
+        <state relative-caret-position="233">
+          <caret line="19" column="12" selection-start-line="19" selection-start-column="12" selection-end-line="19" selection-end-column="12" />
           <folding>
-            <element signature="e#0#25#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/node_tree.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="18" selection-start-line="7" selection-start-column="6" selection-end-line="7" selection-end-column="18" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/_old_architecture/utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="118">
-          <caret line="279" lean-forward="true" selection-start-line="279" selection-end-line="279" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/node_base.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="8415">
-          <caret line="495" column="24" selection-start-line="495" selection-start-column="24" selection-end-line="495" selection-end-column="24" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
+            <element signature="e#0#10#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -561,23 +455,157 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/image_utils.py">
+    <entry file="file://$PROJECT_DIR$/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="21" column="43" lean-forward="true" selection-start-line="21" selection-start-column="43" selection-end-line="21" selection-end-column="43" />
+        <state relative-caret-position="201">
+          <caret line="53" column="27" lean-forward="true" selection-start-line="53" selection-start-column="27" selection-end-line="53" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/node_tree.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="21">
+          <caret line="7" column="18" selection-start-line="7" selection-start-column="6" selection-end-line="7" selection-end-column="18" />
           <folding>
-            <element signature="e#0#35#0" expanded="true" />
+            <element signature="e#0#11#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/nodes/node1.py">
+    <entry file="file://$PROJECT_DIR$/_old_architecture/nodes/laboratory/ta_custom_input.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="327">
-          <caret line="33" lean-forward="true" selection-start-line="33" selection-end-line="33" />
+        <state>
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_old_architecture/nodes/laboratory/ta_viewer_image.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="61">
+          <caret line="6" selection-start-line="6" selection-end-line="41" selection-end-column="92" />
+          <folding>
+            <element signature="e#0#36#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Applications/Blender/blender.app/Contents/Resources/2.79/scripts/modules/nodeitems_utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="45" column="8" selection-start-line="45" selection-start-column="8" selection-end-line="45" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/register_utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="377">
+          <caret line="46" column="22" lean-forward="true" selection-start-line="46" selection-start-column="22" selection-end-line="46" selection-end-column="22" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/node_categories.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="174">
+          <caret line="19" column="126" selection-start-line="19" selection-start-column="126" selection-end-line="19" selection-end-column="126" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_old_architecture/utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="227" lean-forward="true" selection-start-line="227" selection-end-line="227" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/operatores/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="578">
+          <caret line="34" lean-forward="true" selection-start-line="34" selection-end-line="34" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Downloads/pycharm-blender-master/python_api/pypredef/bpy.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="52905" column="9" selection-start-line="52905" selection-start-column="9" selection-end-line="52905" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_old_architecture/operatores/operatores.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="80">
+          <caret line="254" column="52" selection-start-line="254" selection-start-column="52" selection-end-line="254" selection-end-column="52" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+            <element signature="e#1038#3064#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/image_utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="7" selection-start-line="4" selection-start-column="7" selection-end-line="4" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/sockets.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="213">
+          <caret line="105" column="24" selection-start-line="105" selection-start-column="24" selection-end-line="105" selection-end-column="24" />
+          <folding>
+            <element signature="e#0#25#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_old_architecture/nodes/laboratory/ta_video_sample.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1805">
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/nodes/ta_image_sample.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="364">
+          <caret line="89" column="24" selection-start-line="89" selection-start-column="24" selection-end-line="89" selection-end-column="24" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/node_base.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="233">
+          <caret line="298" column="51" selection-start-line="298" selection-start-column="51" selection-end-line="298" selection-end-column="51" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/nodes/ta_viewer_image.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
         </state>
       </provider>
     </entry>

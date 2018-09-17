@@ -23,26 +23,23 @@ class OCVLImageSampleNode(OCVLPreviewNode):
     bl_icon = 'IMAGE_DATA'
 
     def update_layout(self, context):
-        logger.debug("UPDATE_LAYOUT")
         self.update_sockets(context)
         self.process()
 
-    # def update_prop_search(self, context):
-    #     logger.debug("UPDATE_PROP_SEARCH")
-    #     self.process()
-    #     updateNode(self, context)
+    def update_prop_search(self, context):
+        self.process()
+        self.update_sockets(context)
+        self.process()
 
-    # width_in = IntProperty(default=100, min=1, max=1024, update=updateNode, name="width_in")
-    width_in = IntProperty(default=100, min=1, max=1024, name="width_in")
-    # height_in = IntProperty(default=100, min=1, max=1020, update=updateNode, name="height_in")
-    height_in = IntProperty(default=100, min=1, max=1020, name="height_in")
+    width_in = IntProperty(default=100, min=1, max=1024, update=update_layout, name="width_in")
+    height_in = IntProperty(default=100, min=1, max=1020, update=update_layout, name="height_in")
     width_out = IntProperty(default=0, name="width_out")
     height_out = IntProperty(default=0, name="height_out")
     image_out = StringProperty(default=str(uuid.uuid4()))
 
-    loc_name_image = StringProperty(default='')
-    loc_filepath = StringProperty(default='')
-    loc_image_mode = EnumProperty(items=IMAGE_MODE_ITEMS, default="RANDOM")
+    loc_name_image = StringProperty(default='', update=update_prop_search)
+    loc_filepath = StringProperty(default='', update=update_layout)
+    loc_image_mode = EnumProperty(items=IMAGE_MODE_ITEMS, default="RANDOM", update=update_layout)
 
     def init(self, context):
         self.width = 200
@@ -86,7 +83,7 @@ class OCVLImageSampleNode(OCVLPreviewNode):
                 image = np.zeros((200, 200, 3), np.uint8)
 
         image, self.image_out = self._update_node_cache(image=image, resize=False, uuid_=uuid_)
-
+        print (1111, image)
         self.outputs['image_out'].sv_set(self.image_out)
         self.refresh_output_socket("height_out", image.shape[0])
         self.refresh_output_socket("width_out", image.shape[1])
