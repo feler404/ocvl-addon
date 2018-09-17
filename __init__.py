@@ -48,17 +48,17 @@ if __name__ != "ocvl":
 
 
 def register():
+    from ocvl import logger_conf
     from ocvl.core import node_tree
     from ocvl.core import sockets
     from ocvl.core.register_utils import reload_ocvl_modules
     reload_ocvl_modules()
-    sockets.register()
     node_tree.register()
-    print("Register OCVL addon.")
+    sockets.register()
 
 
 def unregister():
     from ocvl.core import node_tree
     from ocvl.core import sockets
-    node_tree.register()
+    node_tree.unregister()
     sockets.unregister()

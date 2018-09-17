@@ -3,7 +3,7 @@ from collections import defaultdict
 from importlib import util
 import ocvl
 from ocvl.core.constants import OCVL_NODE_CATEGORIES, OCVL_NODE_TREE_TYPE
-from ocvl.core.register_utils import ocvl_register, ocvl_unregister
+from ocvl.core.register_utils import ocvl_register, ocvl_unregister, unregister_node, register_node
 from nodeitems_utils import (
     NodeCategory, NodeItem, register_node_categories, unregister_node_categories,
 )
@@ -16,8 +16,12 @@ class OCVLNodeCategory(NodeCategory):
         return context.space_data.tree_type == OCVL_NODE_TREE_TYPE
 
 
+def is_node_class_name(class_name):
+    return class_name.startswith("OCVL") and class_name.endswith("Node") and class_name != "OCVLNode"
+
+
 def autoregister_node_categories(register_mode=True):
-    _ocvl_auto_register = ocvl_register if register_mode else ocvl_unregister
+    _ocvl_auto_register = register_node if register_mode else unregister_node
     _auto_register_node_categories = register_node_categories if register_mode else unregister_node_categories
 
     node_classes_list = []
@@ -32,10 +36,11 @@ def autoregister_node_categories(register_mode=True):
                 mod = util.module_from_spec(spec)
                 spec.loader.exec_module(mod)
                 for obj_name in dir(mod):
-                    if obj_name.startswith("OCVLNode") and obj_name != "OCVLNode":
+                    if is_node_class_name(obj_name):
                         node_class = getattr(mod, obj_name)
-                        node_classes_list.append(node_class)
-                        _ocvl_auto_register(node_class)
+                        if node_class.ocvl_category:
+                            node_classes_list.append(node_class)
+                            _ocvl_auto_register(node_class)
 
     for node_class in node_classes_list:
         node_categories_dict[node_class.ocvl_category].append(NodeItem(node_class.__name__))
@@ -52,10 +57,10 @@ def autoregister_node_categories(register_mode=True):
 
 
 def register():
-    ocvl_register(OCVLNodeCategory)
+    # ocvl_register(OCVLNodeCategory)
     autoregister_node_categories(register_mode=True)
 
 
 def unregister():
-    ocvl_unregister(OCVLNodeCategory)
+    # ocvl_unregister(OCVLNodeCategory)
     autoregister_node_categories(register_mode=False)

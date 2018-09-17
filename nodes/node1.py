@@ -30,7 +30,7 @@ class OCVLNode1(OCVLNode):
         # my_input.value_property = "my_input_value"
 
     def update(self):
-        print (1111, "update", self.surface)
+        pass
 
 
 class OCVLNode2(OCVLNode):
@@ -46,4 +46,4 @@ class OCVLNode2(OCVLNode):
         self.outputs.new('OCVLUUIDSocket', "Surface")
 
     def update(self):
-        print (1111, "update", self.surface)
+        pass

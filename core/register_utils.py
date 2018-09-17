@@ -1,30 +1,30 @@
 import sys
-from importlib import reload
 import bpy
+from bpy.props import StringProperty, IntProperty
+from importlib import reload
+from logging import getLogger
+
+logger = getLogger(__name__)
 
 
-def try_register(klass):
+def ocvl_register(cls):
+    print (1111,cls )
     try:
-        bpy.utils.register_class(klass)
-    except Exception as e:
-        pass
+        # if "bl_rna" not in cls.__dict__:
+        bpy.utils.register_class(cls)
+        logger.debug("Cass registrated: {}".format(cls))
+    except ValueError as e:
+        # logger.warning(e)
+        logger.warning("Class {} already registered".format(cls))
 
 
-def try_unregister(klass):
-
+def ocvl_unregister(cls):
     try:
-        bpy.utils.unregister_class(klass)
-    except Exception as e:
-        print (1111, e)
-
-
-def ocvl_register(klass):
-    print("Register: {}".format(klass))
-    try_register(klass)
-
-
-def ocvl_unregister(klass):
-    try_unregister(klass)
+        # if "bl_rna" in cls.__dict__:
+        bpy.utils.unregister_class(cls)
+    except RuntimeError as e:
+        # logger.exception(e)
+        logger.warning("Class {} problem with unregister".format(cls))
 
 
 def reload_ocvl_modules():
@@ -33,3 +33,19 @@ def reload_ocvl_modules():
         if "ocvl" in module_name:
             reload(sys.modules[module_name])
 
+
+def register_node(cls):
+    from ocvl.core.node_categories import is_node_class_name
+    if is_node_class_name(cls.__name__):
+        cls.n_id = StringProperty(default='')
+        cls.n_meta = StringProperty(default='')
+        cls.n_error = StringProperty(default='')
+        cls.n_error_line = IntProperty(default=0)
+        cls.bl_idname = cls.__name__
+        cls.bl_label = getattr(cls, 'bl_label', cls.bl_idname[4:-4])
+        cls.bl_icon = 'OUTLINER_OB_EMPTY'
+    ocvl_register(cls)
+
+
+def unregister_node(cls):
+    ocvl_unregister(cls)
