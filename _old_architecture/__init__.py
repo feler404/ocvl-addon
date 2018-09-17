@@ -23,8 +23,6 @@
 #  ***** END GPL LICENSE BLOCK *****
 #
 
-import sys
-
 
 bl_info = {
     "name": "ocvl",
@@ -33,32 +31,50 @@ bl_info = {
         "OCVL team",
         "Teredo team",
     ),
-    "version": (1, 1, 0),
+    "version": (1, 0, 4),
     "blender": (2, 7, 9),
     "location": "Nodes > CustomNodesTree > Add user nodes",
     "description": "Computer vision node-based programming",
     "warning": "",
-    "wiki_url": "https://opencv-laboratory.readthedocs.io/en/latest/",
-    "tracker_url": "https://github.com/feler404/ocvl/issues",
+    "wiki_url": "",
+    "tracker_url": "",
     "category": "Node"
 }
+
+
+import sys
 
 if __name__ != "ocvl":
     sys.modules["ocvl"] = sys.modules[__name__]
 
+from .auth import register_extended_operators, unregister_extended_operators
+
+import cv2
+
+cv2.DAISY_NRM_NONE = cv2.xfeatures2d.DAISY_NRM_NONE
+cv2.DAISY_NRM_PARTIAL = cv2.xfeatures2d.DAISY_NRM_PARTIAL
+cv2.DAISY_NRM_FULL = cv2.xfeatures2d.DAISY_NRM_FULL
+cv2.DAISY_NRM_SIFT = cv2.xfeatures2d.DAISY_NRM_SIFT
 
 def register():
-    from ocvl.core import node_tree
-    from ocvl.core import sockets
-    from ocvl.core.register_utils import reload_ocvl_modules
-    reload_ocvl_modules()
-    sockets.register()
-    node_tree.register()
-    print("Register OCVL addon.")
+    from .tutorial_engine import operatores as tutorial_operatores
+    from . import ui
+    from .operatores import operatores
+    from .operatores import abc
+    ui.register()
+    operatores.register()
+    register_extended_operators()
+    tutorial_operatores.register()
+    abc.register()
 
 
 def unregister():
-    from ocvl.core import node_tree
-    from ocvl.core import sockets
-    node_tree.register()
-    sockets.unregister()
+    from .tutorial_engine import operatores as tutorial_operatores
+    from . import ui
+    from .operatores import operatores
+    from .operatores import abc
+    ui.unregister()
+    operatores.unregister()
+    unregister_extended_operators()
+    tutorial_operatores.unregister()
+    abc.unregister()

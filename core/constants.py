@@ -1,0 +1,2 @@
+OCVL_NODE_CATEGORIES = "OCVLCategories"
+OCVL_NODE_TREE_TYPE = "OCVLGroupTreeType"
