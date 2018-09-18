@@ -1,6 +1,7 @@
 from copy import deepcopy
 
 import bpy
+from ocvl.core.settings import SOCKET_COLORS
 from ocvl.core.exceptions import NoDataError
 from ocvl.core.globals import SOCKET_DATA_CACHE
 from ocvl.core.register_utils import ocvl_register, ocvl_unregister
@@ -70,7 +71,6 @@ def get_socket(socket, deepcopy_=True):
     raise NoDataError(socket)
 
 
-
 def SvGetSocketInfo(socket):
     """returns string to show in socket label"""
     ng = socket.id_data.name
@@ -93,11 +93,60 @@ def SvGetSocketInfo(socket):
     return ''
 
 
-class OCVLSocket():
+def recursive_framed_location_finder(node, loc_xy):
+    locx, locy = loc_xy
+    if node.parent:
+        locx += node.parent.location.x
+        locy += node.parent.location.y
+        return recursive_framed_location_finder(node.parent, (locx, locy))
+    else:
+        return locx, locy
+
+
+class SvLinkNewNodeInput(bpy.types.Operator):
+    ''' Spawn and link new node to the left of the caller node'''
+    bl_idname = "node.sv_quicklink_new_node"
+    bl_label = "Add a new node to the left"
+
+    socket_index = bpy.props.IntProperty()
+    origin = bpy.props.StringProperty()
+    is_input_mode = bpy.props.BoolProperty(default=True)
+    new_node_idname = bpy.props.StringProperty()
+    new_node_offsetx = bpy.props.IntProperty(default=-200)
+    new_node_offsety = bpy.props.IntProperty(default=0)
+
+    def execute(self, context):
+        tree = context.space_data.edit_tree
+        nodes, links = tree.nodes, tree.links
+
+        caller_node = nodes.get(self.origin)
+        new_node = nodes.new(self.new_node_idname)
+        new_node.location[0] = caller_node.location[0] + self.new_node_offsetx
+        new_node.location[1] = caller_node.location[1] + self.new_node_offsety
+        if self.is_input_mode:
+            links.new(new_node.outputs[0], caller_node.inputs[self.socket_index])
+        else:
+            links.new(new_node.inputs[0], caller_node.outputs[self.socket_index])
+
+        if caller_node.parent:
+            new_node.parent = caller_node.parent
+            loc_xy = new_node.location[:]
+            locx, locy = recursive_framed_location_finder(new_node, loc_xy)
+            new_node.location = locx, locy
+
+        return {'FINISHED'}
+
+
+class OCVLSocketBase:
     use_prop = bpy.props.BoolProperty(default=False)
     use_expander = bpy.props.BoolProperty(default=True)
     use_quicklink = bpy.props.BoolProperty(default=True)
     expanded = bpy.props.BoolProperty(default=False)
+
+    prop_name = bpy.props.StringProperty(default='')
+    prop_type = bpy.props.StringProperty(default='')
+    prop_index = bpy.props.IntProperty()
+    custom_draw = bpy.props.StringProperty()
 
     @property
     def socket_id(self):
@@ -154,22 +203,41 @@ class OCVLSocket():
             else:
                 layout.template_component_menu(prop_origin, prop_name, name=self.name)
 
-    def draw_quick_link(self, context, layout, node):
+    def draw_quick_link_input(self, context, layout, node):
 
         if self.use_quicklink:
-            if self.bl_idname == "MatrixSocket":
-                new_node_idname = "SvMatrixGenNodeMK2"
+            if self.bl_idname == "ImageSocket":
+                new_node_idname = "OCVLImageSampleNode"
             elif self.bl_idname == "VerticesSocket":
                 new_node_idname = "GenVectorsNode"
             else:
                 return
 
-            # op = layout.operator('node.sv_quicklink_new_node_input', text="", icon="PLUGIN")
-            # op.socket_index = self.index
-            # op.origin = node.name
-            # op.new_node_idname = new_node_idname
-            # op.new_node_offsetx = -200 - 40 * self.index
-            # op.new_node_offsety = -30 * self.index
+            op = layout.operator('node.sv_quicklink_new_node', text="", icon="PLUGIN")
+            op.socket_index = self.index
+            op.origin = node.name
+            op.is_input_mode = True
+            op.new_node_idname = new_node_idname
+            op.new_node_offsetx = -250 - 40 #* self.index
+            op.new_node_offsety = -350 * self.index
+
+    def draw_quick_link_output(self, context, layout, node):
+
+        if self.use_quicklink:
+            if self.bl_idname == "ImageSocket":
+                new_node_idname = "OCVLImageViewerNode"
+            elif self.bl_idname == "VerticesSocket":
+                new_node_idname = "GenVectorsNode"
+            else:
+                return
+
+            op = layout.operator('node.sv_quicklink_new_node', text="", icon="LAMP")
+            op.socket_index = self.index
+            op.origin = node.name
+            op.is_input_mode = False
+            op.new_node_idname = new_node_idname
+            op.new_node_offsetx = 250 + 40 * self.index
+            op.new_node_offsety = 230 * self.index
 
     def draw(self, context, layout, node, text):
 
@@ -185,6 +253,7 @@ class OCVLSocket():
 
         elif self.is_output:  # unlinked OUTPUT
             layout.label(text)
+            self.draw_quick_link_output(context, layout, node)
 
         else:  # unlinked INPUT
             if self.prop_name:  # has property
@@ -201,33 +270,30 @@ class OCVLSocket():
             #     layout.label(text)
             #
             else:  # no property and not use default prop
-                self.draw_quick_link(context, layout, node)
+                self.draw_quick_link_input(context, layout, node)
                 layout.label(text)
 
+    def draw_color(self, context, node):
+        return SOCKET_COLORS.__getattribute__(self.bl_idname)
 
-class StringsSocket(bpy.types.NodeSocket, OCVLSocket):
-    '''Renderman co-shader input/output'''
+
+class StringsSocket(bpy.types.NodeSocket, OCVLSocketBase):
     bl_idname = 'StringsSocket'
     bl_label = 'StringsSocket'
 
-    uuid = bpy.props.StringProperty(default="")
-    prop_name = bpy.props.StringProperty(default='')
 
-    prop_type = bpy.props.StringProperty(default='')
-    prop_index = bpy.props.IntProperty()
-
-    custom_draw = bpy.props.StringProperty()
-
-    def draw_value(self, context, layout, node):
-        layout.label(self.name)
-
-    def draw_color(self, context, node):
-        return (0.1, 1.0, 0.2, 1)
+class ImageSocket(bpy.types.NodeSocket, OCVLSocketBase):
+    bl_idname = 'ImageSocket'
+    bl_label = 'ImageSocket'
 
 
 def register():
     ocvl_register(StringsSocket)
+    ocvl_register(ImageSocket)
+    ocvl_register(SvLinkNewNodeInput)
 
 
 def unregister():
     ocvl_unregister(StringsSocket)
+    ocvl_unregister(ImageSocket)
+    ocvl_unregister(SvLinkNewNodeInput)

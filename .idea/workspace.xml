@@ -2,14 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1524368b-2f6d-4044-9d40-71907bd5cdda" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old_architecture/nodes/core/bitwise_and.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old_architecture/nodes/core/bitwise_not.py" beforeDir="false" afterPath="$PROJECT_DIR$/nodes/bitwise_not.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old_architecture/nodes/core/bitwise_or.py" beforeDir="false" afterPath="$PROJECT_DIR$/nodes/bitwise_or.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old_architecture/nodes/core/bitwise_xor.py" beforeDir="false" afterPath="$PROJECT_DIR$/nodes/bitwise_xor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/node_categories.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/node_categories.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/dawidaniol.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/dawidaniol.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/sockets.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/sockets.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nodes/add.py" beforeDir="false" afterPath="$PROJECT_DIR$/nodes/add.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nodes/cv_filter2d.py" beforeDir="false" afterPath="$PROJECT_DIR$/nodes/cv_filter2d.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/nodes/laboratory/ta_image_sample.py" beforeDir="false" afterPath="$PROJECT_DIR$/nodes/laboratory/ta_image_sample.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nodes/ta_viewer_image.py" beforeDir="false" afterPath="$PROJECT_DIR$/nodes/laboratory/ta_viewer_image.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nodes/laboratory/ta_viewer_image.py" beforeDir="false" afterPath="$PROJECT_DIR$/nodes/laboratory/ta_viewer_image.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -20,79 +19,37 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="cv_filter2d.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="bitwise_and.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/nodes/bitwise_and.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-170">
+              <caret line="7" column="28" lean-forward="true" selection-start-line="7" selection-start-column="28" selection-end-line="7" selection-end-column="28" />
+              <folding>
+                <element signature="e#0#10#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="sockets.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/core/sockets.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="311">
+              <caret line="285" column="28" selection-start-line="285" selection-start-column="17" selection-end-line="285" selection-end-column="28" />
+              <folding>
+                <element signature="e#0#25#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="cv_filter2d.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/nodes/cv_filter2d.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="6" selection-start-line="6" selection-end-line="6" selection-end-column="57" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="bitwise_not.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/nodes/bitwise_not.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="15" column="12" selection-start-line="15" selection-start-column="12" selection-end-line="15" selection-end-column="12" />
+            <state relative-caret-position="306">
+              <caret line="32" column="36" selection-start-line="32" selection-start-column="36" selection-end-line="32" selection-end-column="36" />
               <folding>
-                <element signature="e#0#10#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="bitwise_or.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/nodes/bitwise_or.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" column="36" selection-start-line="4" selection-end-line="5" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="bitwise_xor.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/nodes/bitwise_xor.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="37" lean-forward="true" selection-start-line="37" selection-end-line="37" />
-              <folding>
-                <element signature="e#0#10#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ta_viewer_image.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/nodes/laboratory/ta_viewer_image.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="663">
-              <caret line="39" lean-forward="true" selection-start-line="39" selection-end-line="39" />
-              <folding>
-                <element signature="e#0#10#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="node_categories.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/core/node_categories.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="160">
-              <caret line="59" column="46" selection-start-line="59" selection-start-column="46" selection-end-line="59" selection-end-column="46" />
-              <folding>
-                <element signature="e#0#14#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ta_image_sample.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/nodes/laboratory/ta_image_sample.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="19" column="47" selection-start-line="19" selection-start-column="47" selection-end-line="19" selection-end-column="47" />
-              <folding>
-                <element signature="e#0#10#0" expanded="true" />
+                <element signature="e#0#11#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -109,17 +66,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>|&gt;&lt;|</find>
-      <find>ocvl_category</find>
-      <find>_ocvl_auto_register</find>
-      <find>socket</find>
-      <find>'</find>
-      <find>n_category</find>
-      <find>borderType</find>
-      <find>process_from_socket</find>
-      <find>socketinfo</find>
-      <find>SvGetSocketInfoSvGetSocketInfo</find>
-      <find>if s_id in socket_data_cache[s_ng]:</find>
       <find>SOCKET_DATA_CACHE</find>
       <find>nodule_color</find>
       <find>SvSetSocket</find>
@@ -139,6 +85,17 @@
       <find>init</find>
       <find>_(&quot;</find>
       <find>node_classes_list</find>
+      <find>node_file_path_in</find>
+      <find>draw_color</find>
+      <find>OCVLSocketBase</find>
+      <find>ImageSocket</find>
+      <find>SvLinkNewNodeInput(</find>
+      <find>recursive_framed_location_finder</find>
+      <find>new_node_offsety</find>
+      <find>draw_quick_link</find>
+      <find>sv_quicklink_new_node_input</find>
+      <find>sv_quicklink_new_node</find>
+      <find>links.new(new_node.outputs[0], caller_node.outputs[self.socket_index])</find>
     </findStrings>
     <replaceStrings>
       <replace>OCVLNode1NODE</replace>
@@ -178,21 +135,21 @@
         <option value="$PROJECT_DIR$/core/register_utils.py" />
         <option value="$PROJECT_DIR$/nodes/__init__.py" />
         <option value="$PROJECT_DIR$/_old_architecture/nodes/imgproc/cv_floodFill.py" />
-        <option value="$PROJECT_DIR$/core/sockets.py" />
         <option value="$PROJECT_DIR$/nodes/ta_viewer_image.py" />
-        <option value="$PROJECT_DIR$/core/settings.py" />
-        <option value="$PROJECT_DIR$/nodes/cv_filter2d.py" />
-        <option value="$PROJECT_DIR$/nodes/add.py" />
         <option value="$PROJECT_DIR$/nodes/cv_addWeighted.py" />
         <option value="$PROJECT_DIR$/core/node_base.py" />
         <option value="$PROJECT_DIR$/nodes/bitwise_and.py" />
         <option value="$PROJECT_DIR$/core/constants.py" />
-        <option value="$PROJECT_DIR$/nodes/laboratory/ta_viewer_image.py" />
-        <option value="$PROJECT_DIR$/nodes/laboratory/ta_image_sample.py" />
         <option value="$PROJECT_DIR$/nodes/bitwise_not.py" />
         <option value="$PROJECT_DIR$/nodes/bitwise_or.py" />
         <option value="$PROJECT_DIR$/nodes/bitwise_xor.py" />
         <option value="$PROJECT_DIR$/core/node_categories.py" />
+        <option value="$PROJECT_DIR$/nodes/add.py" />
+        <option value="$PROJECT_DIR$/core/settings.py" />
+        <option value="$PROJECT_DIR$/nodes/laboratory/ta_image_sample.py" />
+        <option value="$PROJECT_DIR$/nodes/laboratory/ta_viewer_image.py" />
+        <option value="$PROJECT_DIR$/core/sockets.py" />
+        <option value="$PROJECT_DIR$/nodes/cv_filter2d.py" />
       </list>
     </option>
   </component>
@@ -225,59 +182,6 @@
             <path>
               <item name="ocvl" type="b2602c69:ProjectViewProjectNode" />
               <item name="ocvl" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ocvl" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ocvl" type="462c0819:PsiDirectoryNode" />
-              <item name="_old_architecture" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ocvl" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ocvl" type="462c0819:PsiDirectoryNode" />
-              <item name="_old_architecture" type="462c0819:PsiDirectoryNode" />
-              <item name="nodes" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ocvl" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ocvl" type="462c0819:PsiDirectoryNode" />
-              <item name="_old_architecture" type="462c0819:PsiDirectoryNode" />
-              <item name="nodes" type="462c0819:PsiDirectoryNode" />
-              <item name="core" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ocvl" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ocvl" type="462c0819:PsiDirectoryNode" />
-              <item name="_old_architecture" type="462c0819:PsiDirectoryNode" />
-              <item name="nodes" type="462c0819:PsiDirectoryNode" />
-              <item name="imgproc" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ocvl" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ocvl" type="462c0819:PsiDirectoryNode" />
-              <item name="_old_architecture" type="462c0819:PsiDirectoryNode" />
-              <item name="nodes" type="462c0819:PsiDirectoryNode" />
-              <item name="laboratory" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ocvl" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ocvl" type="462c0819:PsiDirectoryNode" />
-              <item name="_old_architecture" type="462c0819:PsiDirectoryNode" />
-              <item name="nodes" type="462c0819:PsiDirectoryNode" />
-              <item name="objdetect" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ocvl" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ocvl" type="462c0819:PsiDirectoryNode" />
-              <item name="_old_architecture" type="462c0819:PsiDirectoryNode" />
-              <item name="nodes" type="462c0819:PsiDirectoryNode" />
-              <item name="photo" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ocvl" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ocvl" type="462c0819:PsiDirectoryNode" />
-              <item name="_old_architecture" type="462c0819:PsiDirectoryNode" />
-              <item name="nodes" type="462c0819:PsiDirectoryNode" />
-              <item name="video" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="ocvl" type="b2602c69:ProjectViewProjectNode" />
@@ -357,6 +261,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1" y="23" width="1440" height="877" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Messages" />
@@ -415,15 +320,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/_old_architecture/nodes/laboratory/ta_custom_input.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/_old_architecture/nodes/laboratory/ta_viewer_image.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="61">
@@ -689,30 +585,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/sockets.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="223">
-          <caret line="209" column="29" selection-start-line="209" selection-start-column="17" selection-end-line="209" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="13" selection-start-line="15" selection-end-line="15" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/nodes/add.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="17" column="8" lean-forward="true" selection-start-line="17" selection-start-column="8" selection-end-line="17" selection-end-column="8" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/_old_architecture/utils.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
@@ -728,16 +600,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="79">
           <caret line="13" column="34" selection-start-line="13" selection-start-column="34" selection-end-line="13" selection-end-column="34" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/nodes/bitwise_and.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="28" lean-forward="true" selection-start-line="7" selection-start-column="28" selection-end-line="7" selection-end-column="28" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>
@@ -771,13 +633,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/nodes/cv_filter2d.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" selection-start-line="6" selection-end-line="6" selection-end-column="57" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/nodes/bitwise_not.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
@@ -795,10 +650,63 @@
         </state>
       </provider>
     </entry>
+    <entry file="file:///Applications/Blender/blender.app/Contents/Resources/2.79/scripts/modules/nodeitems_utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="157">
+          <caret line="45" column="8" selection-start-line="45" selection-start-column="8" selection-end-line="45" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/node_categories.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="211">
+          <caret line="62" column="55" lean-forward="true" selection-start-line="62" selection-start-column="55" selection-end-line="62" selection-end-column="55" />
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/nodes/bitwise_xor.py">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="318">
+          <caret line="26" column="18" lean-forward="true" selection-start-line="26" selection-start-column="18" selection-end-line="26" selection-end-column="18" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_old_architecture/nodes/core/cv_addWeighted.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1">
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/nodes/bitwise_and.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-170">
+          <caret line="7" column="28" lean-forward="true" selection-start-line="7" selection-start-column="28" selection-end-line="7" selection-end-column="28" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="357">
-          <caret line="37" lean-forward="true" selection-start-line="37" selection-end-line="37" />
+          <caret line="21" column="13" selection-start-line="21" selection-end-line="21" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/nodes/add.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="326">
+          <caret line="22" column="37" selection-start-line="22" selection-start-column="37" selection-end-line="22" selection-end-column="37" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>
@@ -807,37 +715,40 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/nodes/laboratory/ta_viewer_image.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="663">
-          <caret line="39" lean-forward="true" selection-start-line="39" selection-end-line="39" />
+        <state relative-caret-position="187">
+          <caret line="11" column="36" selection-start-line="11" selection-start-column="36" selection-end-line="11" selection-end-column="36" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///Applications/Blender/blender.app/Contents/Resources/2.79/scripts/modules/nodeitems_utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="157">
-          <caret line="45" column="8" selection-start-line="45" selection-start-column="8" selection-end-line="45" selection-end-column="8" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/nodes/laboratory/ta_image_sample.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="19" column="47" selection-start-line="19" selection-start-column="47" selection-end-line="19" selection-end-column="47" />
+        <state relative-caret-position="1">
+          <caret line="38" column="64" selection-start-line="38" selection-start-column="64" selection-end-line="38" selection-end-column="64" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/node_categories.py">
+    <entry file="file://$PROJECT_DIR$/core/sockets.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="59" column="46" selection-start-line="59" selection-start-column="46" selection-end-line="59" selection-end-column="46" />
+        <state relative-caret-position="311">
+          <caret line="285" column="28" selection-start-line="285" selection-start-column="17" selection-end-line="285" selection-end-column="28" />
           <folding>
-            <element signature="e#0#14#0" expanded="true" />
+            <element signature="e#0#25#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/nodes/cv_filter2d.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="32" column="36" selection-start-line="32" selection-start-column="36" selection-end-line="32" selection-end-column="36" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
           </folding>
         </state>
       </provider>

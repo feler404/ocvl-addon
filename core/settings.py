@@ -13,4 +13,10 @@ class Category:
     filters = "filters"
 
 
+class SocketColors:
+    StringsSocket = 0.1, 1.0, 0.2, 1
+    ImageSocket = 0.1, 1.0, 0.8, 1
+
+
 CATEGORY_TREE = Category()
+SOCKET_COLORS = SocketColors()

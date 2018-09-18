@@ -30,12 +30,12 @@ class OCVLfilter2dNode(OCVLNodeBase):
     borderType_in = bpy.props.EnumProperty(items=BORDER_TYPE_ITEMS, default='None', update=update_node, description="Pixel extrapolation method, see cv::BorderTypes")
 
     def init(self, context):
-        self.inputs.new("StringsSocket", "image_in")
+        self.inputs.new("ImageSocket", "image_in")
         self.inputs.new('StringsSocket', "kernel_size_in").prop_name = 'kernel_size_in'
         self.inputs.new('StringsSocket', "anchor_in").prop_name = 'anchor_in'
         self.inputs.new('StringsSocket', "delta_in").prop_name = 'delta_in'
 
-        self.outputs.new("StringsSocket", "image_out")
+        self.outputs.new("ImageSocket", "image_out")
 
     def wrapped_process(self):
         self.check_input_requirements(["image_in"])

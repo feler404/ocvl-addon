@@ -41,7 +41,7 @@ class OCVLImageSampleNode(OCVLPreviewNodeBase):
 
     def init(self, context):
         self.width = 200
-        self.outputs.new('StringsSocket', 'image_out')
+        self.outputs.new('ImageSocket', 'image_out')
         self.outputs.new('StringsSocket', 'width_out')
         self.outputs.new('StringsSocket', 'height_out')
         self.update_layout(context)

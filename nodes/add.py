@@ -16,11 +16,11 @@ class OCVLaddNode(OCVLNodeBase):
     image_out = bpy.props.StringProperty(default=str(uuid.uuid4()))
 
     def init(self, context):
-        self.inputs.new("StringsSocket", "image_1_in")
-        self.inputs.new("StringsSocket", "image_2_in")
+        self.inputs.new("ImageSocket", "image_1_in")
+        self.inputs.new("ImageSocket", "image_2_in")
         self.inputs.new('StringsSocket', "mask_in")
 
-        self.outputs.new("StringsSocket", "image_out")
+        self.outputs.new("ImageSocket", "image_out")
 
     def wrapped_process(self):
         self.check_input_requirements(["image_1_in", "image_2_in"])
