@@ -93,11 +93,9 @@ class OCVLSocket(bpy.types.NodeSocket):
                 return i
 
     def sv_set(self, data):
-        print(1111, "sv_set")
         set_socket(self, data)
 
     def sv_get(self):
-        print(1111, "sv_get")
         return get_socket(self)
 
 
@@ -111,12 +109,10 @@ class OCVLUUIDSocket(OCVLSocket):
 
     # Optional function for drawing the socket input value
     def draw_value(self, context, layout, node):
-        print(1111, "draw_value")
         layout.label(self.name)
 
     def draw_color(self, context, node):
         return (0.1, 1.0, 0.2, 1)
-
 
     def draw(self, context, layout, node, text):
         layout.label(text)

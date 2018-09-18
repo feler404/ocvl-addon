@@ -96,29 +96,13 @@ def draw_graphical_data(data):
 
 
 def draw_callback_px(n_id, data):
-    space = bpy.context.space_data
-
-    ng_view = space.edit_tree
-    # ng_view can be None
-    if not ng_view:
+    if not bpy.context.space_data.edit_tree:
         return
-    ng_name = space.edit_tree.name
-    if not (data['tree_name'] == ng_name):
-        return
-    if not isinstance(ng_view, OCVLNodeTree):
-        return
-
-    if data.get('mode', 'text-based') == 'text-based':
-        draw_text_data(data)
-    elif data.get('mode') == "graphical":
-        draw_graphical_data(data)
-        restore_opengl_defaults()
-    elif data.get('mode') == 'custom_function':
-        drawing_func = data.get('custom_function')
-        x, y = data.get('loc', (20, 20))
-        args = data.get('args', (None,))
-        drawing_func(x, y, args)
-        restore_opengl_defaults()
+    drawing_func = data.get('custom_function')
+    x, y = data.get('loc', (20, 20))
+    args = data.get('args', (None,))
+    drawing_func(x, y, args)
+    restore_opengl_defaults()
 
 
 def callback_enable(*args):

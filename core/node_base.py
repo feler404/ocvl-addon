@@ -13,6 +13,7 @@ import bgl
 from ocvl.core.exceptions import LackRequiredSocket, NoDataError
 from ocvl.core.image_utils import (
     TEX_CO_FLIP, simple_screen, init_texture, callback_enable, callback_disable,
+    tag_redraw_all_nodeviews,
 )
 from ocvl.globals import TEXTURE_CACHE, SOCKET_DATA_CACHE
 
@@ -357,7 +358,6 @@ class OCVLNodeBase(bpy.types.Node):
         self.n_meta = "\nCV time: {0:.2f}ms".format((time.time() - start) * 1000)
         return out
 
-
     def refresh_output_socket(self, prop_name=None, prop_value=None, is_uuid_type=False):
         if self.outputs[prop_name].is_linked:
             if is_uuid_type:
@@ -511,3 +511,7 @@ class OCVLPreviewNodeBase(OCVLNodeBase):
                 }
 
             callback_enable(self.n_id, draw_data)
+            # x, y = draw_data['loc']
+            # args = draw_data['args']
+            # handle_pixel = bpy.types.SpaceNodeEditor.draw_handler_add(simple_screen, (x, y, args), 'WINDOW', 'POST_VIEW')
+            # tag_redraw_all_nodeviews()
