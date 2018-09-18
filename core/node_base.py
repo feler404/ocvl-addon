@@ -357,6 +357,7 @@ class OCVLNodeBase(bpy.types.Node):
         self.n_meta = "\nCV time: {0:.2f}ms".format((time.time() - start) * 1000)
         return out
 
+
     def refresh_output_socket(self, prop_name=None, prop_value=None, is_uuid_type=False):
         if self.outputs[prop_name].is_linked:
             if is_uuid_type:
