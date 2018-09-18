@@ -47,6 +47,7 @@ def auto_register_node_categories(register_mode=True):
                     _ocvl_auto_register(node_class)
 
     for file_name in os.listdir(nodes_module_path):
+
         if not file_name.startswith("__"):
             node_file_path = node_file_path_in = os.path.join(nodes_module_path, file_name)
             if os.path.isfile(node_file_path):
@@ -54,12 +55,12 @@ def auto_register_node_categories(register_mode=True):
             elif os.path.isdir(node_file_path):
                 for file_name_in in os.listdir(node_file_path_in):
                     if not file_name_in.startswith("__"):
-                        node_file_path_in = os.path.join(node_file_path_in, file_name_in)
+                        node_file_path_in = os.path.join(node_file_path, file_name_in)
                         if os.path.isfile(node_file_path_in):
                             process_module(file_name_in, node_file_path_in, node_classes_list, _ocvl_auto_register, dir_category=True)
 
     for node_class in node_classes_list:
-        node_categories_dict[node_class.n_category].append(NodeItem(node_class.__name__, node_class.__name__))
+        node_categories_dict[node_class.n_category].append(NodeItem(node_class.__name__, node_class.__name__[4:-4]))
 
     for category_name in node_categories_dict.keys():
         build_categories.append(OCVLNodeCategory(

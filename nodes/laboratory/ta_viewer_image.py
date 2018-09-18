@@ -1,5 +1,4 @@
-from bpy.props import StringProperty
-
+import bpy
 from ocvl.core.node_base import OCVLPreviewNodeBase
 
 
@@ -7,7 +6,7 @@ class OCVLImageViewerNode(OCVLPreviewNodeBase):
     '''Image Viewer node'''
     bl_icon = 'ZOOM_ALL'
 
-    image_in = StringProperty(default='')
+    image_in = bpy.props.StringProperty(default='')
 
     def init(self, context):
         self.inputs.new('StringsSocket', "image_in")

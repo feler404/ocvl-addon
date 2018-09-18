@@ -4,7 +4,6 @@ import uuid
 import random
 import numpy as np
 from logging import getLogger
-from bpy.props import EnumProperty, StringProperty, IntProperty
 
 from ocvl.core.node_base import OCVLPreviewNodeBase
 from ocvl.core.image_utils import convert_to_cv_image
@@ -19,7 +18,6 @@ IMAGE_MODE_ITEMS = [
 
 
 class OCVLImageSampleNode(OCVLPreviewNodeBase):
-    ''' Image sample '''
     bl_icon = 'IMAGE_DATA'
 
     def update_layout(self, context):
@@ -31,15 +29,15 @@ class OCVLImageSampleNode(OCVLPreviewNodeBase):
         self.update_sockets(context)
         self.process()
 
-    width_in = IntProperty(default=100, min=1, max=1024, update=update_layout, name="width_in")
-    height_in = IntProperty(default=100, min=1, max=1020, update=update_layout, name="height_in")
-    width_out = IntProperty(default=0, name="width_out")
-    height_out = IntProperty(default=0, name="height_out")
-    image_out = StringProperty(default=str(uuid.uuid4()))
+    width_in = bpy.props.IntProperty(default=100, min=1, max=1024, update=update_layout, name="width_in")
+    height_in = bpy.props.IntProperty(default=100, min=1, max=1020, update=update_layout, name="height_in")
+    width_out = bpy.props.IntProperty(default=0, name="width_out")
+    height_out = bpy.props.IntProperty(default=0, name="height_out")
+    image_out = bpy.props.StringProperty(default=str(uuid.uuid4()))
 
-    loc_name_image = StringProperty(default='', update=update_prop_search)
-    loc_filepath = StringProperty(default='', update=update_layout)
-    loc_image_mode = EnumProperty(items=IMAGE_MODE_ITEMS, default="RANDOM", update=update_layout)
+    loc_name_image = bpy.props.StringProperty(default='', update=update_prop_search)
+    loc_filepath = bpy.props.StringProperty(default='', update=update_layout)
+    loc_image_mode = bpy.props.EnumProperty(items=IMAGE_MODE_ITEMS, default="RANDOM", update=update_layout)
 
     def init(self, context):
         self.width = 200
