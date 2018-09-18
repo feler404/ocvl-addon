@@ -184,9 +184,25 @@ def node_id(node):
     return node.node_id
 
 
+def update_node(self, context):
+    self.process_node(context)
+
+
 class OCVLNodeBase(bpy.types.Node):
     """
     Base class for every OCVL Node.
+
+    :param n_id: <StringProperty> unique hash from node object and time
+    :param n_meta: <StringProperty> addition information about node example: time, parameters, displayed on right panel
+    :param n_error: <StringProperty> error message for displayed, displayed on right panel TODO: check, maybe to remove
+    :param n_error_line: <IntProperty> error line, displayed on right panel TODO: check, maybe to remove
+    :param n_auto_register: <bool> if true node class will be registragted
+    :param n_category: <string> default category for auto register
+    :param n_doc: <string> short documentation for node
+    :param bl_idname: <string> id for Blender scope
+    :param bl_label: <string> the node label
+    :param bl_icon: <string> the node icon
+    :param socket_data_cache: <dict> global cache for sockets
 
 
     BaseClass concept
@@ -198,9 +214,10 @@ class OCVLNodeBase(bpy.types.Node):
     n_error_line = None
     n_auto_register = True
     n_category = "uncategorized"
-    # bl_idname = None
-    # bl_label = None
-    # bl_icon = None
+    n_doc = ""
+    bl_idname = None
+    bl_label = None
+    bl_icon = None
     socket_data_cache = SOCKET_DATA_CACHE
 
     def is_uuid(self, prop):
@@ -425,6 +442,11 @@ class OCVLNodeBase(bpy.types.Node):
 
 
 class OCVLPreviewNodeBase(OCVLNodeBase):
+    """
+    Base class for every node with display image
+
+
+    """
     texture = TEXTURE_CACHE
 
     def delete_texture(self):

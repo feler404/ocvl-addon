@@ -40,9 +40,9 @@ def register_node(cls):
         cls.n_meta = StringProperty(default='')
         cls.n_error = StringProperty(default='')
         cls.n_error_line = IntProperty(default=0)
-        cls.bl_idname = cls.__name__
-        cls.bl_label = getattr(cls, 'bl_label', cls.bl_idname[4:-4])
-        cls.bl_icon = 'OUTLINER_OB_EMPTY'
+        cls.bl_idname = cls.bl_idname if getattr(cls, 'bl_idname', None) else cls.__name__
+        cls.bl_label = cls.bl_label if getattr(cls, 'bl_label', None) else cls.bl_idname[4:-4]
+        cls.bl_icon = cls.bl_icon if getattr(cls, 'bl_icon', None) else 'OUTLINER_OB_EMPTY'
     ocvl_register(cls)
 
 
