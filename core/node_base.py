@@ -199,6 +199,7 @@ class OCVLNodeBase(bpy.types.Node):
     :param n_auto_register: <bool> if true node class will be registragted
     :param n_category: <string> default category for auto register
     :param n_doc: <string> short documentation for node
+    :param n_requirements: <list> requirements inputs
     :param n_note: <string> addition note to documentation
     :param bl_idname: <string> id for Blender scope
     :param bl_label: <string> the node label
@@ -216,6 +217,7 @@ class OCVLNodeBase(bpy.types.Node):
     n_auto_register = True
     n_category = CATEGORY_TREE.uncategorized
     n_doc = ""
+    n_requirements = []
     bl_idname = None
     bl_label = None
     bl_icon = None
@@ -326,10 +328,10 @@ class OCVLNodeBase(bpy.types.Node):
             if requirement in optional:
                 continue
             if not self.inputs[requirement].is_linked:
-                self.use_custom_color = True
-                self.color = NODE_COLOR_REQUIRE_DATE
+                # self.use_custom_color = True
+                # self.color = NODE_COLOR_REQUIRE_DATE
                 raise LackRequiredSocket("Inputs[{}] not linked".format(requirement))
-        self.use_custom_color = False
+        # self.use_custom_color = False
 
     def check_inputs_requirements_mode(self, requirements=None, props_maps=None, input_mode=None):
         for requirement in requirements:

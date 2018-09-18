@@ -15,6 +15,10 @@ class OCVLaddNode(OCVLNodeBase):
 
     image_out = bpy.props.StringProperty(default=str(uuid.uuid4()))
 
+    @property
+    def n_requirements(self):
+        return ["image_1_in", "image_2_in"]
+
     def init(self, context):
         self.inputs.new("ImageSocket", "image_1_in")
         self.inputs.new("ImageSocket", "image_2_in")
@@ -23,7 +27,7 @@ class OCVLaddNode(OCVLNodeBase):
         self.outputs.new("ImageSocket", "image_out")
 
     def wrapped_process(self):
-        self.check_input_requirements(["image_1_in", "image_2_in"])
+        self.check_input_requirements(self.n_requirements)
 
         kwargs = {
             'src1': self.get_from_props("image_1_in"),

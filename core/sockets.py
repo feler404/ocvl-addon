@@ -2,7 +2,7 @@ from copy import deepcopy
 
 import bpy
 from ocvl.core.settings import SOCKET_COLORS
-from ocvl.core.exceptions import NoDataError
+from ocvl.core.exceptions import LackRequiredSocket, NoDataError
 from ocvl.core.globals import SOCKET_DATA_CACHE
 from ocvl.core.register_utils import ocvl_register, ocvl_unregister
 
@@ -231,7 +231,13 @@ class OCVLSocketBase:
             else:
                 return
 
-            op = layout.operator('node.sv_quicklink_new_node', text="", icon="LAMP")
+            try:
+                node.check_input_requirements(node.n_requirements)
+                op_icon = "OUTLINER_OB_LAMP"
+            except LackRequiredSocket as e:
+                op_icon = "LAMP"
+
+            op = layout.operator('node.sv_quicklink_new_node', text="", icon=op_icon)
             op.socket_index = self.index
             op.origin = node.name
             op.is_input_mode = False
