@@ -2,9 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1524368b-2f6d-4044-9d40-71907bd5cdda" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/core/image_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/image_utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/_old_architecture/logger_conf.py" beforeDir="false" afterPath="$PROJECT_DIR$/_old_architecture/logger_conf.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/node_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/node_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/sockets.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/sockets.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/node_tree.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/node_tree.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/register_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/register_utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logger_conf.py" beforeDir="false" afterPath="$PROJECT_DIR$/logger_conf.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nodes/ta_image_sample.py" beforeDir="false" afterPath="$PROJECT_DIR$/nodes/ta_image_sample.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nodes/ta_viewer_image.py" beforeDir="false" afterPath="$PROJECT_DIR$/nodes/ta_viewer_image.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -15,34 +20,96 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="ta_viewer_image.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/nodes/ta_viewer_image.py">
+      <file leaf-file-name="logger_conf.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/_old_architecture/logger_conf.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-206">
-              <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+            <state relative-caret-position="169">
+              <caret line="10" column="18" lean-forward="true" selection-start-line="10" selection-start-column="18" selection-end-line="10" selection-end-column="18" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="node_base.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/node_base.py">
+      <file leaf-file-name="logger_conf.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/logger_conf.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="552">
-              <caret line="512" column="20" selection-start-line="512" selection-start-column="20" selection-end-line="512" selection-end-column="20" />
+            <state relative-caret-position="51">
+              <caret line="3" column="27" selection-start-line="3" selection-start-column="27" selection-end-line="3" selection-end-column="27" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ta_image_sample.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/nodes/ta_image_sample.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="357">
+              <caret line="21" column="24" lean-forward="true" selection-start-line="21" selection-start-column="24" selection-end-line="21" selection-end-column="24" />
               <folding>
-                <element signature="e#0#15#0" expanded="true" />
+                <element signature="e#0#10#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="image_utils.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/core/image_utils.py">
+      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
+        <entry file="file:///Applications/Blender/blender.app/Contents/Resources/2.79/python/lib/python3.5/logging/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="199">
-              <caret line="98" selection-start-line="98" selection-end-line="98" />
+            <state relative-caret-position="157">
+              <caret line="946" column="8" selection-start-line="946" selection-start-column="8" selection-end-line="946" selection-end-column="8" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/_old_architecture/ui/__init__.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-697">
+              <caret line="20" lean-forward="true" selection-start-line="20" selection-end-line="20" />
               <folding>
-                <element signature="e#0#35#0" expanded="true" />
+                <element signature="e#815#825#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="console.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/_old_architecture/ui/console.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <folding>
+                <element signature="e#0#10#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/_old_architecture/nodes/__init__.py">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/_old_architecture/operatores/__init__.py">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file leaf-file-name="abc.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/_old_architecture/operatores/abc.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-202">
+              <folding>
+                <element signature="e#0#10#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="utils.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/_old_architecture/utils.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="123">
+              <caret line="9" column="12" selection-start-line="9" selection-start-column="5" selection-end-line="9" selection-end-column="12" />
+              <folding>
+                <element signature="e#650#719#0" />
               </folding>
             </state>
           </provider>
@@ -59,10 +126,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>image.image_importer</find>
-      <find>def process</find>
-      <find>_get_image_in_from_prop</find>
-      <find>def sv_get</find>
       <find>socket_id</find>
       <find>def sv_set</find>
       <find>draw_preview</find>
@@ -78,17 +141,21 @@
       <find>prop_name =</find>
       <find>prop_name</find>
       <find>prop_index</find>
-      <find>logger</find>
       <find>getLogger</find>
       <find>socket_data</find>
       <find>socket_value</find>
       <find>OCVLNodeCategory</find>
       <find>update_sockets_for_node_mode</find>
       <find>refresh_output_socket</find>
+      <find>tag_redraw_all_nodeviews</find>
       <find>111</find>
       <find>print</find>
+      <find>LoggerAutoTest</find>
       <find>callback_disable</find>
-      <find>tag_redraw_all_nodeviews</find>
+      <find>ng_view</find>
+      <find>logger</find>
+      <find>logging</find>
+      <find>getLogger(</find>
     </findStrings>
     <replaceStrings>
       <replace>OCVLNode1NODE</replace>
@@ -97,6 +164,7 @@
       <dir>$PROJECT_DIR$/nodes</dir>
       <dir>$PROJECT_DIR$/operatores</dir>
       <dir>$PROJECT_DIR$/core</dir>
+      <dir>$PROJECT_DIR$/_old_architecture</dir>
     </dirStrings>
   </component>
   <component name="Git.Settings">
@@ -116,13 +184,15 @@
         <option value="$PROJECT_DIR$/__init__.py" />
         <option value="$PROJECT_DIR$/core/register_utils.py" />
         <option value="$PROJECT_DIR$/operatores/__init__.py" />
-        <option value="$PROJECT_DIR$/nodes/ta_image_sample.py" />
-        <option value="$PROJECT_DIR$/nodes/ta_viewer_image.py" />
         <option value="$PROJECT_DIR$/core/sockets.py" />
         <option value="$PROJECT_DIR$/core/node_categories.py" />
         <option value="$PROJECT_DIR$/core/node_tree.py" />
-        <option value="$PROJECT_DIR$/core/node_base.py" />
         <option value="$PROJECT_DIR$/core/image_utils.py" />
+        <option value="$PROJECT_DIR$/core/node_base.py" />
+        <option value="$PROJECT_DIR$/nodes/ta_viewer_image.py" />
+        <option value="$PROJECT_DIR$/_old_architecture/logger_conf.py" />
+        <option value="$PROJECT_DIR$/nodes/ta_image_sample.py" />
+        <option value="$PROJECT_DIR$/logger_conf.py" />
       </list>
     </option>
   </component>
@@ -157,12 +227,7 @@
             <path>
               <item name="ocvl" type="b2602c69:ProjectViewProjectNode" />
               <item name="ocvl" type="462c0819:PsiDirectoryNode" />
-              <item name="core" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ocvl" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ocvl" type="462c0819:PsiDirectoryNode" />
-              <item name="nodes" type="462c0819:PsiDirectoryNode" />
+              <item name="_old_architecture" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -223,7 +288,7 @@
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Version Control" />
       <window_info anchor="bottom" id="Python Console" sideWeight="0.49928468" weight="0.0" />
-      <window_info anchor="bottom" id="Terminal" weight="0.32948717" />
+      <window_info anchor="bottom" id="Terminal" visible="true" weight="0.32948717" />
       <window_info anchor="right" id="Remote Host" weight="0.3297568" />
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20028612" />
       <window_info anchor="bottom" id="Docker" />
@@ -306,18 +371,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/_old_architecture/globals.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/_old_architecture/ui/console.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-802">
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/_old_architecture/ui/filebrowser.py">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -336,34 +389,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/_old_architecture/operatores/__init__.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/_old_architecture/operatores/abc.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1057">
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/core/__init__.py">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/_old_architecture/logger_conf.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="38" selection-start-line="6" selection-start-column="38" selection-end-line="6" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/_old_architecture/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="233">
-          <caret line="19" column="6" selection-start-line="19" selection-start-column="3" selection-end-line="19" selection-end-column="6" />
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/_old_architecture/nodes/laboratory/ta_image_sample.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -371,16 +398,6 @@
           <caret line="24" column="21" selection-start-line="24" selection-start-column="8" selection-end-line="24" selection-end-column="21" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/_old_architecture/sverchok_point.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -410,16 +427,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
           <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/_old_architecture/auth.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="233">
-          <caret line="16" selection-start-line="16" selection-end-line="16" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -476,16 +483,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/_old_architecture/utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="227" lean-forward="true" selection-start-line="227" selection-end-line="227" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/operatores/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="578">
@@ -524,9 +521,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/logger_conf.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file:///Applications/Blender/blender.app/Contents/Resources/2.79/scripts/modules/nodeitems_utils.py">
@@ -569,27 +563,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/nodes/ta_image_sample.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="85" column="28" selection-start-line="85" selection-start-column="13" selection-end-line="85" selection-end-column="34" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/nodes/ta_viewer_image.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-206">
-          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+        <state relative-caret-position="-100">
+          <caret line="19" column="30" lean-forward="true" selection-start-line="19" selection-start-column="30" selection-end-line="19" selection-end-column="30" />
+          <folding>
+            <element signature="e#0#29#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/core/node_base.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="552">
-          <caret line="512" column="20" selection-start-line="512" selection-start-column="20" selection-end-line="512" selection-end-column="20" />
+        <state relative-caret-position="6855">
+          <caret line="513" lean-forward="true" selection-start-line="513" selection-end-line="513" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
@@ -598,11 +585,124 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/core/image_utils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="199">
-          <caret line="98" selection-start-line="98" selection-end-line="98" />
+        <state relative-caret-position="386">
+          <caret line="109" column="22" selection-start-line="109" selection-start-column="22" selection-end-line="109" selection-end-column="22" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_old_architecture/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="703">
+          <caret line="78" column="6" lean-forward="true" selection-start-line="78" selection-start-column="6" selection-end-line="78" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_old_architecture/auth.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="148">
+          <caret line="12" column="6" selection-start-line="12" selection-end-line="12" selection-end-column="6" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_old_architecture/globals.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_old_architecture/index.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor />
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_old_architecture/sverchok_point.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="226">
+          <caret line="262" column="14" selection-start-line="262" selection-start-column="8" selection-end-line="262" selection-end-column="14" />
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_old_architecture/ui/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-697">
+          <caret line="20" lean-forward="true" selection-start-line="20" selection-end-line="20" />
+          <folding>
+            <element signature="e#815#825#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_old_architecture/ui/console.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_old_architecture/nodes/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_old_architecture/operatores/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_old_architecture/operatores/abc.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-202">
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_old_architecture/utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="123">
+          <caret line="9" column="12" selection-start-line="9" selection-start-column="5" selection-end-line="9" selection-end-column="12" />
+          <folding>
+            <element signature="e#650#719#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/nodes/ta_image_sample.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="21" column="24" lean-forward="true" selection-start-line="21" selection-start-column="24" selection-end-line="21" selection-end-column="24" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Applications/Blender/blender.app/Contents/Resources/2.79/python/lib/python3.5/logging/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="157">
+          <caret line="946" column="8" selection-start-line="946" selection-start-column="8" selection-end-line="946" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_old_architecture/logger_conf.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="169">
+          <caret line="10" column="18" lean-forward="true" selection-start-line="10" selection-start-column="18" selection-end-line="10" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/logger_conf.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="27" selection-start-line="3" selection-start-column="27" selection-end-line="3" selection-end-column="27" />
         </state>
       </provider>
     </entry>

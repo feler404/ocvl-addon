@@ -1,7 +1,7 @@
 import logging
 
 # create logger
-logger = logging.getLogger('LoggerAutoTest')
+logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 
 # create console handler and set level to debug
