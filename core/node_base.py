@@ -185,7 +185,7 @@ def node_id(node):
 
 
 def update_node(self, context):
-    self.process_node(context)
+    self.process()
 
 
 class OCVLNodeBase(bpy.types.Node):
@@ -305,9 +305,9 @@ class OCVLNodeBase(bpy.types.Node):
             sockets = self._get_sockets_by_socket_name(prop_name)
             if prop_name not in sockets:
                 if self.is_uuid(getattr(self, prop_name)):
-                    sockets.new('OCVLUUIDSocket', prop_name)
+                    sockets.new('StringSocket', prop_name)
                 else:
-                    sockets.new('OCVLUUIDSocket', prop_name).prop_name = prop_name
+                    sockets.new('StringSocket', prop_name).prop_name = prop_name
 
     def get_kwargs_inputs(self, props_maps, input_mode):
         kwargs_inputs = {}

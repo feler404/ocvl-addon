@@ -1,7 +1,6 @@
 import cv2
 import numpy as np
 import uuid
-from gettext import gettext as _
 
 from bpy.props import EnumProperty, StringProperty, IntProperty, IntVectorProperty
 
@@ -31,12 +30,12 @@ class OCVLfilter2dNode(OCVLNodeBase):
     borderType_in = EnumProperty(items=BORDER_TYPE_ITEMS, default='None', update=update_node, description="Pixel extrapolation method, see cv::BorderTypes")
 
     def init(self, context):
-        self.inputs.new("OCVLUUIDSocket", "image_in")
-        self.inputs.new('OCVLUUIDSocket', "kernel_size_in").prop_name = 'kernel_size_in'
-        self.inputs.new('OCVLUUIDSocket', "anchor_in").prop_name = 'anchor_in'
-        self.inputs.new('OCVLUUIDSocket', "delta_in").prop_name = 'delta_in'
+        self.inputs.new("StringSocket", "image_in")
+        self.inputs.new('StringSocket', "kernel_size_in").prop_name = 'kernel_size_in'
+        self.inputs.new('StringSocket', "anchor_in").prop_name = 'anchor_in'
+        self.inputs.new('StringSocket', "delta_in").prop_name = 'delta_in'
 
-        self.outputs.new("OCVLUUIDSocket", "image_out")
+        self.outputs.new("StringSocket", "image_out")
 
     def wrapped_process(self):
         self.check_input_requirements(["image_in"])

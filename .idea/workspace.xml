@@ -2,14 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1524368b-2f6d-4044-9d40-71907bd5cdda" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_old_architecture/nodes/imgproc/cv_filter2d.py" beforeDir="false" afterPath="$PROJECT_DIR$/nodes/cv_filter2d.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/node_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/node_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/register_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/register_utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/sockets.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/sockets.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nodes/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/nodes/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nodes/node1.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nodes/cv_filter2d.py" beforeDir="false" afterPath="$PROJECT_DIR$/nodes/cv_filter2d.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -20,11 +15,14 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="constants.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/constants.py">
+      <file leaf-file-name="node_base.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/core/node_base.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="3" column="40" selection-start-line="3" selection-start-column="40" selection-end-line="3" selection-end-column="40" />
+            <state relative-caret-position="-196">
+              <caret line="187" column="17" selection-start-line="187" selection-start-column="17" selection-end-line="187" selection-end-column="17" />
+              <folding>
+                <element signature="e#0#15#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -32,33 +30,8 @@
       <file leaf-file-name="sockets.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/core/sockets.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="590">
-              <caret line="137" column="25" selection-start-line="137" selection-start-column="25" selection-end-line="137" selection-end-column="25" />
-              <folding>
-                <element signature="e#0#14#0" expanded="true" />
-                <element signature="e#235#894#0" />
-                <element signature="e#930#1430#0" />
-                <element signature="e#1477#2372#0" />
-                <element signature="e#2487#3014#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="copy.py" pinned="false" current-in-tab="false">
-        <entry file="file:///Applications/Blender/blender.app/Contents/Resources/2.79/python/lib/python3.5/copy.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="250">
-              <caret line="136" column="4" selection-start-line="136" selection-start-column="4" selection-end-line="136" selection-end-column="4" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/settings.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="7" column="18" selection-start-line="7" selection-start-column="18" selection-end-line="7" selection-end-column="18" />
+            <state relative-caret-position="384">
+              <caret line="226" lean-forward="true" selection-start-line="226" selection-end-line="226" />
             </state>
           </provider>
         </entry>
@@ -66,16 +39,8 @@
       <file leaf-file-name="cv_filter2d.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/nodes/cv_filter2d.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="5" column="51" selection-start-line="5" selection-end-line="6" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="cv_integral.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/_old_architecture/nodes/imgproc/cv_integral.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-417">
+            <state relative-caret-position="91">
+              <caret line="25" column="62" lean-forward="true" selection-start-line="25" selection-start-column="62" selection-end-line="25" selection-end-column="62" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
@@ -86,17 +51,8 @@
       <file leaf-file-name="ta_image_sample.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/nodes/ta_image_sample.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-241">
-              <caret line="8" column="40" selection-start-line="8" selection-start-column="40" selection-end-line="8" selection-end-column="40" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="register_utils.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/register_utils.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="492">
-              <caret line="41" column="38" selection-start-line="41" selection-start-column="27" selection-end-line="41" selection-end-column="38" />
+            <state relative-caret-position="322">
+              <caret line="26" column="20" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="20" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
@@ -115,9 +71,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>core.glo</find>
-      <find>NODE_COLOR_REQUIRE_DATE</find>
-      <find>WRAP_TEXT_SIZE_FOR_ERROR_DISPLAY</find>
       <find>IS_WORK_ON_COPY_INPUT</find>
       <find>TEXTURE_CACHE</find>
       <find>CALLBACK_DICT</find>
@@ -145,6 +98,9 @@
       <find>OCVLUUIDSocket</find>
       <find>nodule_color</find>
       <find>SvSetSocket</find>
+      <find>self.socket_data_cache[prop]</find>
+      <find>self.process_node(context)</find>
+      <find>quicklink_func_name</find>
     </findStrings>
     <replaceStrings>
       <replace>OCVLNode1NODE</replace>
@@ -182,10 +138,10 @@
         <option value="$PROJECT_DIR$/core/node_categories.py" />
         <option value="$PROJECT_DIR$/core/register_utils.py" />
         <option value="$PROJECT_DIR$/nodes/__init__.py" />
-        <option value="$PROJECT_DIR$/core/node_base.py" />
-        <option value="$PROJECT_DIR$/nodes/cv_filter2d.py" />
         <option value="$PROJECT_DIR$/_old_architecture/nodes/imgproc/cv_floodFill.py" />
         <option value="$PROJECT_DIR$/core/settings.py" />
+        <option value="$PROJECT_DIR$/nodes/cv_filter2d.py" />
+        <option value="$PROJECT_DIR$/core/node_base.py" />
         <option value="$PROJECT_DIR$/core/sockets.py" />
       </list>
     </option>
@@ -219,52 +175,6 @@
             <path>
               <item name="ocvl" type="b2602c69:ProjectViewProjectNode" />
               <item name="ocvl" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ocvl" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ocvl" type="462c0819:PsiDirectoryNode" />
-              <item name="_old_architecture" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ocvl" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ocvl" type="462c0819:PsiDirectoryNode" />
-              <item name="_old_architecture" type="462c0819:PsiDirectoryNode" />
-              <item name="nodes" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ocvl" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ocvl" type="462c0819:PsiDirectoryNode" />
-              <item name="_old_architecture" type="462c0819:PsiDirectoryNode" />
-              <item name="nodes" type="462c0819:PsiDirectoryNode" />
-              <item name="core" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ocvl" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ocvl" type="462c0819:PsiDirectoryNode" />
-              <item name="_old_architecture" type="462c0819:PsiDirectoryNode" />
-              <item name="nodes" type="462c0819:PsiDirectoryNode" />
-              <item name="imgproc" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ocvl" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ocvl" type="462c0819:PsiDirectoryNode" />
-              <item name="_old_architecture" type="462c0819:PsiDirectoryNode" />
-              <item name="nodes" type="462c0819:PsiDirectoryNode" />
-              <item name="laboratory" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ocvl" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ocvl" type="462c0819:PsiDirectoryNode" />
-              <item name="_old_architecture" type="462c0819:PsiDirectoryNode" />
-              <item name="nodes" type="462c0819:PsiDirectoryNode" />
-              <item name="objdetect" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ocvl" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ocvl" type="462c0819:PsiDirectoryNode" />
-              <item name="_old_architecture" type="462c0819:PsiDirectoryNode" />
-              <item name="nodes" type="462c0819:PsiDirectoryNode" />
-              <item name="video" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="ocvl" type="b2602c69:ProjectViewProjectNode" />
@@ -339,9 +249,9 @@
       <window_info anchor="bottom" id="Event Log" sideWeight="0.5007153" side_tool="true" weight="0.5435898" />
       <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
       <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Version Control" weight="0.32948717" />
+      <window_info anchor="bottom" id="Version Control" weight="0.6961538" />
       <window_info anchor="bottom" id="Python Console" sideWeight="0.49928468" weight="0.32948717" />
-      <window_info anchor="bottom" id="Terminal" weight="0.32948717" />
+      <window_info anchor="bottom" id="Terminal" visible="true" weight="0.32948717" />
       <window_info anchor="right" id="Remote Host" weight="0.3297568" />
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20028612" />
       <window_info anchor="bottom" id="Docker" />
@@ -699,13 +609,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/nodes/ta_image_sample.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-241">
-          <caret line="8" column="40" selection-start-line="8" selection-start-column="40" selection-end-line="8" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/_old_architecture/nodes/laboratory/ta_first_step.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1145">
@@ -737,30 +640,6 @@
     <entry file="file://$PROJECT_DIR$/nodes/__init__.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/node_base.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3162">
-          <caret line="186" column="15" selection-start-line="186" selection-start-column="4" selection-end-line="186" selection-end-column="15" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/nodes/cv_filter2d.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="51" selection-start-line="5" selection-end-line="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/constants.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="40" selection-start-line="3" selection-start-column="40" selection-end-line="3" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///Applications/Blender/blender.app/Contents/Resources/2.79/python/lib/python3.5/copy.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="250">
@@ -775,17 +654,47 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/core/constants.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="40" selection-start-line="3" selection-start-column="40" selection-end-line="3" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/nodes/ta_image_sample.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="322">
+          <caret line="26" column="20" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/nodes/cv_filter2d.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="91">
+          <caret line="25" column="62" lean-forward="true" selection-start-line="25" selection-start-column="62" selection-end-line="25" selection-end-column="62" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/node_base.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-196">
+          <caret line="187" column="17" selection-start-line="187" selection-start-column="17" selection-end-line="187" selection-end-column="17" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/core/sockets.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="590">
-          <caret line="137" column="25" selection-start-line="137" selection-start-column="25" selection-end-line="137" selection-end-column="25" />
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-            <element signature="e#235#894#0" />
-            <element signature="e#930#1430#0" />
-            <element signature="e#1477#2372#0" />
-            <element signature="e#2487#3014#0" />
-          </folding>
+        <state relative-caret-position="384">
+          <caret line="226" lean-forward="true" selection-start-line="226" selection-end-line="226" />
         </state>
       </provider>
     </entry>

@@ -10,7 +10,7 @@ class OCVLImageViewerNode(OCVLPreviewNodeBase):
     image_in = StringProperty(default='')
 
     def init(self, context):
-        self.inputs.new('OCVLUUIDSocket', "image_in")
+        self.inputs.new('StringSocket', "image_in")
 
     def wrapped_process(self):
         self.check_input_requirements(["image_in"])
