@@ -1,3 +1,4 @@
+import logging
 import os
 from collections import defaultdict
 from importlib import util
@@ -7,6 +8,9 @@ from ocvl.core.register_utils import ocvl_register, ocvl_unregister, unregister_
 from nodeitems_utils import (
     NodeCategory, NodeItem, register_node_categories, unregister_node_categories,
 )
+
+
+logger = logging.getLogger(__name__)
 
 
 class OCVLNodeCategory(NodeCategory):
@@ -21,9 +25,8 @@ def is_node_class_name(class_name):
     return class_name.startswith("OCVL") and class_name.endswith("Node") and class_name not in ["OCVLNode", "OCVLPreviewNode"]
 
 
-def autoregister_node_categories(register_mode=True):
+def auto_register_node_categories(register_mode=True):
     _ocvl_auto_register = register_node if register_mode else unregister_node
-    _auto_register_node_categories = register_node_categories if register_mode else unregister_node_categories
 
     node_classes_list = []
     node_categories_dict = defaultdict(list)
@@ -39,12 +42,12 @@ def autoregister_node_categories(register_mode=True):
                 for obj_name in dir(mod):
                     if is_node_class_name(obj_name):
                         node_class = getattr(mod, obj_name)
-                        if node_class.ocvl_category:
+                        if node_class.n_category and node_class.n_auto_register:
                             node_classes_list.append(node_class)
                             _ocvl_auto_register(node_class)
 
     for node_class in node_classes_list:
-        node_categories_dict[node_class.ocvl_category].append(NodeItem(node_class.__name__, node_class.__name__))
+        node_categories_dict[node_class.n_category].append(NodeItem(node_class.__name__, node_class.__name__))
 
     for category_name in node_categories_dict.keys():
         build_categories.append(OCVLNodeCategory(
@@ -54,14 +57,20 @@ def autoregister_node_categories(register_mode=True):
             items=node_categories_dict[category_name]
         ))
 
-    _auto_register_node_categories(OCVL_NODE_CATEGORIES, build_categories)
+    if register_mode:
+        try:
+            register_node_categories(OCVL_NODE_CATEGORIES, build_categories)
+        except KeyError as e:
+            logger.info("{} already registered.".format(OCVL_NODE_CATEGORIES))
+    else:
+        unregister_node_categories(OCVL_NODE_CATEGORIES)
 
 
 def register():
     # ocvl_register(OCVLNodeCategory)
-    autoregister_node_categories(register_mode=True)
+    auto_register_node_categories(register_mode=True)
 
 
 def unregister():
     # ocvl_unregister(OCVLNodeCategory)
-    autoregister_node_categories(register_mode=False)
+    auto_register_node_categories(register_mode=False)

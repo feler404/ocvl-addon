@@ -2,7 +2,7 @@ from copy import deepcopy
 
 import bpy
 from ocvl.core.exceptions import NoDataError
-from ocvl.globals import SOCKET_DATA_CACHE
+from ocvl.core.globals import SOCKET_DATA_CACHE
 from ocvl.core.register_utils import ocvl_register, ocvl_unregister
 
 

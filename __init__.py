@@ -57,6 +57,7 @@ def register():
     node_tree.register()
     sockets.register()
     operatores.register()
+    logger_conf.register()
 
 
 def unregister():

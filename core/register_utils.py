@@ -9,18 +9,18 @@ logger = getLogger(__name__)
 
 def ocvl_register(cls):
     try:
-        # if "bl_rna" not in cls.__dict__:
-        bpy.utils.register_class(cls)
-        logger.debug("Cass registrated: {}".format(cls))
+        if "bl_rna" not in cls.__dict__:
+            bpy.utils.register_class(cls)
+            logger.debug("Cass registrated: {}".format(cls))
     except ValueError as e:
-        # logger.warning(e)
+        logger.warning(e)
         logger.warning("Class {} already registered".format(cls))
 
 
 def ocvl_unregister(cls):
     try:
-        # if "bl_rna" in cls.__dict__:
-        bpy.utils.unregister_class(cls)
+        if "bl_rna" in cls.__dict__:
+            bpy.utils.unregister_class(cls)
     except RuntimeError as e:
         # logger.exception(e)
         logger.warning("Class {} problem with unregister".format(cls))

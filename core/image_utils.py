@@ -5,11 +5,8 @@ import bgl
 import bpy
 import blf
 import numpy as np
-from ocvl.core.node_tree import OCVLNodeTree
-from ocvl.globals import CALLBACK_DICT
-
-TEX_CO = [(0, 1), (1, 1), (1, 0), (0, 0)]
-TEX_CO_FLIP = [(0, 0), (1, 0), (1, 1), (0, 1)]
+from ocvl.core.constants import TEX_CO
+from ocvl.core.globals import CALLBACK_DICT
 
 
 def tag_redraw_all_nodeviews():

@@ -2,21 +2,18 @@ import textwrap
 import time
 import uuid
 from itertools import chain
+from logging import getLogger
+from uuid import UUID
 
+import bgl
+import bpy
 import cv2
 import numpy as np
-from uuid import UUID
-from logging import getLogger
-
-import bpy
-import bgl
+from ocvl.core.settings import IS_WORK_ON_COPY_INPUT, NODE_COLOR_REQUIRE_DATE, WRAP_TEXT_SIZE_FOR_ERROR_DISPLAY
+from ocvl.core.constants import TEX_CO_FLIP
 from ocvl.core.exceptions import LackRequiredSocket, NoDataError
-from ocvl.core.image_utils import (
-    TEX_CO_FLIP, simple_screen, init_texture, callback_enable, callback_disable,
-    tag_redraw_all_nodeviews,
-)
-from ocvl.globals import TEXTURE_CACHE, SOCKET_DATA_CACHE
-
+from ocvl.core.globals import SOCKET_DATA_CACHE, TEXTURE_CACHE
+from ocvl.core.image_utils import (callback_disable, callback_enable, init_texture, simple_screen)
 
 logger = getLogger(__name__)
 
@@ -34,11 +31,6 @@ FACTOR_BUFFER_DICT = {
     'RGBA': 4  # GL_RGBA
 }
 
-TEX_CO = [(0, 1), (1, 1), (1, 0), (0, 0)]
-TEX_CO_FLIP = [(0, 0), (1, 0), (1, 1), (0, 1)]
-NODE_COLOR_REQUIRE_DATE = (1, 0.3, 0)
-WRAP_TEXT_SIZE_FOR_ERROR_DISPLAY = 75
-IS_WORK_ON_COPY_INPUT = True
 
 APPROXIMATION_MODE_ITEMS = (
     # https://docs.opencv.org/3.3.1/d3/dc0/group__imgproc__shape.html#ga4303f45752694956374734a03c54d5ff
@@ -194,15 +186,22 @@ def node_id(node):
 
 class OCVLNodeBase(bpy.types.Node):
     """
+    Base class for every OCVL Node.
 
 
     BaseClass concept
     https://stackoverflow.com/questions/5189232/how-to-auto-register-a-class-when-its-defined
     """
-    ocvl_auto_register = True
-    ocvl_category = "uncategorized"
+    n_id = None
+    n_meta = None
+    n_error = None
+    n_error_line = None
+    n_auto_register = True
+    n_category = "uncategorized"
+    # bl_idname = None
+    # bl_label = None
+    # bl_icon = None
     socket_data_cache = SOCKET_DATA_CACHE
-    n_meta = ""
 
     def is_uuid(self, prop):
         try:
