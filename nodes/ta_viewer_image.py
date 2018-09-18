@@ -1,9 +1,9 @@
 from bpy.props import StringProperty
 
-from ocvl.core.node_base import OCVLPreviewNode
+from ocvl.core.node_base import OCVLPreviewNodeBase
 
 
-class OCVLImageViewerNode(OCVLPreviewNode):
+class OCVLImageViewerNode(OCVLPreviewNodeBase):
     '''Image Viewer node'''
     bl_icon = 'ZOOM_ALL'
 

@@ -13,6 +13,7 @@ class OCVLNodeCategory(NodeCategory):
 
     @classmethod
     def pull(cls, context):
+        print ("Categories Node pull", context.space_data.tree_type == OCVL_NODE_TREE_TYPE)
         return context.space_data.tree_type == OCVL_NODE_TREE_TYPE
 
 
@@ -39,7 +40,6 @@ def autoregister_node_categories(register_mode=True):
                     if is_node_class_name(obj_name):
                         node_class = getattr(mod, obj_name)
                         if node_class.ocvl_category:
-                            print (1111, node_class)
                             node_classes_list.append(node_class)
                             _ocvl_auto_register(node_class)
 

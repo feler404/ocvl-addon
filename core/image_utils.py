@@ -153,7 +153,6 @@ def convert_to_gl_image(image_cv):
 
 
 def init_texture(width, height, texname, texture, internalFormat, format):
-    print(1111, "init_texture")
     bgl.glEnable(bgl.GL_TEXTURE_2D)
     bgl.glBindTexture(bgl.GL_TEXTURE_2D, texname)
     bgl.glActiveTexture(bgl.GL_TEXTURE0)

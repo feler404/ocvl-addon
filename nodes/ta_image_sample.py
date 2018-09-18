@@ -6,7 +6,7 @@ import numpy as np
 from logging import getLogger
 from bpy.props import EnumProperty, StringProperty, IntProperty
 
-from ocvl.core.node_base import OCVLPreviewNode
+from ocvl.core.node_base import OCVLPreviewNodeBase
 from ocvl.core.image_utils import convert_to_cv_image
 
 logger = getLogger(__name__)
@@ -18,7 +18,7 @@ IMAGE_MODE_ITEMS = [
     ]
 
 
-class OCVLImageSampleNode(OCVLPreviewNode):
+class OCVLImageSampleNode(OCVLPreviewNodeBase):
     ''' Image sample '''
     bl_icon = 'IMAGE_DATA'
 
@@ -61,7 +61,6 @@ class OCVLImageSampleNode(OCVLPreviewNode):
         logger.info("Process: self: {}, loc_image_mode: {}, loc_filepath: {}".format(self, self.loc_image_mode, self.loc_filepath))
         image = None
         uuid_ = None
-        print (1111, "wrapped")
         if self.loc_image_mode in ["PLANE", "RANDOM"]:
             width_in = self.get_from_props("width_in")
             height_in = self.get_from_props("height_in")
@@ -83,7 +82,6 @@ class OCVLImageSampleNode(OCVLPreviewNode):
                 image = np.zeros((200, 200, 3), np.uint8)
 
         image, self.image_out = self._update_node_cache(image=image, resize=False, uuid_=uuid_)
-        print (1111, image)
         self.outputs['image_out'].sv_set(self.image_out)
         self.refresh_output_socket("height_out", image.shape[0])
         self.refresh_output_socket("width_out", image.shape[1])

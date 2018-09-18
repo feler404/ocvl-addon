@@ -12,10 +12,10 @@ import bpy
 import bgl
 from ocvl.core.exceptions import LackRequiredSocket, NoDataError
 from ocvl.core.image_utils import (
-    TEX_CO_FLIP, simple_screen, init_texture, callback_enable,
-    callback_disable,
+    TEX_CO_FLIP, simple_screen, init_texture, callback_enable, callback_disable,
 )
 from ocvl.globals import TEXTURE_CACHE, SOCKET_DATA_CACHE
+
 
 logger = getLogger(__name__)
 
@@ -186,21 +186,15 @@ TYPE_THRESHOLD_ITEMS = (
     ("THRESH_TRIANGLE", "THRESH_TRIANGLE", "THRESH_TRIANGLE", "", 7),
     )
 
-SpaceView3D = bpy.types.SpaceView3D
-
 
 def node_id(node):
     return node.node_id
 
-def updateNode(self, context):
-    self.process_node(context)
 
-
-
-
-
-class OCVLNode(bpy.types.Node):
+class OCVLNodeBase(bpy.types.Node):
     """
+
+
     BaseClass concept
     https://stackoverflow.com/questions/5189232/how-to-auto-register-a-class-when-its-defined
     """
@@ -292,11 +286,11 @@ class OCVLNode(bpy.types.Node):
                 sockets.remove(sockets[socket_name])
         for prop_name in props_maps[node_mode]:
             sockets = self._get_sockets_by_socket_name(prop_name)
-            if not prop_name in sockets:
+            if prop_name not in sockets:
                 if self.is_uuid(getattr(self, prop_name)):
-                    sockets.new('StringsSocket', prop_name)
+                    sockets.new('OCVLUUIDSocket', prop_name)
                 else:
-                    sockets.new('StringsSocket', prop_name).prop_name = prop_name
+                    sockets.new('OCVLUUIDSocket', prop_name).prop_name = prop_name
 
     def get_kwargs_inputs(self, props_maps, input_mode):
         kwargs_inputs = {}
@@ -319,7 +313,6 @@ class OCVLNode(bpy.types.Node):
                 raise LackRequiredSocket("Inputs[{}] not linked".format(requirement))
         self.use_custom_color = False
 
-
     def check_inputs_requirements_mode(self, requirements=None, props_maps=None, input_mode=None):
         for requirement in requirements:
             if requirement[1] == input_mode:
@@ -340,24 +333,28 @@ class OCVLNode(bpy.types.Node):
         return kwargs_out
 
     def process(self):
+        self.n_meta = ""
+        start = time.time()
         try:
-            self.n_meta = ""
-            start = time.time()
             self.wrapped_process()
-            self.n_meta += "\nProcess time: {0:.2f}ms".format((time.time() - start) * 1000)
         except LackRequiredSocket as e:
             logger.info("SOCKET UNLINKED - {}".format(self))
-            return
+        self.n_meta += "\nProcess time: {0:.2f}ms".format((time.time() - start) * 1000)
+
+        for output in self.outputs:
+            if output.is_linked:
+                for link in output.links:
+                    link.to_node.process()
 
     def process_cv(self, fn=None, kwargs=None):
         kwargs = self.clean_kwargs(kwargs)
+        start = time.time()
         try:
-            start = time.time()
             out = fn(**kwargs)
-            self.n_meta = "\nCV time: {0:.2f}ms".format((time.time() - start) * 1000)
         except Exception as e:
             logger.warning("CV process problem: fn={}, kwargs={}, self={} ".format(fn, kwargs, self))
             raise
+        self.n_meta = "\nCV time: {0:.2f}ms".format((time.time() - start) * 1000)
         return out
 
     def refresh_output_socket(self, prop_name=None, prop_value=None, is_uuid_type=False):
@@ -427,7 +424,7 @@ class OCVLNode(bpy.types.Node):
         return self.n_id
 
 
-class OCVLPreviewNode(OCVLNode):
+class OCVLPreviewNodeBase(OCVLNodeBase):
     texture = TEXTURE_CACHE
 
     def delete_texture(self):

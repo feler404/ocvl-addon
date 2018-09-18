@@ -1,9 +1,9 @@
 import bpy
 from bpy.props import IntProperty
-from ocvl.core.node_base import OCVLNode
+from ocvl.core.node_base import OCVLNodeBase
 
 
-class OCVLNode1(OCVLNode):
+class OCVLNodeBase1(OCVLNodeBase):
     bl_idname = "OCVLNode1"
     bl_label = "OCVLNode1"
     bl_icon = "COLOR"
@@ -33,7 +33,7 @@ class OCVLNode1(OCVLNode):
         pass
 
 
-class OCVLNode2(OCVLNode):
+class OCVLNodeBase2(OCVLNodeBase):
     bl_idname = "OCVLNode2"
     bl_label = "OCVLNode2"
     bl_icon = "COLOR"
