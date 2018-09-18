@@ -131,7 +131,7 @@ class OCVLSocket():
 
     def draw_expander_template(self, context, layout, prop_origin, prop_name="prop"):
 
-        if self.bl_idname == "StringSocket":
+        if self.bl_idname == "StringsSocket":
             layout.prop(prop_origin, prop_name)
         else:
             if self.use_expander:
@@ -205,10 +205,10 @@ class OCVLSocket():
                 layout.label(text)
 
 
-class StringSocket(bpy.types.NodeSocket, OCVLSocket):
+class StringsSocket(bpy.types.NodeSocket, OCVLSocket):
     '''Renderman co-shader input/output'''
-    bl_idname = 'StringSocket'
-    bl_label = 'StringSocket'
+    bl_idname = 'StringsSocket'
+    bl_label = 'StringsSocket'
 
     uuid = bpy.props.StringProperty(default="")
     prop_name = bpy.props.StringProperty(default='')
@@ -226,8 +226,8 @@ class StringSocket(bpy.types.NodeSocket, OCVLSocket):
 
 
 def register():
-    ocvl_register(StringSocket)
+    ocvl_register(StringsSocket)
 
 
 def unregister():
-    ocvl_unregister(StringSocket)
+    ocvl_unregister(StringsSocket)

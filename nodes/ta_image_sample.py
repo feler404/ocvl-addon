@@ -43,9 +43,9 @@ class OCVLImageSampleNode(OCVLPreviewNodeBase):
 
     def init(self, context):
         self.width = 200
-        self.outputs.new('StringSocket', 'image_out')
-        self.outputs.new('StringSocket', 'width_out')
-        self.outputs.new('StringSocket', 'height_out')
+        self.outputs.new('StringsSocket', 'image_out')
+        self.outputs.new('StringsSocket', 'width_out')
+        self.outputs.new('StringsSocket', 'height_out')
         self.update_layout(context)
 
         # if not np.bl_listener:

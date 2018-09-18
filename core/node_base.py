@@ -9,7 +9,7 @@ import bgl
 import bpy
 import cv2
 import numpy as np
-from ocvl.core.settings import IS_WORK_ON_COPY_INPUT, NODE_COLOR_REQUIRE_DATE, WRAP_TEXT_SIZE_FOR_ERROR_DISPLAY
+from ocvl.core.settings import IS_WORK_ON_COPY_INPUT, NODE_COLOR_REQUIRE_DATE, WRAP_TEXT_SIZE_FOR_ERROR_DISPLAY, CATEGORY_TREE
 from ocvl.core.constants import TEX_CO_FLIP
 from ocvl.core.exceptions import LackRequiredSocket, NoDataError
 from ocvl.core.globals import SOCKET_DATA_CACHE, TEXTURE_CACHE
@@ -199,6 +199,7 @@ class OCVLNodeBase(bpy.types.Node):
     :param n_auto_register: <bool> if true node class will be registragted
     :param n_category: <string> default category for auto register
     :param n_doc: <string> short documentation for node
+    :param n_note: <string> addition note to documentation
     :param bl_idname: <string> id for Blender scope
     :param bl_label: <string> the node label
     :param bl_icon: <string> the node icon
@@ -213,7 +214,7 @@ class OCVLNodeBase(bpy.types.Node):
     n_error = None
     n_error_line = None
     n_auto_register = True
-    n_category = "uncategorized"
+    n_category = CATEGORY_TREE.uncategorized
     n_doc = ""
     bl_idname = None
     bl_label = None
@@ -305,9 +306,9 @@ class OCVLNodeBase(bpy.types.Node):
             sockets = self._get_sockets_by_socket_name(prop_name)
             if prop_name not in sockets:
                 if self.is_uuid(getattr(self, prop_name)):
-                    sockets.new('StringSocket', prop_name)
+                    sockets.new('StringsSocket', prop_name)
                 else:
-                    sockets.new('StringSocket', prop_name).prop_name = prop_name
+                    sockets.new('StringsSocket', prop_name).prop_name = prop_name
 
     def get_kwargs_inputs(self, props_maps, input_mode):
         kwargs_inputs = {}
