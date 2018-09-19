@@ -1,34 +1,34 @@
 import cv2
 import uuid
-from gettext import gettext as _
-from bpy.props import EnumProperty, StringProperty, IntProperty, FloatProperty
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode, COLOR_DEPTH_ITEMS, BORDER_TYPE_ITEMS
+import bpy
+
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
-class OCVLScharrNode(OCVLNode):
+class OCVLScharrNode(OCVLNodeBase):
 
-    _doc = _("Calculates the first x- or y- image derivative using Scharr operator.")
+    n_doc = "Calculates the first x- or y- image derivative using Scharr operator."
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
-        description=_("Input image."))
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()),
-        description=_("Output image."))
+    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()),
+        description="Input image.")
+    image_out = bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()),
+        description="Output image.")
 
-    dx_in = IntProperty(default=1, min=0, max=1, update=updateNode,
-        description=_("Order of the derivative x."))
-    dy_in = IntProperty(default=0, min=0, max=1, update=updateNode,
-        description=_("Order of the derivative y."))
-    ddepth_in = EnumProperty(items=COLOR_DEPTH_ITEMS, default='CV_8U', update=updateNode,
-        description=_("Output image depth, see @ref filter_depths 'combinations'."))
-    scale_in = FloatProperty(default=1.0, min=1, max=8, update=updateNode,
-        description=_("Optional scale factor for the computed Laplacian values."))
-    delta_in = FloatProperty(default=0.0, min=0, max=255, update=updateNode,
-        description=_("Optional delta value that is added to the results prior to storing them in dst."))
-    borderType_in = EnumProperty(items=BORDER_TYPE_ITEMS, default='None', update=updateNode,
-        description=_("Pixel extrapolation method, see cv::BorderTypes"))
+    dx_in = bpy.props.IntProperty(default=1, min=0, max=1, update=update_node,
+        description="Order of the derivative x.")
+    dy_in = bpy.props.IntProperty(default=0, min=0, max=1, update=update_node,
+        description="Order of the derivative y.")
+    ddepth_in = bpy.props.EnumProperty(items=COLOR_DEPTH_ITEMS, default='CV_8U', update=update_node,
+        description="Output image depth, see @ref filter_depths 'combinations'.")
+    scale_in = bpy.props.FloatProperty(default=1.0, min=1, max=8, update=update_node,
+        description="Optional scale factor for the computed Laplacian values.")
+    delta_in = bpy.props.FloatProperty(default=0.0, min=0, max=255, update=update_node,
+        description="Optional delta value that is added to the results prior to storing them in dst.")
+    borderType_in = bpy.props.EnumProperty(items=BORDER_TYPE_ITEMS, default='None', update=update_node,
+        description="Pixel extrapolation method, see cv::BorderTypes")
 
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new("StringsSocket", "image_in")
         self.inputs.new('StringsSocket', "dx_in").prop_name = 'dx_in'
         self.inputs.new('StringsSocket', "dy_in").prop_name = 'dy_in'
@@ -58,9 +58,4 @@ class OCVLScharrNode(OCVLNode):
         self.add_button(layout, 'ddepth_in')
 
 
-def register():
-    cv_register_class(OCVLScharrNode)
 
-
-def unregister():
-    cv_unregister_class(OCVLScharrNode)

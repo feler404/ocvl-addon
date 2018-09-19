@@ -1,29 +1,29 @@
 import cv2
 import uuid
-from gettext import gettext as _
-from bpy.props import StringProperty, BoolProperty, FloatProperty
 
-from ...utils import cv_register_class, cv_unregister_class, updateNode, OCVLNode
+import bpy
+
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
-class OCVLapproxPolyDPNode(OCVLNode):
+class OCVLapproxPolyDPNode(OCVLNodeBase):
 
-    _doc = _("Approximates a polygonal curve(s) with the specified precision.")
+    n_doc = "Approximates a polygonal curve(s) with the specified precision."
 
-    curve_in = StringProperty(name="curve_in", default=str(uuid.uuid4()),
-        description=_("Input vector of a 2D point stored in std::vector or Mat."))
-    epsilon_in = FloatProperty(default=0.1,
-        description=_("Parameter specifying the approximation accuracy. This is the maximum distance"))
-    closed_in = BoolProperty(default=False, update=updateNode,
-        description=_("If true, the approximated curve is closed (its first and last vertices are connected). Otherwise, it is not closed."))
+    curve_in = bpy.props.StringProperty(name="curve_in", default=str(uuid.uuid4()),
+        description="Input vector of a 2D point stored in std::vector or Mat.")
+    epsilon_in = bpy.props.FloatProperty(default=0.1,
+        description="Parameter specifying the approximation accuracy. This is the maximum distance")
+    closed_in = bpy.props.BoolProperty(default=False, update=update_node,
+        description="If true, the approximated curve is closed (its first and last vertices are connected). Otherwise, it is not closed.")
 
-    approxCurve_out = StringProperty(default=str(uuid.uuid4()),
-        description=_("Result of the approximation. The type should match the type of the input curve."))
+    approxCurve_out = bpy.props.StringProperty(default=str(uuid.uuid4()),
+        description="Result of the approximation. The type should match the type of the input curve.")
 
-    loc_from_findContours = BoolProperty(default=True, update=updateNode,
-        description=_("If linked with findContour node switch to True"))
+    loc_from_findContours = bpy.props.BoolProperty(default=True, update=update_node,
+        description="If linked with findContour node switch to True")
 
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new("StringsSocket", "curve_in")
         self.inputs.new("StringsSocket", "epsilon_in").prop_name = "epsilon_in"
 
@@ -46,9 +46,4 @@ class OCVLapproxPolyDPNode(OCVLNode):
         self.add_button(layout, 'loc_from_findContours')
 
 
-def register():
-    cv_register_class(OCVLapproxPolyDPNode)
 
-
-def unregister():
-    cv_unregister_class(OCVLapproxPolyDPNode)

@@ -2,13 +2,13 @@ import uuid
 
 import cv2
 import numpy as np
-from bpy.props import EnumProperty, StringProperty
+import bpy
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode
+from ocvl.core.node_base import OCVLNodeBase, update_node
 from ...auth import ocvl_auth
 
 
-class OCVLCustomInputNode(OCVLNode):
+class OCVLCustomInputNode(OCVLNodeBase):
     ''' Input from custom input Python code.
 
     '''
@@ -21,9 +21,4 @@ if ocvl_auth.ocvl_pro_version_auth:
     from ...extend.laboratory.ta_custom_input import OCVLCustomInputNode
 
 
-def register():
-    cv_register_class(OCVLCustomInputNode)
 
-
-def unregister():
-    cv_unregister_class(OCVLCustomInputNode)

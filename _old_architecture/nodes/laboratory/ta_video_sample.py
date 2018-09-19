@@ -4,9 +4,9 @@ import uuid
 import random
 import numpy as np
 from logging import getLogger
-from bpy.props import EnumProperty, StringProperty, IntProperty
+import bpy
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLPreviewNode, convert_to_cv_image, updateNode
+from ocvl.core.node_base import OCVLNodeBase, update_node
 from ...auth import ocvl_auth
 from ... import globals as ocvl
 
@@ -47,17 +47,17 @@ class OCVLVideoSampleNode(OCVLPreviewNode):
         self.process()
         updateNode(self, context)
 
-    width_in = IntProperty(default=100, min=1, max=1024, update=updateNode, name="width_in")
-    height_in = IntProperty(default=100, min=1, max=1020, update=updateNode, name="height_in")
-    image_out = StringProperty(default=str(uuid.uuid4()))
+    width_in = bpy.props.IntProperty(default=100, min=1, max=1024, update=update_node, name="width_in")
+    height_in = bpy.props.IntProperty(default=100, min=1, max=1020, update=update_node, name="height_in")
+    image_out = bpy.props.StringProperty(default=str(uuid.uuid4()))
 
-    loc_stream = StringProperty(default='0', update=updateNode)
-    loc_name_image = StringProperty(default='', update=update_prop_search)
-    loc_filepath = StringProperty(default='', update=updateNode)
-    loc_image_mode = EnumProperty(items=STREAM_MODE_ITEMS, default="CAMERA", update=update_layout)
-    loc_camera_device = EnumProperty(items=CAMERA_DEVICE_ITEMS, default="0", update=update_layout)
+    loc_stream = bpy.props.StringProperty(default='0', update=update_node)
+    loc_name_image = bpy.props.StringProperty(default='', update=update_prop_search)
+    loc_filepath = bpy.props.StringProperty(default='', update=update_node)
+    loc_image_mode = bpy.props.EnumProperty(items=STREAM_MODE_ITEMS, default="CAMERA", update=update_layout)
+    loc_camera_device = bpy.props.EnumProperty(items=CAMERA_DEVICE_ITEMS, default="0", update=update_layout)
 
-    def sv_init(self, context):
+    def init(self, context):
         self.width = 200
         self.outputs.new('StringsSocket', 'image_out')
         self.update_layout(context)
@@ -141,10 +141,5 @@ class OCVLVideoSampleNode(OCVLPreviewNode):
 #     from ...extend.laboratory.ta_image_sample import OCVLImageSampleNode
 
 
-def register():
-    cv_register_class(OCVLVideoSampleNode)
 
-
-def unregister():
-    cv_unregister_class(OCVLVideoSampleNode)
 

@@ -2,10 +2,10 @@ import cv2
 import os
 import uuid
 from logging import getLogger
-from bpy.props import BoolProperty, StringProperty
+import bpy
 
 from ...tutorial_engine.settings import TUTORIAL_PATH
-from ...utils import cv_register_class, cv_unregister_class, OCVLPreviewNode, updateNode
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 logger = getLogger(__name__)
 
@@ -13,7 +13,7 @@ logger = getLogger(__name__)
 full_tutorial_path = os.path.abspath(os.path.join(TUTORIAL_PATH, "arithmetic_operations_on_images/arithmetic_operations_on_images.html"))
 
 
-def draw_docs_buttons(layout, col, node):
+def drawn_docs_buttons(layout, col, node):
     col.operator('wm.url_open', text="OCVL Web Panel".format(node.bl_label),
                  icon='URL').url = 'https://ocvl-cms.herokuapp.com/admin/login/'
     col.operator('wm.url_open', text="OCVL Blog".format(node.bl_label), icon='URL').url = 'http://kube.pl/'
@@ -29,10 +29,10 @@ def draw_docs_buttons(layout, col, node):
 
 
 class OCVLDocsNode(OCVLPreviewNode):
-    origin = StringProperty("")
-    docs = BoolProperty(default=False)
+    origin = bpy.props.StringProperty("")
+    docs = bpy.props.BoolProperty(default=False)
 
-    def sv_init(self, context):
+    def init(self, context):
         self.width = 180
         self.outputs.new("StringsSocket", "docs")
 
@@ -41,12 +41,7 @@ class OCVLDocsNode(OCVLPreviewNode):
 
     def draw_buttons(self, context, layout):
         col = layout.column(align=True)
-        draw_docs_buttons(layout, col, self)
+        drawn_docs_buttons(layout, col, self)
 
 
-def register():
-    cv_register_class(OCVLDocsNode)
 
-
-def unregister():
-    cv_unregister_class(OCVLDocsNode)

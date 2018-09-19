@@ -1,6 +1,6 @@
-from bpy.props import StringProperty
+import bpy
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLPreviewNode
+from ocvl.core.node_base import OCVLNodeBase, update_node
 from ...auth import ocvl_auth
 
 
@@ -8,10 +8,10 @@ class OCVLImageViewerNode(OCVLPreviewNode):
     '''Image Viewer node'''
     bl_icon = 'ZOOM_ALL'
 
-    image_in = StringProperty(default='')
+    image_in = bpy.props.StringProperty(default='')
 
 
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new('StringsSocket', "image_in")
 
     def wrapped_process(self):
@@ -47,9 +47,4 @@ if ocvl_auth.ocvl_pro_version_auth:
     OCVLImageViewerNode = OCVLImageViewerNodeExt
 
 
-def register():
-    cv_register_class(OCVLImageViewerNode)
 
-
-def unregister():
-    cv_unregister_class(OCVLImageViewerNode)

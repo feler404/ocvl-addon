@@ -7,6 +7,14 @@ from ocvl.core.globals import SOCKET_DATA_CACHE
 from ocvl.core.register_utils import ocvl_register, ocvl_unregister
 
 
+sentinel = object()
+
+
+def process_from_socket(self, context):
+    """Update function of exposed properties in Sockets"""
+    self.node.process_node(context)
+
+
 def get_other_socket(socket):
     """
     Get next real upstream socket.
@@ -234,7 +242,7 @@ class OCVLSocketBase:
             try:
                 node.check_input_requirements(node.n_requirements)
                 op_icon = "OUTLINER_OB_LAMP"
-            except LackRequiredSocket as e:
+            except (Exception, LackRequiredSocket) as e:
                 op_icon = "LAMP"
 
             op = layout.operator('node.sv_quicklink_new_node', text="", icon=op_icon)
@@ -283,6 +291,38 @@ class OCVLSocketBase:
         return SOCKET_COLORS.__getattribute__(self.bl_idname)
 
 
+class SvColorSocket(bpy.types.NodeSocket, OCVLSocketBase):
+    '''For color data'''
+    bl_idname = "SvColorSocket"
+    bl_label = "Color Socket"
+
+    prop = bpy.props.FloatVectorProperty(default=(0, 0, 0, 1), size=4, subtype='COLOR', min=0, max=1, update=process_from_socket)
+    prop_name = bpy.props.StringProperty(default='')
+    use_prop = bpy.props.BoolProperty(default=False)
+
+    def get_prop_data(self):
+        if self.prop_name:
+            return {"prop_name": self.prop_name}
+        elif self.use_prop:
+            return {"use_prop": True,
+                    "prop": self.prop[:]}
+        else:
+            return {}
+
+    def sv_get(self, default=sentinel, deepcopy=True, implicit_conversions=None):
+        if self.is_linked and not self.is_output:
+            return self.convert_data(get_socket(self, deepcopy), implicit_conversions)
+
+        if self.prop_name:
+            return [[getattr(self.node, self.prop_name)[:]]]
+        elif self.use_prop:
+            return [[self.prop[:]]]
+        elif default is sentinel:
+            raise NoDataError(self)
+        else:
+            return default
+
+
 class StringsSocket(bpy.types.NodeSocket, OCVLSocketBase):
     bl_idname = 'StringsSocket'
     bl_label = 'StringsSocket'
@@ -297,9 +337,11 @@ def register():
     ocvl_register(StringsSocket)
     ocvl_register(ImageSocket)
     ocvl_register(SvLinkNewNodeInput)
+    ocvl_register(SvColorSocket)
 
 
 def unregister():
     ocvl_unregister(StringsSocket)
     ocvl_unregister(ImageSocket)
     ocvl_unregister(SvLinkNewNodeInput)
+    ocvl_unregister(SvColorSocket)

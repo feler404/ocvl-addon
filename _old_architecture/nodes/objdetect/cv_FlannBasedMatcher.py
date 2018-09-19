@@ -1,12 +1,12 @@
 import cv2
 import uuid
 import numpy as np
-from gettext import gettext as _
-from bpy.props import StringProperty, BoolProperty, IntProperty, FloatProperty, EnumProperty
+
+import bpy
 
 from ...globals import DESCRIPTORMATCHER_INSTANCES_DICT
 from ...operatores.abc import InitDescriptorMatcherOperator
-from ...utils import cv_register_class, cv_unregister_class, updateNode, OCVLNode
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
 WORK_MODE_ITEMS = (
@@ -47,9 +47,9 @@ NORM_TYPE_ITEMS = (
 )
 
 
-class OCVLFlannBasedMatcherNode(OCVLNode):
+class OCVLFlannBasedMatcherNode(OCVLNodeBase):
 
-    _doc = _("Flann-based descriptor matcher.")
+    n_doc = "Flann-based descriptor matcher."
     _url = "https://docs.opencv.org/3.0-beta/doc/py_tutorials/py_feature2d/py_matcher/py_matcher.html#matcher"
     _init_method = cv2.FlannBasedMatcher_create
     ABC_GLOBAL_INSTANCE_DICT_NAME = DESCRIPTORMATCHER_INSTANCES_DICT
@@ -58,28 +58,28 @@ class OCVLFlannBasedMatcherNode(OCVLNode):
         self.update_sockets(context)
         updateNode(self, context)
 
-    queryDescriptors_in = StringProperty(default=str(uuid.uuid4()), description=_(""))
-    trainDescriptors_in = StringProperty(default=str(uuid.uuid4()), update=updateNode, description=_(""))
-    descriptors_in = StringProperty(default=str(uuid.uuid4()), update=updateNode, description=_(""))
-    k_in = IntProperty(default=2, min=1, max=10)
-    mask_in = StringProperty(default=str(uuid.uuid4()), description=_(""))
-    compactResult_in = BoolProperty(default=False)
+    queryDescriptors_in = bpy.props.StringProperty(default=str(uuid.uuid4()), description="")
+    trainDescriptors_in = bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node, description="")
+    descriptors_in = bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node, description="")
+    k_in = bpy.props.IntProperty(default=2, min=1, max=10)
+    mask_in = bpy.props.StringProperty(default=str(uuid.uuid4()), description="")
+    compactResult_in = bpy.props.BoolProperty(default=False)
 
-    loc_file_save = StringProperty(default="/", description=_(""))
-    loc_file_load = StringProperty(default="/", description=_(""))
-    loc_work_mode = EnumProperty(items=WORK_MODE_ITEMS, default="MATCH", update=update_layout, description=_(""))
-    loc_state_mode = EnumProperty(items=STATE_MODE_ITEMS, default="INIT", update=update_layout, description=_(""))
-    loc_default_norm = IntProperty(default=0, description=_(""))
-    loc_class_repr = StringProperty(default="", description=_(""))
+    loc_file_save = bpy.props.StringProperty(default="/", description="")
+    loc_file_load = bpy.props.StringProperty(default="/", description="")
+    loc_work_mode = bpy.props.EnumProperty(items=WORK_MODE_ITEMS, default="MATCH", update=update_layout, description="")
+    loc_state_mode = bpy.props.EnumProperty(items=STATE_MODE_ITEMS, default="INIT", update=update_layout, description="")
+    loc_default_norm = bpy.props.IntProperty(default=0, description="")
+    loc_class_repr = bpy.props.StringProperty(default="", description="")
 
-    # trees_init = IntProperty(default=4, min=1, max=20, update=updateNode, description=_(""))
-    # checks_init = IntProperty(default=32, min=2, max=128, update=updateNode, description=_(""))
-    # eps_init = FloatProperty(default=0., min=0., max=1., update=updateNode, description=_(""))
-    # sorted_init = BoolProperty(default=True, update=updateNode, description=_(""))
+    # trees_init = bpy.props.IntProperty(default=4, min=1, max=20, update=update_node, description="")
+    # checks_init = bpy.props.IntProperty(default=32, min=2, max=128, update=update_node, description="")
+    # eps_init = bpy.props.FloatProperty(default=0., min=0., max=1., update=update_node, description="")
+    # sorted_init = bpy.props.BoolProperty(default=True, update=update_node, description="")
 
-    matches_out = StringProperty(default=str(uuid.uuid4()), description=_(""))
+    matches_out = bpy.props.StringProperty(default=str(uuid.uuid4()), description="")
 
-    def sv_init(self, context):
+    def init(self, context):
         self.width = 250
         self.inputs.new("StringsSocket", "queryDescriptors_in")
         self.inputs.new("StringsSocket", "trainDescriptors_in")
@@ -120,9 +120,4 @@ class OCVLFlannBasedMatcherNode(OCVLNode):
             layout.row().prop(self, "loc_file_save")
 
 
-def register():
-    cv_register_class(OCVLFlannBasedMatcherNode)
 
-
-def unregister():
-    cv_unregister_class(OCVLFlannBasedMatcherNode)

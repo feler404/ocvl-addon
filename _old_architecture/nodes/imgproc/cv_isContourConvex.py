@@ -1,23 +1,23 @@
 import cv2
 import uuid
-from gettext import gettext as _
-from bpy.props import StringProperty, BoolProperty
 
-from ...utils import cv_register_class, cv_unregister_class, updateNode, OCVLNode
+import bpy
+
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
-class OCVLisContourConvexNode(OCVLNode):
+class OCVLisContourConvexNode(OCVLNodeBase):
 
-    _doc = _("Tests a contour convexity.")
+    n_doc = "Tests a contour convexity."
 
-    is_convex_out = BoolProperty(default=False,
-        description=_("True if contour is convex"))
-    contour_in = StringProperty(default=str(uuid.uuid4()),
-        description=_("Input vector of 2D points, stored in std::vector\<\> or Mat"))
-    loc_from_findContours = BoolProperty(default=True, update=updateNode,
-        description=_("If linked with findContour node switch to True"))
+    is_convex_out = bpy.props.BoolProperty(default=False,
+        description="True if contour is convex")
+    contour_in = bpy.props.StringProperty(default=str(uuid.uuid4()),
+        description="Input vector of 2D points, stored in std::vector\<\> or Mat")
+    loc_from_findContours = bpy.props.BoolProperty(default=True, update=update_node,
+        description="If linked with findContour node switch to True")
 
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new("StringsSocket", "contour_in")
 
         self.outputs.new("StringsSocket", "is_convex_out").prop_name = "is_convex_out"
@@ -37,9 +37,4 @@ class OCVLisContourConvexNode(OCVLNode):
         self.add_button(layout, 'loc_from_findContours')
 
 
-def register():
-    cv_register_class(OCVLisContourConvexNode)
 
-
-def unregister():
-    cv_unregister_class(OCVLisContourConvexNode)

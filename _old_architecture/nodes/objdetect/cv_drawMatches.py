@@ -3,35 +3,35 @@ from functools import partial
 import cv2
 import uuid
 import numpy as np
-from gettext import gettext as _
-from bpy.props import (
+
+import bpy
     StringProperty, BoolProperty, IntProperty, FloatProperty, FloatVectorProperty,
     BoolVectorProperty)
 
-from ...utils import cv_register_class, cv_unregister_class, updateNode, OCVLNode
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
-class OCVLdrawMatchesNode(OCVLNode):
+class OCVLdrawMatchesNode(OCVLNodeBase):
     bl_flags_list = 'DRAW_MATCHES_FLAGS_DEFAULT, DRAW_MATCHES_FLAGS_DRAW_OVER_OUTIMG, DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS, DRAW_MATCHES_FLAGS_NOT_DRAW_SINGLE_POINTS'
-    _doc = _("This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts.")
+    n_doc = _("This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts.")
 
-    img1_in = StringProperty(default=str(uuid.uuid4()), description=_("Source image."))
-    img2_in = StringProperty(default=str(uuid.uuid4()), description=_("Source image."))
-    keypoints1_in = StringProperty(default=str(uuid.uuid4()), description=_("Keypoints from the first source image."))
-    keypoints2_in = StringProperty(default=str(uuid.uuid4()), description=_("Keypoints from the first source image."))
-    matches1to2_in = StringProperty(default=str(uuid.uuid4()), description=_("Matches from the first image to the second one."))
-    matchesMask_in = StringProperty(default=str(uuid.uuid4()), description=_("Mask determining which matches are drawn. If the mask is empty, all matches are drawn."))
+    img1_in = bpy.props.StringProperty(default=str(uuid.uuid4()), description=_("Source image.")
+    img2_in = bpy.props.StringProperty(default=str(uuid.uuid4()), description=_("Source image.")
+    keypoints1_in = bpy.props.StringProperty(default=str(uuid.uuid4()), description=_("Keypoints from the first source image.")
+    keypoints2_in = bpy.props.StringProperty(default=str(uuid.uuid4()), description=_("Keypoints from the first source image.")
+    matches1to2_in = bpy.props.StringProperty(default=str(uuid.uuid4()), description=_("Matches from the first image to the second one.")
+    matchesMask_in = bpy.props.StringProperty(default=str(uuid.uuid4()), description=_("Mask determining which matches are drawn. If the mask is empty, all matches are drawn.")
 
-    matchColor_in = FloatVectorProperty(update=updateNode, name='matchColor', default=(.3, .3, .2, 1.0), size=4, min=0.0, max=1.0, subtype='COLOR')
-    singlePointColor_in = FloatVectorProperty(update=updateNode, name='singlePointColor_in', default=(.3, .3, .2, 1.0), size=4, min=0.0, max=1.0, subtype='COLOR')
-    loc_max_distance_in = IntProperty(default=500, min=100, max=10000, update=updateNode)
+    matchColor_in = bpy.props.FloatVectorProperty(update=update_node, name='matchColor', default=(.3, .3, .2, 1.0), size=4, min=0.0, max=1.0, subtype='COLOR')
+    singlePointColor_in = bpy.props.FloatVectorProperty(update=update_node, name='singlePointColor_in', default=(.3, .3, .2, 1.0), size=4, min=0.0, max=1.0, subtype='COLOR')
+    loc_max_distance_in = bpy.props.IntProperty(default=500, min=100, max=10000, update=update_node)
 
-    flags_in = BoolVectorProperty(default=[False for i in bl_flags_list.split(",")], size=len(bl_flags_list.split(",")), update=updateNode, subtype="NONE", description=bl_flags_list)
+    flags_in = bpy.props.BoolVectorProperty(default=[False for i in bl_flags_list.split(",")], size=len(bl_flags_list.split(",")), update=update_node, subtype="NONE", description=bl_flags_list)
 
-    outImg_out = StringProperty(default=str(uuid.uuid4()), description=_("Output image."))
+    outImg_out = bpy.props.StringProperty(default=str(uuid.uuid4()), description=_("Output image.")
 
 
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new("StringsSocket", "img1_in")
         self.inputs.new("StringsSocket", "img2_in")
         self.inputs.new("StringsSocket", "keypoints1_in")
@@ -73,9 +73,4 @@ class OCVLdrawMatchesNode(OCVLNode):
         self.add_button(layout, "flags_in")
 
 
-def register():
-    cv_register_class(OCVLdrawMatchesNode)
 
-
-def unregister():
-    cv_unregister_class(OCVLdrawMatchesNode)

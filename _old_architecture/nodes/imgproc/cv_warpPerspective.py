@@ -1,35 +1,35 @@
 import cv2
 import uuid
-from gettext import gettext as _
-from bpy.props import EnumProperty, StringProperty, IntProperty, IntVectorProperty, BoolVectorProperty
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode, BORDER_MODE_ITEMS, DEVELOP_STATE_BETA
+import bpy
+
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
-class OCVLwarpPerspectiveNode(OCVLNode):
+class OCVLwarpPerspectiveNode(OCVLNodeBase):
     bl_develop_state = DEVELOP_STATE_BETA
     bl_flags_list = 'INTER_LINEAR, WARP_FILL_OUTLIERS'
 
-    _doc = _("Applies a perspective transformation to an image.")
+    n_doc = "Applies a perspective transformation to an image."
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
-        description=_("Image input."))
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()),
-        description=_("Image output."))
+    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()),
+        description="Image input.")
+    image_out = bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()),
+        description="Image output.")
 
-    M_in = StringProperty(name="M_in", default=str(uuid.uuid4()),
-        description=_("Transformation matrix."))
+    M_in = bpy.props.StringProperty(name="M_in", default=str(uuid.uuid4()),
+        description="Transformation matrix.")
 
-    dsize_in = IntVectorProperty(default=(100, 100), update=updateNode, min=1, max=2028, size=2,
-        description=_("Size of the output image."))
-    flags_in = BoolVectorProperty(default=[False for i in bl_flags_list.split(",")], size=len(bl_flags_list.split(",")),
-        update=updateNode, subtype="NONE", description=bl_flags_list)
-    borderMode_in = EnumProperty(items=BORDER_MODE_ITEMS, default='BORDER_CONSTANT', update=updateNode,
-        description=_("Pixel extrapolation method (BORDER_CONSTANT or BORDER_REPLICATE)."))
-    borderValue_in = IntProperty(default=0, min=0, max=255, update=updateNode,
-        description=_("Value used in case of a constant border; by default, it equals 0."))
+    dsize_in = bpy.props.IntVectorProperty(default=(100, 100), update=update_node, min=1, max=2028, size=2,
+        description="Size of the output image.")
+    flags_in = bpy.props.BoolVectorProperty(default=[False for i in bl_flags_list.split(",")], size=len(bl_flags_list.split(",")),
+        update=update_node, subtype="NONE", description=bl_flags_list)
+    borderMode_in = bpy.props.EnumProperty(items=BORDER_MODE_ITEMS, default='BORDER_CONSTANT', update=update_node,
+        description="Pixel extrapolation method (BORDER_CONSTANT or BORDER_REPLICATE).")
+    borderValue_in = bpy.props.IntProperty(default=0, min=0, max=255, update=update_node,
+        description="Value used in case of a constant border; by default, it equals 0.")
 
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new("StringsSocket", "image_in")
         self.inputs.new('StringsSocket', "M_in")
         self.inputs.new('StringsSocket', "dsize_in").prop_name = 'dsize_in'
@@ -57,9 +57,4 @@ class OCVLwarpPerspectiveNode(OCVLNode):
         self.add_button(layout, "borderMode_in")
 
 
-def register():
-    cv_register_class(OCVLwarpPerspectiveNode)
 
-
-def unregister():
-    cv_unregister_class(OCVLwarpPerspectiveNode)

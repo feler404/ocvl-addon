@@ -1,21 +1,21 @@
 import cv2
 import uuid
-from gettext import gettext as _
-from bpy.props import StringProperty, BoolProperty
 
-from ...utils import cv_register_class, cv_unregister_class, updateNode, OCVLNode
+import bpy
+
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
-class OCVLminEnclosingCircleNode(OCVLNode):
+class OCVLminEnclosingCircleNode(OCVLNodeBase):
 
-    _doc = _("Finds a circle of the minimum area enclosing a 2D point set.")
+    n_doc = "Finds a circle of the minimum area enclosing a 2D point set."
 
-    points_in = StringProperty(default=str(uuid.uuid4()),
-        description=_("Input vector of 2D points, stored in std::vector\<\> or Mat"))
-    loc_from_findContours = BoolProperty(default=True, update=updateNode,
-        description=_("If linked with findContour node switch to True"))
+    points_in = bpy.props.StringProperty(default=str(uuid.uuid4()),
+        description="Input vector of 2D points, stored in std::vector\<\> or Mat")
+    loc_from_findContours = bpy.props.BoolProperty(default=True, update=update_node,
+        description="If linked with findContour node switch to True")
 
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new("StringsSocket", "points_in")
 
         self.outputs.new("StringsSocket", "center_out")
@@ -36,9 +36,4 @@ class OCVLminEnclosingCircleNode(OCVLNode):
         self.add_button(layout, 'loc_from_findContours')
 
 
-def register():
-    cv_register_class(OCVLminEnclosingCircleNode)
 
-
-def unregister():
-    cv_unregister_class(OCVLminEnclosingCircleNode)

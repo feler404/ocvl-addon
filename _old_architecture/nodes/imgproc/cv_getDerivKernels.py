@@ -1,35 +1,35 @@
 import cv2
 import uuid
 import numpy as np
-from gettext import gettext as _
-from bpy.props import EnumProperty, StringProperty, IntProperty, BoolProperty
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode, COEFFICIENTS_TYPE_ITEMS, updateNode
+import bpy
+
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
-class OCVLGetDerivKernelsNode(OCVLNode):
+class OCVLGetDerivKernelsNode(OCVLNodeBase):
 
-    _doc = _("Returns filter coefficients for computing spatial image derivatives.")
+    n_doc = "Returns filter coefficients for computing spatial image derivatives."
 
-    kx_out = StringProperty(name="kx_out", default=str(uuid.uuid4()),
-        description=_("Output matrix of row filter coefficients. It has the type ktype ."))
-    ky_out = StringProperty(name="ky_out", default=str(uuid.uuid4()),
-        description=_("Output matrix of column filter coefficients. It has the type ktype ."))
-    kernel_out = StringProperty(name="kernel_out", default=str(uuid.uuid4()),
-        description=_("Output kernel."))
+    kx_out = bpy.props.StringProperty(name="kx_out", default=str(uuid.uuid4()),
+        description="Output matrix of row filter coefficients. It has the type ktype .")
+    ky_out = bpy.props.StringProperty(name="ky_out", default=str(uuid.uuid4()),
+        description="Output matrix of column filter coefficients. It has the type ktype .")
+    kernel_out = bpy.props.StringProperty(name="kernel_out", default=str(uuid.uuid4()),
+        description="Output kernel.")
 
-    dx_in = IntProperty(default=3, min=1, max=10, update=updateNode,
-        description=_("Derivative order in respect of x."))
-    dy_in = IntProperty(default=3, min=1, max=10, update=updateNode,
-        description=_("Derivative order in respect of y."))
-    ksize_in = IntProperty(default=1, update=updateNode, min=1, max=30,
-        description=_("Aperture size. It can be CV_SCHARR, 1, 3, 5, or 7."))
-    normalize_in = BoolProperty(default=False, update=updateNode,
-        description=_("Flag indicating whether to normalize (scale down) the filter coefficients or not."))
-    ktype_in = EnumProperty(items=COEFFICIENTS_TYPE_ITEMS, default='CV_32F', update=updateNode,
-        description=_("Type of filter coefficients. It can be CV_32f or CV_64F."))
+    dx_in = bpy.props.IntProperty(default=3, min=1, max=10, update=update_node,
+        description="Derivative order in respect of x.")
+    dy_in = bpy.props.IntProperty(default=3, min=1, max=10, update=update_node,
+        description="Derivative order in respect of y.")
+    ksize_in = bpy.props.IntProperty(default=1, update=update_node, min=1, max=30,
+        description="Aperture size. It can be CV_SCHARR, 1, 3, 5, or 7.")
+    normalize_in = bpy.props.BoolProperty(default=False, update=update_node,
+        description="Flag indicating whether to normalize (scale down) the filter coefficients or not.")
+    ktype_in = bpy.props.EnumProperty(items=COEFFICIENTS_TYPE_ITEMS, default='CV_32F', update=update_node,
+        description="Type of filter coefficients. It can be CV_32f or CV_64F.")
 
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new('StringsSocket', "dx_in").prop_name = 'dx_in'
         self.inputs.new('StringsSocket', "dy_in").prop_name = 'dy_in'
         self.inputs.new('StringsSocket', "ksize_in").prop_name = 'ksize_in'
@@ -59,9 +59,4 @@ class OCVLGetDerivKernelsNode(OCVLNode):
         self.add_button(layout, 'ktype_in')
 
 
-def register():
-    cv_register_class(OCVLGetDerivKernelsNode)
 
-
-def unregister():
-    cv_unregister_class(OCVLGetDerivKernelsNode)

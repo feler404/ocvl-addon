@@ -1,12 +1,12 @@
 import cv2
 import uuid
-from gettext import gettext as _
-from bpy.props import StringProperty, BoolProperty, IntProperty, FloatProperty, EnumProperty
+
+import bpy
 
 from .abc_Feature2D import OCVLFeature2DNode, WORK_MODE_ITEMS, STATE_MODE_ITEMS
 from ...operatores.abc import InitFeature2DOperator
 from ...globals import FEATURE2D_INSTANCES_DICT
-from ...utils import cv_register_class, cv_unregister_class, updateNode
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 DESCRIPTOR_TYPE_ITEMS = (
     ("AKAZE_DESCRIPTOR_KAZE_UPRIGHT", "AKAZE_DESCRIPTOR_KAZE_UPRIGHT", "AKAZE_DESCRIPTOR_KAZE_UPRIGHT", "", 0),
@@ -25,7 +25,7 @@ DIFFUSIVITY_TYPE_ITEMS = (
 
 class OCVLAKAZENode(OCVLFeature2DNode):
 
-    _doc = _("Class implementing the AKAZE keypoint detector and descriptor extractor, described in [5].")
+    n_doc = "Class implementing the AKAZE keypoint detector and descriptor extractor, described in [5]."
     _init_method = cv2.AKAZE_create
 
     def update_layout(self, context):
@@ -37,31 +37,31 @@ class OCVLAKAZENode(OCVLFeature2DNode):
         self.update_sockets(context)
         updateNode(self, context)
 
-    image_in = StringProperty(default=str(uuid.uuid4()), description=_("Input 8-bit or floating-point 32-bit, single-channel image."))
-    mask_in = StringProperty(default=str(uuid.uuid4()), description=_("Optional region of interest."))
-    keypoints_in = StringProperty(default=str(uuid.uuid4()), description=_(""))
+    image_in = bpy.props.StringProperty(default=str(uuid.uuid4()), description="Input 8-bit or floating-point 32-bit, single-channel image.")
+    mask_in = bpy.props.StringProperty(default=str(uuid.uuid4()), description="Optional region of interest.")
+    keypoints_in = bpy.props.StringProperty(default=str(uuid.uuid4()), description="")
 
-    keypoints_out = StringProperty(default=str(uuid.uuid4()), description=_(""))
-    descriptors_out = StringProperty(default=str(uuid.uuid4()), description=_(""))
+    keypoints_out = bpy.props.StringProperty(default=str(uuid.uuid4()), description="")
+    descriptors_out = bpy.props.StringProperty(default=str(uuid.uuid4()), description="")
 
-    loc_file_load = StringProperty(default="/", description=_(""))
-    loc_file_save = StringProperty(default="/", description=_(""))
-    loc_work_mode = EnumProperty(items=WORK_MODE_ITEMS, default="DETECT-COMPUTE", update=update_layout, description=_(""))
-    loc_state_mode = EnumProperty(items=STATE_MODE_ITEMS, default="INIT", update=update_layout, description=_(""))
-    loc_descriptor_size = IntProperty(default=0, description=_(""))
-    loc_descriptor_type = IntProperty(default=0, description=_(""))
-    loc_default_norm = IntProperty(default=0, description=_(""))
-    loc_class_repr = StringProperty(default="", description=_(""))
+    loc_file_load = bpy.props.StringProperty(default="/", description="")
+    loc_file_save = bpy.props.StringProperty(default="/", description="")
+    loc_work_mode = bpy.props.EnumProperty(items=WORK_MODE_ITEMS, default="DETECT-COMPUTE", update=update_layout, description="")
+    loc_state_mode = bpy.props.EnumProperty(items=STATE_MODE_ITEMS, default="INIT", update=update_layout, description="")
+    loc_descriptor_size = bpy.props.IntProperty(default=0, description="")
+    loc_descriptor_type = bpy.props.IntProperty(default=0, description="")
+    loc_default_norm = bpy.props.IntProperty(default=0, description="")
+    loc_class_repr = bpy.props.StringProperty(default="", description="")
 
-    descriptor_type_init = EnumProperty(items=DESCRIPTOR_TYPE_ITEMS, default="AKAZE_DESCRIPTOR_MLDB", update=update_and_init, description="")
-    descriptor_size_init = IntProperty(default=0, min=0, max=32, description="")
-    descriptor_channels_init = IntProperty(default=3, min=1, max=3, description="")
-    threshold_init = FloatProperty(default=0.001, min=0.0001, max=0.9999, description="")
-    nOctaves_init = IntProperty(default=4, min=1, max=10, description="")
-    nOctaveLayers_init = IntProperty(default=4, min=1, max=10, description="")
-    diffusivity = EnumProperty(items=DIFFUSIVITY_TYPE_ITEMS, default="AKAZE_DIFF_PM_G2", description="")
+    descriptor_type_init = bpy.props.EnumProperty(items=DESCRIPTOR_TYPE_ITEMS, default="AKAZE_DESCRIPTOR_MLDB", update=update_and_init, description="")
+    descriptor_size_init = bpy.props.IntProperty(default=0, min=0, max=32, description="")
+    descriptor_channels_init = bpy.props.IntProperty(default=3, min=1, max=3, description="")
+    threshold_init = bpy.props.FloatProperty(default=0.001, min=0.0001, max=0.9999, description="")
+    nOctaves_init = bpy.props.IntProperty(default=4, min=1, max=10, description="")
+    nOctaveLayers_init = bpy.props.IntProperty(default=4, min=1, max=10, description="")
+    diffusivity = bpy.props.EnumProperty(items=DIFFUSIVITY_TYPE_ITEMS, default="AKAZE_DIFF_PM_G2", description="")
 
-    def sv_init(self, context):
+    def init(self, context):
         super().sv_init(context)
 
     def wrapped_process(self):
@@ -75,9 +75,4 @@ class OCVLAKAZENode(OCVLFeature2DNode):
             self._detect_and_compute(sift)
 
 
-def register():
-    cv_register_class(OCVLAKAZENode)
 
-
-def unregister():
-    cv_unregister_class(OCVLAKAZENode)

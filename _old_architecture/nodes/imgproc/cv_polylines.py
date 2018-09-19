@@ -1,35 +1,35 @@
 import cv2
 import uuid
-from gettext import gettext as _
-from bpy.props import EnumProperty, StringProperty, IntProperty, FloatVectorProperty, BoolProperty
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode, LINE_TYPE_ITEMS
+import bpy
+
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
-class OCVLpolylinesNode(OCVLNode):
+class OCVLpolylinesNode(OCVLNodeBase):
     bl_icon = 'GREASEPENCIL'
 
-    _doc = _("Draws several polygonal curves.")
+    n_doc = "Draws several polygonal curves."
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
-        description=_("Input image."))
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()),
-        description=_("Output image."))
+    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()),
+        description="Input image.")
+    image_out = bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()),
+        description="Output image.")
 
-    pts_in = StringProperty(default=str(uuid.uuid4()), update=updateNode,
-        description=_("Array of polygonal curves."))
-    isClosed_in = BoolProperty(default=False, update=updateNode,
-        description=_("Flag indicating whether the drawn polylines are closed or not. If they are closed, the function draws a line from the last vertex of each curve to its first vertex."))
-    color_in = FloatVectorProperty(update=updateNode, default=(.7, .7, .1, 1.0), size=4, min=0.0, max=1.0, subtype='COLOR',
-        description=_("Polyline color."))
-    thickness_in = IntProperty(default=2, min=1, max=10, update=updateNode,
-        description=_("Thickness of the polyline edges."))
-    lineType_in = EnumProperty(items=LINE_TYPE_ITEMS, default="LINE_AA", update=updateNode,
-        description=_("Type of the line segments. See the line description."))
-    shift_in = IntProperty(default=0, min=0, max=100, update=updateNode,
-        description=_("Number of fractional bits in the vertex coordinates."))
+    pts_in = bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node,
+        description="Array of polygonal curves.")
+    isClosed_in = bpy.props.BoolProperty(default=False, update=update_node,
+        description="Flag indicating whether the drawn polylines are closed or not. If they are closed, the function draws a line from the last vertex of each curve to its first vertex.")
+    color_in = bpy.props.FloatVectorProperty(update=update_node, default=(.7, .7, .1, 1.0), size=4, min=0.0, max=1.0, subtype='COLOR',
+        description="Polyline color.")
+    thickness_in = bpy.props.IntProperty(default=2, min=1, max=10, update=update_node,
+        description="Thickness of the polyline edges.")
+    lineType_in = bpy.props.EnumProperty(items=LINE_TYPE_ITEMS, default="LINE_AA", update=update_node,
+        description="Type of the line segments. See the line description.")
+    shift_in = bpy.props.IntProperty(default=0, min=0, max=100, update=update_node,
+        description="Number of fractional bits in the vertex coordinates.")
 
-    def sv_init(self, context):
+    def init(self, context):
         self.width = 150
         self.inputs.new("StringsSocket", "image_in")
         self.inputs.new('StringsSocket', "pts_in")
@@ -60,9 +60,4 @@ class OCVLpolylinesNode(OCVLNode):
         self.add_button(layout, 'isClosed_in')
 
 
-def register():
-    cv_register_class(OCVLpolylinesNode)
 
-
-def unregister():
-    cv_unregister_class(OCVLpolylinesNode)

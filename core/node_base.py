@@ -199,11 +199,13 @@ class OCVLNodeBase(bpy.types.Node):
     :param n_auto_register: <bool> if true node class will be registragted
     :param n_category: <string> default category for auto register
     :param n_doc: <string> short documentation for node
+    :param n_see_also: <string> annotation tell about similar nodes
     :param n_requirements: <list> requirements inputs
     :param n_note: <string> addition note to documentation
     :param bl_idname: <string> id for Blender scope
     :param bl_label: <string> the node label
     :param bl_icon: <string> the node icon
+    :param bl_flags_list: <string> string contain list of flags separated coma char
     :param socket_data_cache: <dict> global cache for sockets
 
 
@@ -217,10 +219,12 @@ class OCVLNodeBase(bpy.types.Node):
     n_auto_register = True
     n_category = CATEGORY_TREE.uncategorized
     n_doc = ""
+    n_see_also = ""
     n_requirements = []
     bl_idname = None
     bl_label = None
     bl_icon = None
+    bl_flags_list = ""
     socket_data_cache = SOCKET_DATA_CACHE
 
     def is_uuid(self, prop):

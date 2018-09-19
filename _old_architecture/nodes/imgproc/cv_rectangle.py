@@ -1,9 +1,9 @@
 import cv2
 import uuid
-from gettext import gettext as _
-from bpy.props import EnumProperty, StringProperty, IntProperty, FloatVectorProperty, IntVectorProperty
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode, LINE_TYPE_ITEMS, updateNode
+import bpy
+
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 INPUT_MODE_ITEMS = (
     ("X, Y, W, H", "X, Y, W, H", "X, Y, W, H", "", 0),
@@ -19,51 +19,51 @@ PROPS_MAPS = {
 }
 
 
-class OCVLrectangleNode(OCVLNode):
+class OCVLrectangleNode(OCVLNodeBase):
     bl_icon = 'GREASEPENCIL'
 
-    _doc = _("Draws a simple, thick, or filled up-right rectangle.")
+    n_doc = "Draws a simple, thick, or filled up-right rectangle."
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
-        description=_("Input image."))
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()),
-        description=_("Output image."))
+    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()),
+        description="Input image.")
+    image_out = bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()),
+        description="Output image.")
 
     def update_layout(self, context):
         self.update_sockets(context)
         updateNode(self, context)
 
     # INPUT MODE PROPERTIES
-    pt1_in = IntVectorProperty(default=(0, 0), size=2, update=updateNode,
-        description=_("Vertex of the rectangle."))
-    pt2_in = IntVectorProperty(default=(1, 1), size=2, update=updateNode,
-        description=_("Vertex of the rectangle opposite to pt1."))
+    pt1_in = bpy.props.IntVectorProperty(default=(0, 0), size=2, update=update_node,
+        description="Vertex of the rectangle.")
+    pt2_in = bpy.props.IntVectorProperty(default=(1, 1), size=2, update=update_node,
+        description="Vertex of the rectangle opposite to pt1.")
 
-    x_in = IntProperty(default=0, update=updateNode,
-        description=_("X for point of top left corner."))
-    y_in = IntProperty(default=0, update=updateNode,
-        description=_("Y for point of top left corner."))
-    w_in = IntProperty(default=0, update=updateNode,
-        description=_("Weight of rectangle."))
-    h_in = IntProperty(default=0, update=updateNode,
-        description=_("Height of rectangle."))
+    x_in = bpy.props.IntProperty(default=0, update=update_node,
+        description="X for point of top left corner.")
+    y_in = bpy.props.IntProperty(default=0, update=update_node,
+        description="Y for point of top left corner.")
+    w_in = bpy.props.IntProperty(default=0, update=update_node,
+        description="Weight of rectangle.")
+    h_in = bpy.props.IntProperty(default=0, update=update_node,
+        description="Height of rectangle.")
 
-    rect_in = IntVectorProperty(default=(0, 0, 0, 0), size=4, update=updateNode,
-        description=_("X, Y, Weight, Height in one vector."))
+    rect_in = bpy.props.IntVectorProperty(default=(0, 0, 0, 0), size=4, update=update_node,
+        description="X, Y, Weight, Height in one vector.")
 
     # COMMON PROPERTIES
-    color_in = FloatVectorProperty(update=updateNode, default=(.7, .7, .1, 1.0), size=4, min=0.0, max=1.0, subtype='COLOR',
-        description=_("Rectangle color or brightness (grayscale image)."))
-    thickness_in = IntProperty(default=2, min=-1, max=10, update=updateNode,
-        description=_("Thickness of lines that make up the rectangle. Negative values, like CV_FILLED, mean that the function has to draw a filled rectangle."))
-    lineType_in = EnumProperty(items=LINE_TYPE_ITEMS, default="LINE_AA",update=updateNode,
-        description=_("Type of the line. See the line description."))
-    shift_in = IntProperty(default=0, min=1, max=100, update=updateNode,
-        description=_("Number of fractional bits in the point coordinates."))
-    loc_input_mode = EnumProperty(items=INPUT_MODE_ITEMS, default="PT1, PT2", update=update_layout,
-        description=_("Loc input mode."))
+    color_in = bpy.props.FloatVectorProperty(update=update_node, default=(.7, .7, .1, 1.0), size=4, min=0.0, max=1.0, subtype='COLOR',
+        description="Rectangle color or brightness (grayscale image).")
+    thickness_in = bpy.props.IntProperty(default=2, min=-1, max=10, update=update_node,
+        description="Thickness of lines that make up the rectangle. Negative values, like CV_FILLED, mean that the function has to draw a filled rectangle.")
+    lineType_in = bpy.props.EnumProperty(items=LINE_TYPE_ITEMS, default="LINE_AA",update=update_node,
+        description="Type of the line. See the line description.")
+    shift_in = bpy.props.IntProperty(default=0, min=1, max=100, update=update_node,
+        description="Number of fractional bits in the point coordinates.")
+    loc_input_mode = bpy.props.EnumProperty(items=INPUT_MODE_ITEMS, default="PT1, PT2", update=update_layout,
+        description="Loc input mode.")
 
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new("StringsSocket", "image_in")
         self.inputs.new('SvColorSocket', 'color_in').prop_name = 'color_in'
         self.inputs.new('StringsSocket', "thickness_in").prop_name = 'thickness_in'
@@ -110,9 +110,4 @@ class OCVLrectangleNode(OCVLNode):
             self.add_button_get_points(layout=layout, props_name=('pt1_in', 'pt2_in'))
 
 
-def register():
-    cv_register_class(OCVLrectangleNode)
 
-
-def unregister():
-    cv_unregister_class(OCVLrectangleNode)

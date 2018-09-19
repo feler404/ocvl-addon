@@ -2,9 +2,9 @@ import cv2
 import os
 import uuid
 from logging import getLogger
-from bpy.props import BoolProperty, StringProperty
+import bpy
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLPreviewNode
+from ocvl.core.node_base import OCVLNodeBase, update_node
 from ...auth import (
     ocvl_auth, OCVL_AUTH_PARAMS_LOGIN_PASSWORD_TEMPALTE,
     OCVL_AUTH_PARAMS_LICENCE_KEY_TEMPALTE,
@@ -21,23 +21,23 @@ logger = getLogger(__name__)
 
 
 class OCVLSplashNode(OCVLPreviewNode):
-    origin = StringProperty("")
-    image_out = StringProperty(default=str(uuid.uuid4()))
+    origin = bpy.props.StringProperty("")
+    image_out = bpy.props.StringProperty(default=str(uuid.uuid4()))
 
-    login_in = StringProperty(name="Login", default="", description="Login", maxlen=60)
-    password_in = StringProperty(name="Password", default="", subtype="PASSWORD", description="Password", maxlen=60)
-    is_remember_in = BoolProperty(name="Remember", default=True, description="Remember credentials")
+    login_in = bpy.props.StringProperty(name="Login", default="", description="Login", maxlen=60)
+    password_in = bpy.props.StringProperty(name="Password", default="", subtype="PASSWORD", description="Password", maxlen=60)
+    is_remember_in = bpy.props.BoolProperty(name="Remember", default=True, description="Remember credentials")
 
-    is_licence_key = BoolProperty(name="Licence Key", default=False)
-    licence_key_in = StringProperty(name="Licence Key", default="", description="licence_key_in", maxlen=600)
+    is_licence_key = bpy.props.BoolProperty(name="Licence Key", default=False)
+    licence_key_in = bpy.props.StringProperty(name="Licence Key", default="", description="licence_key_in", maxlen=600)
 
-    auth = BoolProperty(default=False)
-    docs = BoolProperty(default=False)
-    settings = BoolProperty(default=False)
+    auth = bpy.props.BoolProperty(default=False)
+    docs = bpy.props.BoolProperty(default=False)
+    settings = bpy.props.BoolProperty(default=False)
 
-    is_splash_loaded = BoolProperty(default=False)
+    is_splash_loaded = bpy.props.BoolProperty(default=False)
 
-    def sv_init(self, context):
+    def init(self, context):
         self.width = 512
         # self.use_custom_color = True
         # self.color = (0, 0, 0)
@@ -155,9 +155,4 @@ class OCVLSplashNode(OCVLPreviewNode):
             col_split.operator('node.clean_desk', text="Start with blank desk - Community version", icon='RESTRICT_VIEW_OFF')
 
 
-def register():
-    cv_register_class(OCVLSplashNode)
 
-
-def unregister():
-    cv_unregister_class(OCVLSplashNode)

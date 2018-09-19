@@ -1,9 +1,9 @@
 import cv2
 import uuid
-from gettext import gettext as _
-from bpy.props import EnumProperty, StringProperty, IntVectorProperty, FloatProperty
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode, INTERPOLATION_ITEMS, updateNode
+import bpy
+
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
 RESIZE_MODE_ITEMS = [
@@ -18,31 +18,31 @@ PROPS_MAPS = {
 }
 
 
-class OCVLresizeNode(OCVLNode):
+class OCVLresizeNode(OCVLNodeBase):
 
-    _doc = _("Resizes an image.")
+    n_doc = "Resizes an image."
 
     def update_layout(self, context):
         self.update_sockets(context)
         updateNode(self, context)
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
-        description=_("Input image."))
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()),
-        description=_("Output image."))
+    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()),
+        description="Input image.")
+    image_out = bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()),
+        description="Output image.")
 
-    dsize_in = IntVectorProperty(default=(100, 100), min=1, max=1024, size=2, update=updateNode,
-        description=_("Output image size."))
-    fx_in = FloatProperty(default=0.5, min=0.000001, max=0.999999, update=updateNode,
-        description=_("Fx and fy and let the function compute the destination image size."))
-    fy_in = FloatProperty(default=0.5, min=0.000001, max=0.999999, update=updateNode,
-        description=_("Fx and fy and let the function compute the destination image size."))
-    interpolation_in = EnumProperty(items=INTERPOLATION_ITEMS, default='INTER_NEAREST', update=updateNode,
-        description=_("Interpolation method."))
-    loc_resize_mode = EnumProperty(items=RESIZE_MODE_ITEMS, default="SIZE", update=update_layout,
-        description=_("Loc resize mode."))
+    dsize_in = bpy.props.IntVectorProperty(default=(100, 100), min=1, max=1024, size=2, update=update_node,
+        description="Output image size.")
+    fx_in = bpy.props.FloatProperty(default=0.5, min=0.000001, max=0.999999, update=update_node,
+        description="Fx and fy and let the function compute the destination image size.")
+    fy_in = bpy.props.FloatProperty(default=0.5, min=0.000001, max=0.999999, update=update_node,
+        description="Fx and fy and let the function compute the destination image size.")
+    interpolation_in = bpy.props.EnumProperty(items=INTERPOLATION_ITEMS, default='INTER_NEAREST', update=update_node,
+        description="Interpolation method.")
+    loc_resize_mode = bpy.props.EnumProperty(items=RESIZE_MODE_ITEMS, default="SIZE", update=update_layout,
+        description="Loc resize mode.")
 
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new("StringsSocket", "image_in")
         self.outputs.new("StringsSocket", "image_out")
         self.update_layout(context)
@@ -70,9 +70,4 @@ class OCVLresizeNode(OCVLNode):
         self.process()
 
 
-def register():
-    cv_register_class(OCVLresizeNode)
 
-
-def unregister():
-    cv_unregister_class(OCVLresizeNode)

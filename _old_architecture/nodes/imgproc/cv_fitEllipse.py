@@ -1,25 +1,25 @@
 import cv2
 import uuid
-from gettext import gettext as _
-from bpy.props import StringProperty, BoolProperty
 
-from ...utils import cv_register_class, cv_unregister_class, updateNode, OCVLNode
+import bpy
+
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
-class OCVLfitEllipseNode(OCVLNode):
+class OCVLfitEllipseNode(OCVLNodeBase):
 
-    _doc = _("Fits an ellipse around a set of 2D points.")
+    n_doc = "Fits an ellipse around a set of 2D points."
 
-    points_in = StringProperty(default=str(uuid.uuid4()),
-        description=_("Input vector of 2D points, stored in std::vector\<\> or Mat"))
+    points_in = bpy.props.StringProperty(default=str(uuid.uuid4()),
+        description="Input vector of 2D points, stored in std::vector\<\> or Mat")
 
-    ellipse_out = StringProperty(default=str(uuid.uuid4()),
-        description=_("Output ellipse."))
+    ellipse_out = bpy.props.StringProperty(default=str(uuid.uuid4()),
+        description="Output ellipse.")
 
-    loc_from_findContours = BoolProperty(default=True, update=updateNode,
-        description=_("If linked with findContour node switch to True"))
+    loc_from_findContours = bpy.props.BoolProperty(default=True, update=update_node,
+        description="If linked with findContour node switch to True")
 
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new("StringsSocket", "points_in")
 
         self.outputs.new("StringsSocket", "ellipse")
@@ -38,9 +38,4 @@ class OCVLfitEllipseNode(OCVLNode):
         self.add_button(layout, 'loc_from_findContours')
 
 
-def register():
-    cv_register_class(OCVLfitEllipseNode)
 
-
-def unregister():
-    cv_unregister_class(OCVLfitEllipseNode)

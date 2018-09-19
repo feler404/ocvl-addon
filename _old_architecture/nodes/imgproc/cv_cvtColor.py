@@ -1,25 +1,25 @@
 import cv2
 import uuid
-from gettext import gettext as _
-from bpy.props import EnumProperty, StringProperty, IntProperty
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode, CODE_COLOR_POOR_ITEMS, updateNode
+import bpy
+
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
-class OCVLcvtColorNode(OCVLNode):
+class OCVLcvtColorNode(OCVLNodeBase):
     bl_icon = 'COLOR'
 
-    _doc=_("Converts an image from one color space to another.")
+    n_doc="Converts an image from one color space to another.")
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()), description=_("Input image: 8-bit unsigned, 16-bit unsigned ( CV_16UC... ), or single-precision floating-point."))
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()), description=_("Output image of the same size and depth as input image."))
+    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input image: 8-bit unsigned, 16-bit unsigned ( CV_16UC... ), or single-precision floating-point.")
+    image_out = bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image of the same size and depth as input image.")
 
-    code_in = EnumProperty(items=CODE_COLOR_POOR_ITEMS, default='COLOR_BGR2GRAY', update=updateNode,
-        description=_("Color space conversion code (see cv::ColorConversionCodes)."))
-    dstCn_in = IntProperty(default=0, update=updateNode, min=0, max=4,
-        description=_("Number of channels in the destination image; if the parameter is 0, the number of the channels is derived automatically from input image and code."))
+    code_in = bpy.props.EnumProperty(items=CODE_COLOR_POOR_ITEMS, default='COLOR_BGR2GRAY', update=update_node,
+        description="Color space conversion code (see cv::ColorConversionCodes).")
+    dstCn_in = bpy.props.IntProperty(default=0, update=update_node, min=0, max=4,
+        description="Number of channels in the destination image; if the parameter is 0, the number of the channels is derived automatically from input image and code.")
 
-    def sv_init(self, context):
+    def init(self, context):
         self.width = 200
         self.inputs.new("StringsSocket", "image_in")
         self.inputs.new("StringsSocket", "code_in").prop_name = "code_in"
@@ -43,9 +43,4 @@ class OCVLcvtColorNode(OCVLNode):
         pass
 
 
-def register():
-    cv_register_class(OCVLcvtColorNode)
 
-
-def unregister():
-    cv_unregister_class(OCVLcvtColorNode)

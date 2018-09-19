@@ -1,31 +1,31 @@
 import cv2
 import uuid
-from gettext import gettext as _
-from bpy.props import EnumProperty, StringProperty, IntVectorProperty, FloatProperty
 
-from ...utils import cv_register_class, cv_unregister_class, BORDER_TYPE_ITEMS, OCVLNode, updateNode
+import bpy
+
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
-class OCVLGaussianBlurNode(OCVLNode):
+class OCVLGaussianBlurNode(OCVLNodeBase):
     bl_icon = 'FILTER'
 
-    _doc = _("Blurs an image using a Gaussian filter.")
+    n_doc = "Blurs an image using a Gaussian filter."
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
-        description=_("Input image."))
-    ksize_in = IntVectorProperty(default=(1, 1), min=1, max=30, size=2, update=updateNode,
-        description=_("Gaussian kernel size."))
-    sigmaX_in = FloatProperty(default=0, min=0, max=255, update=updateNode,
-        description=_("Gaussian kernel standard deviation in X direction."))
-    sigmaY_in = FloatProperty(default=0, min=0, max=255, update=updateNode,
-        description=_("Gaussian kernel standard deviation in Y direction."))
-    borderType_in = EnumProperty(items=BORDER_TYPE_ITEMS, default='None', update=updateNode,
-        description=_("Pixel extrapolation method, see cv::BorderTypes."))
+    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()),
+        description="Input image.")
+    ksize_in = bpy.props.IntVectorProperty(default=(1, 1), min=1, max=30, size=2, update=update_node,
+        description="Gaussian kernel size.")
+    sigmaX_in = bpy.props.FloatProperty(default=0, min=0, max=255, update=update_node,
+        description="Gaussian kernel standard deviation in X direction.")
+    sigmaY_in = bpy.props.FloatProperty(default=0, min=0, max=255, update=update_node,
+        description="Gaussian kernel standard deviation in Y direction.")
+    borderType_in = bpy.props.EnumProperty(items=BORDER_TYPE_ITEMS, default='None', update=update_node,
+        description="Pixel extrapolation method, see cv::BorderTypes.")
 
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()),
-        description=_("Output image.")                 )
+    image_out = bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()),
+        description="Output image.")                 )
 
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new("StringsSocket", "image_in")
         self.inputs.new('StringsSocket', "ksize_in").prop_name = 'ksize_in'
         self.inputs.new('StringsSocket', "sigmaX_in").prop_name = 'sigmaX_in'
@@ -51,9 +51,4 @@ class OCVLGaussianBlurNode(OCVLNode):
         self.add_button(layout, "borderType_in")
 
 
-def register():
-    cv_register_class(OCVLGaussianBlurNode)
 
-
-def unregister():
-    cv_unregister_class(OCVLGaussianBlurNode)

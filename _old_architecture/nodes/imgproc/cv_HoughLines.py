@@ -1,10 +1,10 @@
 import cv2
 import uuid
 import numpy as np
-from gettext import gettext as _
-from bpy.props import EnumProperty, StringProperty, IntProperty, FloatProperty
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode
+import bpy
+
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
 OUTPUT_MODE_ITEMS = (
@@ -19,40 +19,40 @@ PROPS_MAPS = {
 }
 
 
-class OCVLHoughLinesNode(OCVLNode):
+class OCVLHoughLinesNode(OCVLNodeBase):
 
-    _doc = _("Finds lines in a binary image using the standard Hough transform.")
+    n_doc = "Finds lines in a binary image using the standard Hough transform."
 
     def update_layout(self, context):
         self.update_sockets(context)
         updateNode(self, context)
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
-        description=_("Input image."))
-    rho_in = FloatProperty(default=3, min=1, max=10, update=updateNode,
-        description=_("Distance resolution of the accumulator in pixels."))
-    theta_in = FloatProperty(default=0.0574, min=0.0001, max=3.1415, update=updateNode,
-        description=_("Angle resolution of the accumulator in radians."))
-    threshold_in = IntProperty(default=200, min=0, max=255, update=updateNode,
-        description=_("Accumulator threshold parameter."))
-    srn_in = FloatProperty(default=0,
-        description=_("For the multi-scale Hough transform, it is a divisor for the distance resolution rho."))
-    stn_in = FloatProperty(default=0,
-        description=_("For the multi-scale Hough transform, it is a divisor for the distance resolution theta."))
-    min_theta_in = FloatProperty(default=0,
-        description=_("For standard and multi-scale Hough transform, minimum angle to check for lines."))
-    max_theta_in = FloatProperty(default=0,
-        description=_("For standard and multi-scale Hough transform, maximum angle to check for lines."))
+    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()),
+        description="Input image.")
+    rho_in = bpy.props.FloatProperty(default=3, min=1, max=10, update=update_node,
+        description="Distance resolution of the accumulator in pixels.")
+    theta_in = bpy.props.FloatProperty(default=0.0574, min=0.0001, max=3.1415, update=update_node,
+        description="Angle resolution of the accumulator in radians.")
+    threshold_in = bpy.props.IntProperty(default=200, min=0, max=255, update=update_node,
+        description="Accumulator threshold parameter.")
+    srn_in = bpy.props.FloatProperty(default=0,
+        description="For the multi-scale Hough transform, it is a divisor for the distance resolution rho.")
+    stn_in = bpy.props.FloatProperty(default=0,
+        description="For the multi-scale Hough transform, it is a divisor for the distance resolution theta.")
+    min_theta_in = bpy.props.FloatProperty(default=0,
+        description="For standard and multi-scale Hough transform, minimum angle to check for lines.")
+    max_theta_in = bpy.props.FloatProperty(default=0,
+        description="For standard and multi-scale Hough transform, maximum angle to check for lines.")
     #TODO: apply rest of parameters
 
-    loc_output_mode = EnumProperty(items=OUTPUT_MODE_ITEMS, default="LINES", update=update_layout,
-        description=_("Output mode."))
-    lines_out = StringProperty(name="lines_out", default=str(uuid.uuid4()),
-        description=_("Output vector of lines."))
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()),
-        description=_("Output image."))
+    loc_output_mode = bpy.props.EnumProperty(items=OUTPUT_MODE_ITEMS, default="LINES", update=update_layout,
+        description="Output mode.")
+    lines_out = bpy.props.StringProperty(name="lines_out", default=str(uuid.uuid4()),
+        description="Output vector of lines.")
+    image_out = bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()),
+        description="Output image.")
 
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new("StringsSocket", "image_in")
         self.inputs.new('StringsSocket', "rho_in").prop_name = 'rho_in'
         self.inputs.new('StringsSocket', "theta_in").prop_name = 'theta_in'
@@ -100,9 +100,4 @@ class OCVLHoughLinesNode(OCVLNode):
         self.add_button(layout, 'loc_output_mode')
 
 
-def register():
-    cv_register_class(OCVLHoughLinesNode)
 
-
-def unregister():
-    cv_unregister_class(OCVLHoughLinesNode)

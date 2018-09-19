@@ -1,39 +1,39 @@
 import cv2
 import uuid
-from gettext import gettext as _
-from bpy.props import EnumProperty, StringProperty, IntProperty, FloatVectorProperty, BoolProperty, IntVectorProperty
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode, FONT_FACE_ITEMS, LINE_TYPE_ITEMS, updateNode
+import bpy
+
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
-class OCVLputTextNode(OCVLNode):
+class OCVLputTextNode(OCVLNodeBase):
     bl_icon = 'GREASEPENCIL'
 
-    _doc = _("Draws a text string.")
+    n_doc = "Draws a text string."
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
-        description=_("Input image."))
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()),
-        description=_("Output image."))
+    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()),
+        description="Input image.")
+    image_out = bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()),
+        description="Output image.")
 
-    text = StringProperty(default="OpenCV", update=updateNode,
-        description=_("Text string to be drawn."))
-    org = IntVectorProperty(default=(0, 0), size=2, update=updateNode,
-        description=_("Bottom-left corner of the text string in the image."))
-    fontScale = IntProperty(default=5, min=1, max=30,update=updateNode,
-        description=_("Scale factor that is multiplied by the font-specific base size."))
-    fontFace = EnumProperty(items=FONT_FACE_ITEMS, default="FONT_HERSHEY_SIMPLEX", update=updateNode,
-        description=_("Font type, see cv::HersheyFonts."))
-    color = FloatVectorProperty(update=updateNode, default=(.9, .9, .2, 1.0), size=4, min=0.0, max=1.0, subtype='COLOR',
-        description=_("Text color."))
-    thickness = IntProperty(default=2, min=1, max=10, update=updateNode,
-        description=_("Thickness of the lines used to draw a text."))
-    lineType = EnumProperty(items=LINE_TYPE_ITEMS, default="LINE_AA",update=updateNode,
-        description=_("Line type. See the line for details."))
-    bottomLeftOrigin = BoolProperty(default=False, update=updateNode,
-        description=_("When true, the image data origin is at the bottom-left corner. Otherwise, it is at the top-left corner."))
+    text = bpy.props.StringProperty(default="OpenCV", update=update_node,
+        description="Text string to be drawn.")
+    org = bpy.props.IntVectorProperty(default=(0, 0), size=2, update=update_node,
+        description="Bottom-left corner of the text string in the image.")
+    fontScale = bpy.props.IntProperty(default=5, min=1, max=30,update=update_node,
+        description="Scale factor that is multiplied by the font-specific base size.")
+    fontFace = bpy.props.EnumProperty(items=FONT_FACE_ITEMS, default="FONT_HERSHEY_SIMPLEX", update=update_node,
+        description="Font type, see cv::HersheyFonts.")
+    color = bpy.props.FloatVectorProperty(update=update_node, default=(.9, .9, .2, 1.0), size=4, min=0.0, max=1.0, subtype='COLOR',
+        description="Text color.")
+    thickness = bpy.props.IntProperty(default=2, min=1, max=10, update=update_node,
+        description="Thickness of the lines used to draw a text.")
+    lineType = bpy.props.EnumProperty(items=LINE_TYPE_ITEMS, default="LINE_AA",update=update_node,
+        description="Line type. See the line for details.")
+    bottomLeftOrigin = bpy.props.BoolProperty(default=False, update=update_node,
+        description="When true, the image data origin is at the bottom-left corner. Otherwise, it is at the top-left corner.")
 
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new("StringsSocket", "image_in")
         self.inputs.new('StringsSocket', "text").prop_name = 'text'
         self.inputs.new('StringsSocket', "org").prop_name = 'org'
@@ -67,9 +67,4 @@ class OCVLputTextNode(OCVLNode):
         self.add_button(layout, "bottomLeftOrigin")
 
 
-def register():
-    cv_register_class(OCVLputTextNode)
 
-
-def unregister():
-    cv_unregister_class(OCVLputTextNode)

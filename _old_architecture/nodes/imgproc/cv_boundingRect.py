@@ -1,25 +1,25 @@
 import cv2
 import uuid
-from gettext import gettext as _
-from bpy.props import StringProperty, BoolProperty, IntVectorProperty
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode
+import bpy
+
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
-class OCVLboundingRectNode(OCVLNode):
+class OCVLboundingRectNode(OCVLNodeBase):
 
-    _doc = _("Calculates the up-right bounding rectangle of a point set.")
+    n_doc = "Calculates the up-right bounding rectangle of a point set."
 
-    points_in = StringProperty(default=str(uuid.uuid4()), update=updateNode,
-        description=_("Input 2D point set, stored in std::vector or Mat."))
+    points_in = bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node,
+        description="Input 2D point set, stored in std::vector or Mat.")
 
-    pt1_out = IntVectorProperty(default=(0, 0), size=2, description=_("Pt1 output."))
-    pt2_out = IntVectorProperty(default=(0, 0), size=2, description=_("Pt2 output."))
+    pt1_out = bpy.props.IntVectorProperty(default=(0, 0), size=2, description="Pt1 output.")
+    pt2_out = bpy.props.IntVectorProperty(default=(0, 0), size=2, description="Pt2 output.")
 
-    loc_from_findContours = BoolProperty(default=True, update=updateNode,
-        description=_("If linked with findContour node switch to True"))
+    loc_from_findContours = bpy.props.BoolProperty(default=True, update=update_node,
+        description="If linked with findContour node switch to True")
 
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new('StringsSocket', "points_in")
 
         self.outputs.new("StringsSocket", "pt1_out")
@@ -41,9 +41,4 @@ class OCVLboundingRectNode(OCVLNode):
         self.add_button(layout, 'loc_from_findContours')
 
 
-def register():
-    cv_register_class(OCVLboundingRectNode)
 
-
-def unregister():
-    cv_unregister_class(OCVLboundingRectNode)

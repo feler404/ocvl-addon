@@ -1,28 +1,28 @@
 import cv2
 import uuid
-from gettext import gettext as _
-from bpy.props import StringProperty, IntProperty, IntVectorProperty
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode
+import bpy
+
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
-class OCVLgetRectSubPixNode(OCVLNode):
+class OCVLgetRectSubPixNode(OCVLNodeBase):
 
-    _doc = _("Retrieves a pixel rectangle from an image with sub-pixel accuracy.")
+    n_doc = "Retrieves a pixel rectangle from an image with sub-pixel accuracy."
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
-        description=_("Source image."))
-    patch_out = StringProperty(name="patch_out", default=str(uuid.uuid4()),
-        description=_("Patch out"))
+    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()),
+        description="Source image.")
+    patch_out = bpy.props.StringProperty(name="patch_out", default=str(uuid.uuid4()),
+        description="Patch out")
 
-    patchSize_in = IntVectorProperty(default=(5, 5), min=1, max=30, size=2, update=updateNode,
-        description=_("Size of the extracted patch."))
-    center_in = IntVectorProperty(default=(2, 2), min=1, max=30, size=2, update=updateNode,
-        description=_("Floating point coordinates of the center of the extracted rectangle."))
-    patchType_in = IntProperty(default=-1, min=-1, max=30, update=updateNode,
-        description=_("Depth of the extracted pixels. By default, they have the same depth as src."))
+    patchSize_in = bpy.props.IntVectorProperty(default=(5, 5), min=1, max=30, size=2, update=update_node,
+        description="Size of the extracted patch.")
+    center_in = bpy.props.IntVectorProperty(default=(2, 2), min=1, max=30, size=2, update=update_node,
+        description="Floating point coordinates of the center of the extracted rectangle.")
+    patchType_in = bpy.props.IntProperty(default=-1, min=-1, max=30, update=update_node,
+        description="Depth of the extracted pixels. By default, they have the same depth as src.")
 
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new("StringsSocket", "image_in")
         self.inputs.new("StringsSocket", "patchSize_in").prop_name = "patchSize_in"
         self.inputs.new("StringsSocket", "center_in").prop_name = "center_in"
@@ -47,9 +47,4 @@ class OCVLgetRectSubPixNode(OCVLNode):
         pass
 
 
-def register():
-    cv_register_class(OCVLgetRectSubPixNode)
 
-
-def unregister():
-    cv_unregister_class(OCVLgetRectSubPixNode)

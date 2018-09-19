@@ -1,32 +1,32 @@
 import cv2
 import uuid
-from gettext import gettext as _
-from bpy.props import StringProperty
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode, DEVELOP_STATE_ALPHA
+import bpy
+
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
-class OCVLundistortPointsNode(OCVLNode):
+class OCVLundistortPointsNode(OCVLNodeBase):
 
     bl_develop_state = DEVELOP_STATE_ALPHA
 
-    _doc = _("Computes the ideal point coordinates from the observed point coordinates.")
+    n_doc = "Computes the ideal point coordinates from the observed point coordinates."
 
-    src_in = StringProperty(name="src_in", default=str(uuid.uuid4()),
-        description=_("Observed point coordinates, 1xN or Nx1 2-channel (CV_32FC2 or CV_64FC2)."))
-    cameraMatrix_in = StringProperty(name="cameraMatrix_in", default=str(uuid.uuid4()),
-        description=_("Camera matrix"))
-    distCoeffs_in = StringProperty(name="distCoeffs_in", default=str(uuid.uuid4()),
-        description=_("Input vector of distortion coefficients (k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6]]) of 4, 5, or 8 elements."))
-    R_in = StringProperty(name="R_in", default=str(uuid.uuid4()),
-        description=_("Rectification transformation in the object space (3x3 matrix). R1 or R2 computed by stereoRectify() can be passed here. If the matrix is empty, the identity transformation is used."))
-    P_in = StringProperty(name="P_in", default=str(uuid.uuid4()),
-        description=_("New camera matrix (3x3) or new projection matrix (3x4). P1 or P2 computed by stereoRectify() can be passed here. If the matrix is empty, the identity new camera matrix is used."))
+    src_in = bpy.props.StringProperty(name="src_in", default=str(uuid.uuid4()),
+        description="Observed point coordinates, 1xN or Nx1 2-channel (CV_32FC2 or CV_64FC2).")
+    cameraMatrix_in = bpy.props.StringProperty(name="cameraMatrix_in", default=str(uuid.uuid4()),
+        description="Camera matrix")
+    distCoeffs_in = bpy.props.StringProperty(name="distCoeffs_in", default=str(uuid.uuid4()),
+        description="Input vector of distortion coefficients (k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6]]) of 4, 5, or 8 elements.")
+    R_in = bpy.props.StringProperty(name="R_in", default=str(uuid.uuid4()),
+        description="Rectification transformation in the object space (3x3 matrix). R1 or R2 computed by stereoRectify() can be passed here. If the matrix is empty, the identity transformation is used.")
+    P_in = bpy.props.StringProperty(name="P_in", default=str(uuid.uuid4()),
+        description="New camera matrix (3x3) or new projection matrix (3x4). P1 or P2 computed by stereoRectify() can be passed here. If the matrix is empty, the identity new camera matrix is used.")
 
-    dst_out = StringProperty(name="dst_out", default=str(uuid.uuid4()),
-        description=_("Output ideal point coordinates after undistortion and reverse perspective transformation. If matrix P is identity or omitted, dst will contain normalized point coordinates."))
+    dst_out = bpy.props.StringProperty(name="dst_out", default=str(uuid.uuid4()),
+        description="Output ideal point coordinates after undistortion and reverse perspective transformation. If matrix P is identity or omitted, dst will contain normalized point coordinates.")
 
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new("StringsSocket", "src_in")
         self.inputs.new("StringsSocket", "cameraMatrix_in")
         self.inputs.new("StringsSocket", "distCoeffs_in")
@@ -53,9 +53,4 @@ class OCVLundistortPointsNode(OCVLNode):
         pass
 
 
-def register():
-    cv_register_class(OCVLundistortPointsNode)
 
-
-def unregister():
-    cv_unregister_class(OCVLundistortPointsNode)

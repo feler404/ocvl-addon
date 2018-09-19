@@ -1,25 +1,25 @@
 import cv2
 import uuid
-from gettext import gettext as _
-from bpy.props import StringProperty, BoolProperty, FloatProperty
 
-from ...utils import cv_register_class, cv_unregister_class, updateNode, OCVLNode
+import bpy
+
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
-class OCVLcontourAreaNode(OCVLNode):
+class OCVLcontourAreaNode(OCVLNodeBase):
 
-    _doc = _("Calculates a contour area.")
+    n_doc = "Calculates a contour area."
 
-    contour_in = StringProperty(name="contour_in", default=str(uuid.uuid4()),
-        description=_("Input vector of 2D points (contour vertices), stored in std::vector or Mat."))
-    area_out = FloatProperty(default=0.0,
-        description=_("Area of contour."))
-    oriented_out = BoolProperty(default=False, update=updateNode,
-        description=_("Oriented area flag. If it is true, the function returns a signed area value, depending on the contour orientation (clockwise or counter-clockwise)."))
-    loc_from_findContours = BoolProperty(default=True, update=updateNode,
-        description=_("If linked with findContour node switch to True"))
+    contour_in = bpy.props.StringProperty(name="contour_in", default=str(uuid.uuid4()),
+        description="Input vector of 2D points (contour vertices), stored in std::vector or Mat.")
+    area_out = bpy.props.FloatProperty(default=0.0,
+        description="Area of contour.")
+    oriented_out = bpy.props.BoolProperty(default=False, update=update_node,
+        description="Oriented area flag. If it is true, the function returns a signed area value, depending on the contour orientation (clockwise or counter-clockwise).")
+    loc_from_findContours = bpy.props.BoolProperty(default=True, update=update_node,
+        description="If linked with findContour node switch to True")
 
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new("StringsSocket", "contour_in")
         self.outputs.new("StringsSocket", "area_out").prop_name = "area_out"
 
@@ -40,9 +40,4 @@ class OCVLcontourAreaNode(OCVLNode):
         self.add_bount(layout, 'loc_from_findContours')
 
 
-def register():
-    cv_register_class(OCVLcontourAreaNode)
 
-
-def unregister():
-    cv_unregister_class(OCVLcontourAreaNode)

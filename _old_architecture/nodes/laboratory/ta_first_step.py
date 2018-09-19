@@ -5,12 +5,12 @@ import os
 import uuid
 import bpy
 from logging import getLogger
-from bpy.props import BoolProperty, StringProperty, IntProperty
+import bpy
 
-from ...nodes.laboratory.ta_docs import draw_docs_buttons
+from ...nodes.laboratory.tan_docs import drawn_docs_buttons
 from ...tutorial_engine.settings import TUTORIAL_PATH
 from ...tutorial_engine.engine_app import NodeCommandHandler
-from ...utils import cv_register_class, cv_unregister_class, OCVLPreviewNode, updateNode
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 logger = getLogger(__name__)
 
@@ -212,11 +212,11 @@ class TutorialFirstStep:
 
 
 class OCVLFirstStepsNode(OCVLPreviewNode):
-    origin = StringProperty("")
-    docs = BoolProperty(default=False)
-    tip = IntProperty(default=1)
+    origin = bpy.props.StringProperty("")
+    docs = bpy.props.BoolProperty(default=False)
+    tip = bpy.props.IntProperty(default=1)
 
-    def sv_init(self, context):
+    def init(self, context):
         self.width = 340
         self.outputs.new("StringsSocket", "tip")
 
@@ -233,13 +233,8 @@ class OCVLFirstStepsNode(OCVLPreviewNode):
             row = col.row(align=True)
             row.prop(self, "docs", expand=True,  text="More tutorials")
         if self.docs:
-            draw_docs_buttons(col, layout, self)
+            drawn_docs_buttons(col, layout, self)
         bpy.tutorial_first_step = tutorial.step
 
 
-def register():
-    cv_register_class(OCVLFirstStepsNode)
 
-
-def unregister():
-    cv_unregister_class(OCVLFirstStepsNode)

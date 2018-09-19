@@ -3,22 +3,22 @@ import os
 import uuid
 import bpy
 from logging import getLogger
-from bpy.props import BoolProperty, StringProperty, IntProperty
+import bpy
 
 from . import ta_first_step
 from .ta_first_step import show_long_tip, TIP_STEP_2
-from ...utils import cv_register_class, cv_unregister_class, OCVLPreviewNode
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 logger = getLogger(__name__)
 
 
 class OCVLTipNode(OCVLPreviewNode):
-    tip = IntProperty(default=0)
-    image_out = StringProperty(default='')
+    tip = bpy.props.IntProperty(default=0)
+    image_out = bpy.props.StringProperty(default='')
 
-    is_splash_loaded = BoolProperty(default=False)
+    is_splash_loaded = bpy.props.BoolProperty(default=False)
 
-    def sv_init(self, context):
+    def init(self, context):
         self.width = 512
         self.inputs.new("StringsSocket", "tip")
 
@@ -45,9 +45,4 @@ class OCVLTipNode(OCVLPreviewNode):
         show_long_tip(getattr(ta_first_step, 'TIP_STEP_{}'.format(bpy.tutorial_first_step)), col)
 
 
-def register():
-    cv_register_class(OCVLTipNode)
 
-
-def unregister():
-    cv_unregister_class(OCVLTipNode)

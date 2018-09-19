@@ -1,10 +1,10 @@
 import cv2
 import uuid
 import numpy as np
-from gettext import gettext as _
-from bpy.props import StringProperty, BoolProperty, IntProperty, FloatProperty, EnumProperty
 
-from ...utils import cv_register_class, cv_unregister_class, updateNode, OCVLNode
+import bpy
+
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 METHOD_MODE_ITEMS = (
     ("0", "0", "0", "", 0),
@@ -24,34 +24,34 @@ WORK_MODE_PROPS_MAPS = {
     WORK_MODE_ITEMS[1][0]: COMMON_PROPS + ("matches_in", "keypoints1_in", "keypoints2_in"),
 }
 
-class OCVLfindHomographyNode(OCVLNode):
+class OCVLfindHomographyNode(OCVLNodeBase):
 
-    _doc = _("This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts.")
+    n_doc = "This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts."
 
     def update_layout(self, context):
         self.update_sockets(context)
         updateNode(self, context)
 
     # Default input
-    srcPoints_in = StringProperty(default=str(uuid.uuid4()), update=updateNode, description=_("Coordinates of the points in the original plane, a matrix of the type CV_32FC2 or vector<Point2f>."))
-    dstPoints_in = StringProperty(default=str(uuid.uuid4()), update=updateNode, description=_("Coordinates of the points in the target plane, a matrix of the type CV_32FC2 or a vector<Point2f>."))
+    srcPoints_in = bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node, description="Coordinates of the points in the original plane, a matrix of the type CV_32FC2 or vector<Point2f>.")
+    dstPoints_in = bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node, description="Coordinates of the points in the target plane, a matrix of the type CV_32FC2 or a vector<Point2f>.")
     # Matches input
-    matches_in = StringProperty(default=str(uuid.uuid4()), update=updateNode)
-    keypoints1_in = StringProperty(default=str(uuid.uuid4()), update=updateNode)
-    keypoints2_in = StringProperty(default=str(uuid.uuid4()), update=updateNode)
-    # img1_in = StringProperty(default=str(uuid.uuid4()), update=updateNode)
-    # img2_in = StringProperty(default=str(uuid.uuid4()), update=updateNode)
+    matches_in = bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node)
+    keypoints1_in = bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node)
+    keypoints2_in = bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node)
+    # img1_in = bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node)
+    # img2_in = bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node)
 
-    ransacReprojThreshold_in = FloatProperty(default=3., min=1., max=10., update=updateNode, description=_("Maximum allowed reprojection error to treat a point pair as an inlier (used in the RANSAC and RHO methods only)."))
-    method_in = EnumProperty(items=METHOD_MODE_ITEMS, default="0", update=updateNode, description=_("Method used to computed a homography matrix."))
+    ransacReprojThreshold_in = bpy.props.FloatProperty(default=3., min=1., max=10., update=update_node, description="Maximum allowed reprojection error to treat a point pair as an inlier (used in the RANSAC and RHO methods only).")
+    method_in = bpy.props.EnumProperty(items=METHOD_MODE_ITEMS, default="0", update=update_node, description="Method used to computed a homography matrix.")
 
-    mask_out = StringProperty(default=str(uuid.uuid4()), description=_("Output mask."))
-    retval_out = StringProperty(default=str(uuid.uuid4()), description=_("Output retval."))
-    # img3_out = StringProperty(default=str(uuid.uuid4()), description=_("Output retval."))
+    mask_out = bpy.props.StringProperty(default=str(uuid.uuid4()), description="Output mask.")
+    retval_out = bpy.props.StringProperty(default=str(uuid.uuid4()), description="Output retval.")
+    # img3_out = bpy.props.StringProperty(default=str(uuid.uuid4()), description="Output retval.")
 
-    loc_work_mode = EnumProperty(items=WORK_MODE_ITEMS, default="DEFAULT", update=update_layout, description=_(""))
+    loc_work_mode = bpy.props.EnumProperty(items=WORK_MODE_ITEMS, default="DEFAULT", update=update_layout, description="")
 
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new("StringsSocket", "srcPoints_in")
         self.inputs.new("StringsSocket", "dstPoints_in")
         self.inputs.new("StringsSocket", "matches_in")
@@ -116,9 +116,4 @@ class OCVLfindHomographyNode(OCVLNode):
         self.add_button(layout=layout, prop_name="method_in", expand=True)
 
 
-def register():
-    cv_register_class(OCVLfindHomographyNode)
 
-
-def unregister():
-    cv_unregister_class(OCVLfindHomographyNode)

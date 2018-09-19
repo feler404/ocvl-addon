@@ -1,11 +1,11 @@
 import cv2
 import uuid
-from gettext import gettext as _
-from bpy.props import StringProperty, BoolProperty, IntProperty, FloatProperty, EnumProperty
+
+import bpy
 
 from ...globals import FEATURE2D_INSTANCES_DICT
 from ...operatores.abc import InitFeature2DOperator
-from ...utils import cv_register_class, cv_unregister_class, updateNode, OCVLNode
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
 WORK_MODE_ITEMS = (
@@ -33,32 +33,32 @@ STATE_MODE_PROPS_MAPS = {
 }
 
 
-class OCVLFeature2DNode(OCVLNode):
+class OCVLFeature2DNode(OCVLNodeBase):
 
-    _doc = _("")
+    n_doc = ""
     ABC_GLOBAL_INSTANCE_DICT_NAME = FEATURE2D_INSTANCES_DICT
 
     def update_layout(self, context):
         self.update_sockets(context)
         updateNode(self, context)
 
-    image_in = StringProperty(default=str(uuid.uuid4()), description=_("Input 8-bit or floating-point 32-bit, single-channel image."))
-    mask_in = StringProperty(default=str(uuid.uuid4()), description=_("Optional region of interest."))
-    keypoints_in = StringProperty(default=str(uuid.uuid4()), description=_(""))
+    image_in = bpy.props.StringProperty(default=str(uuid.uuid4()), description="Input 8-bit or floating-point 32-bit, single-channel image.")
+    mask_in = bpy.props.StringProperty(default=str(uuid.uuid4()), description="Optional region of interest.")
+    keypoints_in = bpy.props.StringProperty(default=str(uuid.uuid4()), description="")
 
-    keypoints_out = StringProperty(default=str(uuid.uuid4()), description=_(""))
-    descriptors_out = StringProperty(default=str(uuid.uuid4()), description=_(""))
+    keypoints_out = bpy.props.StringProperty(default=str(uuid.uuid4()), description="")
+    descriptors_out = bpy.props.StringProperty(default=str(uuid.uuid4()), description="")
 
-    loc_file_load = StringProperty(default="/", description=_(""))
-    loc_file_save = StringProperty(default="/", description=_(""))
-    loc_work_mode = EnumProperty(items=WORK_MODE_ITEMS, default="DETECT-COMPUTE", update=update_layout, description=_(""))
-    loc_state_mode = EnumProperty(items=STATE_MODE_ITEMS, default="INIT", update=update_layout, description=_(""))
-    loc_descriptor_size = IntProperty(default=0, description=_(""))
-    loc_descriptor_type = IntProperty(default=0, description=_(""))
-    loc_default_norm = IntProperty(default=0, description=_(""))
-    loc_class_repr = StringProperty(default="", description=_(""))
+    loc_file_load = bpy.props.StringProperty(default="/", description="")
+    loc_file_save = bpy.props.StringProperty(default="/", description="")
+    loc_work_mode = bpy.props.EnumProperty(items=WORK_MODE_ITEMS, default="DETECT-COMPUTE", update=update_layout, description="")
+    loc_state_mode = bpy.props.EnumProperty(items=STATE_MODE_ITEMS, default="INIT", update=update_layout, description="")
+    loc_descriptor_size = bpy.props.IntProperty(default=0, description="")
+    loc_descriptor_type = bpy.props.IntProperty(default=0, description="")
+    loc_default_norm = bpy.props.IntProperty(default=0, description="")
+    loc_class_repr = bpy.props.StringProperty(default="", description="")
 
-    def sv_init(self, context):
+    def init(self, context):
         self.width = 250
         self.inputs.new("StringsSocket", "image_in")
         self.inputs.new("StringsSocket", "mask_in")

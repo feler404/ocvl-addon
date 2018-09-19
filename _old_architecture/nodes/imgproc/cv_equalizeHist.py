@@ -1,17 +1,17 @@
 import cv2
 import uuid
-from bpy.props import StringProperty
-from gettext import gettext as _
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode
+import bpy
+
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
-class OCVLequalizeHistNode(OCVLNode):
+class OCVLequalizeHistNode(OCVLNodeBase):
 
-    _doc=_("Equalizes the histogram of a grayscale image.")
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()), description=_("Source 8-bit single channel image."))
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()), description=_("Output image."))
+    n_doc="Equalizes the histogram of a grayscale image.")
+    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Source 8-bit single channel image.")
+    image_out = bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
 
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new("StringsSocket", "image_in")
 
         self.outputs.new("StringsSocket", "image_out")
@@ -27,9 +27,4 @@ class OCVLequalizeHistNode(OCVLNode):
         self.refresh_output_socket("image_out", image_out, is_uuid_type=True)
 
 
-def register():
-    cv_register_class(OCVLequalizeHistNode)
 
-
-def unregister():
-    cv_unregister_class(OCVLequalizeHistNode)

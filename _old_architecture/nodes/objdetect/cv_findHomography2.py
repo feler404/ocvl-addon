@@ -1,25 +1,25 @@
 import cv2
 import uuid
 import numpy as np
-from gettext import gettext as _
-from bpy.props import StringProperty, BoolProperty, IntProperty, FloatProperty, EnumProperty
 
-from ...utils import cv_register_class, cv_unregister_class, updateNode, OCVLNode
+import bpy
 
-
-class OCVLfindHomography2Node(OCVLNode):
-
-    _doc = _("This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts.")
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
-    img1_in = StringProperty(default=str(uuid.uuid4()), update=updateNode)
-    img2_in = StringProperty(default=str(uuid.uuid4()), update=updateNode)
-    min_match_counts_in = IntProperty(default=10, min=1, max=1000, update=updateNode)
-    min_distance_in = FloatProperty(default=0.7, min=0.1, max=10, update=updateNode)
+class OCVLfindHomography2Node(OCVLNodeBase):
 
-    img3_out = StringProperty(default=str(uuid.uuid4()), description=_("Output retval."))
+    n_doc = "This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts."
 
-    def sv_init(self, context):
+
+    img1_in = bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node)
+    img2_in = bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node)
+    min_match_counts_in = bpy.props.IntProperty(default=10, min=1, max=1000, update=update_node)
+    min_distance_in = bpy.props.FloatProperty(default=0.7, min=0.1, max=10, update=update_node)
+
+    img3_out = bpy.props.StringProperty(default=str(uuid.uuid4()), description="Output retval.")
+
+    def init(self, context):
         self.inputs.new("StringsSocket", "img1_in")
         self.inputs.new("StringsSocket", "img2_in")
         self.inputs.new("StringsSocket", "min_match_counts_in").prop_name = "min_match_counts_in"
@@ -77,9 +77,4 @@ class OCVLfindHomography2Node(OCVLNode):
 
 
 
-def register():
-    cv_register_class(OCVLfindHomography2Node)
 
-
-def unregister():
-    cv_unregister_class(OCVLfindHomography2Node)

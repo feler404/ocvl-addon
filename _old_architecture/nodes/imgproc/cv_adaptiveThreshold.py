@@ -1,9 +1,9 @@
 import cv2
 import uuid
-from gettext import gettext as _
-from bpy.props import EnumProperty, StringProperty, IntProperty, FloatProperty
 
-from ...utils import cv_register_class, cv_unregister_class, TYPE_THRESHOLD_ITEMS, OCVLNode, updateNode
+import bpy
+
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 ADAPTIVE_METHOD_ITEMS = (
     ("ADAPTIVE_THRESH_GAUSSIAN_C", "ADAPTIVE_THRESH_GAUSSIAN_C", "ADAPTIVE_THRESH_GAUSSIAN_C", "", 0),
@@ -17,29 +17,29 @@ KERNEL_SIZE_ITEMS = (
 )
 
 
-class OCVLadaptiveThresholdNode(OCVLNode):
+class OCVLadaptiveThresholdNode(OCVLNodeBase):
 
-    _doc = _("Applies an adaptive threshold to an array.")
+    n_doc = "Applies an adaptive threshold to an array."
 
     bl_icon = 'MOD_MASK'
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
-        description=_("Source 8-bit single-channel image."))
-    maxValue_in = IntProperty(default=150, min=0, max=255, update=updateNode,
-        description=_("Non-zero value assigned to the pixels for which the condition is satisfied."))
-    adaptiveMethod_in = EnumProperty(items=ADAPTIVE_METHOD_ITEMS, default="ADAPTIVE_THRESH_MEAN_C", update=updateNode,
-        description=_("Adaptive thresholding algorithm to use, see cv::AdaptiveThresholdTypes ."))
-    thresholdType_in = EnumProperty(items=TYPE_THRESHOLD_ITEMS, default="THRESH_BINARY", update=updateNode,
-        description=_("Thresholding type that must be either THRESH_BINARY or THRESH_BINARY_INV, etc."))
-    blockSize_in = EnumProperty(items=KERNEL_SIZE_ITEMS, default="3", update=updateNode,
-        description=_("Size of a pixel neighborhood that is used to calculate a threshold value for the pixel."))
-    C_in = FloatProperty(default=15, min=0, max=200, step=20, update=updateNode,
-        description=_("Constant subtracted from the mean or weighted mean."))
+    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()),
+        description="Source 8-bit single-channel image.")
+    maxValue_in = bpy.props.IntProperty(default=150, min=0, max=255, update=update_node,
+        description="Non-zero value assigned to the pixels for which the condition is satisfied.")
+    adaptiveMethod_in = bpy.props.EnumProperty(items=ADAPTIVE_METHOD_ITEMS, default="ADAPTIVE_THRESH_MEAN_C", update=update_node,
+        description="Adaptive thresholding algorithm to use, see cv::AdaptiveThresholdTypes .")
+    thresholdType_in = bpy.props.EnumProperty(items=TYPE_THRESHOLD_ITEMS, default="THRESH_BINARY", update=update_node,
+        description="Thresholding type that must be either THRESH_BINARY or THRESH_BINARY_INV, etc.")
+    blockSize_in = bpy.props.EnumProperty(items=KERNEL_SIZE_ITEMS, default="3", update=update_node,
+        description="Size of a pixel neighborhood that is used to calculate a threshold value for the pixel.")
+    C_in = bpy.props.FloatProperty(default=15, min=0, max=200, step=20, update=update_node,
+        description="Constant subtracted from the mean or weighted mean.")
 
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()),
-        description=_("Destination image of the same size and the same type as src."))
+    image_out = bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()),
+        description="Destination image of the same size and the same type as src.")
 
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new("StringsSocket", "image_in")
         self.inputs.new("StringsSocket", "maxValue_in").prop_name = "maxValue_in"
         self.inputs.new("StringsSocket", "C_in").prop_name = "C_in"
@@ -67,9 +67,4 @@ class OCVLadaptiveThresholdNode(OCVLNode):
         self.add_button(layout=layout, prop_name="blockSize_in", expand=True)
 
 
-def register():
-    cv_register_class(OCVLadaptiveThresholdNode)
 
-
-def unregister():
-    cv_unregister_class(OCVLadaptiveThresholdNode)

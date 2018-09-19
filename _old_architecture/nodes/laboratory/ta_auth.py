@@ -1,7 +1,7 @@
 from logging import getLogger
-from bpy.props import BoolProperty, StringProperty, IntProperty
+import bpy
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLPreviewNode, updateNode
+from ocvl.core.node_base import OCVLNodeBase, update_node
 from ...auth import (
     ocvl_auth, ocvl_user, ANONYMOUS, OCVL_GITHUB_ISSUE_TEMPLATE, COMMUNITY_VERSION,
     OCVL_LINK_UPGRADE_PROGRAM_TO_PRO,
@@ -12,12 +12,12 @@ logger = getLogger(__name__)
 
 
 class OCVLAuthNode(OCVLPreviewNode):
-    origin = StringProperty("")
-    auth = BoolProperty(default=False)
-    status_code = IntProperty(default=0)
-    response_content = StringProperty(default="")
+    origin = bpy.props.StringProperty("")
+    auth = bpy.props.BoolProperty(default=False)
+    status_code = bpy.props.IntProperty(default=0)
+    response_content = bpy.props.StringProperty(default="")
 
-    def sv_init(self, context):
+    def init(self, context):
         self.width = 180
         self.inputs.new("StringsSocket", "auth")
 
@@ -68,9 +68,4 @@ class OCVLAuthNode(OCVLPreviewNode):
 AUTH_NODE_NAME = OCVLAuthNode.__name__[4:-4]
 
 
-def register():
-    cv_register_class(OCVLAuthNode)
 
-
-def unregister():
-    cv_unregister_class(OCVLAuthNode)

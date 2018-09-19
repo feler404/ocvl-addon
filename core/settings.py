@@ -16,6 +16,7 @@ class Category:
 class SocketColors:
     StringsSocket = 0.1, 1.0, 0.2, 1
     ImageSocket = 0.1, 1.0, 0.8, 1
+    SvColorSocket = 0.1, 0.7, 1.0, 1
 
 
 CATEGORY_TREE = Category()

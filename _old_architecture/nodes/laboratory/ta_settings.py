@@ -1,16 +1,16 @@
 from logging import getLogger
-from bpy.props import BoolProperty, StringProperty
+import bpy
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLPreviewNode, updateNode
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 logger = getLogger(__name__)
 
 
 class OCVLSettingsNode(OCVLPreviewNode):
-    origin = StringProperty("")
-    settings = BoolProperty(default=False)
+    origin = bpy.props.StringProperty("")
+    settings = bpy.props.BoolProperty(default=False)
 
-    def sv_init(self, context):
+    def init(self, context):
         self.width = 180
         self.outputs.new("StringsSocket", "settings")
 
@@ -24,9 +24,4 @@ class OCVLSettingsNode(OCVLPreviewNode):
         col_split.operator('node.change_theme_dark', text='Dark', icon="OUTLINER_DATA_LAMP")
 
 
-def register():
-    cv_register_class(OCVLSettingsNode)
 
-
-def unregister():
-    cv_unregister_class(OCVLSettingsNode)
