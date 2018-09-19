@@ -153,6 +153,3 @@ class OCVLSplashNode(OCVLPreviewNode):
             col_split = col.split(0.5, align=True)
             col_split.operator('node.tutorial_show_first_step', text="Tutorial - First steps", icon='PARTICLES')
             col_split.operator('node.clean_desk', text="Start with blank desk - Community version", icon='RESTRICT_VIEW_OFF')
-
-
-

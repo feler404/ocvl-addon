@@ -42,6 +42,3 @@ class OCVLDocsNode(OCVLPreviewNode):
     def draw_buttons(self, context, layout):
         col = layout.column(align=True)
         drawn_docs_buttons(layout, col, self)
-
-
-

@@ -56,7 +56,7 @@ class OCVLFlannBasedMatcherNode(OCVLNodeBase):
 
     def update_layout(self, context):
         self.update_sockets(context)
-        updateNode(self, context)
+        update_node(self, context)
 
     queryDescriptors_in = bpy.props.StringProperty(default=str(uuid.uuid4()), description="")
     trainDescriptors_in = bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node, description="")
@@ -118,6 +118,3 @@ class OCVLFlannBasedMatcherNode(OCVLNodeBase):
             layout.row().prop(self, "loc_file_load")
         elif self.loc_state_mode == "SAVE":
             layout.row().prop(self, "loc_file_save")
-
-
-

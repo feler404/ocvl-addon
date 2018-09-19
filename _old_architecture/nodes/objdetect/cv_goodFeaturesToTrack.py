@@ -80,6 +80,3 @@ class OCVLgoodFeaturesToTrackNode(OCVLNodeBase):
             x, y = i.ravel()
             cv2.circle(image_out, (x, y), 3, 255, -1)
         self.refresh_output_socket("image_out", image_out, is_uuid_type=True)
-
-
-

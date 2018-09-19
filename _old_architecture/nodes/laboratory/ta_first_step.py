@@ -235,6 +235,3 @@ class OCVLFirstStepsNode(OCVLPreviewNode):
         if self.docs:
             drawn_docs_buttons(col, layout, self)
         bpy.tutorial_first_step = tutorial.step
-
-
-

@@ -40,7 +40,7 @@ class OCVLFeature2DNode(OCVLNodeBase):
 
     def update_layout(self, context):
         self.update_sockets(context)
-        updateNode(self, context)
+        update_node(self, context)
 
     image_in = bpy.props.StringProperty(default=str(uuid.uuid4()), description="Input 8-bit or floating-point 32-bit, single-channel image.")
     mask_in = bpy.props.StringProperty(default=str(uuid.uuid4()), description="Optional region of interest.")

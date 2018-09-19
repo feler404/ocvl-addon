@@ -25,12 +25,12 @@ class OCVLImageSampleNode(OCVLPreviewNode):
     def update_layout(self, context):
         logger.debug("UPDATE_LAYOUT")
         self.update_sockets(context)
-        updateNode(self, context)
+        update_node(self, context)
 
     def update_prop_search(self, context):
         logger.debug("UPDATE_PROP_SEARCH")
         self.process()
-        updateNode(self, context)
+        update_node(self, context)
 
     width_in = bpy.props.IntProperty(default=100, min=1, max=1024, update=update_node, name="width_in")
     height_in = bpy.props.IntProperty(default=100, min=1, max=1020, update=update_node, name="height_in")
@@ -140,7 +140,4 @@ class OCVLImageSampleNode(OCVLPreviewNode):
 
 if ocvl_auth.ocvl_pro_version_auth:
     from ...extend.laboratory.ta_image_sample import OCVLImageSampleNode
-
-
-
 

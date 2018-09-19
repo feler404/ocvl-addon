@@ -30,7 +30,7 @@ class OCVLfindHomographyNode(OCVLNodeBase):
 
     def update_layout(self, context):
         self.update_sockets(context)
-        updateNode(self, context)
+        update_node(self, context)
 
     # Default input
     srcPoints_in = bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node, description="Coordinates of the points in the original plane, a matrix of the type CV_32FC2 or vector<Point2f>.")
@@ -114,6 +114,3 @@ class OCVLfindHomographyNode(OCVLNodeBase):
     def draw_buttons(self, context, layout):
         self.add_button(layout=layout, prop_name='loc_work_mode', expand=True)
         self.add_button(layout=layout, prop_name="method_in", expand=True)
-
-
-

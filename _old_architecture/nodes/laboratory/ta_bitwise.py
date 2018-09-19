@@ -8,6 +8,3 @@ class OCVLBitwiseNode(OCVLNodeBase):
 
 if ocvl_auth.ocvl_pro_version_auth:
     from ...extend.laboratory.ta_bitwise import OCVLBitwiseNode
-
-
-

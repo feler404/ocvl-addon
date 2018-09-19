@@ -45,6 +45,3 @@ class OCVLImageViewerNode(OCVLPreviewNode):
 if ocvl_auth.ocvl_pro_version_auth:
     from ...extend.laboratory.ta_viewer_image import OCVLImageViewerNode as OCVLImageViewerNodeExt
     OCVLImageViewerNode = OCVLImageViewerNodeExt
-
-
-

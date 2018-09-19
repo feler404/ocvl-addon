@@ -14,11 +14,5 @@ class OCVLCustomInputNode(OCVLNodeBase):
     '''
     bl_icon = 'TEXT'
 
-
-
-
 if ocvl_auth.ocvl_pro_version_auth:
     from ...extend.laboratory.ta_custom_input import OCVLCustomInputNode
-
-
-

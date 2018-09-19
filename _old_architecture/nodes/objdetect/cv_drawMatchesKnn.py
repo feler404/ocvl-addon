@@ -74,6 +74,3 @@ class OCVLdrawMatchesKnnNode(OCVLNodeBase):
 
     def draw_buttons(self, context, layout):
         self.add_button(layout, "flags_in")
-
-
-

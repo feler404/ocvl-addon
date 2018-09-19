@@ -43,6 +43,3 @@ class OCVLTipNode(OCVLPreviewNode):
         self.draw_preview(layout=layout, prop_name="image_out", location_x=10, location_y=70, proportion=0.5)
         col = layout.column(align=True)
         show_long_tip(getattr(ta_first_step, 'TIP_STEP_{}'.format(bpy.tutorial_first_step)), col)
-
-
-

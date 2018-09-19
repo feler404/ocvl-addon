@@ -66,6 +66,3 @@ class OCVLAuthNode(OCVLPreviewNode):
 
 
 AUTH_NODE_NAME = OCVLAuthNode.__name__[4:-4]
-
-
-

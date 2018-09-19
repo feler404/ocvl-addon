@@ -8,9 +8,6 @@ import bpy
 
 from ocvl.core.node_base import OCVLNodeBase, update_node
 from ...auth import ocvl_auth
-
-
-
 class OCVLROINode(OCVLNodeBase):
     ''' Get region of image.
         .   @param img Image.
@@ -47,12 +44,6 @@ class OCVLROINode(OCVLNodeBase):
         image_out = image_in[:]
         self.refresh_output_socket("image_out", image_out, is_uuid_type=True)
         self.refresh_output_socket("image_roi_out", image_roi_out, is_uuid_type=True)
-
-
-
 if ocvl_auth.ocvl_pro_version_auth:
     # pass
     from ...extend.laboratory.ta_ROI import OCVLROINode
-
-
-

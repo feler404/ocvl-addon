@@ -31,12 +31,12 @@ class OCVLAgastFeatureDetectorNode(OCVLFeature2DNode):
 
     def update_layout(self, context):
         self.update_sockets(context)
-        updateNode(self, context)
+        update_node(self, context)
 
     def update_and_init(self, context):
         InitFeature2DOperator.update_class_instance_dict(self, self.id_data.name, self.name)
         self.update_sockets(context)
-        updateNode(self, context)
+        update_node(self, context)
 
     image_in = bpy.props.StringProperty(default=str(uuid.uuid4()), description="Input 8-bit or floating-point 32-bit, single-channel image.")
     mask_in = bpy.props.StringProperty(default=str(uuid.uuid4()), description="Optional region of interest.")
@@ -70,6 +70,3 @@ class OCVLAgastFeatureDetectorNode(OCVLFeature2DNode):
             self._compute(agast)
         elif self.loc_work_mode == "DETECT-COMPUTE":
             self._detect_and_compute(agast)
-
-
-

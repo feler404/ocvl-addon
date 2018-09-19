@@ -49,6 +49,3 @@ class OCVLcreateBackgroundSubtractorMOG2Node(OCVLNodeBase):
 
     def draw_buttons(self, context, layout):
         pass
-
-
-

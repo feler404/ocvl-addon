@@ -43,6 +43,3 @@ class OCVLdrawKeypointsNode(OCVLNodeBase):
 
         outImage_out = self.process_cv(fn=cv2.drawKeypoints, kwargs=kwargs)
         self.refresh_output_socket("outImage_out", outImage_out, is_uuid_type=True)
-
-
-

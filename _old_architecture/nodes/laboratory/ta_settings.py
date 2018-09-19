@@ -22,6 +22,3 @@ class OCVLSettingsNode(OCVLPreviewNode):
         col_split = col.split(0.5, align=True)
         col_split.operator('node.change_theme_light', text='Light', icon="OUTLINER_OB_LAMP")
         col_split.operator('node.change_theme_dark', text='Dark', icon="OUTLINER_DATA_LAMP")
-
-
-

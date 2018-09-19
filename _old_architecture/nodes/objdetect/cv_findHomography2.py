@@ -75,6 +75,3 @@ class OCVLfindHomography2Node(OCVLNodeBase):
             img3_out = img2
         self.refresh_output_socket("img3_out", img3_out, is_uuid_type=True)
 
-
-
-
