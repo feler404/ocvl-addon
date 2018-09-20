@@ -22,12 +22,12 @@ def get_other_socket(socket):
     Will return None if there isn't a another socket connect
     so no need to check socket.links
     """
-    if not socket.is_linked:
+    if not socket.is_linked or not socket.links:
         return None
-    if not socket.is_output:
-        other = socket.links[0].from_socket
-    else:
+    if socket.is_output:
         other = socket.links[0].to_socket
+    else:
+        other = socket.links[0].from_socket
 
     if other.node.bl_idname == 'NodeReroute':
         if not socket.is_output:
@@ -60,21 +60,22 @@ def get_socket(socket, deepcopy_=True):
     """
     if socket.is_linked:
         other = socket.other
-        s_id = other.socket_id
-        s_ng = other.id_data.name
-        if s_ng not in SOCKET_DATA_CACHE:
-            raise LookupError
-        if s_id in SOCKET_DATA_CACHE[s_ng]:
-            out = SOCKET_DATA_CACHE[s_ng][s_id]
-            if deepcopy_:
-                return deepcopy(out)
+        if other:
+            s_id = other.socket_id
+            s_ng = other.id_data.name
+            if s_ng not in SOCKET_DATA_CACHE:
+                raise LookupError
+            if s_id in SOCKET_DATA_CACHE[s_ng]:
+                out = SOCKET_DATA_CACHE[s_ng][s_id]
+                if deepcopy_:
+                    return deepcopy(out)
+                else:
+                    return out
             else:
-                return out
-        else:
-            # if data_structure.DEBUG_MODE:
-            #     debug("cache miss: %s -> %s from: %s -> %s",
-            #             socket.node.name, socket.name, other.node.name, other.name)
-            raise NoDataError(socket)
+                # if data_structure.DEBUG_MODE:
+                #     debug("cache miss: %s -> %s from: %s -> %s",
+                #             socket.node.name, socket.name, other.node.name, other.name)
+                raise NoDataError(socket)
     # not linked
     raise NoDataError(socket)
 

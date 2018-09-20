@@ -30,8 +30,8 @@ import os
 bl_info = {
     "name": "ocvl",
     "author": (
-        "Dawid Aniol",
-        "OCVL team",
+        "Dawid Aniol, ",
+        "OCVL team, ",
         "Teredo team",
     ),
     "version": (1, 1, 0),
