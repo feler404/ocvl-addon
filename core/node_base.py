@@ -331,7 +331,7 @@ class OCVLNodeBase(bpy.types.Node):
         for requirement in requirements:
             if requirement in optional:
                 continue
-            if not self.inputs[requirement].is_linked:
+            if not self.inputs.get(requirement) or (not self.inputs[requirement].is_linked):
                 # self.use_custom_color = True
                 # self.color = NODE_COLOR_REQUIRE_DATE
                 raise LackRequiredSocket("Inputs[{}] not linked".format(requirement))

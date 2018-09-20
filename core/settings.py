@@ -6,7 +6,7 @@ WRAP_TEXT_SIZE_FOR_ERROR_DISPLAY = 75
 IS_WORK_ON_COPY_INPUT = True
 
 DEBUG_MODE = False
-
+DEBUG = DEBUG_MODE
 
 class Category:
     uncategorized = "uncategorized"

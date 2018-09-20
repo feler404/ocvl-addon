@@ -10,7 +10,9 @@ SOURCE=$(dirname "$BASH_SOURCE[0]")
 GETPIP_URL="https://bootstrap.pypa.io/get-pip.py"
 GETPIP_FILE_NAME="get-pip.py"
 
-curl $GETPIP_URL -o ${GETPIP_FILE_NAME}
+if [ ! -f ${GETPIP_FILE_NAME} ]; then
+    curl $GETPIP_URL -o ${GETPIP_FILE_NAME}
+fi
 
 $BLENDER_PYTHON_PATH_BIN ./${GETPIP_FILE_NAME}
 $BLENDER_PYTHON_PATH/pip install --upgrade pip

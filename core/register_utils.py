@@ -1,8 +1,8 @@
 import sys
-import bpy
-from bpy.props import StringProperty, IntProperty
 from importlib import reload
 from logging import getLogger
+
+import bpy
 
 logger = getLogger(__name__)
 
@@ -36,10 +36,10 @@ def reload_ocvl_modules():
 def register_node(cls):
     from ocvl.core.node_categories import is_node_class_name
     if is_node_class_name(cls.__name__):
-        cls.n_id = StringProperty(default='')
-        cls.n_meta = StringProperty(default='')
-        cls.n_error = StringProperty(default='')
-        cls.n_error_line = IntProperty(default=0)
+        cls.n_id = bpy.props.StringProperty(default='')
+        cls.n_meta = bpy.props.StringProperty(default='')
+        cls.n_error = bpy.props.StringProperty(default='')
+        cls.n_error_line = bpy.props.IntProperty(default=0)
         cls.bl_idname = cls.bl_idname if getattr(cls, 'bl_idname', None) else cls.__name__
         cls.bl_label = cls.bl_label if getattr(cls, 'bl_label', None) else cls.bl_idname[4:-4]
         cls.bl_icon = cls.bl_icon if getattr(cls, 'bl_icon', None) else 'OUTLINER_OB_EMPTY'

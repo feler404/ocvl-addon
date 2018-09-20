@@ -1,5 +1,6 @@
 #Blender's cache folder
 __pycache__
+get-pip.py
 
 #Blender's backup files
 *.blend1
