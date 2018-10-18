@@ -1,9 +1,8 @@
-import cv2
 import uuid
-from bpy.props import EnumProperty, StringProperty
-from gettext import gettext as _
 
-from ...utils import cv_register_class, cv_unregister_class, updateNode, OCVLNode
+import bpy
+import cv2
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
 FLIP_CODE_ITEMS = (
@@ -13,22 +12,20 @@ FLIP_CODE_ITEMS = (
 )
 
 
-class OCVLflipNode(OCVLNode):
+class OCVLflipNode(OCVLNodeBase):
 
-    _doc = _("Flips a 2D array around vertical, horizontal, or both axes.")
-
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()), description=_("Input array."))
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()), description=_("Output array of the same size and type as src."))
+    n_doc = "Flips a 2D array around vertical, horizontal, or both axes."
 
     def get_anchor(self):
         return self.get("anchor", (-1, -1))
 
-    flipCode_in = EnumProperty(items=FLIP_CODE_ITEMS, default='0', update=updateNode,
-        description="Flag to specify how to flip the array.")
+    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input array.")
+    image_out = bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output array of the same size and type as src.")
 
-    def sv_init(self, context):
+    flipCode_in = bpy.props.EnumProperty(items=FLIP_CODE_ITEMS, default='0', update=update_node, description="Flag to specify how to flip the array.")
+
+    def init(self, context):
         self.inputs.new("StringsSocket", "image_in")
-
         self.outputs.new("StringsSocket", "image_out")
 
     def wrapped_process(self):
@@ -44,11 +41,3 @@ class OCVLflipNode(OCVLNode):
 
     def draw_buttons(self, context, layout):
         self.add_button(layout, 'flipCode_in', expand=True)
-
-
-def register():
-    cv_register_class(OCVLflipNode)
-
-
-def unregister():
-    cv_unregister_class(OCVLflipNode)

@@ -1,30 +1,23 @@
-import cv2
 import uuid
-from gettext import gettext as _
-from bpy.props import StringProperty, BoolProperty, BoolVectorProperty
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode, DEVELOP_STATE_BETA
+import bpy
+import cv2
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
-class OCVLmulSpectrumsNode(OCVLNode):
-    bl_develop_state = DEVELOP_STATE_BETA
+class OCVLmulSpectrumsNode(OCVLNodeBase):
+
     bl_flags_list = 'DFT_ROWS'
+    n_doc = "Performs the per-element multiplication of two Fourier spectrums."
 
-    _doc = _("Performs the per-element multiplication of two Fourier spectrums.")
+    a_in = bpy.props.StringProperty(name="a_in", default=str(uuid.uuid4()), description="First input array.")
+    b_in = bpy.props.StringProperty(name="b_in", default=str(uuid.uuid4()), description="Second input array of the same size and type as src1.")
+    flags_in = bpy.props.BoolVectorProperty(default=[False for i in bl_flags_list.split(",")], size=len(bl_flags_list.split(",")), update=update_node, subtype="NONE", description=bl_flags_list)
+    conjB_in = bpy.props.BoolProperty(name="conjB_in", default=False, description = "Optional flag that conjugates the second input array before the multiplication (true) or not (false).")
 
-    a_in = StringProperty(name="a_in", default=str(uuid.uuid4()),
-        description=_("First input array."))
-    b_in = StringProperty(name="b_in", default=str(uuid.uuid4()),
-        description=_("Second input array of the same size and type as src1."))
-    flags_in = BoolVectorProperty(default=[False for i in bl_flags_list.split(",")], size=len(bl_flags_list.split(",")),
-        update=updateNode, subtype="NONE", description=bl_flags_list)
-    conjB_in = BoolProperty(name="conjB_in", default=False,
-        description = _("Optional flag that conjugates the second input array before the multiplication (true) or not (false)."))
+    image_out = bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output array.")
 
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()),
-        description=_("Output array."))
-
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new("StringsSocket", "a_in")
         self.inputs.new("StringsSocket", "b_in")
 
@@ -46,11 +39,3 @@ class OCVLmulSpectrumsNode(OCVLNode):
     def draw_buttons(self, context, layout):
         self.add_button(layout, "flags_in")
         self.add_button(layout, "conjB_in")
-
-
-def register():
-    cv_register_class(OCVLmulSpectrumsNode)
-
-
-def unregister():
-    cv_unregister_class(OCVLmulSpectrumsNode)

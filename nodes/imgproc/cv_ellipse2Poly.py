@@ -1,11 +1,9 @@
-import cv2
 import uuid
+
+import bpy
+import cv2
 import numpy as np
-from gettext import gettext as _
-from bpy.props import StringProperty, IntProperty, IntVectorProperty
-
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode
-
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 INPUT_NODE_ITEMS = (
     ("FULL", "FULL", "FULL", "", 0),
@@ -19,27 +17,21 @@ PROPS_MAPS = {
     }
 
 
-class OCVLellipse2PolyNode(OCVLNode):
+class OCVLellipse2PolyNode(OCVLNodeBase):
+
     bl_icon = 'GREASEPENCIL'
+    n_doc = "Approximates an elliptic arc with a polyline."
 
-    _doc=_("Approximates an elliptic arc with a polyline.")
+    center_in = bpy.props.IntVectorProperty(default=(0, 0), size=2, update=update_node, description="Center of the ellipse.")
+    axes_in = bpy.props.IntVectorProperty(default=(1, 1), size=2, min=0, max=1000, update=update_node, description="Half of the size of the ellipse main axes.")
+    angle_in = bpy.props.IntProperty(default=30, min=0, max=360, update=update_node, description="Ellipse rotation angle in degrees.")
+    arcStart_in = bpy.props.IntProperty(default=0, min=0, max=360, update=update_node, description="Starting angle of the elliptic arc in degrees.")
+    arcEnd_in = bpy.props.IntProperty(default=270, min=0, max=360, update=update_node, description="Ending angle of the elliptic arc in degrees.")
+    delta_in = bpy.props.IntProperty(default=40, min=0, max=360, update=update_node, description="Angle between the subsequent polyline vertices. It defines the approximation accuracy.")
 
-    pts_out = StringProperty(name="pts_out", default=str(uuid.uuid4()), description=_("Output vector of polyline vertices."))
+    pts_out = bpy.props.StringProperty(name="pts_out", default=str(uuid.uuid4()), description="Output vector of polyline vertices.")
 
-    center_in = IntVectorProperty(default=(0, 0), size=2, update=updateNode,
-        description=_("Center of the ellipse."))
-    axes_in = IntVectorProperty(default=(1, 1), size=2, min=0, max=1000, update=updateNode,
-        description=_("Half of the size of the ellipse main axes."))
-    angle_in = IntProperty(default=30, min=0, max=360, update=updateNode,
-        description=_("Ellipse rotation angle in degrees."))
-    arcStart_in = IntProperty(default=0, min=0, max=360, update=updateNode,
-        description=_("Starting angle of the elliptic arc in degrees."))
-    arcEnd_in = IntProperty(default=270, min=0, max=360, update=updateNode,
-        description=_("Ending angle of the elliptic arc in degrees."))
-    delta_in = IntProperty(default=40, min=0, max=360, update=updateNode,
-       description=_("Angle between the subsequent polyline vertices. It defines the approximation accuracy."))
-
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new('SvColorSocket', 'center_in').prop_name = 'center_in'
         self.inputs.new('StringsSocket', "axes_in").prop_name = 'axes_in'
         self.inputs.new('StringsSocket', "angle_in").prop_name = 'angle_in'
@@ -48,7 +40,7 @@ class OCVLellipse2PolyNode(OCVLNode):
         self.inputs.new('StringsSocket', "delta_in").prop_name = 'delta_in'
 
         self.outputs.new("StringsSocket", "pts_out")
-        self.update_layout(context)
+        # self.update_layout(context)
 
     def wrapped_process(self):
         self.check_input_requirements([])
@@ -68,11 +60,3 @@ class OCVLellipse2PolyNode(OCVLNode):
 
     def draw_buttons(self, context, layout):
         pass
-
-
-def register():
-    cv_register_class(OCVLellipse2PolyNode)
-
-
-def unregister():
-    cv_unregister_class(OCVLellipse2PolyNode)

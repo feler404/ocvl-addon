@@ -1,25 +1,21 @@
-import cv2
 import uuid
-from bpy.props import StringProperty, FloatProperty
-from gettext import gettext as _
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode, DEVELOP_STATE_RC
+
+import bpy
+import cv2
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
-class OCVLconvertScaleAbsNode(OCVLNode):
-    bl_develop_state = DEVELOP_STATE_RC
+class OCVLconvertScaleAbsNode(OCVLNodeBase):
 
-    _doc = _("Scales, calculates absolute values, and converts the result to 8-bit.")
-    _note = _("")
+    n_doc = "Scales, calculates absolute values, and converts the result to 8-bit."
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()), description=_("Input image."))
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()), description=_("Output image."))
+    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input image.")
+    image_out = bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
 
-    alpha_in = FloatProperty(default=1, min=0.0, max=100, update=updateNode,
-        description=_("Optional scale factor."))
-    beta_in = FloatProperty(default=0, min=0.0, max=100, update=updateNode,
-        description=_("Optional delta added to the scaled values."))
+    alpha_in = bpy.props.FloatProperty(default=1, min=0.0, max=100, update=update_node, description="Optional scale factor.")
+    beta_in = bpy.props.FloatProperty(default=0, min=0.0, max=100, update=update_node, description="Optional delta added to the scaled values.")
 
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new("StringsSocket", "image_in")
         self.inputs.new('StringsSocket', "alpha_in").prop_name = 'alpha_in'
         self.inputs.new('StringsSocket', "beta_in").prop_name = 'beta_in'
@@ -40,13 +36,3 @@ class OCVLconvertScaleAbsNode(OCVLNode):
 
     def draw_buttons(self, context, layout):
         pass
-
-
-def register():
-    cv_register_class(OCVLconvertScaleAbsNode)
-
-
-def unregister():
-    cv_unregister_class(OCVLconvertScaleAbsNode)
-
-

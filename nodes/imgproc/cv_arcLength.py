@@ -1,36 +1,30 @@
-import cv2
 import uuid
-from gettext import gettext as _
-from bpy.props import StringProperty, BoolProperty, FloatProperty
 
-from ...utils import cv_register_class, cv_unregister_class, updateNode, OCVLNode
+import bpy
+import cv2
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
-class OCVLarcLengthNode(OCVLNode):
+class OCVLarcLengthNode(OCVLNodeBase):
 
-    _doc = _("Calculates a contour perimeter or a curve length.")
+    n_doc = "Calculates a contour perimeter or a curve length."
 
-    curve_in = StringProperty(default=str(uuid.uuid4()),
-        description=_("Input vector of 2D points, stored in std::vector or Mat."))
-    closed_in = BoolProperty(default=False, update=updateNode,
-        description=_("Flag indicating whether the curve is closed or not."))
-    loc_from_findContours = BoolProperty(default=True, update=updateNode,
-        description=_("If linked with findContour node switch to True."))
+    curve_in = bpy.props.StringProperty(default=str(uuid.uuid4()), description="Input vector of 2D points, stored in std::vector or Mat.")
+    closed_in = bpy.props.BoolProperty(default=False, update=update_node, description="Flag indicating whether the curve is closed or not.")
+    loc_from_findContours = bpy.props.BoolProperty(default=True, update=update_node, description="If linked with findContour node switch to True.")
 
-    length_out = FloatProperty(default=0.0,
-        description=_("Length of contour."))
+    length_out = bpy.props.FloatProperty(default=0.0, description="Length of contour.")
 
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new("StringsSocket", "curve_in")
-
         self.outputs.new("StringsSocket", "length_out").prop_name = "length_out"
 
     def wrapped_process(self):
         self.check_input_requirements(["curve_in"])
 
         kwargs = {
-            'curve': self.get_from_props("curve_in")[0] if self.loc_from_findContours else self.get_from_props("curve_in"),
-            'closed': self.get_from_props("closed_in"),
+            'curve_in': self.get_from_props("curve_in")[0] if self.loc_from_findContours else self.get_from_props("curve_in"),
+            'closed_in': self.get_from_props("closed_in"),
             }
 
         length_out = self.process_cv(fn=cv2.arcLength, kwargs=kwargs)
@@ -41,11 +35,3 @@ class OCVLarcLengthNode(OCVLNode):
         layout.label('Length: {}'.format(self.length_out))
         self.add_button(layout, 'closed_in')
         self.add_button(layout, 'loc_from_findContours')
-
-
-def register():
-    cv_register_class(OCVLarcLengthNode)
-
-
-def unregister():
-    cv_unregister_class(OCVLarcLengthNode)

@@ -1,26 +1,20 @@
-import cv2
 import uuid
-from gettext import gettext as _
-from bpy.props import EnumProperty, StringProperty, FloatProperty, BoolProperty
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode
+import bpy
+import cv2
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
-class OCVLcompleteSymmNode(OCVLNode):
+class OCVLcompleteSymmNode(OCVLNodeBase):
 
-    _doc = _("Copies the lower or the upper half of a square matrix to another half.")
-    _note = _("")
-    _see_also = _("")
+    n_doc = "Copies the lower or the upper half of a square matrix to another half."
 
-    mtx_in = StringProperty(name="mtx_in", default=str(uuid.uuid4()),
-        description=_("Input-output floating-point square matrix."))
+    mtx_in = bpy.props.StringProperty(name="mtx_in", default=str(uuid.uuid4()), description="Input-output floating-point square matrix.")
 
-    lowerToUpper_in = BoolProperty(name="lowerToUpper_in", default=False, update=updateNode,
-        description=_("Operation flag; if true, the lower half is copied to the upper half. Otherwise, the upper half is copied to the lower half."))
-    mtx_out = StringProperty(name="mtx_out", default=str(uuid.uuid4()),
-        description=_("Input-output floating-point square matrix."))
+    lowerToUpper_in = bpy.props.BoolProperty(name="lowerToUpper_in", default=False, update=update_node, description="Operation flag; if true, the lower half is copied to the upper half. Otherwise, the upper half is copied to the lower half.")
+    mtx_out = bpy.props.StringProperty(name="mtx_out", default=str(uuid.uuid4()), description="Input-output floating-point square matrix.")
 
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new("StringsSocket", "mtx_in")
         self.inputs.new("StringsSocket", "lowerToUpper_in").prop_name = "lowerToUpper_in"
 
@@ -39,11 +33,3 @@ class OCVLcompleteSymmNode(OCVLNode):
 
     def draw_buttons(self, context, layout):
         pass
-
-
-def register():
-    cv_register_class(OCVLcompleteSymmNode)
-
-
-def unregister():
-    cv_unregister_class(OCVLcompleteSymmNode)

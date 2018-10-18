@@ -1,27 +1,17 @@
 import os
-import queue
+import sys
+from contextlib import contextmanager
+from io import StringIO
+from logging import getLogger
 
 import bpy
-import sys
-
-from io import StringIO
+from ocvl.tutorial_engine.settings import (
+    TUTORIAL_ASSETS_PATH, TUTORIAL_ENGINE_DEBUG, TUTORIAL_ENGINE_DEFAULT_IMAGE_SAMPLE_NAME, TUTORIAL_ENGINE_DEFAULT_INPUT_NAME,
+    TUTORIAL_ENGINE_DEFAULT_NODE_TREE_NAME, TUTORIAL_ENGINE_DEFAULT_OUTPUT_NAME, TUTORIAL_ENGINE_DEFAULT_VIEWER_NAME, TUTORIAL_ENGINE_VERSION,
+)
 from tornado import web
-from logging import getLogger
-from contextlib import contextmanager
-
 from tornado.escape import json_encode
 from tornado.ioloop import IOLoop
-
-from .settings import (
-    TUTORIAL_ENGINE_VERSION, TUTORIAL_ENGINE_DEFAULT_NODE_TREE_NAME,
-    TUTORIAL_ENGINE_DEFAULT_IMAGE_SAMPLE_NAME,
-    TUTORIAL_ENGINE_DEFAULT_VIEWER_NAME,
-    TUTORIAL_ENGINE_DEFAULT_INPUT_NAME,
-    TUTORIAL_ENGINE_DEFAULT_OUTPUT_NAME,
-    TUTORIAL_ASSETS_PATH,
-    TUTORIAL_ENGINE_DEBUG
-)
-
 
 logger = getLogger(__name__)
 

@@ -1,25 +1,23 @@
-import cv2
 import uuid
+
+import bpy
+import cv2
 import numpy as np
-from gettext import gettext as _
-from bpy.props import StringProperty, BoolProperty, IntProperty, FloatProperty, EnumProperty
-
-from ...utils import cv_register_class, cv_unregister_class, updateNode, OCVLNode
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
-class OCVLfindHomography2Node(OCVLNode):
+class OCVLfindHomography2Node(OCVLNodeBase):
 
-    _doc = _("This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts.")
+    n_doc = "This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts."
 
+    img1_in = bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node)
+    img2_in = bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node)
+    min_match_counts_in = bpy.props.IntProperty(default=10, min=1, max=1000, update=update_node)
+    min_distance_in = bpy.props.FloatProperty(default=0.7, min=0.1, max=10, update=update_node)
 
-    img1_in = StringProperty(default=str(uuid.uuid4()), update=updateNode)
-    img2_in = StringProperty(default=str(uuid.uuid4()), update=updateNode)
-    min_match_counts_in = IntProperty(default=10, min=1, max=1000, update=updateNode)
-    min_distance_in = FloatProperty(default=0.7, min=0.1, max=10, update=updateNode)
+    img3_out = bpy.props.StringProperty(default=str(uuid.uuid4()), description="Output retval.")
 
-    img3_out = StringProperty(default=str(uuid.uuid4()), description=_("Output retval."))
-
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new("StringsSocket", "img1_in")
         self.inputs.new("StringsSocket", "img2_in")
         self.inputs.new("StringsSocket", "min_match_counts_in").prop_name = "min_match_counts_in"
@@ -74,12 +72,3 @@ class OCVLfindHomography2Node(OCVLNode):
         else:
             img3_out = img2
         self.refresh_output_socket("img3_out", img3_out, is_uuid_type=True)
-
-
-
-def register():
-    cv_register_class(OCVLfindHomography2Node)
-
-
-def unregister():
-    cv_unregister_class(OCVLfindHomography2Node)

@@ -1,28 +1,24 @@
-import cv2
 import uuid
-from gettext import gettext as _
-from bpy.props import StringProperty, IntVectorProperty
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode
+import bpy
+import cv2
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
-class OCVLclipLineNode(OCVLNode):
+class OCVLclipLineNode(OCVLNodeBase):
+
     bl_icon = 'GREASEPENCIL'
+    n_doc = "Clips the line against the image rectangle."
 
-    _doc = _("Clips the line against the image rectangle.")
+    imgRect_in = bpy.props.StringProperty(name="imgRect_in", default=str(uuid.uuid4()), description="Image rectangle.")
+    retval_out = bpy.props.StringProperty(name="retval_out", default=str(uuid.uuid4()), description="Return value.")
+    pt1_out = bpy.props.StringProperty(name="pt1_out", default=str(uuid.uuid4()), description="Pt1 output.")
+    pt2_out = bpy.props.StringProperty(name="pt2_out", default=str(uuid.uuid4()), description="Pt2 output.")
 
-    imgRect_in = StringProperty(name="imgRect_in", default=str(uuid.uuid4()),
-        description=_("Image rectangle."))
-    retval_out = StringProperty(name="retval_out", default=str(uuid.uuid4()), description=_("Return value."))
-    pt1_out = StringProperty(name="pt1_out", default=str(uuid.uuid4()), description=_("Pt1 output."))
-    pt2_out = StringProperty(name="pt2_out", default=str(uuid.uuid4()), description=_("Pt2 output."))
+    pt1_in = bpy.props.IntVectorProperty(default=(0, 0), size=2, min=0, update=update_node, description="First point of the line segment.")
+    pt2_in = bpy.props.IntVectorProperty(default=(1, 1), size=2, min=0, update=update_node, description="Second point of the line segment.")
 
-    pt1_in = IntVectorProperty(default=(0, 0), size=2, min=0, update=updateNode,
-        description=_("First point of the line segment."))
-    pt2_in = IntVectorProperty(default=(1, 1), size=2, min=0, update=updateNode,
-        description=_("Second point of the line segment."))
-
-    def sv_init(self, context):
+    def init(self, context):
         self.width = 200
         self.inputs.new("StringsSocket", "imgRect_in")
         self.inputs.new('StringsSocket', "pt1_in").prop_name = 'pt1_in'
@@ -48,11 +44,3 @@ class OCVLclipLineNode(OCVLNode):
 
     def draw_buttons(self, context, layout):
         pass
-
-
-def register():
-    cv_register_class(OCVLclipLineNode)
-
-
-def unregister():
-    cv_unregister_class(OCVLclipLineNode)

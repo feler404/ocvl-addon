@@ -15,8 +15,8 @@ from bpy.types import (
 )
 
 
-from ..auth import ocvl_auth
-from ..auth import DEBUG
+from auth import ocvl_auth
+from auth import DEBUG
 sv_tree_types = {'SverchCustomTreeType', 'SverchGroupTreeType'}
 
 
@@ -178,7 +178,7 @@ class SvViewHelpForNodeNew(bpy.types.Operator):
         elif self.kind == 'offline':
             self.report({'INFO'}, 'Documentation docstring - {}'.format(active_node.bl_label))
         elif self.kind == 'github':
-            webbrowser.open("https://github.com/feler404/ocvl-addon")
+            webbrowser.open("https://github.com/feler404/ocvl")
 
         return {'FINISHED'}
 
@@ -190,7 +190,7 @@ class SvViewSourceForNodeNew(bpy.types.Operator):
     kind = StringProperty(default='external')
 
     def execute(self, context):
-        webbrowser.open("https://github.com/feler404/ocvl-addon")
+        webbrowser.open("https://github.com/feler404/ocvl")
         return {'FINISHED'}
 
 

@@ -1,25 +1,21 @@
-import cv2
 import uuid
+
+import bpy
+import cv2
 import numpy as np
-from gettext import gettext as _
-from bpy.props import StringProperty
-
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode
+from ocvl.core.node_base import OCVLNodeBase
 
 
-class OCVLgetAffineTransformNode(OCVLNode):
+class OCVLgetAffineTransformNode(OCVLNodeBase):
 
-    _doc = _("Calculates an affine transform from three pairs of the corresponding points.")
+    n_doc = "Calculates an affine transform from three pairs of the corresponding points."
 
-    pts1_in = StringProperty(name="pts1_in", default=str(uuid.uuid4()),
-        description=_("Pts1 input."))
-    pts2_in = StringProperty(name="pts2_in", default=str(uuid.uuid4()),
-        description=_("Pts2 input."))
+    pts1_in = bpy.props.StringProperty(name="pts1_in", default=str(uuid.uuid4()), description="Pts1 input.")
+    pts2_in = bpy.props.StringProperty(name="pts2_in", default=str(uuid.uuid4()), description="Pts2 input.")
 
-    matrix_out = StringProperty(name="matrix_out", default=str(uuid.uuid4()),
-        description=_("Output matrix."))
+    matrix_out = bpy.props.StringProperty(name="matrix_out", default=str(uuid.uuid4()), description="Output matrix.")
 
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new("StringsSocket", "pts1_in")
         self.inputs.new("StringsSocket", "pts2_in")
 
@@ -42,12 +38,3 @@ class OCVLgetAffineTransformNode(OCVLNode):
 
     def draw_buttons(self, context, layout):
         pass
-
-
-def register():
-    cv_register_class(OCVLgetAffineTransformNode)
-
-
-def unregister():
-    cv_unregister_class(OCVLgetAffineTransformNode)
-

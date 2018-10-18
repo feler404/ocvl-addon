@@ -1,32 +1,23 @@
-import cv2
 import uuid
-from gettext import gettext as _
-from bpy.props import StringProperty
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode, DEVELOP_STATE_BETA
+import bpy
+import cv2
+from ocvl.core.node_base import OCVLNodeBase
 
 
-class OCVLminMaxLocNode(OCVLNode):
+class OCVLminMaxLocNode(OCVLNodeBase):
 
-    bl_develop_state = DEVELOP_STATE_BETA
+    n_doc = "Finds the global minimum and maximum in an array."
 
-    _doc = _("Finds the global minimum and maximum in an array.")
+    src_in = bpy.props.StringProperty(name="src_in", default=str(uuid.uuid4()), description="Input single-channel array.")
+    mask_in = bpy.props.StringProperty(name="mask_in", default=str(uuid.uuid4()), description="Optional mask used to select a sub-array.")
 
-    src_in = StringProperty(name="src_in", default=str(uuid.uuid4()),
-        description=_("Input single-channel array."))
-    mask_in = StringProperty(name="mask_in", default=str(uuid.uuid4()),
-        description=_("Optional mask used to select a sub-array."))
+    minVal_out = bpy.props.StringProperty(name="minVal_out", default=str(uuid.uuid4()), description="Pointer to the returned minimum value; NULL is used if not required.")
+    maxVal_out = bpy.props.StringProperty(name="maxVal_out", default=str(uuid.uuid4()), description="Pointer to the returned maximum value; NULL is used if not required.")
+    minLoc_out = bpy.props.StringProperty(name="minLoc_out", default=str(uuid.uuid4()), description="Pointer to the returned minimum location (in 2D case); NULL is used if not required.")
+    maxLoc_out = bpy.props.StringProperty(name="maxLoc_out", default=str(uuid.uuid4()), description="Pointer to the returned maximum location (in 2D case); NULL is used if not required.")
 
-    minVal_out = StringProperty(name="minVal_out", default=str(uuid.uuid4()),
-        description=_("Pointer to the returned minimum value; NULL is used if not required."))
-    maxVal_out = StringProperty(name="maxVal_out", default=str(uuid.uuid4()),
-        description=_("Pointer to the returned maximum value; NULL is used if not required."))
-    minLoc_out = StringProperty(name="minLoc_out", default=str(uuid.uuid4()),
-        description=_("Pointer to the returned minimum location (in 2D case); NULL is used if not required."))
-    maxLoc_out = StringProperty(name="maxLoc_out", default=str(uuid.uuid4()),
-        description=_("Pointer to the returned maximum location (in 2D case); NULL is used if not required."))
-
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new("StringsSocket", "src_in")
         self.inputs.new("StringsSocket", "mask_in")
 
@@ -42,6 +33,7 @@ class OCVLminMaxLocNode(OCVLNode):
             'src_in': self.get_from_props("src_in"),
             'mask_in': self.get_from_props("mask_in"),
             }
+
         if isinstance(kwargs['mask_in'], str):
             kwargs.pop('mask_in')
 
@@ -53,11 +45,3 @@ class OCVLminMaxLocNode(OCVLNode):
 
     def draw_buttons(self, context, layout):
         pass
-
-
-def register():
-    cv_register_class(OCVLminMaxLocNode)
-
-
-def unregister():
-    cv_unregister_class(OCVLminMaxLocNode)

@@ -1,10 +1,9 @@
-import cv2
 import uuid
-import numpy as np
-from gettext import gettext as _
-from bpy.props import StringProperty
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode
+import bpy
+import cv2
+import numpy as np
+from ocvl.core.node_base import OCVLNodeBase
 
 
 MODE_ITEMS = [
@@ -19,23 +18,19 @@ PROPS_MAPS = {
 }
 
 
-class OCVLmergeNode(OCVLNode):
+class OCVLmergeNode(OCVLNodeBase):
 
-    _doc = _("Creates one multichannel array out of several single-channel ones.")
-    _note= _("In example image was used node cvtColor to make one single channel array in graz scale. Node merge is giving out multichannel array on the input channel Red.")
+    n_doc = "Creates one multichannel array out of several single-channel ones."
+    n_note= "In example image was used node cvtColor to make one single channel array in graz scale. Node merge is giving out multichannel array on the input channel Red."
 
-    layer_0_in = StringProperty(name="layer_0_in", default=str(uuid.uuid4()),
-        description=_("First channel Blue."))
-    layer_1_in = StringProperty(name="layer_1_in", default=str(uuid.uuid4()),
-        description=_("Second channel Green."))
-    layer_2_in = StringProperty(name="layer_2_in", default=str(uuid.uuid4()),
-        description=_("Third channel Red."))
-    # layer_3_in = StringProperty(name="layer_3_in", default=str(uuid.uuid4()))
+    layer_0_in = bpy.props.StringProperty(name="layer_0_in", default=str(uuid.uuid4()), description="First channel Blue.")
+    layer_1_in = bpy.props.StringProperty(name="layer_1_in", default=str(uuid.uuid4()), description="Second channel Green.")
+    layer_2_in = bpy.props.StringProperty(name="layer_2_in", default=str(uuid.uuid4()), description="Third channel Red.")
+    # layer_3_in = bpy.props.StringProperty(name="layer_3_in", default=str(uuid.uuid4()))
 
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()),
-        description=_("Image output."))
+    image_out = bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Image output.")
 
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new("StringsSocket", "layer_0_in")
         self.inputs.new("StringsSocket", "layer_1_in")
         self.inputs.new("StringsSocket", "layer_2_in")
@@ -73,11 +68,3 @@ class OCVLmergeNode(OCVLNode):
 
     def draw_buttons(self, context, layout):
         pass
-
-
-def register():
-    cv_register_class(OCVLmergeNode)
-
-
-def unregister():
-    cv_unregister_class(OCVLmergeNode)

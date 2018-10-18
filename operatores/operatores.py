@@ -1,41 +1,23 @@
+import logging
 import os
 
 import bpy
-import logging
 import requests
-import time
-import urllib.parse
-from bpy.props import StringProperty
-from pynput.keyboard import Key, Controller
-from sverchok.core.socket_data import SvNoDataError
-
-from ..tutorial_engine.engine_app import NodeCommandHandler
-from ..nodes.laboratory.ta_auth import AUTH_NODE_NAME
-from ..utils import convert_to_gl_image, cv_register_class, cv_unregister_class
-from ..auth import ocvl_auth, auth_remote_confirm, auth_remote_reject, OCVL_PANEL_URL, auth_problem, OCVL_PANEL_LOGIN_URL, \
-    OCVL_PANEL_PRODUCTS_URL
+from ocvl.core.exceptions import NoDataError
+from ocvl.core.image_utils import convert_to_gl_image
+from ocvl.core.register_utils import ocvl_register, ocvl_unregister
+from ocvl.tutorial_engine.engine_app import NodeCommandHandler
+from pynput.keyboard import Controller, Key
 
 logger = logging.getLogger(__name__)
 TUTORIAL_HEARTBEAT_INTERVAL_RTSP_REFRESH = 2
-
-
-class EscapeFullScreenOperator(bpy.types.Operator):
-    """Tooltip"""
-    bl_idname = "screen.escape_full_screen"
-    bl_label = "Escape Full Screen Operator"
-
-    def execute(self, context):
-        keyboard = Controller()
-        keyboard.press(Key.esc)
-        bpy.ops.screen.back_to_previous()
-        return {'FINISHED'}
 
 
 class OCVLImageFullScreenOperator(bpy.types.Operator):
     bl_idname = "image.image_full_screen"
     bl_label = "OCVL Image Full Screen"
 
-    origin = StringProperty("")
+    origin = bpy.props.StringProperty("")
 
     def modal(self, context, event):
         if event.type in {'ESC'}:
@@ -71,7 +53,108 @@ class OCVLImageFullScreenOperator(bpy.types.Operator):
             try:
                 img_data = node.get_from_props("image_in")
                 img_name = node.inputs.get("image_in").sv_get()
-            except SvNoDataError as e:
+            except NoDataError as e:
+                return {'CANCELLED'}
+            bl_img = self._load_np_img_to_blender_data_image(img_name, img_data)
+        else:
+            return {'CANCELLED'}
+
+        context.window_manager.modal_handler_add(self)
+        bpy.context.area.type = "IMAGE_EDITOR"
+        for area in bpy.context.screen.areas:
+            if area.type == 'IMAGE_EDITOR':
+                area.spaces.active.image = bl_img
+        bpy.context.area.type = "IMAGE_EDITOR"
+        bpy.ops.image.view_all(fit_view=True)
+        bpy.ops.screen.screen_full_area()
+
+        args = (self, context)
+
+        return {'RUNNING_MODAL'}
+
+
+class OCVLImageImporterOperator(bpy.types.Operator):
+    bl_idname = "image.image_importer"
+    bl_label = "Open Image"
+    bl_options = {'REGISTER'}
+
+    n_id = bpy.props.StringProperty(default='')
+
+    filepath = bpy.props.StringProperty(
+        name="File Path",
+        description="Filepath used for importing the font file",
+        maxlen=1024, default="", subtype='FILE_PATH')
+
+    origin = bpy.props.StringProperty("")
+
+    def execute(self, context):
+        node_tree, node_name = self.origin.split('|><|')
+        node = bpy.data.node_groups[node_tree].nodes[node_name]
+        node.loc_filepath = self.filepath
+        node.loc_name_image = ''
+        node.process()
+        return {'FINISHED'}
+
+    def invoke(self, context, event):
+        wm = context.window_manager
+        wm.fileselect_add(self)
+        return {'RUNNING_MODAL'}
+
+
+
+class EscapeFullScreenOperator(bpy.types.Operator):
+    """Tooltip"""
+    bl_idname = "screen.escape_full_screen"
+    bl_label = "Escape Full Screen Operator"
+
+    def execute(self, context):
+        keyboard = Controller()
+        keyboard.press(Key.esc)
+        bpy.ops.screen.back_to_previous()
+        return {'FINISHED'}
+
+
+class OCVLImageFullScreenOperator(bpy.types.Operator):
+    bl_idname = "image.image_full_screen"
+    bl_label = "OCVL Image Full Screen"
+
+    origin = bpy.props.StringProperty("")
+
+    def modal(self, context, event):
+        if event.type in {'ESC'}:
+            return self._exit(context, exit_mode='CANCELLED')
+
+        return {'PASS_THROUGH'}
+
+    def _load_np_img_to_blender_data_image(self, img_name, img_data):
+        bl_img = bpy.data.images.get(img_name)
+        if bl_img:
+            return bl_img
+        gl_img_data = convert_to_gl_image(img_data)
+        height, width = img_data.shape[:2]
+        bl_img = bpy.data.images.new(img_name, width, height)
+        bl_img.pixels = list(gl_img_data.flat)
+        return bl_img
+
+    def _exit(self, context, exit_mode='FINISHED'):
+        bpy.context.area.type = "NODE_EDITOR"
+        if context.window.screen.show_fullscreen:
+            bpy.ops.screen.back_to_previous()
+        return {exit_mode}
+
+    def invoke(self, context, event):
+        self.points = []
+        self.points = []
+        node_tree, node_name, *props_name = self.origin.split('|><|')
+        self.node = node = bpy.data.node_groups[node_tree].nodes[node_name]
+        self.props_name = props_name
+        self.props_counter = 0
+        if node.inputs["image_in"].is_linked:
+
+            try:
+                img_data = node.get_from_props("image_in")
+                img_name = node.inputs.get("image_in").sv_get()
+            except NoDataError as e:
                 return {'CANCELLED'}
             bl_img = self._load_np_img_to_blender_data_image(img_name, img_data)
         else:
@@ -95,7 +178,7 @@ class OCVLShowTextInTextEditorOperator(bpy.types.Operator):
     bl_idname = "text.show_help_in_text_editor"
     bl_label = "OCVL show help in text editor"
 
-    origin = StringProperty("")
+    origin = bpy.props.StringProperty("")
 
     def modal(self, context, event):
 
@@ -150,25 +233,28 @@ class OCVLRequestsSplashOperator(bpy.types.Operator):
     bl_idname = "node.login_in_request_in_splash"
     bl_label = "Requests Splash"
 
-    origin = StringProperty("")
+    origin = bpy.props.StringProperty("")
 
     def invoke(self, context, event):
         node_tree, node_name, username, password = self.origin.split('|><|')
         node = bpy.data.node_groups[node_tree].nodes[node_name]
         auth_node = self._get_auth_node(node_tree, node)
+        return
         try:
-            logger.info("Request: {}".format(OCVL_PANEL_LOGIN_URL))
+            # logger.info("Request: {}".format(OCVL_PANEL_LOGIN_URL))
             login_data = {"username": username, "password": password}
-            response = requests.post(OCVL_PANEL_LOGIN_URL, data=login_data, headers={"Referer": "OCVL client"})
+            # response = requests.post(OCVL_PANEL_LOGIN_URL, data=login_data, headers={"Referer": "OCVL client"})
         except Exception as e:
-            logger.error("Request error: URL: {}, exception: {}".format(OCVL_PANEL_LOGIN_URL, e))
-            auth_problem(OCVL_PANEL_LOGIN_URL, str(e))
+            # logger.error("Request error: URL: {}, exception: {}".format(OCVL_PANEL_LOGIN_URL, e))
+            # auth_problem(OCVL_PANEL_LOGIN_URL, str(e))
             response = requests.Response()
 
         if response.status_code == 200:
-            auth_remote_confirm(login_data, response, node=node)
+            pass
+            # auth_remote_confirm(login_data, response, node=node)
         else:
-            auth_remote_reject(OCVL_PANEL_LOGIN_URL, response)
+            pass
+            # auth_remote_reject(OCVL_PANEL_LOGIN_URL, response)
         auth_node["status_code"] = response.status_code
         auth_node["response_content"] = response.content
 
@@ -178,7 +264,7 @@ class OCVLRequestsSplashOperator(bpy.types.Operator):
     @staticmethod
     def _get_auth_node(node_tree, fall_back):
         for link in bpy.data.node_groups[node_tree].links:
-            if link.to_node.name == AUTH_NODE_NAME:
+            if link.to_node.name == "TestUser":  # TODO: AUTH_NODE_NAME:
                 return link.to_node
         return fall_back
 
@@ -189,13 +275,13 @@ class OCVLChangeThemeLightOperator(bpy.types.Operator):
     bl_label = "Theme light"
 
     def execute(self, context):
-        current_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)))
-        themes_dir = os.path.abspath(os.path.join(current_dir, "../../presets/interface_theme"))
-        filepath = os.path.join(themes_dir, "softblend.xml")
-        bpy.ops.script.execute_preset(
-            filepath=filepath,
-            menu_idname="USERPREF_MT_interface_theme_presets")
-        bpy.ops.wm.save_userpref()
+        # current_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)))
+        # themes_dir = os.path.abspath(os.path.join(current_dir, "../../presets/interface_theme"))
+        # filepath = os.path.join(themes_dir, "softblend.xml")
+        # bpy.ops.script.execute_preset(
+        #     filepath=filepath,
+        #     menu_idname="USERPREF_MT_interface_theme_presets")
+        # bpy.ops.wm.save_userpref()
         return {'FINISHED'}
 
 
@@ -205,13 +291,13 @@ class OCVLChangeThemeDarkOperator(bpy.types.Operator):
     bl_label = "Theme dark"
 
     def execute(self, context):
-        current_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)))
-        themes_dir = os.path.abspath(os.path.join(current_dir, "../../presets/interface_theme"))
-        filepath = os.path.join(themes_dir, "graph.xml")
-        bpy.ops.script.execute_preset(
-            filepath=filepath,
-            menu_idname="USERPREF_MT_interface_theme_presets")
-        bpy.ops.wm.save_userpref()
+        # current_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)))
+        # themes_dir = os.path.abspath(os.path.join(current_dir, "../../presets/interface_theme"))
+        # filepath = os.path.join(themes_dir, "graph.xml")
+        # bpy.ops.script.execute_preset(
+        #     filepath=filepath,
+        #     menu_idname="USERPREF_MT_interface_theme_presets")
+        # bpy.ops.wm.save_userpref()
         return {'FINISHED'}
 
 
@@ -257,14 +343,14 @@ class OCVLImageImporterOperator(bpy.types.Operator):
     bl_label = "Open Image"
     bl_options = {'REGISTER'}
 
-    n_id = StringProperty(default='')
+    n_id = bpy.props.StringProperty(default='')
 
-    filepath = StringProperty(
+    filepath = bpy.props.StringProperty(
         name="File Path",
         description="Filepath used for importing the font file",
         maxlen=1024, default="", subtype='FILE_PATH')
 
-    origin = StringProperty("")
+    origin = bpy.props.StringProperty("")
 
     def execute(self, context):
         node_tree, node_name = self.origin.split('|><|')
@@ -285,8 +371,8 @@ class OCVLGeneratePythonCodeOperator(bpy.types.Operator):
     bl_label = "Generate code"
     bl_options = {'INTERNAL'}
 
-    n_id = StringProperty(default='')
-    origin = StringProperty("")
+    n_id = bpy.props.StringProperty(default='')
+    origin = bpy.props.StringProperty("")
 
     def execute(self, context):
         node_tree, node_name = self.origin.split('|><|')
@@ -296,26 +382,32 @@ class OCVLGeneratePythonCodeOperator(bpy.types.Operator):
 
 
 def register():
-    cv_register_class(OCVLImageFullScreenOperator)
-    cv_register_class(EscapeFullScreenOperator)
-    cv_register_class(OCVLShowTextInTextEditorOperator)
-    cv_register_class(OCVLClearDeskOperator)
-    cv_register_class(OCVLRequestsSplashOperator)
-    cv_register_class(OCVLChangeThemeLightOperator)
-    cv_register_class(OCVLChangeThemeDarkOperator)
-    cv_register_class(OCVLShowNodeSplashOperator)
-    cv_register_class(OCVLImageImporterOperator)
-    cv_register_class(OCVLGeneratePythonCodeOperator)
+    ocvl_register(OCVLImageFullScreenOperator)
+    ocvl_register(OCVLImageImporterOperator)
+
+    ocvl_register(OCVLImageFullScreenOperator)
+    ocvl_register(EscapeFullScreenOperator)
+    ocvl_register(OCVLShowTextInTextEditorOperator)
+    ocvl_register(OCVLClearDeskOperator)
+    ocvl_register(OCVLRequestsSplashOperator)
+    ocvl_register(OCVLChangeThemeLightOperator)
+    ocvl_register(OCVLChangeThemeDarkOperator)
+    ocvl_register(OCVLShowNodeSplashOperator)
+    ocvl_register(OCVLImageImporterOperator)
+    ocvl_register(OCVLGeneratePythonCodeOperator)
 
 
 def unregister():
-    cv_unregister_class(OCVLGeneratePythonCodeOperator)
-    cv_unregister_class(OCVLImageImporterOperator)
-    cv_unregister_class(OCVLShowNodeSplashOperator)
-    cv_unregister_class(OCVLChangeThemeDarkOperator)
-    cv_unregister_class(OCVLChangeThemeLightOperator)
-    cv_unregister_class(OCVLRequestsSplashOperator)
-    cv_unregister_class(OCVLClearDeskOperator)
-    cv_unregister_class(OCVLShowTextInTextEditorOperator)
-    cv_unregister_class(EscapeFullScreenOperator)
-    cv_unregister_class(OCVLImageFullScreenOperator)
+    ocvl_unregister(OCVLImageFullScreenOperator)
+    ocvl_unregister(OCVLImageImporterOperator)
+
+    ocvl_unregister(OCVLGeneratePythonCodeOperator)
+    ocvl_unregister(OCVLImageImporterOperator)
+    ocvl_unregister(OCVLShowNodeSplashOperator)
+    ocvl_unregister(OCVLChangeThemeDarkOperator)
+    ocvl_unregister(OCVLChangeThemeLightOperator)
+    ocvl_unregister(OCVLRequestsSplashOperator)
+    ocvl_unregister(OCVLClearDeskOperator)
+    ocvl_unregister(OCVLShowTextInTextEditorOperator)
+    ocvl_unregister(EscapeFullScreenOperator)
+    ocvl_unregister(OCVLImageFullScreenOperator)

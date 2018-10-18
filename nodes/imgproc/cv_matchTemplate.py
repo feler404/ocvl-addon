@@ -1,35 +1,27 @@
-import cv2
 import uuid
+
+import bpy
+import cv2
 import numpy as np
-from gettext import gettext as _
-from bpy.props import EnumProperty, StringProperty
-
-from ...utils import cv_register_class, cv_unregister_class, updateNode, OCVLNode, TEMPLATE_MATCH_MODE_ITEMS
+from ocvl.core.node_base import OCVLNodeBase, update_node, TEMPLATE_MATCH_MODE_ITEMS
 
 
-class OCVLmatchTemplateNode(OCVLNode):
+class OCVLmatchTemplateNode(OCVLNodeBase):
 
-    _doc = _("Compares a template against overlapped image regions.")
-
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
-        description=_("Image where the search is running. It must be 8-bit or 32-bit floating-point."))
-    templ_in = StringProperty(name="templ_in", default=str(uuid.uuid4()),
-        description=_("Searched template. It must be not greater than the source image and have the same data type."))
-    mask_in = StringProperty(name="templ_in", default=str(uuid.uuid4()),
-        description=_("Input mask."))
-
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()),
-        description=_("Output image."))
-    result_out = StringProperty(name="result_out", default=str(uuid.uuid4()),
-        description=_("Map of comparison results. It must be single-channel 32-bit floating-point."))
+    n_doc = "Compares a template against overlapped image regions."
 
     def get_anchor(self):
         return self.get("anchor_in", (-1, -1))
 
-    method_in = EnumProperty(items=TEMPLATE_MATCH_MODE_ITEMS, default='TM_CCOEFF_NORMED', update=updateNode,
-        description=_("Parameter specifying the comparison method, see cv::TemplateMatchModes."))
+    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Image where the search is running. It must be 8-bit or 32-bit floating-point.")
+    templ_in = bpy.props.StringProperty(name="templ_in", default=str(uuid.uuid4()), description="Searched template. It must be not greater than the source image and have the same data type.")
+    mask_in = bpy.props.StringProperty(name="templ_in", default=str(uuid.uuid4()), description="Input mask.")
+    method_in = bpy.props.EnumProperty(items=TEMPLATE_MATCH_MODE_ITEMS, default='TM_CCOEFF_NORMED', update=update_node, description="Parameter specifying the comparison method, see cv::TemplateMatchModes.")
 
-    def sv_init(self, context):
+    image_out = bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
+    result_out = bpy.props.StringProperty(name="result_out", default=str(uuid.uuid4()), description="Map of comparison results. It must be single-channel 32-bit floating-point.")
+
+    def init(self, context):
         self.width = 150
         self.inputs.new("StringsSocket", "image_in")
         self.inputs.new('StringsSocket', "templ_in")
@@ -61,11 +53,3 @@ class OCVLmatchTemplateNode(OCVLNode):
 
     def draw_buttons(self, context, layout):
         self.add_button(layout, 'method_in')
-
-
-def register():
-    cv_register_class(OCVLmatchTemplateNode)
-
-
-def unregister():
-    cv_unregister_class(OCVLmatchTemplateNode)

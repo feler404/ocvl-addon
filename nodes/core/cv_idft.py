@@ -1,26 +1,22 @@
-import cv2
 import uuid
-from bpy.props import StringProperty, IntProperty, BoolVectorProperty
-from gettext import gettext as _
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode, DEVELOP_STATE_BETA
+import bpy
+import cv2
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
-class OCVLidftNode(OCVLNode):
+class OCVLidftNode(OCVLNodeBase):
 
-    bl_develop_state = DEVELOP_STATE_BETA
+    n_doc = "Calculates the inverse Discrete Fourier Transform of a 1D or 2D array."
     bl_flags_list = 'DFT_INVERSE, DFT_SCALE, DFT_ROWS, DFT_COMPLEX_OUTPUT, DFT_REAL_OUTPUT'
 
-    _doc = _("Calculates the inverse Discrete Fourier Transform of a 1D or 2D array.")
+    src_in = bpy.props.StringProperty(name="src_in", default=str(uuid.uuid4()), description="Input floating-point real or complex array.")
+    flags_in = bpy.props.BoolVectorProperty(default=[False for i in bl_flags_list.split(",")], size=len(bl_flags_list.split(",")), update=update_node, subtype="NONE", description=bl_flags_list)
+    nonzeroRows_in = bpy.props.IntProperty(default=0, min=0, update=update_node, description="Number of dst rows to process.")
 
-    src_in = StringProperty(name="src_in", default=str(uuid.uuid4()), description=_("Input floating-point real or complex array."))
-    flags_in = BoolVectorProperty(default=[False for i in bl_flags_list.split(",")], size=len(bl_flags_list.split(",")),
-        update=updateNode, subtype="NONE", description=bl_flags_list)
-    nonzeroRows_in = IntProperty(default=0, min=0, update=updateNode, description=_("Number of dst rows to process."))
+    dst_out = bpy.props.StringProperty(name="dst_out", default=str(uuid.uuid4()), description="Output array whose size and type depend on the flags.")
 
-    dst_out = StringProperty(name="dst_out", default=str(uuid.uuid4()), description=_("Output array whose size and type depend on the flags."))
-
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new("StringsSocket", "src_in")
         self.inputs.new("StringsSocket", "nonzeroRows_in").prop_name = "nonzeroRows_in"
 
@@ -40,11 +36,3 @@ class OCVLidftNode(OCVLNode):
 
     def draw_buttons(self, context, layout):
         self.add_button(layout, "flags_in")
-
-
-def register():
-    cv_register_class(OCVLidftNode)
-
-
-def unregister():
-    cv_unregister_class(OCVLidftNode)

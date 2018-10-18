@@ -1,27 +1,19 @@
+import bpy
 import cv2
-import uuid
-from gettext import gettext as _
-from bpy.props import EnumProperty, StringProperty, IntProperty
-
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode, BORDER_TYPE_ITEMS
+from ocvl.core.node_base import OCVLNodeBase, update_node, BORDER_TYPE_ITEMS
 
 
-class OCVLborderInterpolateNode(OCVLNode):
+class OCVLborderInterpolateNode(OCVLNodeBase):
 
-    _doc = _("Computes the source location of an extrapolated pixel.")
-    _note = _("")
-    _see_also = _("")
+    n_doc = "Computes the source location of an extrapolated pixel."
 
-    p_in = IntProperty(name="p", default=5, update=updateNode,
-        description=_("0-based coordinate of the extrapolated pixel along one of the axes, likely <0 or >= len ."))
-    len_in = IntProperty(name="len", default=10, update=updateNode,
-        description=_("Length of the array along the corresponding axis."))
-    borderType_in = EnumProperty(name="borderType", items=BORDER_TYPE_ITEMS, default='BORDER_DEFAULT', update=updateNode,
-        description=_("Pixel extrapolation method, see cv::BorderTypes"))
+    p_in = bpy.props.IntProperty(name="p", default=5, update=update_node, description="0-based coordinate of the extrapolated pixel along one of the axes, likely <0 or >= len .")
+    len_in = bpy.props.IntProperty(name="len", default=10, update=update_node, description="Length of the array along the corresponding axis.")
+    borderType_in = bpy.props.EnumProperty(name="borderType", items=BORDER_TYPE_ITEMS, default='BORDER_DEFAULT', update=update_node, description="Pixel extrapolation method, see cv::BorderTypes")
 
-    retval_out = IntProperty(name="retval", default=0, description="")
+    retval_out = bpy.props.IntProperty(name="retval", default=0, description="")
 
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new("StringsSocket", "p").prop_name = "p_in"
         self.inputs.new("StringsSocket", "len").prop_name = "len_in"
 
@@ -41,11 +33,3 @@ class OCVLborderInterpolateNode(OCVLNode):
 
     def draw_buttons(self, context, layout):
         self.add_button(layout, "borderType_in")
-
-
-def register():
-    cv_register_class(OCVLborderInterpolateNode)
-
-
-def unregister():
-    cv_unregister_class(OCVLborderInterpolateNode)

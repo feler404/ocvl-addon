@@ -1,11 +1,10 @@
-import cv2
-import uuid
 import os
-from bpy.props import EnumProperty, StringProperty, IntProperty, FloatProperty, IntVectorProperty, BoolVectorProperty
+import uuid
 
-from ...auth import BASE_DIR
-from ...utils import cv_register_class, OCVLNode, updateNode
-
+import bpy
+import cv2
+from ocvl.core.node_base import OCVLNodeBase, update_node
+from ocvl import BASE_DIR
 
 HAAR_CASCADE_DIR = 'datafiles/haarcascade'
 
@@ -14,23 +13,22 @@ CASCADE_FILENAME_ITEMS = [(i, i, i, "", n) for n, i in enumerate(os.listdir(os.p
 CASCADE_FILENAME_ITEMS_DEFAULT = [i[0] for i in CASCADE_FILENAME_ITEMS if i[0] == 'haarcascade_frontalface_default.xml'][0]
 
 
-class OCVLCascadeClassifierNode(OCVLNode):
+class OCVLCascadeClassifierNode(OCVLNodeBase):
 
     bl_flags_list = 'CASCADE_SCALE_IMAGE'
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()))
-    scaleFactor_in = FloatProperty(default=1.1, min=1.1, max=10, update=updateNode)
-    minNeighbors_in = IntProperty(default=5, min=0, max=10, update=updateNode)
-    minSize_in = IntVectorProperty(default=(30, 30), min=1, max=100, size=2, update=updateNode)
-    flags_in = BoolVectorProperty(default=[False for i in bl_flags_list.split(",")], size=len(bl_flags_list.split(",")),
-        update=updateNode, subtype="NONE", description=bl_flags_list)
+    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()))
+    scaleFactor_in = bpy.props.FloatProperty(default=1.1, min=1.1, max=10, update=update_node)
+    minNeighbors_in = bpy.props.IntProperty(default=5, min=0, max=10, update=update_node)
+    minSize_in = bpy.props.IntVectorProperty(default=(30, 30), min=1, max=100, size=2, update=update_node)
+    flags_in = bpy.props.BoolVectorProperty(default=[False for i in bl_flags_list.split(",")], size=len(bl_flags_list.split(",")), update=update_node, subtype="NONE", description=bl_flags_list)
 
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()))
-    objects_out = StringProperty(name="objects_out", default=str(uuid.uuid4()))
+    image_out = bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()))
+    objects_out = bpy.props.StringProperty(name="objects_out", default=str(uuid.uuid4()))
 
-    loc_cascade_filename = EnumProperty(items=CASCADE_FILENAME_ITEMS, default=CASCADE_FILENAME_ITEMS_DEFAULT, update=updateNode)
+    loc_cascade_filename = bpy.props.EnumProperty(items=CASCADE_FILENAME_ITEMS, default=CASCADE_FILENAME_ITEMS_DEFAULT, update=update_node)
 
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new("StringsSocket", "image_in")
         self.inputs.new('StringsSocket', "scaleFactor_in").prop_name = 'scaleFactor_in'
         self.inputs.new('StringsSocket', "minNeighbors_in").prop_name = 'minNeighbors_in'
@@ -63,11 +61,3 @@ class OCVLCascadeClassifierNode(OCVLNode):
     def draw_buttons(self, context, layout):
         self.add_button(layout, "flags_in")
         self.add_button(layout, "loc_cascade_filename")
-
-
-def register():
-    cv_register_class(OCVLCascadeClassifierNode)
-
-
-def unregister():
-    cv_register_class(OCVLCascadeClassifierNode)

@@ -1,9 +1,8 @@
-import cv2
 import uuid
-from gettext import gettext as _
-from bpy.props import EnumProperty, StringProperty
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode, DEVELOP_STATE_BETA, DISTANCE_TYPE_FOR_TRANSFORM_ITEMS
+import bpy
+import cv2
+from ocvl.core.node_base import OCVLNodeBase, update_node, DISTANCE_TYPE_FOR_TRANSFORM_ITEMS
 
 MASK_SIZE_ITEMS = (
     ("3", "3", "3", "", 0),
@@ -12,22 +11,18 @@ MASK_SIZE_ITEMS = (
 )
 
 
-class OCVLdistanceTransformNode(OCVLNode):
-    bl_develop_state = DEVELOP_STATE_BETA
+class OCVLdistanceTransformNode(OCVLNodeBase):
 
-    _doc=_("Calculates the distance to the closest zero pixel for each pixel of the source image.")
+    n_doc = "Calculates the distance to the closest zero pixel for each pixel of the source image."
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()), description=_("8-bit, single-channel (binary) source image."))
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()), description=_("Output image with calculated distances."))
+    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="8-bit, single-channel (binary) source image.")
+    image_out = bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image with calculated distances.")
 
-    distanceType_in = EnumProperty(items=DISTANCE_TYPE_FOR_TRANSFORM_ITEMS, default='DIST_L2', update=updateNode,
-        description=_("Type of distance. It can be CV_DIST_L1, CV_DIST_L2 , or CV_DIST_C."))
-    maskSize_in = EnumProperty(items=MASK_SIZE_ITEMS, default='3', update=updateNode,
-        description=_("Size of the distance transform mask."))
+    distanceType_in = bpy.props.EnumProperty(items=DISTANCE_TYPE_FOR_TRANSFORM_ITEMS, default='DIST_L2', update=update_node, description="Type of distance. It can be CV_DIST_L1, CV_DIST_L2 , or CV_DIST_C.")
+    maskSize_in = bpy.props.EnumProperty(items=MASK_SIZE_ITEMS, default='3', update=update_node, description="Size of the distance transform mask.")
 
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new("StringsSocket", "image_in")
-
         self.outputs.new("StringsSocket", "image_out")
 
     def wrapped_process(self):
@@ -45,11 +40,3 @@ class OCVLdistanceTransformNode(OCVLNode):
     def draw_buttons(self, context, layout):
         self.add_button(layout, "distanceType_in")
         self.add_button(layout, "maskSize_in")
-
-
-def register():
-    cv_register_class(OCVLdistanceTransformNode)
-
-
-def unregister():
-    cv_unregister_class(OCVLdistanceTransformNode)

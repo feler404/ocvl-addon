@@ -1,9 +1,8 @@
-import cv2
 import uuid
-from gettext import gettext as _
-from bpy.props import EnumProperty, StringProperty, FloatProperty
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode, COLOR_DEPTH_WITH_NONE_ITEMS
+import bpy
+import cv2
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 CONNECTIVITY_ITEMS = (
     ("8", "8", "8", "", 0),
@@ -16,23 +15,18 @@ LTYPE_ITEMS = (
 )
 
 
-class OCVLconnectedComponentsNode(OCVLNode):
+class OCVLconnectedComponentsNode(OCVLNodeBase):
 
-    _doc = _("Connected components.")
+    n_doc = "Connected components."
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
-        description=_("The 8-bit single-channel image to be labeled."))
-    connectivity_in = EnumProperty(items=CONNECTIVITY_ITEMS, default="8", update=updateNode,
-        description=_("8 or 4 for 8-way or 4-way connectivity respectively."))
-    ltype_in = EnumProperty(items=LTYPE_ITEMS, default="CV_16U", update=updateNode,
-        description=_("Output image label type. Currently CV_32S and CV_16U are supported."))
+    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="The 8-bit single-channel image to be labeled.")
+    connectivity_in = bpy.props.EnumProperty(items=CONNECTIVITY_ITEMS, default="8", update=update_node, description="8 or 4 for 8-way or 4-way connectivity respectively.")
+    ltype_in = bpy.props.EnumProperty(items=LTYPE_ITEMS, default="CV_16U", update=update_node, description="Output image label type. Currently CV_32S and CV_16U are supported.")
 
-    labels_out = StringProperty(name="labels_out", default=str(uuid.uuid4()),
-        description=_("Labels output."))
-    retval_out = StringProperty(name="retval_out", default=str(uuid.uuid4()),
-        description=_("Return value."))
+    labels_out = bpy.props.StringProperty(name="labels_out", default=str(uuid.uuid4()), description="Labels output.")
+    retval_out = bpy.props.StringProperty(name="retval_out", default=str(uuid.uuid4()), description="Return value.")
 
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new("StringsSocket", "image_in")
 
         self.outputs.new("StringsSocket", "labels_out")
@@ -54,11 +48,3 @@ class OCVLconnectedComponentsNode(OCVLNode):
     def draw_buttons(self, context, layout):
         self.add_button(layout, "connectivity_in", expand=True)
         self.add_button(layout, "ltype_in", expand=True)
-
-
-def register():
-    cv_register_class(OCVLconnectedComponentsNode)
-
-
-def unregister():
-    cv_unregister_class(OCVLconnectedComponentsNode)

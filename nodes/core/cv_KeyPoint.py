@@ -1,29 +1,20 @@
+import bpy
 import cv2
-from gettext import gettext as _
-from bpy.props import IntProperty, FloatProperty, FloatVectorProperty
-
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
-class OCVLKeyPointNode(OCVLNode):
+class OCVLKeyPointNode(OCVLNodeBase):
 
-    _doc = _("The keypoint constructors")
+    n_doc = "The keypoint constructors"
 
-    pt_in = FloatVectorProperty(default=(10, 10), size=2, min=0, max=2048,
-        description=_("The x & y coordinates of the keypoint."))
-    size_in = FloatProperty(default=10, min=0, max=100, update=updateNode,
-        description=_("Keypoint diameter."))
-    angle_in = FloatProperty(default=-1, min=-1, max=360, update=updateNode,
-        description=_("Keypoint orientation."))
-    response_in = FloatProperty(default=0, min=0, max=100, update=updateNode,
-        description=_("Keypoint detector response on the keypoint (that is, strength of the keypoint)."))
-    octave_in = IntProperty(default=0, min=0, max=100, update=updateNode,
-        description=_("Pyramid octave in which the keypoint has been detected."))
-    class_id_in = IntProperty(default=-1, min=-1, max=100, update=updateNode,
-        description=_("Object id."))
+    pt_in = bpy.props.FloatVectorProperty(default=(10, 10), size=2, min=0, max=2048, description="The x & y coordinates of the keypoint.")
+    size_in = bpy.props.FloatProperty(default=10, min=0, max=100, update=update_node, description="Keypoint diameter.")
+    angle_in = bpy.props.FloatProperty(default=-1, min=-1, max=360, update=update_node, description="Keypoint orientation.")
+    response_in = bpy.props.FloatProperty(default=0, min=0, max=100, update=update_node, description="Keypoint detector response on the keypoint (that is, strength of the keypoint).")
+    octave_in = bpy.props.IntProperty(default=0, min=0, max=100, update=update_node, description="Pyramid octave in which the keypoint has been detected.")
+    class_id_in = bpy.props.IntProperty(default=-1, min=-1, max=100, update=update_node, description="Object id.")
 
-
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new("StringsSocket", "pt_in").prop_name = "pt_in"
         self.inputs.new("StringsSocket", "size_in").prop_name = "size_in"
         self.inputs.new("StringsSocket", "angle_in").prop_name = "angle_in"
@@ -35,7 +26,6 @@ class OCVLKeyPointNode(OCVLNode):
     def wrapped_process(self):
         pt_in = self.get_from_props("pt_in")
         x_in, y_in = pt_in
-
 
         kwargs = {
             'x_in': x_in,
@@ -53,11 +43,3 @@ class OCVLKeyPointNode(OCVLNode):
 
     def draw_buttons(self, context, layout):
         pass
-
-
-def register():
-    cv_register_class(OCVLKeyPointNode)
-
-
-def unregister():
-    cv_unregister_class(OCVLKeyPointNode)

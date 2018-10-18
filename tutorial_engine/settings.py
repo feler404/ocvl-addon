@@ -1,7 +1,6 @@
 import os
 import bpy
-from ..auth import DEBUG
-
+from ocvl.core.settings import DEBUG
 
 bpy.tutorial_first_step = 1
 TUTORIAL_ENGINE_VERSION = "0.1.0"

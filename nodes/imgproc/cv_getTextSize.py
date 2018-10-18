@@ -1,31 +1,24 @@
-import cv2
 import uuid
-from gettext import gettext as _
-from bpy.props import EnumProperty, StringProperty, IntProperty
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode, FONT_FACE_ITEMS, updateNode
+import bpy
+import cv2
+from ocvl.core.node_base import OCVLNodeBase, update_node, FONT_FACE_ITEMS
 
 
-class OCVLgetTextSizeNode(OCVLNode):
+class OCVLgetTextSizeNode(OCVLNodeBase):
+
     bl_icon = 'GREASEPENCIL'
+    n_doc = "Calculates the width and height of a text string."
 
-    _doc = _("Calculates the width and height of a text string.")
+    baseLine_out = bpy.props.StringProperty(name="baseLine_out", default=str(uuid.uuid4()), description="Output parameter - y-coordinate of the baseline relative to the bottom-most text point.")
+    retval_out = bpy.props.StringProperty(name="retval_out", default=str(uuid.uuid4()), description="Return value.")
 
-    baseLine_out = StringProperty(name="baseLine_out", default=str(uuid.uuid4()),
-        description=_("Output parameter - y-coordinate of the baseline relative to the bottom-most text point."))
-    retval_out = StringProperty(name="retval_out", default=str(uuid.uuid4()),
-        description=_("Return value."))
+    text_in = bpy.props.StringProperty(default="OpenCV", update=update_node, description="Text string to be drawn.")
+    fontScale_in = bpy.props.IntProperty(default=5, min=1, max=30,update=update_node, description="Scale factor that is multiplied by the font-specific base size.")
+    fontFace_in = bpy.props.EnumProperty(items=FONT_FACE_ITEMS, default="FONT_HERSHEY_SIMPLEX", update=update_node, description="Font type, see cv::HersheyFonts.")
+    thickness_in = bpy.props.IntProperty(default=2, min=1, max=10, update=update_node, description="Thickness of the lines used to draw a text.")
 
-    text_in = StringProperty(default="OpenCV", update=updateNode,
-        description=_("Text string to be drawn."))
-    fontScale_in = IntProperty(default=5, min=1, max=30,update=updateNode,
-        description=_("Scale factor that is multiplied by the font-specific base size."))
-    fontFace_in = EnumProperty(items=FONT_FACE_ITEMS, default="FONT_HERSHEY_SIMPLEX", update=updateNode,
-        description=_("Font type, see cv::HersheyFonts."))
-    thickness_in = IntProperty(default=2, min=1, max=10, update=updateNode,
-        description=_("Thickness of the lines used to draw a text."))
-
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new('StringsSocket', "text_in").prop_name = 'text_in'
         self.inputs.new('StringsSocket', "fontScale_in").prop_name = 'fontScale_in'
         self.inputs.new('StringsSocket', "thickness_in").prop_name = 'thickness_in'
@@ -48,12 +41,4 @@ class OCVLgetTextSizeNode(OCVLNode):
         self.refresh_output_socket("retval_out", retval_out, is_uuid_type=True)
 
     def draw_buttons(self, context, layout):
-        self.add_button(layout, "fontFace")
-
-
-def register():
-    cv_register_class(OCVLgetTextSizeNode)
-
-
-def unregister():
-    cv_unregister_class(OCVLgetTextSizeNode)
+        self.add_button(layout, "fontFace_in")

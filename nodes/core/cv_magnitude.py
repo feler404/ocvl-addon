@@ -1,25 +1,21 @@
-import cv2
 import uuid
-from gettext import gettext as _
-from bpy.props import StringProperty
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode, DEVELOP_STATE_BETA
+import bpy
+import cv2
+from ocvl.core.node_base import OCVLNodeBase
 
 
-class OCVLmagnitudeNode(OCVLNode):
-    bl_develop_state = DEVELOP_STATE_BETA
+class OCVLmagnitudeNode(OCVLNodeBase):
 
-    _doc = _("Calculates the magnitude of 2D vectors.")
+    n_doc = "Calculates the magnitude of 2D vectors."
 
-    x_in = StringProperty(name="x_in", default=str(uuid.uuid4()),
-        description=_("Floating-point array of x-coordinates of the vectors."))
-    y_in = StringProperty(name="y_in", default=str(uuid.uuid4()),
-        description=_("Floating-point array of y-coordinates of the vectors; it must have the same size as x."))
+    x_in = bpy.props.StringProperty(name="x_in", default=str(uuid.uuid4()), description="Floating-point array of x-coordinates of the vectors.")
+    y_in = bpy.props.StringProperty(name="y_in", default=str(uuid.uuid4()), description="Floating-point array of y-coordinates of the vectors; it must have the same size as x.")
 
-    array_out = StringProperty(name="array_out", default=str(uuid.uuid4()),
-        description=_("Output array of the same size and type as x."))
+    array_out = bpy.props.StringProperty(name="array_out", default=str(uuid.uuid4()),
+        description="Output array of the same size and type as x.")
 
-    def sv_init(self, context):
+    def init(self, context):
         self.width = 150
         self.inputs.new("StringsSocket", "x_in")
         self.inputs.new("StringsSocket", "y_in")
@@ -38,11 +34,3 @@ class OCVLmagnitudeNode(OCVLNode):
 
     def draw_buttons(self, context, layout):
         pass
-
-
-def register():
-    cv_register_class(OCVLmagnitudeNode)
-
-
-def unregister():
-    cv_unregister_class(OCVLmagnitudeNode)

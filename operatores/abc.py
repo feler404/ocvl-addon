@@ -1,9 +1,6 @@
 import bpy
 import cv2
-from bpy.props import StringProperty
-
-from .. import globals
-from ..utils import cv_register_class, cv_unregister_class
+from ocvl.core.register_utils import ocvl_register, ocvl_unregister
 
 
 class InitClassForNodeOperator(bpy.types.Operator):
@@ -52,21 +49,21 @@ class InitFeature2DOperator(InitClassForNodeOperator):
     bl_idname = "node.init_feature_2d"
     bl_label = "Init Feature2D"
 
-    origin = StringProperty("")
+    origin = bpy.props.StringProperty("")
 
 
 class InitDescriptorMatcherOperator(InitClassForNodeOperator):
     bl_idname = "node.init_descriptor_matcher"
     bl_label = "Init DescriptorMatcher"
 
-    origin = StringProperty("")
+    origin = bpy.props.StringProperty("")
 
 
 class Feature2DSaveOperator(bpy.types.Operator):
     bl_idname = "node.feature_2d_save"
     bl_label = "Feature 2D save"
 
-    origin = StringProperty("")
+    origin = bpy.props.StringProperty("")
 
     def execute(self, context):
         node_tree, node_name, *props_name = self.origin.split('|><|')
@@ -75,10 +72,10 @@ class Feature2DSaveOperator(bpy.types.Operator):
 
 
 def register():
-    cv_register_class(InitFeature2DOperator)
-    cv_register_class(Feature2DSaveOperator)
+    ocvl_register(InitFeature2DOperator)
+    ocvl_register(Feature2DSaveOperator)
 
 
 def unregister():
-    cv_unregister_class(InitFeature2DOperator)
-    cv_unregister_class(Feature2DSaveOperator)
+    ocvl_unregister(InitFeature2DOperator)
+    ocvl_unregister(Feature2DSaveOperator)

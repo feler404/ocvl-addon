@@ -1,26 +1,23 @@
-import cv2
 import uuid
-from gettext import gettext as _
-from bpy.props import StringProperty, BoolProperty
 
-from ...utils import cv_register_class, cv_unregister_class, updateNode, OCVLNode
+import bpy
+import cv2
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
-class OCVLminAreaRectNode(OCVLNode):
+class OCVLminAreaRectNode(OCVLNodeBase):
 
-    _doc = _("Finds a rotated rectangle of the minimum area enclosing the input 2D point set.")
+    n_doc = "Finds a rotated rectangle of the minimum area enclosing the input 2D point set."
 
-    points_in = StringProperty(default=str(uuid.uuid4()),
-        description=_("Input vector of 2D points, stored in std::vector\<\> or Mat"))
-    loc_from_findContours = BoolProperty(default=True, update=updateNode,
-        description=_("If linked with findContour node switch to True"))
+    points_in = bpy.props.StringProperty(default=str(uuid.uuid4()), description="Input vector of 2D points, stored in std::vector\<\> or Mat")
+    loc_from_findContours = bpy.props.BoolProperty(default=True, update=update_node, description="If linked with findContour node switch to True")
 
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new("StringsSocket", "points_in")
-
         self.outputs.new("StringsSocket", "points_out")
 
     def wrapped_process(self):
+        self.check_input_requirements(["points_in"])
 
         kwargs = {
             'points_in': self.get_from_props("points_in")[0] if self.loc_from_findContours else self.get_from_props("points_in"),
@@ -31,11 +28,3 @@ class OCVLminAreaRectNode(OCVLNode):
 
     def draw_buttons(self, context, layout):
         self.add_button(layout, 'loc_from_findContours')
-
-
-def register():
-    cv_register_class(OCVLminAreaRectNode)
-
-
-def unregister():
-    cv_unregister_class(OCVLminAreaRectNode)

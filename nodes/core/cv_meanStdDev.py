@@ -1,27 +1,21 @@
-import cv2
 import uuid
-from gettext import gettext as _
-from bpy.props import StringProperty
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode, DEVELOP_STATE_BETA
+import bpy
+import cv2
+from ocvl.core.node_base import OCVLNodeBase
 
 
-class OCVLmeanStdDevNode(OCVLNode):
-    bl_develop_state = DEVELOP_STATE_BETA
+class OCVLmeanStdDevNode(OCVLNodeBase):
 
-    _doc = _("Calculates a mean and standard deviation of array elements.")
+    n_doc = "Calculates a mean and standard deviation of array elements."
 
-    src_in = StringProperty(name="src_in", default=str(uuid.uuid4()),
-        description=_("Input array that should have from 1 to 4 channels so that the results can be stored in Scalar_ ‘s."))
-    mask_in = StringProperty(name="mask_in", default=str(uuid.uuid4()),
-        description=_("Optional operation mask."))
+    src_in = bpy.props.StringProperty(name="src_in", default=str(uuid.uuid4()), description="Input array that should have from 1 to 4 channels so that the results can be stored in Scalar_ ‘s.")
+    mask_in = bpy.props.StringProperty(name="mask_in", default=str(uuid.uuid4()), description="Optional operation mask.")
 
-    mean_out = StringProperty(name="array_out", default=str(uuid.uuid4()),
-        description=_("Output parameter: calculated mean value."))
-    stddev_out = StringProperty(name="array_out", default=str(uuid.uuid4()),
-        description=_("Output parameter: calculateded standard deviation."))
+    mean_out = bpy.props.StringProperty(name="array_out", default=str(uuid.uuid4()), description="Output parameter: calculated mean value.")
+    stddev_out = bpy.props.StringProperty(name="array_out", default=str(uuid.uuid4()), description="Output parameter: calculateded standard deviation.")
 
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new("StringsSocket", "src_in")
         self.inputs.new("StringsSocket", "mask_in")
         self.outputs.new("StringsSocket", "mean_out")
@@ -34,6 +28,7 @@ class OCVLmeanStdDevNode(OCVLNode):
             'src_in': self.get_from_props("src_in"),
             'mask_in': self.get_from_props("mask_in"),
             }
+
         if isinstance(kwargs['mask_in'], str):
             kwargs.pop('mask_in')
 
@@ -43,11 +38,3 @@ class OCVLmeanStdDevNode(OCVLNode):
 
     def draw_buttons(self, context, layout):
         pass
-
-
-def register():
-    cv_register_class(OCVLmeanStdDevNode)
-
-
-def unregister():
-    cv_unregister_class(OCVLmeanStdDevNode)

@@ -1,35 +1,27 @@
-import cv2
 import uuid
-from gettext import gettext as _
-from bpy.props import EnumProperty, StringProperty, IntProperty, FloatVectorProperty
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode, BORDER_TYPE_REQUIRED_ITEMS
+import bpy
+import cv2
+from ocvl.core.node_base import OCVLNodeBase, update_node, BORDER_TYPE_REQUIRED_ITEMS
 
 
-class OCVLcopyMakeBorderNode(OCVLNode):
+class OCVLcopyMakeBorderNode(OCVLNodeBase):
     bl_icon = 'BORDER_RECT'
 
-    _doc = _("Forms a border around an image.")
-    _note = _("")
+    n_doc = "Forms a border around an image."
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()), description=_("Input image."))
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()), description=_("Output image."))
+    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input image.")
+    image_out = bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
 
-    top_in = IntProperty(default=10, update=updateNode, min=1, max=20,
-        description=_("Border width in number of pixels in corresponding directions."))
-    bottom_in = IntProperty(default=10, update=updateNode, min=1, max=20,
-        description=_("Border width in number of pixels in corresponding directions."))
-    left_in = IntProperty(default=10, update=updateNode, min=1, max=20,
-        description=_("Border width in number of pixels in corresponding directions."))
-    right_in = IntProperty(default=10, update=updateNode, min=1, max=20,
-        description=_("Border width in number of pixels in corresponding directions."))
-    borderType_in = EnumProperty(items=BORDER_TYPE_REQUIRED_ITEMS, default='BORDER_DEFAULT', update=updateNode,
-        description=_("Border type. See borderInterpolate for details."))
-    color_in = FloatVectorProperty(update=updateNode, name='', default=(.3, .3, .2, 1.0), size=4, min=0.0, max=1.0, subtype='COLOR',
-        description=_("Border value if borderType==BORDER_CONSTANT."))
+    top_in = bpy.props.IntProperty(default=10, update=update_node, min=1, max=20, description="Border width in number of pixels in corresponding directions.")
+    bottom_in = bpy.props.IntProperty(default=10, update=update_node, min=1, max=20, description="Border width in number of pixels in corresponding directions.")
+    left_in = bpy.props.IntProperty(default=10, update=update_node, min=1, max=20, description="Border width in number of pixels in corresponding directions.")
+    right_in = bpy.props.IntProperty(default=10, update=update_node, min=1, max=20, description="Border width in number of pixels in corresponding directions.")
+    borderType_in = bpy.props.EnumProperty(items=BORDER_TYPE_REQUIRED_ITEMS, default='BORDER_DEFAULT', update=update_node, description="Border type. See borderInterpolate for details.")
+    color_in = bpy.props.FloatVectorProperty(update=update_node, name='', default=(.3, .3, .2, 1.0), size=4, min=0.0, max=1.0, subtype='COLOR', description="Border value if borderType==BORDER_CONSTANT.")
 
-    def sv_init(self, context):
-        self.inputs.new("StringsSocket", "image_in")
+    def init(self, context):
+        self.inputs.new("ImageSocket", "image_in")
         self.inputs.new('StringsSocket', "top_in").prop_name = 'top_in'
         self.inputs.new('StringsSocket', "bottom_in").prop_name = 'bottom_in'
         self.inputs.new('StringsSocket', "left_in").prop_name = 'left_in'
@@ -56,11 +48,3 @@ class OCVLcopyMakeBorderNode(OCVLNode):
 
     def draw_buttons(self, context, layout):
         self.add_button(layout, 'borderType_in')
-
-
-def register():
-    cv_register_class(OCVLcopyMakeBorderNode)
-
-
-def unregister():
-    cv_unregister_class(OCVLcopyMakeBorderNode)

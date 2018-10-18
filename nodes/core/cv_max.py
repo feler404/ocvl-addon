@@ -1,27 +1,22 @@
-import cv2
 import uuid
-from gettext import gettext as _
-from bpy.props import StringProperty
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode, DEVELOP_STATE_BETA
+import bpy
+import cv2
+from ocvl.core.node_base import OCVLNodeBase
 
 
-class OCVLmaxNode(OCVLNode):
-    bl_develop_state = DEVELOP_STATE_BETA
+class OCVLmaxNode(OCVLNodeBase):
 
-    _doc = _("Calculates per-element maximum of two arrays or an array and a scalar.")
+    n_doc = "Calculates per-element maximum of two arrays or an array and a scalar."
 
-    n_id = StringProperty(default='')
-    n_meta = StringProperty(default='')
-    src1_in = StringProperty(name="src1_in", default=str(uuid.uuid4()),
-        description=_("First input array."))
-    src2_in = StringProperty(name="src2_in", default=str(uuid.uuid4()),
-        description=_("Second input array of the same size and type as src1."))
+    n_id = bpy.props.StringProperty(default='')
+    n_meta = bpy.props.StringProperty(default='')
+    src1_in = bpy.props.StringProperty(name="src1_in", default=str(uuid.uuid4()), description="First input array.")
+    src2_in = bpy.props.StringProperty(name="src2_in", default=str(uuid.uuid4()), description="Second input array of the same size and type as src1.")
 
-    array_out = StringProperty(name="array_out", default=str(uuid.uuid4()),
-        description=_("Output array of the same size and type as src1."))
+    array_out = bpy.props.StringProperty(name="array_out", default=str(uuid.uuid4()), description="Output array of the same size and type as src1.")
 
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new("StringsSocket", "src1_in")
         self.inputs.new("StringsSocket", "src2_in")
         self.outputs.new("StringsSocket", "array_out")
@@ -39,11 +34,3 @@ class OCVLmaxNode(OCVLNode):
 
     def draw_buttons(self, context, layout):
         pass
-
-
-def register():
-    cv_register_class(OCVLmaxNode)
-
-
-def unregister():
-    cv_unregister_class(OCVLmaxNode)

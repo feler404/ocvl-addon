@@ -1,10 +1,8 @@
-import cv2
 import uuid
-from gettext import gettext as _
-from bpy.props import EnumProperty, StringProperty, FloatProperty, BoolProperty, BoolVectorProperty
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode
-
+import bpy
+import cv2
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 COMPARE_FLAG_ITEMS = (
     ("CMP_EQ", "CMP_EQ", "CMP_EQ", "", 0),
@@ -15,20 +13,15 @@ COMPARE_FLAG_ITEMS = (
     ("CMP_NE", "CMP_NE", "CMP_NE", "", 5),
 )
 
-class OCVLcompareNode(OCVLNode):
 
-    _doc = _("Performs the per-element comparison of two arrays or an array and scalar value.")
-    _note = _("")
-    _see_also = _("")
+class OCVLcompareNode(OCVLNodeBase):
 
+    n_doc = "Performs the per-element comparison of two arrays or an array and scalar value."
 
-    src1_in = StringProperty(name="src1_in", default=str(uuid.uuid4()),
-        description=_("First input array or a scalar (in the case of cvCmp, cv.Cmp, cvCmpS, cv.CmpS it is always an array); when it is an array, it must have a single channel."))
-    src2_in = StringProperty(name="src2_in", default=str(uuid.uuid4()),
-        description=_("Second input array or a scalar (in the case of cvCmp and cv.Cmp it is always an array; in the case of cvCmpS, cv.CmpS it is always a scalar); when it is an array, it must have a single channel."))
+    src1_in = bpy.props.StringProperty(name="src1_in", default=str(uuid.uuid4()), description="First input array or a scalar (in the case of cvCmp, cv.Cmp, cvCmpS, cv.CmpS it is always an array); when it is an array, it must have a single channel.")
+    src2_in = bpy.props.StringProperty(name="src2_in", default=str(uuid.uuid4()), description="Second input array or a scalar (in the case of cvCmp and cv.Cmp it is always an array; in the case of cvCmpS, cv.CmpS it is always a scalar); when it is an array, it must have a single channel.")
 
-    cmpop_in = EnumProperty(items=COMPARE_FLAG_ITEMS, default="CMP_EQ", update=updateNode,
-        description=_("""A flag, that specifies correspondence between the arrays:
+    cmpop_in = bpy.props.EnumProperty(items=COMPARE_FLAG_ITEMS, default="CMP_EQ", update=update_node, description="""A flag, that specifies correspondence between the arrays:
 
         CMP_EQ src1 is equal to src2.
         CMP_GT src1 is greater than src2.
@@ -36,12 +29,11 @@ class OCVLcompareNode(OCVLNode):
         CMP_LT src1 is less than src2.
         CMP_LE src1 is less than or equal to src2.
         CMP_NE src1 is unequal to src2.
-        """))
+        """)
 
-    dst_out = StringProperty(name="dst_out", default=str(uuid.uuid4()),
-        description=_("Output array that has the same size and type as the input arrays."))
+    dst_out = bpy.props.StringProperty(name="dst_out", default=str(uuid.uuid4()), description="Output array that has the same size and type as the input arrays.")
 
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new("StringsSocket", "src1_in")
         self.inputs.new("StringsSocket", "src2_in")
 
@@ -61,11 +53,3 @@ class OCVLcompareNode(OCVLNode):
 
     def draw_buttons(self, context, layout):
         self.add_button(layout, "cmpop_in")
-
-
-def register():
-    cv_register_class(OCVLcompareNode)
-
-
-def unregister():
-    cv_unregister_class(OCVLcompareNode)

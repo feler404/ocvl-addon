@@ -1,44 +1,30 @@
-import cv2
 import uuid
-from gettext import gettext as _
-from bpy.props import EnumProperty, StringProperty, FloatProperty, IntProperty
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode
+import bpy
+import cv2
+from ocvl.core.node_base import OCVLNodeBase
 
 
-class OCVLcountNonZeroNode(OCVLNode):
+class OCVLcountNonZeroNode(OCVLNodeBase):
 
-    _doc = _("Counts non-zero array elements.")
-    _note = _("")
-    _see_also = _("")
+    n_doc = "Counts non-zero array elements."
 
-    src_in = StringProperty(name="src", default=str(uuid.uuid4()), description=_("First input single channel array or a scalar."))
+    src_in = bpy.props.StringProperty(name="src", default=str(uuid.uuid4()), description="First input single channel array or a scalar.")
+    retval_out = bpy.props.IntProperty(name="retval", default=0, description="")
 
-    retval_out = IntProperty(name="retval", default=0,
-        description=_(""))
-
-    def sv_init(self, context):
-        self.inputs.new("StringsSocket", "src")
-
-        self.outputs.new("StringsSocket", "retval")
+    def init(self, context):
+        self.inputs.new("StringsSocket", "src_in")
+        self.outputs.new("StringsSocket", "retval_out")
 
     def wrapped_process(self):
-        self.check_input_requirements(["src"])
+        self.check_input_requirements(["src_in"])
 
         kwargs = {
-            'src': self.get_from_props("src"),
+            'src_in': self.get_from_props("src_in"),
             }
 
-        retval = self.process_cv(fn=cv2.countNonZero, kwargs=kwargs)
-        self.refresh_output_socket("retval", retval, is_uuid_type=True)
+        retval_out = self.process_cv(fn=cv2.countNonZero, kwargs=kwargs)
+        self.refresh_output_socket("retval_out", retval_out, is_uuid_type=True)
 
     def draw_buttons(self, context, layout):
         pass
-
-
-def register():
-    cv_register_class(OCVLcountNonZeroNode)
-
-
-def unregister():
-    cv_unregister_class(OCVLcountNonZeroNode)

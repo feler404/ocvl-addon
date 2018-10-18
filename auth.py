@@ -8,7 +8,7 @@ from os.path import dirname
 import bpy
 import requests
 
-from . import bl_info
+from ocvl import bl_info
 
 logger = logging.getLogger(__name__)
 
@@ -26,7 +26,7 @@ BASE_DIR = os.path.dirname(__file__)
 OCVL_PANEL_URL = "http://127.0.0.1:5000/"
 OCVL_PANEL_LOGIN_URL = "http://127.0.0.1:5000/api-token-auth/"
 OCVL_PANEL_PRODUCTS_URL = "http://127.0.0.1:5000/api/product/"
-OCVL_GITHUB_ISSUE_TEMPLATE = "https://github.com/feler404/ocvl-addon/issues/new?title={title}&body={body}"
+OCVL_GITHUB_ISSUE_TEMPLATE = "https://github.com/feler404/ocvl/issues/new?title={title}&body={body}"
 OCVL_AUTHORS = " & ".join(map(str, bl_info['author']))
 OCVL_VERSION = ".".join(map(str, bl_info['version']))
 OCVL_EXT_VERSION = OCVL_VERSION

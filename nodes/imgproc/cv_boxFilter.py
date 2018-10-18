@@ -1,15 +1,13 @@
-import cv2
 import uuid
-from gettext import gettext as _
-from bpy.props import EnumProperty, StringProperty, IntVectorProperty, BoolProperty
 
-from ...utils import cv_register_class, cv_unregister_class, BORDER_TYPE_ITEMS, COLOR_DEPTH_ITEMS, OCVLNode, updateNode
+import bpy
+import cv2
+from ocvl.core.node_base import OCVLNodeBase, update_node, COLOR_DEPTH_ITEMS, BORDER_TYPE_ITEMS
 
 
-class OCVLboxFilterNode(OCVLNode):
+class OCVLboxFilterNode(OCVLNodeBase):
 
-    _doc = _("Blurs an image using the box filter.")
-
+    n_doc = "Blurs an image using the box filter."
     bl_icon = 'FILTER'
 
     def get_anchor(self):
@@ -20,23 +18,16 @@ class OCVLboxFilterNode(OCVLNode):
         anchor_y = value[1] if -1 <= value[1] < self.ksize_in[1] else self.anchor_in[1]
         self["anchor_in"] = (anchor_x, anchor_y)
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
-        description=_("Input image."))
-    ksize_in = IntVectorProperty(default=(3, 3), min=1, max=30, size=2, update=updateNode,
-        description=_("Blurring kernel size."))
-    anchor_in = IntVectorProperty(default=(-1, -1), update=updateNode, get=get_anchor, set=set_anchor, size=2,
-        description=_("Anchor point."))
-    ddepth_in = EnumProperty(items=COLOR_DEPTH_ITEMS, default='CV_8U', update=updateNode,
-        description=_("The output image depth."))
-    normalize_in = BoolProperty(default=True, update=updateNode,
-        description=_("Flag, specifying whether the kernel is normalized by its area or not."))
-    borderType_in = EnumProperty(items=BORDER_TYPE_ITEMS, default='None', update=updateNode,
-        description=_("Pixel extrapolation method, see cv::BorderTypes"))
+    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input image.")
+    ksize_in = bpy.props.IntVectorProperty(default=(3, 3), min=1, max=30, size=2, update=update_node, description="Blurring kernel size.")
+    anchor_in = bpy.props.IntVectorProperty(default=(-1, -1), update=update_node, get=get_anchor, set=set_anchor, size=2, description="Anchor point.")
+    ddepth_in = bpy.props.EnumProperty(items=COLOR_DEPTH_ITEMS, default='CV_8U', update=update_node, description="The output image depth.")
+    normalize_in = bpy.props.BoolProperty(default=True, update=update_node, description="Flag, specifying whether the kernel is normalized by its area or not.")
+    borderType_in = bpy.props.EnumProperty(items=BORDER_TYPE_ITEMS, default='None', update=update_node, description="Pixel extrapolation method, see cv::BorderTypes")
 
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()),
-        description=_("Output image."))
+    image_out = bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
 
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new("StringsSocket", "image_in")
         self.inputs.new('StringsSocket', "ksize_in").prop_name = 'ksize_in'
         self.inputs.new('StringsSocket', "anchor_in").prop_name = 'anchor_in'
@@ -62,11 +53,3 @@ class OCVLboxFilterNode(OCVLNode):
         self.add_button(layout, "ddepth_in")
         self.add_button(layout, "normalize_in")
         self.add_button(layout, "borderType_in")
-
-
-def register():
-    cv_register_class(OCVLboxFilterNode)
-
-
-def unregister():
-    cv_unregister_class(OCVLboxFilterNode)

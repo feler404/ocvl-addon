@@ -5,11 +5,9 @@ import bpy
 import time
 import logging
 
-from bpy.props import StringProperty
-
-from ..tutorial_engine.worker import print_keyborad_worker
-from .settings import TUTORIAL_HEARTBEAT_INTERVAL, TUTORIAL_PATH, TUTORIAL_HEARTBEAT_INTERVAL_TIP_REFRESH
-from .engine_app import NodeCommandHandler
+from ocvl.tutorial_engine.worker import print_keyborad_worker
+from ocvl.tutorial_engine.settings import TUTORIAL_HEARTBEAT_INTERVAL, TUTORIAL_PATH, TUTORIAL_HEARTBEAT_INTERVAL_TIP_REFRESH
+from ocvl.tutorial_engine.engine_app import NodeCommandHandler
 
 bpy.worker_queue = []
 handler = NodeCommandHandler
@@ -106,7 +104,7 @@ class TutorialModeOperator(bpy.types.Operator):
     bl_idname = "node.tutorial_mode"
     bl_label = "Node Tutorial Mode"
 
-    loc_tutorial_path = StringProperty(default="")
+    loc_tutorial_path = bpy.props.StringProperty(default="")
 
     def execute(self, context):
         bpy.ops.node.clean_desk()
@@ -129,7 +127,7 @@ class TutorialModeCommandOperator(bpy.types.Operator):
     bl_idname = "node.tutorial_mode_command"
     bl_label = "Node Tutorial Mode Command"
 
-    loc_command = StringProperty(default="")
+    loc_command = bpy.props.StringProperty(default="")
 
     def execute(self, context):
 
@@ -189,7 +187,7 @@ class TutorialShowFirstStepCommandOperator(bpy.types.Operator):
     bl_idname = "node.tutorial_show_first_step"
     bl_label = "Node Tutorial Show First Step"
 
-    loc_command = StringProperty(default="")
+    loc_command = bpy.props.StringProperty(default="")
 
     def execute(self, context):
         for area in bpy.context.screen.areas:

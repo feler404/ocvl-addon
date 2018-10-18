@@ -1,10 +1,9 @@
-import cv2
 import uuid
-import numpy as np
-from gettext import gettext as _
-from bpy.props import EnumProperty, StringProperty, IntProperty, FloatProperty
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode, DEVELOP_STATE_ALPHA
+import bpy
+import cv2
+import numpy as np
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 OUTPUT_MODE_ITEMS = (
     ("LINES", "LINES", "LINES", "", 0),
@@ -18,36 +17,26 @@ PROPS_MAPS = {
 }
 
 
-class OCVLHoughLinesPNode(OCVLNode):
-    bl_develop_state = DEVELOP_STATE_ALPHA
+class OCVLHoughLinesPNode(OCVLNodeBase):
 
-    _doc = _("Finds line segments in a binary image using the probabilistic Hough transform.")
+    n_doc = "Finds line segments in a binary image using the probabilistic Hough transform."
 
     def update_layout(self, context):
         self.update_sockets(context)
-        updateNode(self, context)
+        update_node(self, context)
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
-        description=_("Input image."))
-    rho_in = FloatProperty(default=3, min=1, max=10, update=updateNode,
-        description=_("Distance resolution of the accumulator in pixels."))
-    theta_in = FloatProperty(default=0.0574, min=0.0001, max=3.1415, update=updateNode,
-        description=_("Angle resolution of the accumulator in radians."))
-    threshold_in = IntProperty(default=200, min=0, max=255, update=updateNode,
-        description=_("Accumulator threshold parameter."))
-    minLineLength_in = FloatProperty(default=0, min=0, update=updateNode,
-        description=_("Minimum line length. Line segments shorter than that are rejected."))
-    maxLineGap_in = FloatProperty(default=0, min=0, update=updateNode,
-        description=_("Maximum allowed gap between points on the same line to link them."))
+    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input image.")
+    rho_in = bpy.props.FloatProperty(default=3, min=1, max=10, update=update_node, description="Distance resolution of the accumulator in pixels.")
+    theta_in = bpy.props.FloatProperty(default=0.0574, min=0.0001, max=3.1415, update=update_node, description="Angle resolution of the accumulator in radians.")
+    threshold_in = bpy.props.IntProperty(default=200, min=0, max=255, update=update_node, description="Accumulator threshold parameter.")
+    minLineLength_in = bpy.props.FloatProperty(default=0, min=0, update=update_node, description="Minimum line length. Line segments shorter than that are rejected.")
+    maxLineGap_in = bpy.props.FloatProperty(default=0, min=0, update=update_node, description="Maximum allowed gap between points on the same line to link them.")
 
-    loc_output_mode = EnumProperty(items=OUTPUT_MODE_ITEMS, default="LINES", update=update_layout,
-        description=_("Output mode."))
-    lines_out = StringProperty(name="lines_out", default=str(uuid.uuid4()),
-        description=_("Output vector of lines."))
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()),
-        description=_("Output image."))
+    loc_output_mode = bpy.props.EnumProperty(items=OUTPUT_MODE_ITEMS, default="LINES", update=update_layout, description="Output mode.")
+    lines_out = bpy.props.StringProperty(name="lines_out", default=str(uuid.uuid4()), description="Output vector of lines.")
+    image_out = bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
 
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new("StringsSocket", "image_in")
         self.inputs.new('StringsSocket', "rho_in").prop_name = 'rho_in'
         self.inputs.new('StringsSocket', "theta_in").prop_name = 'theta_in'
@@ -88,11 +77,3 @@ class OCVLHoughLinesPNode(OCVLNode):
 
     def draw_buttons(self, context, layout):
         self.add_button(layout, "loc_output_mode")
-
-
-def register():
-    cv_register_class(OCVLHoughLinesPNode)
-
-
-def unregister():
-    cv_unregister_class(OCVLHoughLinesPNode)

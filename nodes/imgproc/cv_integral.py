@@ -1,10 +1,8 @@
-import cv2
 import uuid
-from gettext import gettext as _
-from bpy.props import EnumProperty, StringProperty
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode, DEVELOP_STATE_BETA
-
+import bpy
+import cv2
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 SDEPTH_ITEMS = (
     ("None", "None", "None", "", 0),
@@ -14,21 +12,16 @@ SDEPTH_ITEMS = (
 )
 
 
-class OCVLintegralNode(OCVLNode):
-    bl_develop_state = DEVELOP_STATE_BETA
+class OCVLintegralNode(OCVLNodeBase):
 
-    _doc = _("Calculates the integral of an image.")
+    n_doc = "Calculates the integral of an image."
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
-        description=_("Input image as W x H, 8-bit or floating-point (32f or 64f)."))
-    sum_out = StringProperty(name="sum_out", default=str(uuid.uuid4()),
-        description=_("Integral image as (W+1) x (H+1) , 32-bit integer or floating-point (32f or 64f)."))
+    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input image as W x H, 8-bit or floating-point (32f or 64f).")
+    sum_out = bpy.props.StringProperty(name="sum_out", default=str(uuid.uuid4()), description="Integral image as (W+1) x (H+1) , 32-bit integer or floating-point (32f or 64f).")
 
-    sdepth_in = EnumProperty(items=SDEPTH_ITEMS, default="None", update=updateNode,
-        description=_("Desired depth of the integral and the tilted integral images, CV_32S, CV_32F, or CV_64F."))
+    sdepth_in = bpy.props.EnumProperty(items=SDEPTH_ITEMS, default="None", update=update_node, description="Desired depth of the integral and the tilted integral images, CV_32S, CV_32F, or CV_64F.")
 
-
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new("StringsSocket", "image_in")
 
         self.outputs.new("StringsSocket", "sum_out")
@@ -49,11 +42,3 @@ class OCVLintegralNode(OCVLNode):
 
     def draw_buttons(self, context, layout):
         self.add_button(layout, 'sdepth_in')
-
-
-def register():
-    cv_register_class(OCVLintegralNode)
-
-
-def unregister():
-    cv_unregister_class(OCVLintegralNode)

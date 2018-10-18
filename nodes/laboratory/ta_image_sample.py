@@ -4,10 +4,9 @@ import uuid
 import random
 import numpy as np
 from logging import getLogger
-from bpy.props import EnumProperty, StringProperty, IntProperty
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLPreviewNode, convert_to_cv_image, updateNode
-from ...auth import ocvl_auth
+from ocvl.core.node_base import OCVLPreviewNodeBase
+from ocvl.core.image_utils import convert_to_cv_image
 
 logger = getLogger(__name__)
 
@@ -18,45 +17,43 @@ IMAGE_MODE_ITEMS = [
     ]
 
 
-class OCVLImageSampleNode(OCVLPreviewNode):
-    ''' Image sample '''
+class OCVLImageSampleNode(OCVLPreviewNodeBase):
     bl_icon = 'IMAGE_DATA'
 
     def update_layout(self, context):
-        logger.debug("UPDATE_LAYOUT")
         self.update_sockets(context)
-        updateNode(self, context)
+        self.process()
 
     def update_prop_search(self, context):
-        logger.debug("UPDATE_PROP_SEARCH")
         self.process()
-        updateNode(self, context)
+        self.update_sockets(context)
+        self.process()
 
-    width_in = IntProperty(default=100, min=1, max=1024, update=updateNode, name="width_in")
-    height_in = IntProperty(default=100, min=1, max=1020, update=updateNode, name="height_in")
-    width_out = IntProperty(default=0, name="width_out")
-    height_out = IntProperty(default=0, name="height_out")
-    image_out = StringProperty(default=str(uuid.uuid4()))
+    width_in = bpy.props.IntProperty(default=100, min=1, max=1024, update=update_layout, name="width_in")
+    height_in = bpy.props.IntProperty(default=100, min=1, max=1020, update=update_layout, name="height_in")
+    width_out = bpy.props.IntProperty(default=0, name="width_out")
+    height_out = bpy.props.IntProperty(default=0, name="height_out")
+    image_out = bpy.props.StringProperty(default=str(uuid.uuid4()))
 
-    loc_name_image = StringProperty(default='', update=update_prop_search)
-    loc_filepath = StringProperty(default='', update=updateNode)
-    loc_image_mode = EnumProperty(items=IMAGE_MODE_ITEMS, default="RANDOM", update=update_layout)
+    loc_name_image = bpy.props.StringProperty(default='', update=update_prop_search)
+    loc_filepath = bpy.props.StringProperty(default='', update=update_layout)
+    loc_image_mode = bpy.props.EnumProperty(items=IMAGE_MODE_ITEMS, default="RANDOM", update=update_layout)
 
-    def sv_init(self, context):
+    def init(self, context):
         self.width = 200
-        self.outputs.new('StringsSocket', 'image_out')
+        self.outputs.new('ImageSocket', 'image_out')
         self.outputs.new('StringsSocket', 'width_out')
         self.outputs.new('StringsSocket', 'height_out')
         self.update_layout(context)
 
-        if not np.bl_listener:
-            from pynput import mouse
-            from ...utils import on_click_callback
-
-            np.bl_listener = mouse.Listener(on_click=on_click_callback, )
-
-            np.bl_listener.start()
-            np.bl_listener.wait()
+        # if not np.bl_listener:
+        #     from pynput import mouse
+        #     from ...utils import on_click_callback
+        #
+        #     np.bl_listener = mouse.Listener(on_click=on_click_callback, )
+        #
+        #     np.bl_listener.start()
+        #     np.bl_listener.wait()
 
     def wrapped_process(self):
         logger.info("Process: self: {}, loc_image_mode: {}, loc_filepath: {}".format(self, self.loc_image_mode, self.loc_filepath))
@@ -83,25 +80,11 @@ class OCVLImageSampleNode(OCVLPreviewNode):
                 image = np.zeros((200, 200, 3), np.uint8)
 
         image, self.image_out = self._update_node_cache(image=image, resize=False, uuid_=uuid_)
-
         self.outputs['image_out'].sv_set(self.image_out)
         self.refresh_output_socket("height_out", image.shape[0])
         self.refresh_output_socket("width_out", image.shape[1])
         self.make_textures(image, uuid_=self.image_out)
         self._add_meta_info(image)
-
-    def generate_code(self, prop_name, exit_prop_name):
-        lines = []
-        if prop_name == 'image_out':
-            lines.append("{} = cv2.imread({})".format(exit_prop_name, self.loc_filepath))
-        return lines
-
-    def _add_meta_info(self, image):
-        self.n_meta = "\n".join(["Width: {}".format(image.shape[1]),
-                                 "Height: {}".format(image.shape[0]),
-                                 "Channels: {}".format(image.shape[2]),
-                                 "DType: {}".format(image.dtype),
-                                 "Size: {}".format(image.size)])
 
     def _update_node_cache(self, image=None, resize=False, uuid_=None):
         old_image_out = self.image_out
@@ -109,6 +92,13 @@ class OCVLImageSampleNode(OCVLPreviewNode):
         uuid_ = uuid_ if uuid_ else str(uuid.uuid4())
         self.socket_data_cache[uuid_] = image
         return image, uuid_
+
+    def _add_meta_info(self, image):
+        self.n_meta = "\n".join(["Width: {}".format(image.shape[1]),
+                                 "Height: {}".format(image.shape[0]),
+                                 "Channels: {}".format(image.shape[2]),
+                                 "DType: {}".format(image.dtype),
+                                 "Size: {}".format(image.size)])
 
     def draw_buttons(self, context, layout):
         origin = self.get_node_origin()
@@ -136,16 +126,3 @@ class OCVLImageSampleNode(OCVLPreviewNode):
 
     def update_sockets(self, context):
         self.process()
-
-
-if ocvl_auth.ocvl_pro_version_auth:
-    from ...extend.laboratory.ta_image_sample import OCVLImageSampleNode
-
-
-def register():
-    cv_register_class(OCVLImageSampleNode)
-
-
-def unregister():
-    cv_unregister_class(OCVLImageSampleNode)
-

@@ -1,17 +1,14 @@
-import cv2
 import uuid
-from gettext import gettext as _
-from bpy.props import EnumProperty, StringProperty, IntVectorProperty
 
-from ...utils import cv_register_class, cv_unregister_class, BORDER_TYPE_ITEMS, OCVLNode, updateNode, DEVELOP_STATE_BETA
+import bpy
+import cv2
+from ocvl.core.node_base import OCVLNodeBase, update_node, BORDER_TYPE_ITEMS
 
 
-class OCVLblurNode(OCVLNode):
+class OCVLblurNode(OCVLNodeBase):
 
-    _doc = _("Blurs an image using the normalized box filter.")
-
+    n_doc = "Blurs an image using the normalized box filter."
     bl_icon = 'FILTER'
-    bl_develop_state = DEVELOP_STATE_BETA
 
     def get_anchor(self):
         return self.get("anchor_in", (-1, -1))
@@ -21,19 +18,14 @@ class OCVLblurNode(OCVLNode):
         anchor_y = value[1] if -1 <= value[1] < self.ksize_in[1] else self.anchor_in[1]
         self["anchor_in"] = (anchor_x, anchor_y)
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
-        description=_("Input image."))
-    ksize_in = IntVectorProperty(default=(1, 1), update=updateNode, min=1, max=30, size=2,
-        description=_("Blurring kernel size."))
-    anchor_in = IntVectorProperty(default=(-1, -1), update=updateNode, get=get_anchor, set=set_anchor, size=2,
-        description=_("Bnchor point; default value Point(-1,-1) means that the anchor is at the kernel center."))
-    borderType_in = EnumProperty(items=BORDER_TYPE_ITEMS, default='None', update=updateNode,
-        description=_("Border mode used to extrapolate pixels outside of the image, see cv::BorderTypes."))
+    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input image.")
+    ksize_in = bpy.props.IntVectorProperty(default=(1, 1), update=update_node, min=1, max=30, size=2, description="Blurring kernel size.")
+    anchor_in = bpy.props.IntVectorProperty(default=(-1, -1), update=update_node, get=get_anchor, set=set_anchor, size=2, description="Bnchor point; default value Point(-1,-1) means that the anchor is at the kernel center.")
+    borderType_in = bpy.props.EnumProperty(items=BORDER_TYPE_ITEMS, default='None', update=update_node, description="Border mode used to extrapolate pixels outside of the image, see cv::BorderTypes.")
 
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()),
-        description=_("Output image."))
+    image_out = bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
 
-    def sv_init(self, context):
+    def init(self, context):
         self.width = 150
         self.inputs.new("StringsSocket", "image_in")
         self.inputs.new('StringsSocket', "ksize_in").prop_name = 'ksize_in'
@@ -67,11 +59,3 @@ class OCVLblurNode(OCVLNode):
 
     def draw_buttons(self, context, layout):
         self.add_button(layout, 'borderType_in')
-
-
-def register():
-    cv_register_class(OCVLblurNode)
-
-
-def unregister():
-    cv_unregister_class(OCVLblurNode)

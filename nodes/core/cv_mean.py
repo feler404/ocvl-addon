@@ -1,26 +1,20 @@
-import cv2
 import uuid
-from gettext import gettext as _
-from bpy.props import StringProperty
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode, DEVELOP_STATE_BETA
-
-
-class OCVLmeanNode(OCVLNode):
-    bl_develop_state = DEVELOP_STATE_BETA
-
-    _doc = _("Calculates an average (mean) of array elements.")
-
-    src_in = StringProperty(name="src_in", default=str(uuid.uuid4()),
-        description=_("Input array that should have from 1 to 4 channels so that the result can be stored in Scalar_. "))
-    mask_in = StringProperty(name="mask_in", default=str(uuid.uuid4()),
-        description=_("Optional operation mask."))
-
-    mean_out = StringProperty(name="mean_out", default=str(uuid.uuid4()),
-        description=_("Output parameter: calculated mean value."))
+import bpy
+import cv2
+from ocvl.core.node_base import OCVLNodeBase
 
 
-    def sv_init(self, context):
+class OCVLmeanNode(OCVLNodeBase):
+
+    n_doc = "Calculates an average (mean) of array elements."
+
+    src_in = bpy.props.StringProperty(name="src_in", default=str(uuid.uuid4()), description="Input array that should have from 1 to 4 channels so that the result can be stored in Scalar_. ")
+    mask_in = bpy.props.StringProperty(name="mask_in", default=str(uuid.uuid4()), description="Optional operation mask.")
+
+    mean_out = bpy.props.StringProperty(name="mean_out", default=str(uuid.uuid4()), description="Output parameter: calculated mean value.")
+
+    def init(self, context):
         self.inputs.new("StringsSocket", "src_in")
         self.inputs.new("StringsSocket", "mask_in")
         self.outputs.new("StringsSocket", "mean_out")
@@ -40,11 +34,3 @@ class OCVLmeanNode(OCVLNode):
 
     def draw_buttons(self, context, layout):
         pass
-
-
-def register():
-    cv_register_class(OCVLmeanNode)
-
-
-def unregister():
-    cv_unregister_class(OCVLmeanNode)

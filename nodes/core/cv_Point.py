@@ -1,17 +1,16 @@
-from bpy.props import IntProperty
-from gettext import gettext as _
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode
+import bpy
+
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
-class OCVLPointNode(OCVLNode):
+class OCVLPointNode(OCVLNodeBase):
 
-    _doc = _("Point.")
-    x_in = IntProperty(default=10, min=0, max=2048, update=updateNode,
-        description=_("X"))
-    y_in = IntProperty(default=10, min=0, max=2048, update=updateNode,
-        description=_("Y"))
+    n_doc = "Point."
 
-    def sv_init(self, context):
+    x_in = bpy.props.IntProperty(default=10, min=0, max=2048, update=update_node, description="X")
+    y_in = bpy.props.IntProperty(default=10, min=0, max=2048, update=update_node, description="Y")
+
+    def init(self, context):
         self.inputs.new("StringsSocket", "x_in").prop_name = "x_in"
         self.inputs.new("StringsSocket", "y_in").prop_name = "y_in"
         self.outputs.new("StringsSocket", "point_out")
@@ -25,11 +24,3 @@ class OCVLPointNode(OCVLNode):
 
     def draw_buttons(self, context, layout):
         pass
-
-
-def register():
-    cv_register_class(OCVLPointNode)
-
-
-def unregister():
-    cv_unregister_class(OCVLPointNode)

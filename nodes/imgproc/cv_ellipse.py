@@ -1,10 +1,8 @@
-import cv2
 import uuid
-from gettext import gettext as _
-from bpy.props import EnumProperty, StringProperty, IntProperty, FloatVectorProperty, IntVectorProperty
 
-from ...utils import cv_register_class, cv_unregister_class, LINE_TYPE_ITEMS, OCVLNode, updateNode
-
+import bpy
+import cv2
+from ocvl.core.node_base import OCVLNodeBase, update_node, LINE_TYPE_ITEMS
 
 INPUT_NODE_ITEMS = (
     ("FULL", "FULL", "FULL", "", 0),
@@ -18,46 +16,34 @@ PROPS_MAPS = {
     }
 
 
-class OCVLellipseNode(OCVLNode):
+class OCVLellipseNode(OCVLNodeBase):
+
     bl_icon = 'GREASEPENCIL'
-
-    _doc = _("Draws a simple or thick elliptic arc or fills an ellipse sector.")
-
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
-        description=_("Input image."))
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()),
-        description=_("Output image."))
+    n_doc = "Draws a simple or thick elliptic arc or fills an ellipse sector."
 
     def update_layout(self, context):
         self.update_sockets(context)
-        updateNode(self,context)
+        update_node(self, context)
+
+    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input image.")
+    image_out = bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
 
     # INPUT MODE PROPERTIES
-    box_in = StringProperty(default=str(uuid.uuid4()),
-        description=_("Alternative ellipse representation via RotatedRect. This means that the function draws an ellipse inscribed in the rotated rectangle."))
+    box_in = bpy.props.StringProperty(default=str(uuid.uuid4()), description="Alternative ellipse representation via RotatedRect. This means that the function draws an ellipse inscribed in the rotated rectangle.")
 
-    center_in = IntVectorProperty(default=(0, 0), size=2, update=updateNode,
-        description=_("Center of the ellipse."))
-    axes_in = IntVectorProperty(default=(1, 1), size=2, min=0, max=1000, update=updateNode,
-        description=_("Half of the size of the ellipse main axes."))
-    angle_in = IntProperty(default=30, min=0, max=360, update=updateNode,
-        description=_("Ellipse rotation angle in degrees."))
-    startAngle_in = IntProperty(default=0, min=0, max=360, update=updateNode,
-        description=_("Starting angle of the elliptic arc in degrees."))
-    endAngle_in = IntProperty(default=270, min=0, max=360, update=updateNode,
-        description=_("Ending angle of the elliptic arc in degrees"))
+    center_in = bpy.props.IntVectorProperty(default=(0, 0), size=2, update=update_node, description="Center of the ellipse.")
+    axes_in = bpy.props.IntVectorProperty(default=(1, 1), size=2, min=0, max=1000, update=update_node, description="Half of the size of the ellipse main axes.")
+    angle_in = bpy.props.IntProperty(default=30, min=0, max=360, update=update_node, description="Ellipse rotation angle in degrees.")
+    startAngle_in = bpy.props.IntProperty(default=0, min=0, max=360, update=update_node, description="Starting angle of the elliptic arc in degrees.")
+    endAngle_in = bpy.props.IntProperty(default=270, min=0, max=360, update=update_node, description="Ending angle of the elliptic arc in degrees")
 
     # COMMON PROPERTIES
-    color_in = FloatVectorProperty(update=updateNode, default=(.7, .7, .1, 1.0), size=4, min=0.0, max=1.0, subtype='COLOR',
-        description=_("Ellipse color."))
-    thickness_in = IntProperty(default=2, min=-1, max=10, update=updateNode,
-        description=_("Thickness of the ellipse arc outline, if positive. Otherwise, this indicates that a filled ellipse sector is to be drawn."))
-    lineType_in = EnumProperty(items=LINE_TYPE_ITEMS, default="LINE_AA",update=updateNode,
-        description=_("Type of the ellipse boundary. See the line description."))
-    loc_input_mode = EnumProperty(items=INPUT_NODE_ITEMS, default="SIMPLE", update=update_layout,
-        description=_("Input mode."))
+    color_in = bpy.props.FloatVectorProperty(update=update_node, default=(.7, .7, .1, 1.0), size=4, min=0.0, max=1.0, subtype='COLOR', description="Ellipse color.")
+    thickness_in = bpy.props.IntProperty(default=2, min=-1, max=10, update=update_node, description="Thickness of the ellipse arc outline, if positive. Otherwise, this indicates that a filled ellipse sector is to be drawn.")
+    lineType_in = bpy.props.EnumProperty(items=LINE_TYPE_ITEMS, default="LINE_AA",update=update_node, description="Type of the ellipse boundary. See the line description.")
+    loc_input_mode = bpy.props.EnumProperty(items=INPUT_NODE_ITEMS, default="SIMPLE", update=update_layout, description="Input mode.")
 
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new("StringsSocket", "image_in")
         self.inputs.new('SvColorSocket', 'color_in').prop_name = 'color_in'
         self.inputs.new('StringsSocket', "thickness_in").prop_name = 'thickness_in'
@@ -88,11 +74,3 @@ class OCVLellipseNode(OCVLNode):
     def draw_buttons(self, context, layout):
         self.add_button(layout, 'lineType_in')
         self.add_button(layout, 'loc_input_mode', expand=True)
-
-
-def register():
-    cv_register_class(OCVLellipseNode)
-
-
-def unregister():
-    cv_unregister_class(OCVLellipseNode)

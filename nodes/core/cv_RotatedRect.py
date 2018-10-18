@@ -1,20 +1,17 @@
-from bpy.props import IntProperty, IntVectorProperty
-from gettext import gettext as _
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode
+import bpy
+
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
-class OCVLRotatedRectNode(OCVLNode):
+class OCVLRotatedRectNode(OCVLNodeBase):
 
-    _doc = _("Rotated Rect node.")
+    n_doc = "Rotated Rect node."
 
-    center_in = IntVectorProperty(default=(10, 10), size=2, min=0, max=2048,
-        description=_("Center input."))
-    size_in = IntVectorProperty(default=(10, 10), size=2, min=0, max=2048,
-        description=_("Size input."))
-    angle_in = IntProperty(default=10, min=0, max=360, update=updateNode, subtype='ANGLE',
-        description=_("Angle input."))
+    center_in = bpy.props.IntVectorProperty(default=(10, 10), size=2, min=0, max=2048, description="Center input.")
+    size_in = bpy.props.IntVectorProperty(default=(10, 10), size=2, min=0, max=2048, description="Size input.")
+    angle_in = bpy.props.IntProperty(default=10, min=0, max=360, update=update_node, subtype='ANGLE', description="Angle input.")
 
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new("StringsSocket", "center_in").prop_name = "center_in"
         self.inputs.new("StringsSocket", "size_in").prop_name = "size_in"
         self.inputs.new("StringsSocket", "angle_in").prop_name = "angle_in"
@@ -30,11 +27,3 @@ class OCVLRotatedRectNode(OCVLNode):
 
     def draw_buttons(self, context, layout):
         pass
-
-
-def register():
-    cv_register_class(OCVLRotatedRectNode)
-
-
-def unregister():
-    cv_unregister_class(OCVLRotatedRectNode)

@@ -1,27 +1,21 @@
-import cv2
 import uuid
-from gettext import gettext as _
-from bpy.props import StringProperty
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode, DEVELOP_STATE_BETA
+import bpy
+import cv2
+from ocvl.core.node_base import OCVLNodeBase
 
 
-class OCVLMahalanobisNode(OCVLNode):
-    bl_develop_state = DEVELOP_STATE_BETA
+class OCVLMahalanobisNode(OCVLNodeBase):
 
-    _doc = _("Calculates the Mahalanobis distance between two vectors.")
+    n_doc = "Calculates the Mahalanobis distance between two vectors."
 
-    v1_in = StringProperty(name="v1_in", default=str(uuid.uuid4()),
-        description=_("First 1D input vector."))
-    v2_in = StringProperty(name="v2_in", default=str(uuid.uuid4()),
-        description=_("Second 1D input vector."))
-    icovar_in = StringProperty(name="icovar_in", default=str(uuid.uuid4()),
-        description=_("Inverse covariance matrix."))
+    v1_in = bpy.props.StringProperty(name="v1_in", default=str(uuid.uuid4()), description="First 1D input vector.")
+    v2_in = bpy.props.StringProperty(name="v2_in", default=str(uuid.uuid4()), description="Second 1D input vector.")
+    icovar_in = bpy.props.StringProperty(name="icovar_in", default=str(uuid.uuid4()), description="Inverse covariance matrix.")
 
-    retval_out = StringProperty(name="retval_out", default=str(uuid.uuid4()),
-        description=_("Return value."))
+    retval_out = bpy.props.StringProperty(name="retval_out", default=str(uuid.uuid4()), description="Return value.")
 
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new("StringsSocket", "v1_in")
         self.inputs.new("StringsSocket", "v2_in")
         self.inputs.new("StringsSocket", "icovar_in")
@@ -42,11 +36,3 @@ class OCVLMahalanobisNode(OCVLNode):
 
     def draw_buttons(self, context, layout):
         pass
-
-
-def register():
-    cv_register_class(OCVLMahalanobisNode)
-
-
-def unregister():
-    cv_unregister_class(OCVLMahalanobisNode)

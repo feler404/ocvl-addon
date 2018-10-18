@@ -1,32 +1,23 @@
-import cv2
 import uuid
-from gettext import gettext as _
-from bpy.props import EnumProperty, StringProperty, FloatProperty, BoolProperty, BoolVectorProperty
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode
-
-
-class OCVLcartToPolarNode(OCVLNode):
-
-    _doc = _("Calculates the magnitude and angle of 2D vectors.")
-    _note = _("")
-    _see_also = _("")
+import bpy
+import cv2
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
-    x_in = StringProperty(name="x_in", default=str(uuid.uuid4()),
-        description=_("Array of x-coordinates; this must be a single-precision or double-precision floating-point array."))
-    y_in = StringProperty(name="y_in", default=str(uuid.uuid4()),
-        description=_("Array of y-coordinates, that must have the same size and same type as x."))
+class OCVLcartToPolarNode(OCVLNodeBase):
 
-    angleInDegrees_in = BoolProperty(default=False, update=updateNode,
-        description=_("A flag, indicating whether the angles are measured in radians (which is by default), or in degrees."))
+    n_doc = "Calculates the magnitude and angle of 2D vectors."
 
-    magnitude_out = StringProperty(name="magnitude_out", default=str(uuid.uuid4()),
-        description=_("Output array of magnitudes of the same size and type as x."))
-    angle_out = StringProperty(name="angle_out", default=str(uuid.uuid4()),
-        description=_("Output array of angles that has the same size and type as x; the angles are measured in radians (from 0 to 2*Pi) or in degrees (0 to 360 degrees)."))
+    x_in = bpy.props.StringProperty(name="x_in", default=str(uuid.uuid4()), description="Array of x-coordinates; this must be a single-precision or double-precision floating-point array.")
+    y_in = bpy.props.StringProperty(name="y_in", default=str(uuid.uuid4()), description="Array of y-coordinates, that must have the same size and same type as x.")
 
-    def sv_init(self, context):
+    angleInDegrees_in = bpy.props.BoolProperty(default=False, update=update_node, description="A flag, indicating whether the angles are measured in radians (which is by default), or in degrees.")
+
+    magnitude_out = bpy.props.StringProperty(name="magnitude_out", default=str(uuid.uuid4()), description="Output array of magnitudes of the same size and type as x.")
+    angle_out = bpy.props.StringProperty(name="angle_out", default=str(uuid.uuid4()), description="Output array of angles that has the same size and type as x; the angles are measured in radians (from 0 to 2*Pi) or in degrees (0 to 360 degrees).")
+
+    def init(self, context):
         self.inputs.new("StringsSocket", "x_in")
         self.inputs.new("StringsSocket", "y_in")
 
@@ -48,11 +39,3 @@ class OCVLcartToPolarNode(OCVLNode):
 
     def draw_buttons(self, context, layout):
         self.add_button(layout, "angleInDegrees_in")
-
-
-def register():
-    cv_register_class(OCVLcartToPolarNode)
-
-
-def unregister():
-    cv_unregister_class(OCVLcartToPolarNode)

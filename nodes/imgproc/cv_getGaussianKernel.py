@@ -1,28 +1,23 @@
-import cv2
 import uuid
-from gettext import gettext as _
-from bpy.props import EnumProperty, StringProperty, IntProperty, FloatProperty
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode, COEFFICIENTS_TYPE_ITEMS
+import bpy
+import cv2
+from ocvl.core.node_base import OCVLNodeBase, update_node, COEFFICIENTS_TYPE_ITEMS
 
 
-class OCVLgetGaussianKernelNode(OCVLNode):
+class OCVLgetGaussianKernelNode(OCVLNodeBase):
 
-    _doc = _("Returns Gaussian filter coefficients.")
+    n_doc = "Returns Gaussian filter coefficients."
 
-    kernel_out = StringProperty(name="kernel_out", default=str(uuid.uuid4()),
-        description=_("Output kernel."))
+    kernel_out = bpy.props.StringProperty(name="kernel_out", default=str(uuid.uuid4()), description="Output kernel.")
 
-    ksize_in = IntProperty(default=5, update=updateNode, min=1, max=30,
-        description=_("Aperture size. It should be odd."))
-    sigma_in = FloatProperty(default=0.35, min=0, max=1, update=updateNode,
-        description=_("Gaussian standard deviation."))
-    # normalize_in = BoolProperty(default=False, update=updateNode,
+    ksize_in = bpy.props.IntProperty(default=5, update=update_node, min=1, max=30, description="Aperture size. It should be odd.")
+    sigma_in = bpy.props.FloatProperty(default=0.35, min=0, max=1, update=update_node, description="Gaussian standard deviation.")
+    # normalize_in = bpy.props.BoolProperty(default=False, update=update_node,
     #     description='Flag indicating whether to normalize (scale down) the filter coefficients or not.')
-    ktype_in = EnumProperty(items=COEFFICIENTS_TYPE_ITEMS, default='CV_32F', update=updateNode,
-        description=_("Type of filter coefficients. It can be CV_32f or CV_64F."))
+    ktype_in = bpy.props.EnumProperty(items=COEFFICIENTS_TYPE_ITEMS, default='CV_32F', update=update_node, description="Type of filter coefficients. It can be CV_32f or CV_64F.")
 
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new('StringsSocket', "ksize_in").prop_name = 'ksize_in'
         self.inputs.new('StringsSocket', "sigma_in").prop_name = 'sigma_in'
 
@@ -41,11 +36,3 @@ class OCVLgetGaussianKernelNode(OCVLNode):
 
     def draw_buttons(self, context, layout):
         self.add_button(layout, 'ktype_in')
-
-
-def register():
-    cv_register_class(OCVLgetGaussianKernelNode)
-
-
-def unregister():
-    cv_unregister_class(OCVLgetGaussianKernelNode)

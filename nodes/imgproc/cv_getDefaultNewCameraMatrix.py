@@ -1,27 +1,21 @@
-import cv2
 import uuid
-from gettext import gettext as _
-from bpy.props import StringProperty, IntVectorProperty, BoolProperty
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode, DEVELOP_STATE_BETA
+import bpy
+import cv2
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
-class OCVLgetDefaultNewCameraMatrixNode(OCVLNode):
-    bl_develop_state = DEVELOP_STATE_BETA
+class OCVLgetDefaultNewCameraMatrixNode(OCVLNodeBase):
 
-    _doc = _("Returns the default new camera matrix.")
+    n_doc = "Returns the default new camera matrix."
 
-    cameraMatrix_in = StringProperty(default=str(uuid.uuid4()),
-        description=_("Input camera matrix."))
-    imgsize_in = IntVectorProperty(default=(100, 100), min=1, max=2048, size=2, update=updateNode,
-        description=_("Camera view image size in pixels."))
-    centerPrincipalPoint_in = BoolProperty(default=False, update=updateNode,
-        description=_("Location of the principal point in the new camera matrix. The parameter indicates whether this location should be at the image center or not."))
+    cameraMatrix_in = bpy.props.StringProperty(default=str(uuid.uuid4()), description="Input camera matrix.")
+    imgsize_in = bpy.props.IntVectorProperty(default=(100, 100), min=1, max=2048, size=2, update=update_node, description="Camera view image size in pixels.")
+    centerPrincipalPoint_in = bpy.props.BoolProperty(default=False, update=update_node, description="Location of the principal point in the new camera matrix. The parameter indicates whether this location should be at the image center or not.")
 
-    retval_out = StringProperty(name="retval_out", default=str(uuid.uuid4()),
-        description=_("Return value."))
+    retval_out = bpy.props.StringProperty(name="retval_out", default=str(uuid.uuid4()), description="Return value.")
 
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new("StringsSocket", "cameraMatrix_in")
         self.inputs.new("StringsSocket", "imgsize_in").prop_name = "imgsize_in"
 
@@ -41,11 +35,3 @@ class OCVLgetDefaultNewCameraMatrixNode(OCVLNode):
 
     def draw_buttons(self, context, layout):
         self.add_button(layout, 'centerPrincipalPoint_in')
-
-
-def register():
-    cv_register_class(OCVLgetDefaultNewCameraMatrixNode)
-
-
-def unregister():
-    cv_unregister_class(OCVLgetDefaultNewCameraMatrixNode)

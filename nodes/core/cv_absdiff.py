@@ -1,47 +1,35 @@
-import cv2
 import uuid
-from gettext import gettext as _
-from bpy.props import EnumProperty, StringProperty, FloatProperty
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode
+import bpy
+import cv2
+from ocvl.core.node_base import OCVLNodeBase
 
 
-class OCVLabsdiffNode(OCVLNode):
+class OCVLabsdiffNode(OCVLNodeBase):
+    n_doc = "Calculates the per-element absolute difference between two arrays or between an array and a scalar."
+    n_note = "Saturation is not applied when the arrays have the depth CV_32S. You may even get a negative value in the case of overflow."
+    n_see_also = "abs"
 
-    _doc = _("Calculates the per-element absolute difference between two arrays or between an array and a scalar.")
-    _note = _("Saturation is not applied when the arrays have the depth CV_32S. You may even get a negative value in the case of overflow.")
-    _see_also = _("abs")
+    src1_in = bpy.props.StringProperty(name="src1", default=str(uuid.uuid4()), description="First input array or a scalar.")
+    src2_in = bpy.props.StringProperty(name="src2", default=str(uuid.uuid4()), description="Second input array or a scalar.")
+    dst_out = bpy.props.StringProperty(name="dst", default=str(uuid.uuid4()), description="Output array that has the same size and type as input arrays.")
 
-    src1_in = StringProperty(name="src1", default=str(uuid.uuid4()), description=_("First input array or a scalar."))
-    src2_in = StringProperty(name="src2", default=str(uuid.uuid4()), description=_("Second input array or a scalar."))
+    def init(self, context):
+        self.inputs.new("StringsSocket", "src1_in")
+        self.inputs.new("StringsSocket", "src2_in")
 
-    dst_out = StringProperty(name="dst", default=str(uuid.uuid4()),
-        description=_("Output array that has the same size and type as input arrays."))
-
-    def sv_init(self, context):
-        self.inputs.new("StringsSocket", "src1")
-        self.inputs.new("StringsSocket", "src2")
-
-        self.outputs.new("StringsSocket", "dst")
+        self.outputs.new("StringsSocket", "dst_out")
 
     def wrapped_process(self):
-        self.check_input_requirements(["src1", "src2"])
+        self.check_input_requirements(["src1_in", "src2_in"])
 
         kwargs = {
-            'src1': self.get_from_props("src1"),
-            'src2': self.get_from_props("src2"),
+            'src1': self.get_from_props("src1_in"),
+            'src2': self.get_from_props("src2_in"),
             }
 
-        dst = self.process_cv(fn=cv2.absdiff, kwargs=kwargs)
-        self.refresh_output_socket("dst", dst, is_uuid_type=True)
+        dst_out = self.process_cv(fn=cv2.absdiff, kwargs=kwargs)
+        self.refresh_output_socket("dst_out", dst_out, is_uuid_type=True)
 
     def draw_buttons(self, context, layout):
         pass
-
-
-def register():
-    cv_register_class(OCVLabsdiffNode)
-
-
-def unregister():
-    cv_unregister_class(OCVLabsdiffNode)

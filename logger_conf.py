@@ -1,23 +1,25 @@
 import logging
 
-# create logger
-logger = logging.getLogger('LoggerAutoTest')
-logger.setLevel(logging.DEBUG)
 
-# create console handler and set level to debug
-ch = logging.StreamHandler()
-ch.setLevel(logging.DEBUG)
+def register():
+    # create logger
+    logger = logging.getLogger()
+    logger.setLevel(logging.DEBUG)
 
-# create formatter
-LOG_FORMAT = "%(asctime)s [%(levelname)s] %(name)s: %(message)s"
-formatter = logging.Formatter(LOG_FORMAT)
+    # create console handler and set level to debug
+    ch = logging.StreamHandler()
+    ch.setLevel(logging.DEBUG)
 
-# add formatter to ch
-ch.setFormatter(formatter)
+    # create formatter
+    LOG_FORMAT = "%(asctime)s [%(levelname)s] %(name)s: %(message)s"
+    formatter = logging.Formatter(LOG_FORMAT)
 
-# add ch to logger
-logger.addHandler(ch)
+    # add formatter to ch
+    ch.setFormatter(formatter)
 
-# 'application' code
-logger.debug('debug message')
-logger.info('info message')
+    # add ch to logger
+    logger.addHandler(ch)
+
+    # 'application' code
+    logger.debug('debug message')
+    logger.info('info message')

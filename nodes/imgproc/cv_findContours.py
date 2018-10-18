@@ -1,32 +1,24 @@
-import cv2
 import uuid
-from gettext import gettext as _
-from bpy.props import EnumProperty, StringProperty, IntVectorProperty
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode, RETRIEVAL_MODE_ITEMS, APPROXIMATION_MODE_ITEMS, updateNode
+import bpy
+import cv2
+from ocvl.core.node_base import OCVLNodeBase, update_node, RETRIEVAL_MODE_ITEMS, APPROXIMATION_MODE_ITEMS
 
 
-class OCVLfindContoursNode(OCVLNode):
+class OCVLfindContoursNode(OCVLNodeBase):
 
-    _doc = _("Finds contours in a binary image.")
+    n_doc = "Finds contours in a binary image."
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
-        description=_("Input image."))
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()),
-        description=_("Output image."))
-    contours_out = StringProperty(name="contours_out", default=str(uuid.uuid4()),
-        description=_("Detected contours. Each contour is stored as a vector of points."))
-    hierarchy_out = StringProperty(name="hierarchy_out", default=str(uuid.uuid4()),
-        description=_("Optional output vector, containing information about the image topology. It has as many elements as the number of contours."))
+    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input image.")
+    image_out = bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
+    contours_out = bpy.props.StringProperty(name="contours_out", default=str(uuid.uuid4()), description="Detected contours. Each contour is stored as a vector of points.")
+    hierarchy_out = bpy.props.StringProperty(name="hierarchy_out", default=str(uuid.uuid4()), description="Optional output vector, containing information about the image topology. It has as many elements as the number of contours.")
 
-    mode_in = EnumProperty(items=RETRIEVAL_MODE_ITEMS, default="RETR_TREE", update=updateNode,
-        description=_("Contour retrieval mode, see cv::RetrievalModes"))
-    method_in = EnumProperty(items=APPROXIMATION_MODE_ITEMS, default="CHAIN_APPROX_SIMPLE", update=updateNode,
-        description=_("Contour approximation method, see cv::ContourApproximationModes"))
-    offset_in = IntVectorProperty(default=(0, 0), size=2, update=updateNode,
-        description=_("Optional offset by which every contour point is shifted. This is useful if the."))
+    mode_in = bpy.props.EnumProperty(items=RETRIEVAL_MODE_ITEMS, default="RETR_TREE", update=update_node, description="Contour retrieval mode, see cv::RetrievalModes")
+    method_in = bpy.props.EnumProperty(items=APPROXIMATION_MODE_ITEMS, default="CHAIN_APPROX_SIMPLE", update=update_node, description="Contour approximation method, see cv::ContourApproximationModes")
+    offset_in = bpy.props.IntVectorProperty(default=(0, 0), size=2, update=update_node, description="Optional offset by which every contour point is shifted. This is useful if the.")
 
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new("StringsSocket", "image_in")
         self.inputs.new('StringsSocket', "offset_in").prop_name = 'offset_in'
 
@@ -52,11 +44,3 @@ class OCVLfindContoursNode(OCVLNode):
     def draw_buttons(self, context, layout):
         self.add_button(layout, 'mode_in')
         self.add_button(layout, 'method_in')
-
-
-def register():
-    cv_register_class(OCVLfindContoursNode)
-
-
-def unregister():
-    cv_unregister_class(OCVLfindContoursNode)

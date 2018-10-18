@@ -1,30 +1,20 @@
-import bpy
-import cv2
 import uuid
-import random
-import numpy as np
-from logging import getLogger
-from gettext import gettext as _
-from bpy.props import EnumProperty, StringProperty, IntVectorProperty
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode, DEVELOP_STATE_BETA
-from ...auth import ocvl_auth
+import bpy
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
-class OCVLApplyROINode(OCVLNode):
+class OCVLApplyROINode(OCVLNodeBase):
 
-    bl_develop_state = DEVELOP_STATE_BETA
+    n_doc = "Insert ROI to other image."
 
-    _doc = _("Insert ROI to other image.")
+    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()))
+    image_roi_in = bpy.props.StringProperty(name="image_roi_in", default=str(uuid.uuid4()))
+    image_out = bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()))
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()))
-    image_roi_in = StringProperty(name="image_roi_in", default=str(uuid.uuid4()))
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()))
+    pt1_in = bpy.props.IntVectorProperty(default=(0, 0), size=2, min=0, update=update_node, description="Upper left corner ROI inserting.")
 
-    pt1_in = IntVectorProperty(default=(0, 0), size=2, min=0, update=updateNode,
-        description=_("Upper left corner ROI inserting."))
-
-    def sv_init(self, context):
+    def init(self, context):
         self.width = 200
         self.inputs.new("StringsSocket", "image_in")
         self.inputs.new("StringsSocket", "image_roi_in")
@@ -42,15 +32,3 @@ class OCVLApplyROINode(OCVLNode):
         image_out = image_in.copy()
         image_out[pt1_in[0]:image_roi_in.shape[0] + pt1_in[0], pt1_in[1]:image_roi_in.shape[1] + pt1_in[1]] = image_roi_in
         self.refresh_output_socket("image_out", image_out, is_uuid_type=True)
-
-
-if ocvl_auth.ocvl_pro_version_auth:
-    pass
-    # from ...extend.laboratory.ta_ROI import OCVLROINode
-
-def register():
-    cv_register_class(OCVLApplyROINode)
-
-
-def unregister():
-    cv_unregister_class(OCVLApplyROINode)

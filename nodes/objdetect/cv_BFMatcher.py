@@ -1,12 +1,11 @@
 import cv2
 import uuid
-import numpy as np
-from gettext import gettext as _
-from bpy.props import StringProperty, BoolProperty, IntProperty, FloatProperty, EnumProperty
 
-from ...globals import DESCRIPTORMATCHER_INSTANCES_DICT
-from ...operatores.abc import InitDescriptorMatcherOperator
-from ...utils import cv_register_class, cv_unregister_class, updateNode, OCVLNode
+import bpy
+
+from ocvl.core.globals import DESCRIPTORMATCHER_INSTANCES_DICT
+from ocvl.operatores.abc import InitDescriptorMatcherOperator
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
 WORK_MODE_ITEMS = (
@@ -47,36 +46,36 @@ NORM_TYPE_ITEMS = (
 )
 
 
-class OCVLBFMatcherNode(OCVLNode):
+class OCVLBFMatcherNode(OCVLNodeBase):
 
-    _doc = _("Brute-force matcher create method.")
+    n_doc = "Brute-force matcher create method."
     _url = "https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_feature2d/py_matcher/py_matcher.html"
     _init_method = cv2.BFMatcher_create
     ABC_GLOBAL_INSTANCE_DICT_NAME = DESCRIPTORMATCHER_INSTANCES_DICT
 
     def update_layout(self, context):
         self.update_sockets(context)
-        updateNode(self, context)
+        update_node(self, context)
 
-    queryDescriptors_in = StringProperty(default=str(uuid.uuid4()), description=_(""))
-    trainDescriptors_in = StringProperty(default=str(uuid.uuid4()), update=updateNode, description=_(""))
-    descriptors_in = StringProperty(default=str(uuid.uuid4()), update=updateNode, description=_(""))
-    k_in = IntProperty(default=2, min=1, max=10)
-    mask_in = StringProperty(default=str(uuid.uuid4()), description=_(""))
-    compactResult_in = BoolProperty(default=False)
+    queryDescriptors_in = bpy.props.StringProperty(default=str(uuid.uuid4()), description="")
+    trainDescriptors_in = bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node, description="")
+    descriptors_in = bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node, description="")
+    k_in = bpy.props.IntProperty(default=2, min=1, max=10)
+    mask_in = bpy.props.StringProperty(default=str(uuid.uuid4()), description="")
+    compactResult_in = bpy.props.BoolProperty(default=False)
 
-    normType_init = EnumProperty(default="NORM_L1", items=NORM_TYPE_ITEMS, update=updateNode, description=_(""))
-    crossCheck_init = BoolProperty(default=False, update=updateNode, description=_(""))
-    loc_file_save = StringProperty(default="/", description=_(""))
-    loc_file_load = StringProperty(default="/", description=_(""))
-    loc_work_mode = EnumProperty(items=WORK_MODE_ITEMS, default="MATCH", update=update_layout, description=_(""))
-    loc_state_mode = EnumProperty(items=STATE_MODE_ITEMS, default="INIT", update=update_layout, description=_(""))
-    loc_default_norm = IntProperty(default=0, description=_(""))
-    loc_class_repr = StringProperty(default="", description=_(""))
+    normType_init = bpy.props.EnumProperty(default="NORM_L1", items=NORM_TYPE_ITEMS, update=update_node, description="")
+    crossCheck_init = bpy.props.BoolProperty(default=False, update=update_node, description="")
+    loc_file_save = bpy.props.StringProperty(default="/", description="")
+    loc_file_load = bpy.props.StringProperty(default="/", description="")
+    loc_work_mode = bpy.props.EnumProperty(items=WORK_MODE_ITEMS, default="MATCH", update=update_layout, description="")
+    loc_state_mode = bpy.props.EnumProperty(items=STATE_MODE_ITEMS, default="INIT", update=update_layout, description="")
+    loc_default_norm = bpy.props.IntProperty(default=0, description="")
+    loc_class_repr = bpy.props.StringProperty(default="", description="")
 
-    matches_out = StringProperty(default=str(uuid.uuid4()), description=_(""))
+    matches_out = bpy.props.StringProperty(default=str(uuid.uuid4()), description="")
 
-    def sv_init(self, context):
+    def init(self, context):
         self.width = 250
         self.inputs.new("StringsSocket", "queryDescriptors_in")
         self.inputs.new("StringsSocket", "trainDescriptors_in")
@@ -116,11 +115,3 @@ class OCVLBFMatcherNode(OCVLNode):
             layout.row().prop(self, "loc_file_load")
         elif self.loc_state_mode == "SAVE":
             layout.row().prop(self, "loc_file_save")
-
-
-def register():
-    cv_register_class(OCVLBFMatcherNode)
-
-
-def unregister():
-    cv_unregister_class(OCVLBFMatcherNode)

@@ -1,40 +1,30 @@
-import cv2
 import uuid
-from gettext import gettext as _
-from bpy.props import EnumProperty, StringProperty, IntVectorProperty
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode, DEVELOP_STATE_ALPHA
-
+import bpy
+import cv2
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 M1TYPE_ITEMS = (
     ("CV_32FC1", "CV_32FC1", "CV_32FC1", "", 0),
     ("CV_16SC2", "CV_16SC2", "CV_16SC2", "", 1),
 )
 
-class OCVLinitUndistortRectifyMapNode(OCVLNode):
-    bl_develop_state = DEVELOP_STATE_ALPHA
 
-    _doc = _("Computes the undistortion and rectification transformation map.")
+class OCVLinitUndistortRectifyMapNode(OCVLNodeBase):
 
-    cameraMatrix_in = StringProperty(name="cameraMatrix_in", default=str(uuid.uuid4()),
-        description=_("Input camera matrix A"))
-    distCoeffs_in = StringProperty(name="distCoeffs_in", default=str(uuid.uuid4()),
-        description=_("Input vector of distortion coefficients (k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6]]) of 4, 5, or 8 elements. If the vector is NULL/empty, the zero distortion coefficients are assumed."))
-    newCameraMatrix = StringProperty(name="newCameraMatrix", default=str(uuid.uuid4()),
-        description=_("New camera matrix A'"))
-    R_in = StringProperty(name="R_in", default=str(uuid.uuid4()),
-        description=_("Optional rectification transformation in the object space (3x3 matrix). R1 or R2 , computed by stereoRectify() can be passed here."))
-    size_in = IntVectorProperty(default=(100, 100), min=1, max=2048, size=2, update=updateNode,
-        description=_("Undistorted image size."))
-    m1type_in = EnumProperty(items=M1TYPE_ITEMS, default="CV_32FC1", update=updateNode,
-        description=_("Type of the first output map that can be CV_32FC1 or CV_16SC2."))
+    n_doc = "Computes the undistortion and rectification transformation map."
 
-    map1_out = StringProperty(name="map1_out", default=str(uuid.uuid4()),
-        description=_("First output map"))
-    map2_out = StringProperty(name="map2_out", default=str(uuid.uuid4()),
-        description=_("Second output map"))
+    cameraMatrix_in = bpy.props.StringProperty(name="cameraMatrix_in", default=str(uuid.uuid4()), description="Input camera matrix A")
+    distCoeffs_in = bpy.props.StringProperty(name="distCoeffs_in", default=str(uuid.uuid4()), description="Input vector of distortion coefficients (k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6]]) of 4, 5, or 8 elements. If the vector is NULL/empty, the zero distortion coefficients are assumed.")
+    newCameraMatrix = bpy.props.StringProperty(name="newCameraMatrix", default=str(uuid.uuid4()), description="New camera matrix A'")
+    R_in = bpy.props.StringProperty(name="R_in", default=str(uuid.uuid4()), description="Optional rectification transformation in the object space (3x3 matrix). R1 or R2 , computed by stereoRectify() can be passed here.")
+    size_in = bpy.props.IntVectorProperty(default=(100, 100), min=1, max=2048, size=2, update=update_node, description="Undistorted image size.")
+    m1type_in = bpy.props.EnumProperty(items=M1TYPE_ITEMS, default="CV_32FC1", update=update_node, description="Type of the first output map that can be CV_32FC1 or CV_16SC2.")
 
-    def sv_init(self, context):
+    map1_out = bpy.props.StringProperty(name="map1_out", default=str(uuid.uuid4()), description="First output map")
+    map2_out = bpy.props.StringProperty(name="map2_out", default=str(uuid.uuid4()), description="Second output map")
+
+    def init(self, context):
         self.inputs.new("StringsSocket", "cameraMatrix_in")
         self.inputs.new("StringsSocket", "distCoeffs_in")
         self.inputs.new("StringsSocket", "newCameraMatrix")
@@ -62,11 +52,3 @@ class OCVLinitUndistortRectifyMapNode(OCVLNode):
 
     def draw_buttons(self, context, layout):
         self.add_button(layout, "m1type_in", expand=True)
-
-
-def register():
-    cv_register_class(OCVLinitUndistortRectifyMapNode)
-
-
-def unregister():
-    cv_unregister_class(OCVLinitUndistortRectifyMapNode)

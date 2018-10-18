@@ -1,28 +1,23 @@
 import cv2
 import uuid
-from bpy.props import EnumProperty, StringProperty
-from gettext import gettext as _
+import bpy
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode, DEVELOP_STATE_BETA, updateNode
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
-class OCVLbitwise_xorNode(OCVLNode):
+class OCVLbitwise_xorNode(OCVLNodeBase):
+    n_doc = "Calculates the per-element bit-wise 'exclusive or' operation on two arrays or an array and a scalar."
 
-    bl_develop_state = DEVELOP_STATE_BETA
+    image_1_in = bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node, description="First input array or a scalar.")
+    image_2_in = bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node, description="Second input array or a scalar.")
+    mask_in = bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node, description="Optional operation mask, 8-bit single channel array, that specifies elements of the output array to be changed.")
 
-    _doc = _("Calculates the per-element bit-wise 'exclusive or' operation on two arrays or an array and a scalar.")
+    image_out = bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()))
 
-    image_1_in = StringProperty(name="image_1_in", default=str(uuid.uuid4()), description=_("First input array or a scalar."))
-    image_2_in = StringProperty(name="image_2_in", default=str(uuid.uuid4()), description=_("Second input array or a scalar."))
-    mask_in = StringProperty(name="mask_in", default=str(uuid.uuid4()),
-        description=_("Optional operation mask, 8-bit single channel array, that specifies elements of the output array to be changed."))
-
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()))
-
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new("StringsSocket", "image_1_in")
-        self.inputs.new('StringsSocket', "mask_in")
         self.inputs.new("StringsSocket", "image_2_in")
+        self.inputs.new('StringsSocket', "mask_in")
 
         self.outputs.new("StringsSocket", "image_out")
 
@@ -32,19 +27,11 @@ class OCVLbitwise_xorNode(OCVLNode):
         kwargs = {
             'src1': self.get_from_props("image_1_in"),
             'src2': self.get_from_props("image_2_in"),
-            'mask': self.get_from_props("mask_in"),
+            'mask_in': self.get_from_props("mask_in"),
             }
 
-        if isinstance(kwargs['mask'], str):
-            kwargs.pop('mask')
+        if isinstance(kwargs['mask_in'], str):
+            kwargs.pop('mask_in')
 
         image_out = self.process_cv(fn=cv2.bitwise_xor, kwargs=kwargs)
         self.refresh_output_socket("image_out", image_out, is_uuid_type=True)
-
-
-def register():
-    cv_register_class(OCVLbitwise_xorNode)
-
-
-def unregister():
-    cv_unregister_class(OCVLbitwise_xorNode)

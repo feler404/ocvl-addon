@@ -1,11 +1,9 @@
-import cv2
 import uuid
+
+import bpy
+import cv2
 import numpy as np
-from gettext import gettext as _
-from bpy.props import StringProperty, BoolProperty, IntVectorProperty, FloatVectorProperty
-
-from ...utils import cv_register_class, cv_unregister_class, updateNode, OCVLNode
-
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 ADAPTIVE_METHOD_ITEMS = (
     ("ADAPTIVE_THRESH_GAUSSIAN_C", "ADAPTIVE_THRESH_GAUSSIAN_C", "ADAPTIVE_THRESH_GAUSSIAN_C", "", 0),
@@ -19,31 +17,22 @@ KERNEL_SIZE_ITEMS = (
 )
 
 
-class OCVLfloodFillNode(OCVLNode):
+class OCVLfloodFillNode(OCVLNodeBase):
 
-    _doc = _("Fills a connected component with the given color.")
+    n_doc = "Fills a connected component with the given color."
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
-        description=_("Source 8-bit single-channel image."))
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()),
-        description=_("Destination image of the same size and the same type as src."))
-    rect_out = IntVectorProperty(default=(0, 0, 1, 1), size=4,
-        description=_("Rect output."))
+    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Source 8-bit single-channel image.")
+    image_out = bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Destination image of the same size and the same type as src.")
+    rect_out = bpy.props.IntVectorProperty(default=(0, 0, 1, 1), size=4, description="Rect output.")
 
-    seedPoint_in = IntVectorProperty(default=(0, 0), size=2, update=updateNode,
-        description=_("Starting point."))
-    newVal_in = FloatVectorProperty(update=updateNode, default=(.1, .1, .1, 1.0), size=4, min=0.0, max=1.0, subtype='COLOR',
-        description=_("New value of the repainted domain pixels."))
-    loDiff_in = FloatVectorProperty(update=updateNode, default=(.1, .1, .1, 1.0), size=4, min=0.0, max=1.0, subtype='COLOR',
-        description=_("Maximal lower brightness/color difference between the currently observed pixel and one of its neighbors belonging to the component, or a seed pixel being added to the component."))
-    upDiff_in = FloatVectorProperty(update=updateNode, default=(.9, .9, .9, 1.0), size=4, min=0.0, max=1.0, subtype='COLOR',
-        description=_("Maximal upper brightness/color difference between the currently observed pixel and one of its neighbors belonging to the component, or a seed pixel being added to the component."))
-    flag_fixed_range_in = BoolProperty(default=False, update=updateNode,
-        description=_("If set, the difference between the current pixel and seed pixel is considered. Otherwise, the difference between neighbor pixels is considered (that is, the range is floating)."))
-    flag_mask_only_in = BoolProperty(default=False, update=updateNode,
-        description=_("If set, the function does not change the image ( newVal is ignored), and only fills the mask with the value specified in bits 8-16 of flags as described above."))
+    seedPoint_in = bpy.props.IntVectorProperty(default=(0, 0), size=2, update=update_node, description="Starting point.")
+    newVal_in = bpy.props.FloatVectorProperty(update=update_node, default=(.1, .1, .1, 1.0), size=4, min=0.0, max=1.0, subtype='COLOR', description="New value of the repainted domain pixels.")
+    loDiff_in = bpy.props.FloatVectorProperty(update=update_node, default=(.1, .1, .1, 1.0), size=4, min=0.0, max=1.0, subtype='COLOR', description="Maximal lower brightness/color difference between the currently observed pixel and one of its neighbors belonging to the component, or a seed pixel being added to the component.")
+    upDiff_in = bpy.props.FloatVectorProperty(update=update_node, default=(.9, .9, .9, 1.0), size=4, min=0.0, max=1.0, subtype='COLOR', description="Maximal upper brightness/color difference between the currently observed pixel and one of its neighbors belonging to the component, or a seed pixel being added to the component.")
+    flag_fixed_range_in = bpy.props.BoolProperty(default=False, update=update_node, description="If set, the difference between the current pixel and seed pixel is considered. Otherwise, the difference between neighbor pixels is considered (that is, the range is floating).")
+    flag_mask_only_in = bpy.props.BoolProperty(default=False, update=update_node, description="If set, the function does not change the image ( newVal is ignored), and only fills the mask with the value specified in bits 8-16 of flags as described above.")
 
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new("StringsSocket", "image_in")
         self.inputs.new("StringsSocket", "seedPoint_in").prop_name = "seedPoint_in"
         self.inputs.new("SvColorSocket", "newVal_in").prop_name = "newVal_in"
@@ -76,11 +65,3 @@ class OCVLfloodFillNode(OCVLNode):
 
     def draw_buttons(self, context, layout):
         self.add_button_get_points(layout=layout, props_name=('seedPoint_in',))
-
-
-def register():
-    cv_register_class(OCVLfloodFillNode)
-
-
-def unregister():
-    cv_unregister_class(OCVLfloodFillNode)

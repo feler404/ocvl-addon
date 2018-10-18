@@ -1,9 +1,8 @@
-import cv2
 import uuid
-from gettext import gettext as _
-from bpy.props import StringProperty
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode
+import bpy
+import cv2
+from ocvl.core.node_base import OCVLNodeBase
 
 
 MODE_ITEMS = [
@@ -18,23 +17,18 @@ PROPS_MAPS = {
 }
 
 
-class OCVLsplitNode(OCVLNode):
+class OCVLsplitNode(OCVLNodeBase):
 
-    _doc = _("Divides a multi-channel array into several single-channel arrays.")
+    n_doc = "Divides a multi-channel array into several single-channel arrays."
 
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
-        description=_("Input multi-channel array."))
+    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input multi-channel array.")
 
-    layer_0_out = StringProperty(name="layer_0_out", default=str(uuid.uuid4()),
-        description=_("Channel 0."))
-    layer_1_out = StringProperty(name="layer_1_out", default=str(uuid.uuid4()),
-        description=_("Channel 1."))
-    layer_2_out = StringProperty(name="layer_2_out", default=str(uuid.uuid4()),
-        description=_("Channel 2."))
-    layer_3_out = StringProperty(name="layer_3_out", default=str(uuid.uuid4()),
-        description=_("Channel 3."))
+    layer_0_out = bpy.props.StringProperty(name="layer_0_out", default=str(uuid.uuid4()), description="Channel 0.")
+    layer_1_out = bpy.props.StringProperty(name="layer_1_out", default=str(uuid.uuid4()), description="Channel 1.")
+    layer_2_out = bpy.props.StringProperty(name="layer_2_out", default=str(uuid.uuid4()), description="Channel 2.")
+    layer_3_out = bpy.props.StringProperty(name="layer_3_out", default=str(uuid.uuid4()), description="Channel 3.")
 
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new("StringsSocket", "image_in")
 
         self.outputs.new("StringsSocket", "layer_0_out")
@@ -62,11 +56,3 @@ class OCVLsplitNode(OCVLNode):
 
     def draw_buttons(self, context, layout):
         pass
-
-
-def register():
-    cv_register_class(OCVLsplitNode)
-
-
-def unregister():
-    cv_unregister_class(OCVLsplitNode)

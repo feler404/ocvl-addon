@@ -1,44 +1,30 @@
-import cv2
 import uuid
+
+import bpy
+import cv2
 import numpy as np
-from gettext import gettext as _
-from bpy.props import (
-    StringProperty, BoolProperty, IntProperty, FloatProperty
-)
-
-from ...utils import cv_register_class, cv_unregister_class, updateNode, OCVLNode
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
-class OCVLgoodFeaturesToTrackNode(OCVLNode):
+class OCVLgoodFeaturesToTrackNode(OCVLNodeBase):
 
-    _doc = _("Determines strong corners on an image.")
+    n_doc = "Determines strong corners on an image."
     _url = "http://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_feature2d/py_shi_tomasi/py_shi_tomasi.html"
 
-    image_in = StringProperty(default=str(uuid.uuid4()),
-        description=_("Input 8-bit or floating-point 32-bit, single-channel image."))
-    mask_in = StringProperty(default=str(uuid.uuid4()), update=updateNode,
-        description=_("Optional region of interest."))
-    maxCorners_in = IntProperty(default=25, min=1, max=1000, update=updateNode,
-        description=_("Output vector of detected corners."))
-    qualityLevel_in = FloatProperty(default=0.01, min=0.0001, max=0.9999, update=updateNode,
-        description=_("Maximum number of corners to return."))
-    minDistance_in = FloatProperty(default=10, min=1, max=1000, update=updateNode,
-        description=_("Minimum possible Euclidean distance between the returned corners."))
-    blockSize_in = IntProperty(default=3, min=2, max=100, update=updateNode,
-        description=_("Size of an average block for computing a derivative covariation matrix over each pixel neighborhood."))
-    gradientSize_in = IntProperty(default=3, min=1, max=100, update=updateNode,
-        description="")
-    useHarrisDetector_in = BoolProperty(default=False, update=updateNode,
-        description=_("Parameter indicating whether to use a Harris detector (see cornerHarris) or cornerMinEigenVal."))
-    k_in = FloatProperty(default=0.04, min=0.01, max=1., update=updateNode,
-        description="Free parameter of the Harris detector.")
+    image_in = bpy.props.StringProperty(default=str(uuid.uuid4()), description="Input 8-bit or floating-point 32-bit, single-channel image.")
+    mask_in = bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node, description="Optional region of interest.")
+    maxCorners_in = bpy.props.IntProperty(default=25, min=1, max=1000, update=update_node, description="Output vector of detected corners.")
+    qualityLevel_in = bpy.props.FloatProperty(default=0.01, min=0.0001, max=0.9999, update=update_node, description="Maximum number of corners to return.")
+    minDistance_in = bpy.props.FloatProperty(default=10, min=1, max=1000, update=update_node, description="Minimum possible Euclidean distance between the returned corners.")
+    blockSize_in = bpy.props.IntProperty(default=3, min=2, max=100, update=update_node, description="Size of an average block for computing a derivative covariation matrix over each pixel neighborhood.")
+    gradientSize_in = bpy.props.IntProperty(default=3, min=1, max=100, update=update_node, description="")
+    useHarrisDetector_in = bpy.props.BoolProperty(default=False, update=update_node, description="Parameter indicating whether to use a Harris detector (see cornerHarris) or cornerMinEigenVal.")
+    k_in = bpy.props.FloatProperty(default=0.04, min=0.01, max=1., update=update_node, description="Free parameter of the Harris detector.")
 
-    corners_out = StringProperty(name="corners_out", default=str(uuid.uuid4()),
-        description=_("Output vector of detected corners."))
-    image_out = StringProperty(name="image_out", default=str(uuid.uuid4()),
-        description=_("Output vector of detected corners."))
+    corners_out = bpy.props.StringProperty(name="corners_out", default=str(uuid.uuid4()), description="Output vector of detected corners.")
+    image_out = bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output vector of detected corners.")
 
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new("StringsSocket", "image_in")
         self.inputs.new("StringsSocket", "mask_in")
         self.inputs.new("StringsSocket", "maxCorners_in").prop_name = "maxCorners_in"
@@ -80,11 +66,3 @@ class OCVLgoodFeaturesToTrackNode(OCVLNode):
             x, y = i.ravel()
             cv2.circle(image_out, (x, y), 3, 255, -1)
         self.refresh_output_socket("image_out", image_out, is_uuid_type=True)
-
-
-def register():
-    cv_register_class(OCVLgoodFeaturesToTrackNode)
-
-
-def unregister():
-    cv_unregister_class(OCVLgoodFeaturesToTrackNode)

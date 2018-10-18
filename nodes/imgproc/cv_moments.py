@@ -1,25 +1,20 @@
-import cv2
 import uuid
-from gettext import gettext as _
-from bpy.props import StringProperty, BoolProperty
 
-from ...utils import cv_register_class, cv_unregister_class, updateNode, OCVLNode
+import bpy
+import cv2
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
-class OCVLmomentsNode(OCVLNode):
+class OCVLmomentsNode(OCVLNodeBase):
 
-    _doc = _("Calculates all of the moments up to the third order of a polygon or rasterized shape.")
+    n_doc = "Calculates all of the moments up to the third order of a polygon or rasterized shape."
 
-    moments_out = StringProperty(name="moments_out", default=str(uuid.uuid4()),
-        description=_("Output moments."))
-    image_in = StringProperty(name="image_in", default=str(uuid.uuid4()),
-        description=_("Raster image (single-channel, 8-bit or floating-point 2D array) or an array")) #pobrane z opisu dla 'array' nie wiem czy dobrze
-    binaryImage_in = BoolProperty(default=False, update=updateNode,
-        description=_("If it is true, all non-zero image pixels are treated as 1's. The parameter is used for images only."))
+    moments_out = bpy.props.StringProperty(name="moments_out", default=str(uuid.uuid4()), description="Output moments.")
+    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Raster image (single-channel, 8-bit or floating-point 2D array) or an array") #pobrane z opisu dla 'array' nie wiem czy dobrze
+    binaryImage_in = bpy.props.BoolProperty(default=False, update=update_node, description="If it is true, all non-zero image pixels are treated as 1's. The parameter is used for images only.")
 
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new("StringsSocket", "image_in")
-
         self.outputs.new("StringsSocket", "moments_out")
 
     def wrapped_process(self):
@@ -35,11 +30,3 @@ class OCVLmomentsNode(OCVLNode):
 
     def draw_buttons(self, context, layout):
         self.add_button(layout, 'binaryImage_in')
-
-
-def register():
-    cv_register_class(OCVLmomentsNode)
-
-
-def unregister():
-    cv_unregister_class(OCVLmomentsNode)

@@ -1,18 +1,16 @@
-from bpy.props import IntProperty
-from gettext import gettext as _
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode
+import bpy
+
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
-class OCVLSizeNode(OCVLNode):
+class OCVLSizeNode(OCVLNodeBase):
 
-    _doc = _("Size node.")
+    n_doc = "Size node."
 
-    width_in = IntProperty(default=10, min=0, max=2048, update=updateNode,
-        description=_("Width input."))
-    height_in = IntProperty(default=10, min=0, max=2048, update=updateNode,
-        description=_("Height input."))
+    width_in = bpy.props.IntProperty(default=10, min=0, max=2048, update=update_node, description="Width input.")
+    height_in = bpy.props.IntProperty(default=10, min=0, max=2048, update=update_node, description="Height input.")
 
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new("StringsSocket", "width_in").prop_name = "width_in"
         self.inputs.new("StringsSocket", "height_in").prop_name = "height_in"
         self.outputs.new("StringsSocket", "size_out")
@@ -26,11 +24,3 @@ class OCVLSizeNode(OCVLNode):
 
     def draw_buttons(self, context, layout):
         pass
-
-
-def register():
-    cv_register_class(OCVLSizeNode)
-
-
-def unregister():
-    cv_unregister_class(OCVLSizeNode)

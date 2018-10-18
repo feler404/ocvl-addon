@@ -1,28 +1,22 @@
-import cv2
 import uuid
-from bpy.props import StringProperty, BoolVectorProperty
-from gettext import gettext as _
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode, updateNode, DEVELOP_STATE_BETA
+import bpy
+import cv2
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
-class OCVLinvertNode(OCVLNode):
-    bl_develop_state = DEVELOP_STATE_BETA
+class OCVLinvertNode(OCVLNodeBase):
+
+    n_doc ="Finds the inverse or pseudo-inverse of a matrix."
     bl_flags_list = 'DECOMP_LU, DECOMP_SVD, DECOMP_CHOLESKY'
 
-    _doc =_("Finds the inverse or pseudo-inverse of a matrix.")
+    src_in = bpy.props.StringProperty(name="src_in", default=str(uuid.uuid4()), description="Input floating-point M x N matrix.")
+    flags_in = bpy.props.BoolVectorProperty(default=[False for i in bl_flags_list.split(",")], size=len(bl_flags_list.split(",")), update=update_node, subtype="NONE", description=bl_flags_list)
 
-    src_in = StringProperty(name="src_in", default=str(uuid.uuid4()),
-        description=_("Input floating-point M x N matrix."))
-    flags_in = BoolVectorProperty(default=[False for i in bl_flags_list.split(",")], size=len(bl_flags_list.split(",")),
-        update=updateNode, subtype="NONE", description=bl_flags_list)
+    dst_out = bpy.props.StringProperty(name="dst_out", default=str(uuid.uuid4()), description="Output matrix of N x M size and the same type as src.")
+    retval_out = bpy.props.StringProperty(name="retval_out", default=str(uuid.uuid4()), description="Return value.")
 
-    dst_out = StringProperty(name="dst_out", default=str(uuid.uuid4()),
-        description=_("Output matrix of N x M size and the same type as src."))
-    retval_out = StringProperty(name="retval_out", default=str(uuid.uuid4()),
-        description=_("Return value."))
-
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new("StringsSocket", "src_in")
 
         self.outputs.new("StringsSocket", "dst_out")
@@ -42,11 +36,3 @@ class OCVLinvertNode(OCVLNode):
 
     def draw_buttons(self, context, layout):
         self.add_button(layout, "flags_in")
-
-
-def register():
-    cv_register_class(OCVLinvertNode)
-
-
-def unregister():
-    cv_unregister_class(OCVLinvertNode)

@@ -1,24 +1,21 @@
-import cv2
 import uuid
-from bpy.props import StringProperty
-from gettext import gettext as _
 
-from ...utils import cv_register_class, cv_unregister_class, OCVLNode, DEVELOP_STATE_BETA
+import bpy
+import cv2
+from ocvl.core.node_base import OCVLNodeBase
 
 
-class OCVLinRangeNode(OCVLNode):
+class OCVLinRangeNode(OCVLNodeBase):
 
-    bl_develop_state = DEVELOP_STATE_BETA
+    n_doc = "Checks if array elements lie between the elements of two other arrays."
 
-    _doc = _("Checks if array elements lie between the elements of two other arrays.")
+    src_in = bpy.props.StringProperty(name="src_in", default=str(uuid.uuid4()), description="First input array.")
+    lowerb_in = bpy.props.StringProperty(name="lowerb_in", default=str(uuid.uuid4()), description="Inclusive lower boundary array or a scalar.")
+    upperb_in = bpy.props.StringProperty(name="upperb_in", default=str(uuid.uuid4()), description="Inclusive upper boundary array or a scalar.")
 
-    src_in = StringProperty(name="src_in", default=str(uuid.uuid4()), description=_("First input array."))
-    lowerb_in = StringProperty(name="lowerb_in", default=str(uuid.uuid4()), description=_("Inclusive lower boundary array or a scalar."))
-    upperb_in = StringProperty(name="upperb_in", default=str(uuid.uuid4()), description=_("Inclusive upper boundary array or a scalar."))
+    dst_out = bpy.props.StringProperty(name="dst_out", default=str(uuid.uuid4()), description="Output array of the same size as src and CV_8U type.")
 
-    dst_out = StringProperty(name="dst_out", default=str(uuid.uuid4()), description=_("Output array of the same size as src and CV_8U type."))
-
-    def sv_init(self, context):
+    def init(self, context):
         self.inputs.new("StringsSocket", "src_in")
         self.inputs.new("StringsSocket", "lowerb_in")
         self.inputs.new("StringsSocket", "upperb_in")
@@ -27,6 +24,7 @@ class OCVLinRangeNode(OCVLNode):
 
     def wrapped_process(self):
         self.check_input_requirements(["src_in", "lowerb_in", "upperb_in"])
+
         kwargs = {
             'src_in': self.get_from_props("src_in"),
             'lowerb_in': self.get_from_props("lowerb_in"),
@@ -38,11 +36,3 @@ class OCVLinRangeNode(OCVLNode):
 
     def draw_buttons(self, context, layout):
         pass
-
-
-def register():
-    cv_register_class(OCVLinRangeNode)
-
-
-def unregister():
-    cv_unregister_class(OCVLinRangeNode)
