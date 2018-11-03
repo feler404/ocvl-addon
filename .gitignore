@@ -66,6 +66,7 @@ docs/.make.bat.swp
 nodes/generator/meta_balls.py
 
 # IDE
+.idea/modules.xml
 .idea
 .idea/*
 .DS_Store

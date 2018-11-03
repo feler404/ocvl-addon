@@ -50,22 +50,6 @@ if not os.path.isfile(BLENDER_PYTHON_PIP_BIN):
 cmd("{} install -r {}".format(BLENDER_PYTHON_PIP_BIN, OCVL_REQUIREMENTS_PATH))
 
 # ----- Replace files
-#mv $BLENDER_BUILD_DIR/$OCVL_ADDON_DIR/build_files/splash_2x.png $BLENDER_BUILD_DIR/blender/release/datafiles/splash_2x.png
-
-
-shutil.copy
-OCVL_DIR = os.path.join(BLENDER_BUILD_DIR, OCVL_ADDON_DIR)
-for path, dirs, files in os.walk(os.path.join(BLENDER_BUILD_DIR, BLENDER_SOURCE_DIR)):
-    for file in files:
-        src_full_path = os.path.join(path, file)
-        last_dir = src_full_path.replace(OCVL_DIR, "")
-        dst_full_path = os.path.join(BLENDER_BUILD_DIR, "blender", last_dir)
-
-
-
-
-files = [
-    'release/datafiles/blender_icons.svg',  # prawdopodobnie do instalek na mac/linux
-    'release/datafiles/splash_2x.png',  # mala wersja splasha
-    'release/datafiles/splash_2x.png',  # duza wersja splasha
-]
+OCVL_RELEASE_DIR = os.path.join(BLENDER_BUILD_DIR, OCVL_ADDON_DIR, "build_files", "release") + "/"
+BLENDER_RELEASE_DIR = os.path.join(BLENDER_BUILD_DIR, BLENDER_SOURCE_DIR, "release")
+cmd("cp -Rfv {} {}".format(OCVL_RELEASE_DIR, BLENDER_RELEASE_DIR))
