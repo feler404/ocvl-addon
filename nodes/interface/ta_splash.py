@@ -97,12 +97,12 @@ class OCVLSplashNode(OCVLPreviewNodeBase):
         self.layout_add_store_link(row)
         row = layout.row()
         col = row.column()
-        col_split = col.split(0.5, align=True)
+        col_split = col.split(factor=0.5, align=True)
         col_split.operator('node.tutorial_show_first_step', text="Tutorial - First steps", icon='PARTICLES')
         col_split.operator('wm.url_open', text="More mutorials".format(self.bl_label), icon='INFO').url = OCVL_LINK_TO_MORE_TUTORIALS
         for i, tutorial in enumerate(ocvl_user.local_tutorials):
             if i % 2:
-                col_split = col.split(0.5, align=True)
+                col_split = col.split(factor=0.5, align=True)
             text = tutorial.get("name")
             icon = tutorial.get("icon", "URL")
             col_split.operator('wm.url_open', text=text.format(self.bl_label), icon=icon).url = ocvl_user.tutorials.get("package_site", "http://kube.pl")
@@ -143,6 +143,6 @@ class OCVLSplashNode(OCVLPreviewNodeBase):
             row.operator('node.login_in_request_in_splash', text='Submit', icon='FILE_TICK').origin = self.get_node_origin(props_name=[get_fn_url, get_args])
             row = layout.row()
             col = row.column()
-            col_split = col.split(0.5, align=True)
+            col_split = col.split(factor=0.5, align=True)
             col_split.operator('node.tutorial_show_first_step', text="Tutorial - First steps", icon='PARTICLES')
             col_split.operator('node.clean_desk', text="Start with blank desk - Community version", icon='RESTRICT_VIEW_OFF')

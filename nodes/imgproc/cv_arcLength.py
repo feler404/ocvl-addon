@@ -32,6 +32,6 @@ class OCVLarcLengthNode(OCVLNodeBase):
         self.refresh_output_socket("length_out", length_out)
 
     def draw_buttons(self, context, layout):
-        layout.label('Length: {}'.format(self.length_out))
+        layout.label(text='Length: {}'.format(self.length_out))
         self.add_button(layout, 'closed_in')
         self.add_button(layout, 'loc_from_findContours')

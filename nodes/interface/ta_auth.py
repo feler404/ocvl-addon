@@ -38,7 +38,7 @@ class OCVLAuthNode(OCVLPreviewNodeBase):
             col = layout.column(align=True)
             for i, tutorial in enumerate(ocvl_user.tutorials):
                 if i % 2:
-                    col_split = col.split(0.5, align=True)
+                    col_split = col.split(factor=0.5, align=True)
                 text = tutorial.get("name")
                 icon = tutorial.get("icon", "URL")
                 col.operator('wm.url_open', text=text.format(self.bl_label),
@@ -59,8 +59,8 @@ class OCVLAuthNode(OCVLPreviewNodeBase):
             col.operator('wm.url_open', text="Report a problem".format(self.bl_label), icon='URL').url = url
             msg = "Unsupported error"
             icon = "ERROR"
-        layout.label(msg)
-        layout.label(name, icon=icon)
+        layout.label(text=msg)
+        layout.label(text=name, icon=icon)
 
 
 AUTH_NODE_NAME = OCVLAuthNode.__name__[4:-4]

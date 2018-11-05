@@ -108,7 +108,7 @@ class OCVLBFMatcherNode(OCVLNodeBase):
         self.add_button(layout=layout, prop_name='loc_state_mode', expand=True)
         if self.loc_state_mode == "INIT":
             layout.operator("node.init_feature_2d", icon='MENU_PANEL').origin = origin
-            layout.label("Instance: {}".format(self.loc_class_repr))
+            layout.label(text="Instance: {}".format(self.loc_class_repr))
             for key in InitDescriptorMatcherOperator.get_init_kwargs(self):
                 layout.row().prop(self, "{}_init".format(key))
         elif self.loc_state_mode == "LOAD":

@@ -88,7 +88,7 @@ class OCVLFeature2DNode:
         self.add_button(layout=layout, prop_name='loc_state_mode', expand=True)
         if self.loc_state_mode == "INIT":
             layout.operator("node.init_feature_2d", icon='MENU_PANEL').origin = origin
-            layout.label("Instance: {}".format(self.loc_class_repr))
+            layout.label(text="Instance: {}".format(self.loc_class_repr))
             for key in InitFeature2DOperator.get_init_kwargs(self):
                 arg_name = key
                 if arg_name.startswith("_"):

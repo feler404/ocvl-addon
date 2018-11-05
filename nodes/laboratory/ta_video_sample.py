@@ -103,14 +103,14 @@ class OCVLVideoSampleNode(OCVLPreviewNodeBase):
             self.add_button(layout, "loc_stream")
         elif self.loc_image_mode == "FILE":
             col = layout.row().column()
-            col_split = col.split(1, align=True)
+            col_split = col.split(factor=1, align=True)
             col_split.operator('image.image_importer', text='', icon="FILE_FOLDER").origin = origin
 
         if self.n_id not in self.texture:
             return
 
         col = layout.row().column()
-        col_split = col.split(1, align=True)
+        col_split = col.split(factor=1, align=True)
         if not screen.is_animation_playing:
             col_split.operator("screen.animation_play", text="", icon='PLAY')
         else:

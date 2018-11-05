@@ -6,8 +6,8 @@ from ocvl.core.node_base import OCVLNodeBase, update_node, BORDER_TYPE_REQUIRED_
 
 
 class OCVLcopyMakeBorderNode(OCVLNodeBase):
-    bl_icon = 'BORDER_RECT'
-
+    # bl_icon = 'BORDER_RECT'
+    #
     n_doc = "Forms a border around an image."
 
     image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input image.")

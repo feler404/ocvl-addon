@@ -400,15 +400,15 @@ class OCVLNodeBase(bpy.types.Node):
         #     row.operator('text.show_help_in_text_editor', text='Documentation docstring - {}'.format(self.bl_label), icon="TEXT").origin = self.get_node_origin()
 
         for msg in self.n_meta.split("\n"):
-            layout.label(msg)
+            layout.label(text=msg)
 
         if self.n_error:
-            layout.label("Error(in line {}): ".format(self.n_error_line))
-            layout.label("*" * WRAP_TEXT_SIZE_FOR_ERROR_DISPLAY)
+            layout.label(text="Error(in line {}): ".format(self.n_error_line))
+            layout.label(text="*" * WRAP_TEXT_SIZE_FOR_ERROR_DISPLAY)
             lines = textwrap.wrap(self.n_error, WRAP_TEXT_SIZE_FOR_ERROR_DISPLAY)
             for line in lines:
-                layout.label(line)
-            layout.label("*" * WRAP_TEXT_SIZE_FOR_ERROR_DISPLAY)
+                layout.label(text=line)
+            layout.label(text="*" * WRAP_TEXT_SIZE_FOR_ERROR_DISPLAY)
 
     def get_node_origin(self, props_name=None):
         node_tree = self.id_data.name

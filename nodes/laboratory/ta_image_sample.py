@@ -106,7 +106,7 @@ class OCVLImageSampleNode(OCVLPreviewNodeBase):
 
         if self.loc_image_mode == "FILE":
             col = layout.row().column()
-            col_split = col.split(1, align=True)
+            col_split = col.split(factor=1, align=True)
             col_split.operator('image.image_importer', text='', icon="FILE_FOLDER").origin = origin
         elif self.loc_image_mode == "PLANE":
             pass

@@ -242,11 +242,12 @@ class OCVLSocketBase:
 
             try:
                 node.check_input_requirements(node.n_requirements)
-                op_icon = "OUTLINER_OB_LAMP"
+                # op_icon = ""
             except (Exception, LackRequiredSocket) as e:
                 op_icon = "LAMP"
 
-            op = layout.operator('node.sv_quicklink_new_node', text="", icon=op_icon)
+            # op = layout.operator('node.sv_quicklink_new_node', text="", icon=op_icon)
+            op = layout.operator('node.sv_quicklink_new_node', text="")
             op.socket_index = self.index
             op.origin = node.name
             op.is_input_mode = False
@@ -264,10 +265,10 @@ class OCVLSocketBase:
                     t = prop.name if prop else text
             info_text = t + '. ' + SvGetSocketInfo(self)
             info_text += self.extra_info
-            layout.label(info_text)
+            layout.label(text=info_text)
 
         elif self.is_output:  # unlinked OUTPUT
-            layout.label(text)
+            layout.label(text=text)
             self.draw_quick_link_output(context, layout, node)
 
         else:  # unlinked INPUT
@@ -282,11 +283,11 @@ class OCVLSocketBase:
             #         getattr(node, self.quicklink_func_name)(self, context, layout, node)
             #     except Exception as e:
             #         self.draw_quick_link(context, layout, node)
-            #     layout.label(text)
+            #     layout.label(text=text)
             #
             else:  # no property and not use default prop
                 self.draw_quick_link_input(context, layout, node)
-                layout.label(text)
+                layout.label(text=text)
 
     def draw_color(self, context, node):
         return SOCKET_COLORS.__getattribute__(self.bl_idname)

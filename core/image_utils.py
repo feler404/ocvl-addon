@@ -21,7 +21,7 @@ def tag_redraw_all_nodeviews():
 def restore_opengl_defaults():
     bgl.glLineWidth(1)
     bgl.glDisable(bgl.GL_BLEND)
-    bgl.glColor4f(0.0, 0.0, 0.0, 1.0)
+    # bgl.glColor4f(0.0, 0.0, 0.0, 1.0)
 
 
 def draw_text_data(data):
@@ -137,8 +137,8 @@ def init_texture(width, height, texname, texture, internalFormat, format):
     bgl.glEnable(bgl.GL_TEXTURE_2D)
     bgl.glBindTexture(bgl.GL_TEXTURE_2D, texname)
     bgl.glActiveTexture(bgl.GL_TEXTURE0)
-    bgl.glTexParameterf(bgl.GL_TEXTURE_2D, bgl.GL_TEXTURE_WRAP_S, bgl.GL_CLAMP)
-    bgl.glTexParameterf(bgl.GL_TEXTURE_2D, bgl.GL_TEXTURE_WRAP_T, bgl.GL_CLAMP)
+    bgl.glTexParameterf(bgl.GL_TEXTURE_2D, bgl.GL_TEXTURE_WRAP_S, bgl.GL_CLAMP_TO_EDGE)  # bgl.GL_CLAMP
+    bgl.glTexParameterf(bgl.GL_TEXTURE_2D, bgl.GL_TEXTURE_WRAP_T, bgl.GL_CLAMP_TO_EDGE)  # bgl.GL_CLAMP
     bgl.glTexParameterf(bgl.GL_TEXTURE_2D, bgl.GL_TEXTURE_MAG_FILTER, bgl.GL_LINEAR)
     bgl.glTexParameterf(bgl.GL_TEXTURE_2D, bgl.GL_TEXTURE_MIN_FILTER, bgl.GL_LINEAR)
     bgl.glTexImage2D(
@@ -146,6 +146,13 @@ def init_texture(width, height, texname, texture, internalFormat, format):
         0, internalFormat, width, height,
         0, format, bgl.GL_UNSIGNED_BYTE, texture
     )
+
+
+def list_to_buffer(l, gl_type=bgl.GL_FLOAT):
+    b = bgl.Buffer(gl_type, len(l))
+    for i, v in enumerate(l):
+        b[i] = v
+    return b
 
 
 def simple_screen(x, y, args):
@@ -156,19 +163,89 @@ def simple_screen(x, y, args):
         bgl.glActiveTexture(bgl.GL_TEXTURE0)
         bgl.glEnable(bgl.GL_TEXTURE_2D)
 
-        bgl.glColor4f(r, g, b, alpha)
+        # bgl.glColor4f(r, g, b, alpha)
         bgl.glBindTexture(bgl.GL_TEXTURE_2D, texname)
 
         SCALE = bpy.context.user_preferences.system.pixel_size
         x *= SCALE; y *= SCALE
         verco = [(x, y), (x + w, y), (x + w, y - h), (x, y - h)]
-        bgl.glBegin(bgl.GL_QUADS)
 
-        for i in range(4):
-            bgl.glTexCoord3f(tex_co[i][0], tex_co[i][1], 0.0)
-            bgl.glVertex2f(verco[i][0], verco[i][1])
+        # https://learnopengl.com/code_viewer_gh.php?code=src/1.getting_started/4.2.textures_combined/textures_combined.cpp
 
-        bgl.glEnd()
+        bgl.glClearColor(0.2, 0.3, 0.3, 1.0);
+        vertices = [
+            0.5, 0.5, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0,
+            0.5, -0.5, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0,
+            - 0.5, -0.5, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0,
+            - 0.5, 0.5, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0
+        ]
+        indices = [0, 1, 3, 1, 2, 3]
+        gl_vertices = list_to_buffer(vertices)
+        gl_indices = list_to_buffer(indices)
+        gl_vao = bgl.Buffer(bgl.GL_INT, 1)
+        gl_vbo = bgl.Buffer(bgl.GL_INT, 1)
+        gl_ebo = bgl.Buffer(bgl.GL_INT, 1)
+
+        bgl.glGenVertexArrays(1, gl_vao);
+        bgl.glGenVertexArrays(1, gl_vbo);
+        bgl.glGenVertexArrays(1, gl_ebo);
+
+        bgl.glBindVertexArray(gl_vao[0]);
+
+        bgl.glBindBuffer(bgl.GL_ARRAY_BUFFER, gl_vbo[0]);
+        bgl.glBufferData(bgl.GL_ARRAY_BUFFER, len(gl_vertices) * 32, gl_vertices, bgl.GL_STATIC_DRAW);
+
+        bgl.glBindBuffer(bgl.GL_ELEMENT_ARRAY_BUFFER, gl_ebo[0]);
+        bgl.glBufferData(bgl.GL_ELEMENT_ARRAY_BUFFER, len(gl_indices) * 32, gl_indices, bgl.GL_STATIC_DRAW);
+
+        # // position attribute
+        bg_b0 = bgl.Buffer(bgl.GL_FLOAT, 1)
+        bgl.glVertexAttribPointer(0, 3, bgl.GL_FLOAT, bgl.GL_FALSE, 8 * 32, bg_b0);
+        bgl.glEnableVertexAttribArray(0);
+        # // color attribute
+        bg_b0 = bgl.Buffer(bgl.GL_FLOAT, 4)
+        bgl.glVertexAttribPointer(0, 3, bgl.GL_FLOAT, bgl.GL_FALSE, 8 * 32, bg_b0);
+        bgl.glEnableVertexAttribArray(1);
+        # // texture coord attribute
+        bg_b0 = bgl.Buffer(bgl.GL_FLOAT, 7)
+        bgl.glVertexAttribPointer(0, 3, bgl.GL_FLOAT, bgl.GL_FALSE, 8 * 32, bg_b0);
+        bgl.glEnableVertexAttribArray(2);
+
+        bgl.glBindVertexArray(gl_vao[0]);
+        bg_b0 = bgl.Buffer(bgl.GL_FLOAT, 1)
+        bg_b0[0]=0
+        bgl.glDrawElements(bgl.GL_TRIANGLES, 6, bgl.GL_UNSIGNED_INT, bg_b0);
+
+
+
+
+        # https://stackoverflow.com/questions/6733934/what-does-immediate-mode-mean-in-opengl/6734071#6734071
+        # vao = bgl.Buffer(bgl.GL_INT, 1)
+        # bgl.glGenVertexArrays(4, vao)
+        # bgl.glBindVertexArray(vao)
+        buf = bgl.Buffer(bgl.GL_INT, 2)
+        # bgl.glBufferData(bgl.GL_ARRAY_BUFFER, 4, tex_co_buf, bgl.GL_STATIC_DRAW)
+        # bgl.glEnableVertexAttribArray(0)
+        # cos = bgl.Buffer(bgl.GL_INT, 1)
+        # cos[0] = 0
+        # cos2 = bgl.Buffer(bgl.GL_INT, 1)
+        # cos2[0] = 0
+        # bgl.glVertexAttribPointer(0, 4, bgl.GL_FLOAT, bgl.GL_FALSE, 0, cos)
+        #
+        # bgl.glDrawArrays(bgl.GL_TRIANGLES, 0, 3)
+        # bgl.glDrawElements(bgl.GL_TRIANGLES, 6, bgl.GL_INT, cos2)
+
+
+
+
+
+        # bgl.glBegin(bgl.GL_QUADS)
+        #
+        # for i in range(4):
+        #     bgl.glTexCoord3f(tex_co[i][0], tex_co[i][1], 0.0)
+        #     bgl.glVertex2f(verco[i][0], verco[i][1])
+        #
+        # bgl.glEnd()
 
         bgl.glDisable(bgl.GL_TEXTURE_2D)
 

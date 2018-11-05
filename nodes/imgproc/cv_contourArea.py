@@ -31,6 +31,6 @@ class OCVLcontourAreaNode(OCVLNodeBase):
         self.refresh_output_socket("area_out", area_out)
 
     def draw_buttons(self, context, layout):
-        layout.label('Area: {}'.format(self.area_out))
+        layout.label(text='Area: {}'.format(self.area_out))
         self.add_bount(layout, 'oriented_out')
         self.add_bount(layout, 'loc_from_findContours')
