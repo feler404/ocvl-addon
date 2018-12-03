@@ -10,6 +10,10 @@ from ocvl.core.register_utils import ocvl_register, ocvl_unregister
 sentinel = object()
 
 
+def get_socket_id(socket):
+    return str(hash(socket.id_data.name + socket.node.name + socket.identifier))
+
+
 def process_from_socket(self, context):
     """Update function of exposed properties in Sockets"""
     self.node.process_node(context)
