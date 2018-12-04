@@ -515,6 +515,4 @@ class OCVLPreviewNodeBase(OCVLNodeBase):
 
         x, y = (self.location[0] + location_x) * SCALE, (self.location[1] + location_y) * SCALE - height
 
-        image = bpy.data.images["icon_loop.png"]
-
-        callback_enable(n_id=self.n_id, image=image, x=x, y=y, width=width, height=height)
+        callback_enable(node=self, x=x, y=y, width=width, height=height)

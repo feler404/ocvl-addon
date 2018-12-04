@@ -1,3 +1,5 @@
+from logging import getLogger
+
 import cv2
 import bpy
 import gpu
@@ -6,6 +8,9 @@ import numpy as np
 from gpu_extras.batch import batch_for_shader
 
 from ocvl.core.globals import CALLBACK_DICT
+
+
+logger = getLogger(__name__)
 
 
 def tag_redraw_all_nodeviews():
@@ -17,11 +22,17 @@ def tag_redraw_all_nodeviews():
                         region.tag_redraw()
 
 
-def simple_screen(image, x, y, width, height):
-    if image.gl_load():
-        raise Exception()
+def extract_bind_code(node):
+    try:
+        return node.texture[node.node_id]['name'][0]
+    except (KeyError, IndexError) as e:
+        logger.error("Node {} hasn't bide texture.".format(node))
+        raise
+
+
+def simple_screen(node, x, y, width, height):
     bgl.glActiveTexture(bgl.GL_TEXTURE0)
-    bgl.glBindTexture(bgl.GL_TEXTURE_2D, image.bindcode)
+    bgl.glBindTexture(bgl.GL_TEXTURE_2D, extract_bind_code(node))
 
     shader = gpu.shader.from_builtin('2D_IMAGE')
     batch = batch_for_shader(
@@ -37,13 +48,13 @@ def simple_screen(image, x, y, width, height):
     batch.draw(shader)
 
 
-def callback_enable(n_id=None, image=None, x=None, y=None, width=None, height=None):
-    if n_id in CALLBACK_DICT:
+def callback_enable(node=None, x=None, y=None, width=None, height=None):
+    if node.n_id in CALLBACK_DICT:
         return
 
-    args = image, x, y, width, height
+    args = node, x, y, width, height
     handle_pixel = bpy.types.SpaceNodeEditor.draw_handler_add(simple_screen, args, 'WINDOW', 'POST_VIEW')
-    CALLBACK_DICT[n_id] = handle_pixel
+    CALLBACK_DICT[node.n_id] = handle_pixel
     tag_redraw_all_nodeviews()
 
 
