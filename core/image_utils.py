@@ -1,11 +1,10 @@
-from collections import defaultdict
-
 import cv2
-import bgl
 import bpy
-import blf
+import gpu
+import bgl
 import numpy as np
-from ocvl.core.constants import TEX_CO
+from gpu_extras.batch import batch_for_shader
+
 from ocvl.core.globals import CALLBACK_DICT
 
 
@@ -18,96 +17,32 @@ def tag_redraw_all_nodeviews():
                         region.tag_redraw()
 
 
-def restore_opengl_defaults():
-    bgl.glLineWidth(1)
-    bgl.glDisable(bgl.GL_BLEND)
-    # bgl.glColor4f(0.0, 0.0, 0.0, 1.0)
+def simple_screen(image, x, y, width, height):
+    if image.gl_load():
+        raise Exception()
+    bgl.glActiveTexture(bgl.GL_TEXTURE0)
+    bgl.glBindTexture(bgl.GL_TEXTURE_2D, image.bindcode)
+
+    shader = gpu.shader.from_builtin('2D_IMAGE')
+    batch = batch_for_shader(
+        shader, 'TRI_FAN',
+        {
+            "pos": ((x, y), (x+width, y), (x+width, y+height), (x, y+height)),
+            "texCoord": ((0, 0), (1, 0), (1, 1), (0, 1)),
+        },
+    )
+
+    shader.bind()
+    shader.uniform_int("image", 0)
+    batch.draw(shader)
 
 
-def draw_text_data(data):
-    lines = data.get('content', 'no data')
-    x, y = data.get('location', (120, 120))
-    x, y = int(x), int(y)
-    color = data.get('color', (0.1, 0.1, 0.1))
-    font_id = data.get('font_id', 0)
-    scale = data.get('scale', 1.0)
-
-    text_height = 15 * scale
-    line_height = 14 * scale
-
-    # why does the text look so jagged?  <-- still valid question
-    # dpi = bpy.context.user_preferences.system.dpi
-    blf.size(font_id, int(text_height), 72)
-    bgl.glColor3f(*color)
-    ypos = y
-
-    for line in lines:
-        blf.position(0, x, ypos, 0)
-        blf.draw(font_id, line)
-        ypos -= int(line_height * 1.3)
-
-
-def draw_graphical_data(data):
-    lines = data.get('content')
-    x, y = data.get('location', (120, 120))
-    color = data.get('color', (0.1, 0.1, 0.1))
-    font_id = data.get('font_id', 0)
-    scale = data.get('scale', 1.0)
-    text_height = 15 * scale
-
-    if not lines:
-        return
-
-    blf.size(font_id, int(text_height), 72)
-
-    def draw_text(color, xpos, ypos, line):
-        bgl.glColor3f(*color)
-        blf.position(0, xpos, ypos, 0)
-        blf.draw(font_id, line)
-        return blf.dimensions(font_id, line)
-
-    lineheight = 20 * scale
-    num_containers = len(lines)
-    for idx, line in enumerate(lines):
-        y_pos = y - (idx * lineheight)
-        gfx_x = x
-
-        num_items = str(len(line))
-        kind_of_item = type(line).__name__
-
-        tx, _ = draw_text(color, gfx_x, y_pos, "{0} of {1} items".format(kind_of_item, num_items))
-        gfx_x += (tx + 5)
-
-        content_dict = defaultdict(int)
-        for item in line:
-            content_dict[type(item).__name__] += 1
-
-        tx, _ = draw_text(color, gfx_x, y_pos, str(dict(content_dict)))
-        gfx_x += (tx + 5)
-
-        if idx == 19 and num_containers > 20:
-            y_pos = y - ((idx + 1) * lineheight)
-            text_body = "Showing the first 20 of {0} items"
-            draw_text(color, x, y_pos, text_body.format(num_containers))
-            break
-
-
-def draw_callback_px(n_id, data):
-    if not bpy.context.space_data.edit_tree:
-        return
-    drawing_func = data.get('custom_function')
-    x, y = data.get('loc', (20, 20))
-    args = data.get('args', (None,))
-    drawing_func(x, y, args)
-    restore_opengl_defaults()
-
-
-def callback_enable(*args):
-    n_id = args[0]
+def callback_enable(n_id=None, image=None, x=None, y=None, width=None, height=None):
     if n_id in CALLBACK_DICT:
         return
 
-    handle_pixel = bpy.types.SpaceNodeEditor.draw_handler_add(draw_callback_px, args, 'WINDOW', 'POST_VIEW')
+    args = image, x, y, width, height
+    handle_pixel = bpy.types.SpaceNodeEditor.draw_handler_add(simple_screen, args, 'WINDOW', 'POST_VIEW')
     CALLBACK_DICT[n_id] = handle_pixel
     tag_redraw_all_nodeviews()
 
@@ -146,110 +81,6 @@ def init_texture(width, height, texname, texture, internalFormat, format):
         0, internalFormat, width, height,
         0, format, bgl.GL_UNSIGNED_BYTE, texture
     )
-
-
-def list_to_buffer(l, gl_type=bgl.GL_FLOAT):
-    b = bgl.Buffer(gl_type, len(l))
-    for i, v in enumerate(l):
-        b[i] = v
-    return b
-
-
-def simple_screen(x, y, args):
-    texture, texname, width, height, r, g, b, alpha, tex_co = args
-
-    def draw_texture(x=0, y=0, w=30, h=10, texname=texname, r=1.0, g=1.0, b=1.0, alpha=0.9, tex_co=TEX_CO):
-        bgl.glDisable(bgl.GL_DEPTH_TEST)
-        bgl.glActiveTexture(bgl.GL_TEXTURE0)
-        bgl.glEnable(bgl.GL_TEXTURE_2D)
-
-        # bgl.glColor4f(r, g, b, alpha)
-        bgl.glBindTexture(bgl.GL_TEXTURE_2D, texname)
-
-        SCALE = bpy.context.user_preferences.system.pixel_size
-        x *= SCALE; y *= SCALE
-        verco = [(x, y), (x + w, y), (x + w, y - h), (x, y - h)]
-
-        # https://learnopengl.com/code_viewer_gh.php?code=src/1.getting_started/4.2.textures_combined/textures_combined.cpp
-
-        bgl.glClearColor(0.2, 0.3, 0.3, 1.0);
-        vertices = [
-            0.5, 0.5, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0,
-            0.5, -0.5, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0,
-            - 0.5, -0.5, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0,
-            - 0.5, 0.5, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0
-        ]
-        indices = [0, 1, 3, 1, 2, 3]
-        gl_vertices = list_to_buffer(vertices)
-        gl_indices = list_to_buffer(indices)
-        gl_vao = bgl.Buffer(bgl.GL_INT, 1)
-        gl_vbo = bgl.Buffer(bgl.GL_INT, 1)
-        gl_ebo = bgl.Buffer(bgl.GL_INT, 1)
-
-        bgl.glGenVertexArrays(1, gl_vao);
-        bgl.glGenVertexArrays(1, gl_vbo);
-        bgl.glGenVertexArrays(1, gl_ebo);
-
-        bgl.glBindVertexArray(gl_vao[0]);
-
-        bgl.glBindBuffer(bgl.GL_ARRAY_BUFFER, gl_vbo[0]);
-        bgl.glBufferData(bgl.GL_ARRAY_BUFFER, len(gl_vertices) * 32, gl_vertices, bgl.GL_STATIC_DRAW);
-
-        bgl.glBindBuffer(bgl.GL_ELEMENT_ARRAY_BUFFER, gl_ebo[0]);
-        bgl.glBufferData(bgl.GL_ELEMENT_ARRAY_BUFFER, len(gl_indices) * 32, gl_indices, bgl.GL_STATIC_DRAW);
-
-        # // position attribute
-        bg_b0 = bgl.Buffer(bgl.GL_FLOAT, 1)
-        bgl.glVertexAttribPointer(0, 3, bgl.GL_FLOAT, bgl.GL_FALSE, 8 * 32, bg_b0);
-        bgl.glEnableVertexAttribArray(0);
-        # // color attribute
-        bg_b0 = bgl.Buffer(bgl.GL_FLOAT, 4)
-        bgl.glVertexAttribPointer(0, 3, bgl.GL_FLOAT, bgl.GL_FALSE, 8 * 32, bg_b0);
-        bgl.glEnableVertexAttribArray(1);
-        # // texture coord attribute
-        bg_b0 = bgl.Buffer(bgl.GL_FLOAT, 7)
-        bgl.glVertexAttribPointer(0, 3, bgl.GL_FLOAT, bgl.GL_FALSE, 8 * 32, bg_b0);
-        bgl.glEnableVertexAttribArray(2);
-
-        bgl.glBindVertexArray(gl_vao[0]);
-        bg_b0 = bgl.Buffer(bgl.GL_FLOAT, 1)
-        bg_b0[0]=0
-        bgl.glDrawElements(bgl.GL_TRIANGLES, 6, bgl.GL_UNSIGNED_INT, bg_b0);
-
-
-
-
-        # https://stackoverflow.com/questions/6733934/what-does-immediate-mode-mean-in-opengl/6734071#6734071
-        # vao = bgl.Buffer(bgl.GL_INT, 1)
-        # bgl.glGenVertexArrays(4, vao)
-        # bgl.glBindVertexArray(vao)
-        buf = bgl.Buffer(bgl.GL_INT, 2)
-        # bgl.glBufferData(bgl.GL_ARRAY_BUFFER, 4, tex_co_buf, bgl.GL_STATIC_DRAW)
-        # bgl.glEnableVertexAttribArray(0)
-        # cos = bgl.Buffer(bgl.GL_INT, 1)
-        # cos[0] = 0
-        # cos2 = bgl.Buffer(bgl.GL_INT, 1)
-        # cos2[0] = 0
-        # bgl.glVertexAttribPointer(0, 4, bgl.GL_FLOAT, bgl.GL_FALSE, 0, cos)
-        #
-        # bgl.glDrawArrays(bgl.GL_TRIANGLES, 0, 3)
-        # bgl.glDrawElements(bgl.GL_TRIANGLES, 6, bgl.GL_INT, cos2)
-
-
-
-
-
-        # bgl.glBegin(bgl.GL_QUADS)
-        #
-        # for i in range(4):
-        #     bgl.glTexCoord3f(tex_co[i][0], tex_co[i][1], 0.0)
-        #     bgl.glVertex2f(verco[i][0], verco[i][1])
-        #
-        # bgl.glEnd()
-
-        bgl.glDisable(bgl.GL_TEXTURE_2D)
-
-    draw_texture(x=x, y=y, w=width, h=height, texname=texname, r=r, g=g, b=b, alpha=alpha, tex_co=tex_co)
 
 
 def convert_to_cv_image(image_gl):

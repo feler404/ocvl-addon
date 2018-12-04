@@ -116,7 +116,7 @@ class OCVLImageSampleNode(OCVLPreviewNodeBase):
         if self.n_id not in self.texture:
             return
 
-        location_y = -20 if self.loc_image_mode in ["PLANE", "RANDOM"] else -40
+        location_y = -130 if self.loc_image_mode in ["PLANE", "RANDOM"] else -150
         self.draw_preview(layout=layout, prop_name="image_out", location_x=10, location_y=location_y)
 
     def copy(self, node):

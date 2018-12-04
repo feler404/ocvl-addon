@@ -493,49 +493,28 @@ class OCVLPreviewNodeBase(OCVLNodeBase):
         row = layout.row()
         row.label(text='')
 
-        if self.n_id not in self.texture:
-            return
-        callback_disable(self.n_id)
-        # height, width = DEFAULT_WEIGHT_PREVIEW, DEFAULT_WEIGHT_PREVIEW
-        # prop = height / width
         SCALE = bpy.context.user_preferences.system.pixel_size
 
         width = (self.width - 20) * SCALE
         height = proportion * width
         row.scale_y = self.width * proportion / 20
 
-        self._draw_preview(location_x=location_x, location_y=location_y, width=width, height=height)
+        if self.n_id not in self.texture:
+            logger.debug("Preview node without texture. Node:{}".format(self.n_id))
+            return
 
-    def _draw_preview(self, location_x=0, location_y=0, width=0, height=0, hide=False):
-            if self.n_id not in self.texture:
-                logger.debug("Preview node without texture. Node:{}".format(self.n_id))
-                return
+        if not self.texture[self.n_id]:
+            logger.debug("Empty texture for node. Node:{}".format(self.n_id))
+            return
 
-            if not self.texture[self.n_id]:
-                logger.debug("Empty texture for node. Node:{}".format(self.n_id))
-                return
+        if isinstance(self.texture[self.n_id], (str,)):
+            logger.debug("Texture is string instance for node: {}".format(self.n_id))
+            return
 
-            if isinstance(self.texture[self.n_id], (str,)):
-                logger.debug("Texture is string instance for node: {}".format(self.n_id))
-                return
+        callback_disable(self.n_id)
 
-            callback_disable(self.n_id)
+        x, y = (self.location[0] + location_x) * SCALE, (self.location[1] + location_y) * SCALE - height
 
-            draw_data = {
-                'tree_name': self.id_data.name,
-                'mode': 'custom_function',
-                'custom_function': simple_screen,
-                'loc': (self.location[0] + location_x, self.location[1] + location_y - self.height),
-                'args': (None,
-                         self.texture[self.n_id]["name"][0],
-                         width,
-                         height,
-                         getattr(self, 'r_in', 1),
-                         getattr(self, 'g_in', 1),
-                         getattr(self, 'b_in', 1),
-                         0 if hide else 1,
-                         TEX_CO_FLIP,
-                         )
-                }
+        image = bpy.data.images["icon_loop.png"]
 
-            callback_enable(self.n_id, draw_data)
+        callback_enable(n_id=self.n_id, image=image, x=x, y=y, width=width, height=height)
