@@ -51,7 +51,6 @@ def simple_screen(node, x, y, width, height):
 def callback_enable(node=None, x=None, y=None, width=None, height=None):
     if node.n_id in CALLBACK_DICT:
         return
-
     args = node, x, y, width, height
     handle_pixel = bpy.types.SpaceNodeEditor.draw_handler_add(simple_screen, args, 'WINDOW', 'POST_VIEW')
     CALLBACK_DICT[node.n_id] = handle_pixel

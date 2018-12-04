@@ -3,10 +3,12 @@ from ocvl.core.node_base import OCVLPreviewNodeBase
 
 
 class OCVLImageViewerNode(OCVLPreviewNodeBase):
-    '''Image Viewer node'''
+    """
+    Image Viewer node
+    """
     bl_icon = 'ZOOM_ALL'
 
-    image_in = bpy.props.StringProperty(default='')
+    image_in: bpy.props.StringProperty(default='')
 
     def init(self, context):
         self.inputs.new('ImageSocket', "image_in")
