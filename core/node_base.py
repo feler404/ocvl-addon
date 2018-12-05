@@ -477,11 +477,16 @@ class OCVLPreviewNodeBase(OCVLNodeBase):
         self.texture[self.node_id] = {"name": name, "uuid": uuid_}
         self.texture[uuid_] = self.node_id
         if len(image.shape) == 3:
-            internalFormat = bgl.GL_RGB
-            format = bgl.GL_BGR
+            if image.shape[2] == 4:
+                internalFormat = bgl.GL_RGBA
+                format = bgl.GL_BGRA
+            elif image.shape[2] == 3:
+                internalFormat = bgl.GL_RGB
+                format = bgl.GL_BGR
         elif len(image.shape) == 2:
-            internalFormat = bgl.GL_LUMINANCE
-            format = bgl.GL_LUMINANCE
+            # TODO bgl.GL_LUMINANCE - don't working
+            internalFormat = bgl.GL_RED
+            format = bgl.GL_RED
         init_texture(width=resized_width,
                      height=resized_height,
                      texname=name[0],

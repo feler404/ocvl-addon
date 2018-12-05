@@ -75,7 +75,7 @@ class OCVLImageSampleNode(OCVLPreviewNodeBase):
                 image = convert_to_cv_image(bpy.data.images[self.loc_name_image])
                 uuid_ = self.loc_name_image
             elif self.loc_filepath:
-                image = cv2.imread(self.loc_filepath)
+                image = cv2.imread(self.loc_filepath, flags=cv2.IMREAD_UNCHANGED)
             if image is None:
                 image = np.zeros((200, 200, 3), np.uint8)
 
