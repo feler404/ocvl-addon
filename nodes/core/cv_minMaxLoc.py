@@ -9,13 +9,13 @@ class OCVLminMaxLocNode(OCVLNodeBase):
 
     n_doc = "Finds the global minimum and maximum in an array."
 
-    src_in = bpy.props.StringProperty(name="src_in", default=str(uuid.uuid4()), description="Input single-channel array.")
-    mask_in = bpy.props.StringProperty(name="mask_in", default=str(uuid.uuid4()), description="Optional mask used to select a sub-array.")
+    src_in: bpy.props.StringProperty(name="src_in", default=str(uuid.uuid4()), description="Input single-channel array.")
+    mask_in: bpy.props.StringProperty(name="mask_in", default=str(uuid.uuid4()), description="Optional mask used to select a sub-array.")
 
-    minVal_out = bpy.props.StringProperty(name="minVal_out", default=str(uuid.uuid4()), description="Pointer to the returned minimum value; NULL is used if not required.")
-    maxVal_out = bpy.props.StringProperty(name="maxVal_out", default=str(uuid.uuid4()), description="Pointer to the returned maximum value; NULL is used if not required.")
-    minLoc_out = bpy.props.StringProperty(name="minLoc_out", default=str(uuid.uuid4()), description="Pointer to the returned minimum location (in 2D case); NULL is used if not required.")
-    maxLoc_out = bpy.props.StringProperty(name="maxLoc_out", default=str(uuid.uuid4()), description="Pointer to the returned maximum location (in 2D case); NULL is used if not required.")
+    minVal_out: bpy.props.StringProperty(name="minVal_out", default=str(uuid.uuid4()), description="Pointer to the returned minimum value; NULL is used if not required.")
+    maxVal_out: bpy.props.StringProperty(name="maxVal_out", default=str(uuid.uuid4()), description="Pointer to the returned maximum value; NULL is used if not required.")
+    minLoc_out: bpy.props.StringProperty(name="minLoc_out", default=str(uuid.uuid4()), description="Pointer to the returned minimum location (in 2D case); NULL is used if not required.")
+    maxLoc_out: bpy.props.StringProperty(name="maxLoc_out", default=str(uuid.uuid4()), description="Pointer to the returned maximum location (in 2D case); NULL is used if not required.")
 
     def init(self, context):
         self.inputs.new("StringsSocket", "src_in")

@@ -9,13 +9,13 @@ class OCVLnormalizeNode(OCVLNodeBase):
 
     n_doc = "Normalizes the norm or value range of an array."
 
-    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input array.")
-    alpha_in = bpy.props.FloatProperty(default=0, min=0.0, max=1000, update=update_node, description="Norm value to normalize to or the lower range boundary in case of the range normalization.")
-    beta_in = bpy.props.FloatProperty(default=255, min=0.0, max=1000, update=update_node, description="Upper range boundary in case of the range normalization; it is not used for the norm normalization.")
-    norm_type_in = bpy.props.EnumProperty(items=NORMALIZATION_TYPE_ITEMS, default="NORM_L2", update=update_node, description="Normalization type (see cv::NormTypes).")
-    dtype_in = bpy.props.EnumProperty(items=COLOR_DEPTH_WITH_NONE_ITEMS, default='None', update=update_node, description="Channels as src and the depth =CV_MAT_DEPTH(dtype).")
+    image_in: bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input array.")
+    alpha_in: bpy.props.FloatProperty(default=0, min=0.0, max=1000, update=update_node, description="Norm value to normalize to or the lower range boundary in case of the range normalization.")
+    beta_in: bpy.props.FloatProperty(default=255, min=0.0, max=1000, update=update_node, description="Upper range boundary in case of the range normalization; it is not used for the norm normalization.")
+    norm_type_in: bpy.props.EnumProperty(items=NORMALIZATION_TYPE_ITEMS, default="NORM_L2", update=update_node, description="Normalization type (see cv::NormTypes).")
+    dtype_in: bpy.props.EnumProperty(items=COLOR_DEPTH_WITH_NONE_ITEMS, default='None', update=update_node, description="Channels as src and the depth =CV_MAT_DEPTH(dtype).")
 
-    image_out = bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output array.")
+    image_out: bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output array.")
 
     def init(self, context):
         self.inputs.new("StringsSocket", "image_in")

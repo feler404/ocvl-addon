@@ -9,14 +9,14 @@ class OCVLfindContoursNode(OCVLNodeBase):
 
     n_doc = "Finds contours in a binary image."
 
-    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input image.")
-    image_out = bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
-    contours_out = bpy.props.StringProperty(name="contours_out", default=str(uuid.uuid4()), description="Detected contours. Each contour is stored as a vector of points.")
-    hierarchy_out = bpy.props.StringProperty(name="hierarchy_out", default=str(uuid.uuid4()), description="Optional output vector, containing information about the image topology. It has as many elements as the number of contours.")
+    image_in: bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input image.")
+    image_out: bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
+    contours_out: bpy.props.StringProperty(name="contours_out", default=str(uuid.uuid4()), description="Detected contours. Each contour is stored as a vector of points.")
+    hierarchy_out: bpy.props.StringProperty(name="hierarchy_out", default=str(uuid.uuid4()), description="Optional output vector, containing information about the image topology. It has as many elements as the number of contours.")
 
-    mode_in = bpy.props.EnumProperty(items=RETRIEVAL_MODE_ITEMS, default="RETR_TREE", update=update_node, description="Contour retrieval mode, see cv::RetrievalModes")
-    method_in = bpy.props.EnumProperty(items=APPROXIMATION_MODE_ITEMS, default="CHAIN_APPROX_SIMPLE", update=update_node, description="Contour approximation method, see cv::ContourApproximationModes")
-    offset_in = bpy.props.IntVectorProperty(default=(0, 0), size=2, update=update_node, description="Optional offset by which every contour point is shifted. This is useful if the.")
+    mode_in: bpy.props.EnumProperty(items=RETRIEVAL_MODE_ITEMS, default="RETR_TREE", update=update_node, description="Contour retrieval mode, see cv::RetrievalModes")
+    method_in: bpy.props.EnumProperty(items=APPROXIMATION_MODE_ITEMS, default="CHAIN_APPROX_SIMPLE", update=update_node, description="Contour approximation method, see cv::ContourApproximationModes")
+    offset_in: bpy.props.IntVectorProperty(default=(0, 0), size=2, update=update_node, description="Optional offset by which every contour point is shifted. This is useful if the.")
 
     def init(self, context):
         self.inputs.new("StringsSocket", "image_in")

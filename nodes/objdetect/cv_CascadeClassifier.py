@@ -17,16 +17,16 @@ class OCVLCascadeClassifierNode(OCVLNodeBase):
 
     bl_flags_list = 'CASCADE_SCALE_IMAGE'
 
-    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()))
-    scaleFactor_in = bpy.props.FloatProperty(default=1.1, min=1.1, max=10, update=update_node)
-    minNeighbors_in = bpy.props.IntProperty(default=5, min=0, max=10, update=update_node)
-    minSize_in = bpy.props.IntVectorProperty(default=(30, 30), min=1, max=100, size=2, update=update_node)
-    flags_in = bpy.props.BoolVectorProperty(default=[False for i in bl_flags_list.split(",")], size=len(bl_flags_list.split(",")), update=update_node, subtype="NONE", description=bl_flags_list)
+    image_in: bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()))
+    scaleFactor_in: bpy.props.FloatProperty(default=1.1, min=1.1, max=10, update=update_node)
+    minNeighbors_in: bpy.props.IntProperty(default=5, min=0, max=10, update=update_node)
+    minSize_in: bpy.props.IntVectorProperty(default=(30, 30), min=1, max=100, size=2, update=update_node)
+    flags_in: bpy.props.BoolVectorProperty(default=[False for i in bl_flags_list.split(",")], size=len(bl_flags_list.split(",")), update=update_node, subtype="NONE", description=bl_flags_list)
 
-    image_out = bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()))
-    objects_out = bpy.props.StringProperty(name="objects_out", default=str(uuid.uuid4()))
+    image_out: bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()))
+    objects_out: bpy.props.StringProperty(name="objects_out", default=str(uuid.uuid4()))
 
-    loc_cascade_filename = bpy.props.EnumProperty(items=CASCADE_FILENAME_ITEMS, default=CASCADE_FILENAME_ITEMS_DEFAULT, update=update_node)
+    loc_cascade_filename: bpy.props.EnumProperty(items=CASCADE_FILENAME_ITEMS, default=CASCADE_FILENAME_ITEMS_DEFAULT, update=update_node)
 
     def init(self, context):
         self.inputs.new("StringsSocket", "image_in")

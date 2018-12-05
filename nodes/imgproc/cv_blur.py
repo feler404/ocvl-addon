@@ -18,12 +18,12 @@ class OCVLblurNode(OCVLNodeBase):
         anchor_y = value[1] if -1 <= value[1] < self.ksize_in[1] else self.anchor_in[1]
         self["anchor_in"] = (anchor_x, anchor_y)
 
-    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input image.")
-    ksize_in = bpy.props.IntVectorProperty(default=(1, 1), update=update_node, min=1, max=30, size=2, description="Blurring kernel size.")
-    anchor_in = bpy.props.IntVectorProperty(default=(-1, -1), update=update_node, get=get_anchor, set=set_anchor, size=2, description="Bnchor point; default value Point(-1,-1) means that the anchor is at the kernel center.")
-    borderType_in = bpy.props.EnumProperty(items=BORDER_TYPE_ITEMS, default='None', update=update_node, description="Border mode used to extrapolate pixels outside of the image, see cv::BorderTypes.")
+    image_in: bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input image.")
+    ksize_in: bpy.props.IntVectorProperty(default=(1, 1), update=update_node, min=1, max=30, size=2, description="Blurring kernel size.")
+    anchor_in: bpy.props.IntVectorProperty(default=(-1, -1), update=update_node, get=get_anchor, set=set_anchor, size=2, description="Bnchor point; default value Point(-1,-1) means that the anchor is at the kernel center.")
+    borderType_in: bpy.props.EnumProperty(items=BORDER_TYPE_ITEMS, default='None', update=update_node, description="Border mode used to extrapolate pixels outside of the image, see cv::BorderTypes.")
 
-    image_out = bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
+    image_out: bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
 
     def init(self, context):
         self.width = 150

@@ -9,11 +9,11 @@ class OCVLMahalanobisNode(OCVLNodeBase):
 
     n_doc = "Calculates the Mahalanobis distance between two vectors."
 
-    v1_in = bpy.props.StringProperty(name="v1_in", default=str(uuid.uuid4()), description="First 1D input vector.")
-    v2_in = bpy.props.StringProperty(name="v2_in", default=str(uuid.uuid4()), description="Second 1D input vector.")
-    icovar_in = bpy.props.StringProperty(name="icovar_in", default=str(uuid.uuid4()), description="Inverse covariance matrix.")
+    v1_in: bpy.props.StringProperty(name="v1_in", default=str(uuid.uuid4()), description="First 1D input vector.")
+    v2_in: bpy.props.StringProperty(name="v2_in", default=str(uuid.uuid4()), description="Second 1D input vector.")
+    icovar_in: bpy.props.StringProperty(name="icovar_in", default=str(uuid.uuid4()), description="Inverse covariance matrix.")
 
-    retval_out = bpy.props.StringProperty(name="retval_out", default=str(uuid.uuid4()), description="Return value.")
+    retval_out: bpy.props.StringProperty(name="retval_out", default=str(uuid.uuid4()), description="Return value.")
 
     def init(self, context):
         self.inputs.new("StringsSocket", "v1_in")

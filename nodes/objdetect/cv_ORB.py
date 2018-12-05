@@ -22,23 +22,23 @@ class OCVLORBNode(OCVLNodeBase, OCVLFeature2DNode):
         self.update_sockets(context)
         update_node(self, context)
 
-    scoreType_init = bpy.props.EnumProperty(default="ORB_HARRIS_SCORE", items=SCORE_TYPE_ITEMS, update=update_and_init,
+    scoreType_init: bpy.props.EnumProperty(default="ORB_HARRIS_SCORE", items=SCORE_TYPE_ITEMS, update=update_and_init,
         description="The default HARRIS_SCORE means that Harris algorithm is used to rank features.")
-    nfeatures_init = bpy.props.IntProperty(default=500, min=1, max=10000, update=update_and_init,
+    nfeatures_init: bpy.props.IntProperty(default=500, min=1, max=10000, update=update_and_init,
         description="The maximum number of features to retain.")
-    scaleFactor_init = bpy.props.FloatProperty(default=1.2, min=1.1, max=10., update=update_and_init,
+    scaleFactor_init: bpy.props.FloatProperty(default=1.2, min=1.1, max=10., update=update_and_init,
         description="Pyramid decimation ratio, greater than 1. scaleFactor==2 means the classical pyramid.")
-    nlevels_init = bpy.props.IntProperty(default=8, min=2, max=16, update=update_and_init,
+    nlevels_init: bpy.props.IntProperty(default=8, min=2, max=16, update=update_and_init,
         description="The number of pyramid levels.")
-    edgeThreshold_init = bpy.props.IntProperty(default=31, min=10, max=100, update=update_and_init,
+    edgeThreshold_init: bpy.props.IntProperty(default=31, min=10, max=100, update=update_and_init,
         description="This is size of the border where the features are not detected.")
-    firstLevel_init = bpy.props.IntProperty(default=0, min=0, max=0, update=update_and_init,
+    firstLevel_init: bpy.props.IntProperty(default=0, min=0, max=0, update=update_and_init,
         description="It should be 0 in the current implementation.")
-    WTA_K_init = bpy.props.IntProperty(default=2, min=0, max=4, update=update_and_init,
+    WTA_K_init: bpy.props.IntProperty(default=2, min=0, max=4, update=update_and_init,
         description="The number of points that produce each element of the oriented BRIEF descriptor.")
-    patchSize_init = bpy.props.IntProperty(default=31, min=1, max=100, update=update_and_init,
+    patchSize_init: bpy.props.IntProperty(default=31, min=1, max=100, update=update_and_init,
         description="Size of the patch used by the oriented BRIEF descriptor.")
-    fastThreshold_init = bpy.props.IntProperty(default=20, min=1, max=100, update=update_and_init,
+    fastThreshold_init: bpy.props.IntProperty(default=20, min=1, max=100, update=update_and_init,
         description="fastThreshold_in")
 
     def init(self, context):

@@ -7,8 +7,8 @@ class OCVLSizeNode(OCVLNodeBase):
 
     n_doc = "Size node."
 
-    width_in = bpy.props.IntProperty(default=10, min=0, max=2048, update=update_node, description="Width input.")
-    height_in = bpy.props.IntProperty(default=10, min=0, max=2048, update=update_node, description="Height input.")
+    width_in: bpy.props.IntProperty(default=10, min=0, max=2048, update=update_node, description="Width input.")
+    height_in: bpy.props.IntProperty(default=10, min=0, max=2048, update=update_node, description="Height input.")
 
     def init(self, context):
         self.inputs.new("StringsSocket", "width_in").prop_name = "width_in"

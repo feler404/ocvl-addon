@@ -9,12 +9,12 @@ class OCVLboundingRectNode(OCVLNodeBase):
 
     n_doc = "Calculates the up-right bounding rectangle of a point set."
 
-    points_in = bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node, description="Input 2D point set, stored in std::vector or Mat.")
+    points_in: bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node, description="Input 2D point set, stored in std::vector or Mat.")
 
-    pt1_out = bpy.props.IntVectorProperty(default=(0, 0), size=2, description="Pt1 output.")
-    pt2_out = bpy.props.IntVectorProperty(default=(0, 0), size=2, description="Pt2 output.")
+    pt1_out: bpy.props.IntVectorProperty(default=(0, 0), size=2, description="Pt1 output.")
+    pt2_out: bpy.props.IntVectorProperty(default=(0, 0), size=2, description="Pt2 output.")
 
-    loc_from_findContours = bpy.props.BoolProperty(default=True, update=update_node, description="If linked with findContour node switch to True")
+    loc_from_findContours: bpy.props.BoolProperty(default=True, update=update_node, description="If linked with findContour node switch to True")
 
     def init(self, context):
         self.inputs.new('StringsSocket', "points_in")

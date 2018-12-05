@@ -11,20 +11,20 @@ class OCVLdrawMatchesKnnNode(OCVLNodeBase):
     bl_flags_list = 'DRAW_MATCHES_FLAGS_DEFAULT, DRAW_MATCHES_FLAGS_DRAW_OVER_OUTIMG, DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS, DRAW_MATCHES_FLAGS_NOT_DRAW_SINGLE_POINTS'
     n_doc = "This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts."
 
-    img1_in = bpy.props.StringProperty(default=str(uuid.uuid4()), description="Source image.")
-    img2_in = bpy.props.StringProperty(default=str(uuid.uuid4()), description="Source image.")
-    keypoints1_in = bpy.props.StringProperty(default=str(uuid.uuid4()), description="Keypoints from the first source image.")
-    keypoints2_in = bpy.props.StringProperty(default=str(uuid.uuid4()), description="Keypoints from the first source image.")
-    matches1to2_in = bpy.props.StringProperty(default=str(uuid.uuid4()), description="Matches from the first image to the second one.")
-    matchesMask_in = bpy.props.StringProperty(default=str(uuid.uuid4()), description="Mask determining which matches are drawn. If the mask is empty, all matches are drawn.")
+    img1_in: bpy.props.StringProperty(default=str(uuid.uuid4()), description="Source image.")
+    img2_in: bpy.props.StringProperty(default=str(uuid.uuid4()), description="Source image.")
+    keypoints1_in: bpy.props.StringProperty(default=str(uuid.uuid4()), description="Keypoints from the first source image.")
+    keypoints2_in: bpy.props.StringProperty(default=str(uuid.uuid4()), description="Keypoints from the first source image.")
+    matches1to2_in: bpy.props.StringProperty(default=str(uuid.uuid4()), description="Matches from the first image to the second one.")
+    matchesMask_in: bpy.props.StringProperty(default=str(uuid.uuid4()), description="Mask determining which matches are drawn. If the mask is empty, all matches are drawn.")
 
-    matchColor_in = bpy.props.FloatVectorProperty(update=update_node, name='matchColor', default=(.3, .3, .2, 1.0), size=4, min=0.0, max=1.0, subtype='COLOR')
-    singlePointColor_in = bpy.props.FloatVectorProperty(update=update_node, name='singlePointColor_in', default=(.3, .3, .2, 1.0), size=4, min=0.0, max=1.0, subtype='COLOR')
-    loc_max_distance_in = bpy.props.IntProperty(default=500, min=100, max=10000, update=update_node)
+    matchColor_in: bpy.props.FloatVectorProperty(update=update_node, name='matchColor', default=(.3, .3, .2, 1.0), size=4, min=0.0, max=1.0, subtype='COLOR')
+    singlePointColor_in: bpy.props.FloatVectorProperty(update=update_node, name='singlePointColor_in', default=(.3, .3, .2, 1.0), size=4, min=0.0, max=1.0, subtype='COLOR')
+    loc_max_distance_in: bpy.props.IntProperty(default=500, min=100, max=10000, update=update_node)
 
-    flags_in = bpy.props.BoolVectorProperty(default=[False for i in bl_flags_list.split(",")], size=len(bl_flags_list.split(",")), update=update_node, subtype="NONE", description=bl_flags_list)
+    flags_in: bpy.props.BoolVectorProperty(default=[False for i in bl_flags_list.split(",")], size=len(bl_flags_list.split(",")), update=update_node, subtype="NONE", description=bl_flags_list)
 
-    outImg_out = bpy.props.StringProperty(default=str(uuid.uuid4()), description="Output image.")
+    outImg_out: bpy.props.StringProperty(default=str(uuid.uuid4()), description="Output image.")
 
     def init(self, context):
         self.inputs.new("StringsSocket", "img1_in")

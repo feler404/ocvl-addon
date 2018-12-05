@@ -22,11 +22,11 @@ class OCVLHarrisLaplaceFeatureDetectorNode(OCVLNodeBase, OCVLFeature2DNode):
         self.update_sockets(context)
         update_node(self, context)
 
-    numOctaves_init = bpy.props.IntProperty(default=6, min=1, max=10, update=update_and_init, description="")
-    corn_thresh_init = bpy.props.FloatProperty(default=0.01, min=0.0001, max=0.9999, update=update_and_init, description="")
-    DOG_thresh_init = bpy.props.FloatProperty(default=0.01, min=0.0001, max=0.9999, update=update_and_init, description="")
-    maxCorners_init = bpy.props.IntProperty(default=5000, min=1, max=100000, update=update_and_init, description="")
-    num_layers_init = bpy.props.IntProperty(default=4, min=1, max=10, update=update_and_init, description="")
+    numOctaves_init: bpy.props.IntProperty(default=6, min=1, max=10, update=update_and_init, description="")
+    corn_thresh_init: bpy.props.FloatProperty(default=0.01, min=0.0001, max=0.9999, update=update_and_init, description="")
+    DOG_thresh_init: bpy.props.FloatProperty(default=0.01, min=0.0001, max=0.9999, update=update_and_init, description="")
+    maxCorners_init: bpy.props.IntProperty(default=5000, min=1, max=100000, update=update_and_init, description="")
+    num_layers_init: bpy.props.IntProperty(default=4, min=1, max=10, update=update_and_init, description="")
 
     def init(self, context):
         super().init(context)

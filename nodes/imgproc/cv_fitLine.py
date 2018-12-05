@@ -9,12 +9,12 @@ class OCVLfitLineNode(OCVLNodeBase):
 
     n_doc = "Fits a line to a 2D or 3D point set."
 
-    points_in = bpy.props.StringProperty(default=str(uuid.uuid4()), description="Input vector of 2D points, stored in std::vector\<\> or Mat")
-    distType_in = bpy.props.EnumProperty(items=DISTANCE_TYPE_ITEMS, default="DIST_L1", update=update_node, description="Distance used by the M-estimator, see cv::DistanceTypes.")
-    param_in = bpy.props.FloatProperty(default=0, min=0, max=1, description="Numerical parameter ( C ) for some types of distances. If it is 0, an optimal value is chosen.")
-    reps_in = bpy.props.FloatProperty(default=0, min=0, max=1, description="Sufficient accuracy for the radius (distance between the coordinate origin and the line).")
-    aeps_in = bpy.props.FloatProperty(default=0.01, min=0, max=1, description="Sufficient accuracy for the angle. 0.01 would be a good default value for reps and aeps.")
-    loc_from_findContours = bpy.props.BoolProperty(default=True, update=update_node, description="If linked with findContour node switch to True")
+    points_in: bpy.props.StringProperty(default=str(uuid.uuid4()), description="Input vector of 2D points, stored in std::vector\<\> or Mat")
+    distType_in: bpy.props.EnumProperty(items=DISTANCE_TYPE_ITEMS, default="DIST_L1", update=update_node, description="Distance used by the M-estimator, see cv::DistanceTypes.")
+    param_in: bpy.props.FloatProperty(default=0, min=0, max=1, description="Numerical parameter ( C ) for some types of distances. If it is 0, an optimal value is chosen.")
+    reps_in: bpy.props.FloatProperty(default=0, min=0, max=1, description="Sufficient accuracy for the radius (distance between the coordinate origin and the line).")
+    aeps_in: bpy.props.FloatProperty(default=0.01, min=0, max=1, description="Sufficient accuracy for the angle. 0.01 would be a good default value for reps and aeps.")
+    loc_from_findContours: bpy.props.BoolProperty(default=True, update=update_node, description="If linked with findContour node switch to True")
 
     def init(self, context):
         self.inputs.new("StringsSocket", "points_in")

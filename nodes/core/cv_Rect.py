@@ -7,10 +7,10 @@ class OCVLRectNode(OCVLNodeBase):
 
     n_doc = "Rect."
 
-    x_in = bpy.props.IntProperty(default=10, min=0, max=2048, update=update_node, description="X input.")
-    y_in = bpy.props.IntProperty(default=10, min=0, max=2048, update=update_node, description="Y input.")
-    width_in = bpy.props.IntProperty(default=10, min=0, max=2048, update=update_node, description="Width input.")
-    height_in = bpy.props.IntProperty(default=10, min=0, max=2048, update=update_node, description="Height input.")
+    x_in: bpy.props.IntProperty(default=10, min=0, max=2048, update=update_node, description="X input.")
+    y_in: bpy.props.IntProperty(default=10, min=0, max=2048, update=update_node, description="Y input.")
+    width_in: bpy.props.IntProperty(default=10, min=0, max=2048, update=update_node, description="Width input.")
+    height_in: bpy.props.IntProperty(default=10, min=0, max=2048, update=update_node, description="Height input.")
 
     def init(self, context):
         self.inputs.new("StringsSocket", "x_in").prop_name = "x_in"

@@ -10,10 +10,10 @@ logger = getLogger(__name__)
 
 
 class OCVLAuthNode(OCVLPreviewNodeBase):
-    origin = bpy.props.StringProperty("")
-    auth = bpy.props.BoolProperty(default=False)
-    status_code = bpy.props.IntProperty(default=0)
-    response_content = bpy.props.StringProperty(default="")
+    origin: bpy.props.StringProperty("")
+    auth: bpy.props.BoolProperty(default=False)
+    status_code: bpy.props.IntProperty(default=0)
+    response_content: bpy.props.StringProperty(default="")
 
     def init(self, context):
         self.width = 180

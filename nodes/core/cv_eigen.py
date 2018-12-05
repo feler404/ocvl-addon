@@ -9,11 +9,11 @@ class OCVLeigenNode(OCVLNodeBase):
 
     n_doc = "Calculates eigenvalues and eigenvectors of a symmetric matrix."
 
-    src_in = bpy.props.StringProperty(name="src_in", default=str(uuid.uuid4()), description="Input matrix that must have CV_32FC1 or CV_64FC1 type, square size and be symmetrical.")
+    src_in: bpy.props.StringProperty(name="src_in", default=str(uuid.uuid4()), description="Input matrix that must have CV_32FC1 or CV_64FC1 type, square size and be symmetrical.")
 
-    retval_out = bpy.props.StringProperty(name="retval_out", default=str(uuid.uuid4()), description="Return value.")
-    eigenvalues_out = bpy.props.StringProperty(name="eigenvalues_out", default=str(uuid.uuid4()), description="Output vector of eigenvalues of the same type as src; the eigenvalues are stored in the descending order.")
-    eigenvectors_out = bpy.props.StringProperty(name="eigenvectors_out", default=str(uuid.uuid4()), description="Output matrix of eigenvectors; it has the same size and type as src.")
+    retval_out: bpy.props.StringProperty(name="retval_out", default=str(uuid.uuid4()), description="Return value.")
+    eigenvalues_out: bpy.props.StringProperty(name="eigenvalues_out", default=str(uuid.uuid4()), description="Output vector of eigenvalues of the same type as src; the eigenvalues are stored in the descending order.")
+    eigenvectors_out: bpy.props.StringProperty(name="eigenvectors_out", default=str(uuid.uuid4()), description="Output matrix of eigenvectors; it has the same size and type as src.")
 
     def init(self, context):
         self.inputs.new("StringsSocket", "src_in")

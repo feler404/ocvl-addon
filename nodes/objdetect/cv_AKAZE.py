@@ -30,13 +30,13 @@ class OCVLAKAZENode(OCVLNodeBase, OCVLFeature2DNode):
         self.update_sockets(context)
         update_node(self, context)
 
-    descriptor_type_init = bpy.props.EnumProperty(items=DESCRIPTOR_TYPE_ITEMS, default="AKAZE_DESCRIPTOR_MLDB", update=update_and_init, description="")
-    descriptor_size_init = bpy.props.IntProperty(default=0, min=0, max=32, description="")
-    descriptor_channels_init = bpy.props.IntProperty(default=3, min=1, max=3, description="")
-    threshold_init = bpy.props.FloatProperty(default=0.001, min=0.0001, max=0.9999, description="")
-    nOctaves_init = bpy.props.IntProperty(default=4, min=1, max=10, description="")
-    nOctaveLayers_init = bpy.props.IntProperty(default=4, min=1, max=10, description="")
-    diffusivity = bpy.props.EnumProperty(items=DIFFUSIVITY_TYPE_ITEMS, default="AKAZE_DIFF_PM_G2", description="")
+    descriptor_type_init: bpy.props.EnumProperty(items=DESCRIPTOR_TYPE_ITEMS, default="AKAZE_DESCRIPTOR_MLDB", update=update_and_init, description="")
+    descriptor_size_init: bpy.props.IntProperty(default=0, min=0, max=32, description="")
+    descriptor_channels_init: bpy.props.IntProperty(default=3, min=1, max=3, description="")
+    threshold_init: bpy.props.FloatProperty(default=0.001, min=0.0001, max=0.9999, description="")
+    nOctaves_init: bpy.props.IntProperty(default=4, min=1, max=10, description="")
+    nOctaveLayers_init: bpy.props.IntProperty(default=4, min=1, max=10, description="")
+    diffusivity: bpy.props.EnumProperty(items=DIFFUSIVITY_TYPE_ITEMS, default="AKAZE_DIFF_PM_G2", description="")
 
     def init(self, context):
         super().init(context)

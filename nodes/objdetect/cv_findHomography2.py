@@ -10,12 +10,12 @@ class OCVLfindHomography2Node(OCVLNodeBase):
 
     n_doc = "This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts."
 
-    img1_in = bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node)
-    img2_in = bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node)
-    min_match_counts_in = bpy.props.IntProperty(default=10, min=1, max=1000, update=update_node)
-    min_distance_in = bpy.props.FloatProperty(default=0.7, min=0.1, max=10, update=update_node)
+    img1_in: bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node)
+    img2_in: bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node)
+    min_match_counts_in: bpy.props.IntProperty(default=10, min=1, max=1000, update=update_node)
+    min_distance_in: bpy.props.FloatProperty(default=0.7, min=0.1, max=10, update=update_node)
 
-    img3_out = bpy.props.StringProperty(default=str(uuid.uuid4()), description="Output retval.")
+    img3_out: bpy.props.StringProperty(default=str(uuid.uuid4()), description="Output retval.")
 
     def init(self, context):
         self.inputs.new("StringsSocket", "img1_in")

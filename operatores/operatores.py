@@ -137,10 +137,9 @@ class OCVLImageFullScreenOperator(bpy.types.Operator):
         return bl_img
 
     def _exit(self, context, exit_mode='FINISHED'):
-        # TODO - problem with splited screen
-        bpy.context.area.type = "NODE_EDITOR"
         if context.window.screen.show_fullscreen:
             bpy.ops.screen.back_to_previous()
+        bpy.context.area.type = "NODE_EDITOR"
         return {exit_mode}
 
     def invoke(self, context, event):

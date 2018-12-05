@@ -31,9 +31,9 @@ class OCVLFastFeatureDetectorNode(OCVLNodeBase, OCVLFeature2DNode):
         InitFeature2DOperator.update_class_instance_dict(self, self.id_data.name, self.name)
         self.update_layout(context)
 
-    threshold_init = bpy.props.IntProperty(default=10, min=1, max=100, update=update_and_init, description="")
-    type_init = bpy.props.EnumProperty(items=TYPE_FAST_ITEMS, default="FastFeatureDetector_TYPE_9_16", update=update_and_init, description="")
-    nonmaxSuppression_init = bpy.props.BoolProperty(default=False, update=update_and_init, description="")
+    threshold_init: bpy.props.IntProperty(default=10, min=1, max=100, update=update_and_init, description="")
+    type_init: bpy.props.EnumProperty(items=TYPE_FAST_ITEMS, default="FastFeatureDetector_TYPE_9_16", update=update_and_init, description="")
+    nonmaxSuppression_init: bpy.props.BoolProperty(default=False, update=update_and_init, description="")
 
     def init(self, context):
         super().init(context)

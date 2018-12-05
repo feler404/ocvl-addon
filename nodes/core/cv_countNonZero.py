@@ -9,8 +9,8 @@ class OCVLcountNonZeroNode(OCVLNodeBase):
 
     n_doc = "Counts non-zero array elements."
 
-    src_in = bpy.props.StringProperty(name="src", default=str(uuid.uuid4()), description="First input single channel array or a scalar.")
-    retval_out = bpy.props.IntProperty(name="retval", default=0, description="")
+    src_in: bpy.props.StringProperty(name="src", default=str(uuid.uuid4()), description="First input single channel array or a scalar.")
+    retval_out: bpy.props.IntProperty(name="retval", default=0, description="")
 
     def init(self, context):
         self.inputs.new("StringsSocket", "src_in")

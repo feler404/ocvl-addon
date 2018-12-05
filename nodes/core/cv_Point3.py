@@ -7,9 +7,9 @@ class OCVLPoint3Node(OCVLNodeBase):
 
     n_doc = "Point 3"
 
-    x_in = bpy.props.IntProperty(default=10, min=0, max=2048, update=update_node, description="X")
-    y_in = bpy.props.IntProperty(default=10, min=0, max=2048, update=update_node, description="Y")
-    z_in = bpy.props.IntProperty(default=10, min=0, max=2048, update=update_node, description="Z")
+    x_in: bpy.props.IntProperty(default=10, min=0, max=2048, update=update_node, description="X")
+    y_in: bpy.props.IntProperty(default=10, min=0, max=2048, update=update_node, description="Y")
+    z_in: bpy.props.IntProperty(default=10, min=0, max=2048, update=update_node, description="Z")
 
     def init(self, context):
         self.inputs.new("StringsSocket", "x_in").prop_name = "x_in"

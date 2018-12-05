@@ -9,10 +9,10 @@ class OCVLmagnitudeNode(OCVLNodeBase):
 
     n_doc = "Calculates the magnitude of 2D vectors."
 
-    x_in = bpy.props.StringProperty(name="x_in", default=str(uuid.uuid4()), description="Floating-point array of x-coordinates of the vectors.")
-    y_in = bpy.props.StringProperty(name="y_in", default=str(uuid.uuid4()), description="Floating-point array of y-coordinates of the vectors; it must have the same size as x.")
+    x_in: bpy.props.StringProperty(name="x_in", default=str(uuid.uuid4()), description="Floating-point array of x-coordinates of the vectors.")
+    y_in: bpy.props.StringProperty(name="y_in", default=str(uuid.uuid4()), description="Floating-point array of y-coordinates of the vectors; it must have the same size as x.")
 
-    array_out = bpy.props.StringProperty(name="array_out", default=str(uuid.uuid4()),
+    array_out: bpy.props.StringProperty(name="array_out", default=str(uuid.uuid4()),
         description="Output array of the same size and type as x.")
 
     def init(self, context):

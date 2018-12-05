@@ -9,10 +9,10 @@ class OCVLcontourAreaNode(OCVLNodeBase):
 
     n_doc = "Calculates a contour area."
 
-    contour_in = bpy.props.StringProperty(name="contour_in", default=str(uuid.uuid4()), description="Input vector of 2D points (contour vertices), stored in std::vector or Mat.")
-    area_out = bpy.props.FloatProperty(default=0.0, description="Area of contour.")
-    oriented_out = bpy.props.BoolProperty(default=False, update=update_node, description="Oriented area flag. If it is true, the function returns a signed area value, depending on the contour orientation (clockwise or counter-clockwise).")
-    loc_from_findContours = bpy.props.BoolProperty(default=True, update=update_node, description="If linked with findContour node switch to True")
+    contour_in: bpy.props.StringProperty(name="contour_in", default=str(uuid.uuid4()), description="Input vector of 2D points (contour vertices), stored in std::vector or Mat.")
+    area_out: bpy.props.FloatProperty(default=0.0, description="Area of contour.")
+    oriented_out: bpy.props.BoolProperty(default=False, update=update_node, description="Oriented area flag. If it is true, the function returns a signed area value, depending on the contour orientation (clockwise or counter-clockwise).")
+    loc_from_findContours: bpy.props.BoolProperty(default=True, update=update_node, description="If linked with findContour node switch to True")
 
     def init(self, context):
         self.inputs.new("StringsSocket", "contour_in")

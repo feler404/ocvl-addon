@@ -22,14 +22,14 @@ class OCVLellipse2PolyNode(OCVLNodeBase):
     bl_icon = 'GREASEPENCIL'
     n_doc = "Approximates an elliptic arc with a polyline."
 
-    center_in = bpy.props.IntVectorProperty(default=(0, 0), size=2, update=update_node, description="Center of the ellipse.")
-    axes_in = bpy.props.IntVectorProperty(default=(1, 1), size=2, min=0, max=1000, update=update_node, description="Half of the size of the ellipse main axes.")
-    angle_in = bpy.props.IntProperty(default=30, min=0, max=360, update=update_node, description="Ellipse rotation angle in degrees.")
-    arcStart_in = bpy.props.IntProperty(default=0, min=0, max=360, update=update_node, description="Starting angle of the elliptic arc in degrees.")
-    arcEnd_in = bpy.props.IntProperty(default=270, min=0, max=360, update=update_node, description="Ending angle of the elliptic arc in degrees.")
-    delta_in = bpy.props.IntProperty(default=40, min=0, max=360, update=update_node, description="Angle between the subsequent polyline vertices. It defines the approximation accuracy.")
+    center_in: bpy.props.IntVectorProperty(default=(0, 0), size=2, update=update_node, description="Center of the ellipse.")
+    axes_in: bpy.props.IntVectorProperty(default=(1, 1), size=2, min=0, max=1000, update=update_node, description="Half of the size of the ellipse main axes.")
+    angle_in: bpy.props.IntProperty(default=30, min=0, max=360, update=update_node, description="Ellipse rotation angle in degrees.")
+    arcStart_in: bpy.props.IntProperty(default=0, min=0, max=360, update=update_node, description="Starting angle of the elliptic arc in degrees.")
+    arcEnd_in: bpy.props.IntProperty(default=270, min=0, max=360, update=update_node, description="Ending angle of the elliptic arc in degrees.")
+    delta_in: bpy.props.IntProperty(default=40, min=0, max=360, update=update_node, description="Angle between the subsequent polyline vertices. It defines the approximation accuracy.")
 
-    pts_out = bpy.props.StringProperty(name="pts_out", default=str(uuid.uuid4()), description="Output vector of polyline vertices.")
+    pts_out: bpy.props.StringProperty(name="pts_out", default=str(uuid.uuid4()), description="Output vector of polyline vertices.")
 
     def init(self, context):
         self.inputs.new('SvColorSocket', 'center_in').prop_name = 'center_in'

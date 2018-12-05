@@ -7,8 +7,8 @@ logger = getLogger(__name__)
 
 
 class OCVLSettingsNode(OCVLPreviewNodeBase):
-    origin = bpy.props.StringProperty("")
-    settings = bpy.props.BoolProperty(default=False)
+    origin: bpy.props.StringProperty("")
+    settings: bpy.props.BoolProperty(default=False)
 
     def init(self, context):
         self.width = 180

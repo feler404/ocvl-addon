@@ -10,12 +10,12 @@ class OCVLmulSpectrumsNode(OCVLNodeBase):
     bl_flags_list = 'DFT_ROWS'
     n_doc = "Performs the per-element multiplication of two Fourier spectrums."
 
-    a_in = bpy.props.StringProperty(name="a_in", default=str(uuid.uuid4()), description="First input array.")
-    b_in = bpy.props.StringProperty(name="b_in", default=str(uuid.uuid4()), description="Second input array of the same size and type as src1.")
-    flags_in = bpy.props.BoolVectorProperty(default=[False for i in bl_flags_list.split(",")], size=len(bl_flags_list.split(",")), update=update_node, subtype="NONE", description=bl_flags_list)
-    conjB_in = bpy.props.BoolProperty(name="conjB_in", default=False, description = "Optional flag that conjugates the second input array before the multiplication (true) or not (false).")
+    a_in: bpy.props.StringProperty(name="a_in", default=str(uuid.uuid4()), description="First input array.")
+    b_in: bpy.props.StringProperty(name="b_in", default=str(uuid.uuid4()), description="Second input array of the same size and type as src1.")
+    flags_in: bpy.props.BoolVectorProperty(default=[False for i in bl_flags_list.split(",")], size=len(bl_flags_list.split(",")), update=update_node, subtype="NONE", description=bl_flags_list)
+    conjB_in: bpy.props.BoolProperty(name="conjB_in", default=False, description = "Optional flag that conjugates the second input array before the multiplication (true) or not (false).")
 
-    image_out = bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output array.")
+    image_out: bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output array.")
 
     def init(self, context):
         self.inputs.new("StringsSocket", "a_in")

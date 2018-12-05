@@ -14,21 +14,21 @@ logger = getLogger(__name__)
 
 
 class OCVLSplashNode(OCVLPreviewNodeBase):
-    origin = bpy.props.StringProperty("")
-    image_out = bpy.props.StringProperty(default=str(uuid.uuid4()))
+    origin: bpy.props.StringProperty("")
+    image_out: bpy.props.StringProperty(default=str(uuid.uuid4()))
 
-    login_in = bpy.props.StringProperty(name="Login", default="", description="Login", maxlen=60)
-    password_in = bpy.props.StringProperty(name="Password", default="", subtype="PASSWORD", description="Password", maxlen=60)
-    is_remember_in = bpy.props.BoolProperty(name="Remember", default=True, description="Remember credentials")
+    login_in: bpy.props.StringProperty(name="Login", default="", description="Login", maxlen=60)
+    password_in: bpy.props.StringProperty(name="Password", default="", subtype="PASSWORD", description="Password", maxlen=60)
+    is_remember_in: bpy.props.BoolProperty(name="Remember", default=True, description="Remember credentials")
 
-    is_licence_key = bpy.props.BoolProperty(name="Licence Key", default=False)
-    licence_key_in = bpy.props.StringProperty(name="Licence Key", default="", description="licence_key_in", maxlen=600)
+    is_licence_key: bpy.props.BoolProperty(name="Licence Key", default=False)
+    licence_key_in: bpy.props.StringProperty(name="Licence Key", default="", description="licence_key_in", maxlen=600)
 
-    auth = bpy.props.BoolProperty(default=False)
-    docs = bpy.props.BoolProperty(default=False)
-    settings = bpy.props.BoolProperty(default=False)
+    auth: bpy.props.BoolProperty(default=False)
+    docs: bpy.props.BoolProperty(default=False)
+    settings: bpy.props.BoolProperty(default=False)
 
-    is_splash_loaded = bpy.props.BoolProperty(default=False)
+    is_splash_loaded: bpy.props.BoolProperty(default=False)
 
     def init(self, context):
         self.width = 512

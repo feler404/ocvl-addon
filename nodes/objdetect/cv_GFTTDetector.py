@@ -22,13 +22,13 @@ class OCVLGFTTDetectorNode(OCVLNodeBase, OCVLFeature2DNode):
         self.update_sockets(context)
         update_node(self, context)
 
-    maxCorners_init = bpy.props.IntProperty(default=1000, min=10, max=10000, update=update_and_init, description="")
-    qualityLevel_init = bpy.props.FloatProperty(default=0.01, min=0.001, max=0.99, update=update_and_init, description="")
-    minDistance_init = bpy.props.FloatProperty(default=1., min=1.0, max=3., update=update_and_init, description="")
-    blockSize_init = bpy.props.IntProperty(default=3, min=1, max=8, update=update_and_init, description="")
-    useHarrisDetector_init = bpy.props.BoolProperty(default=False, update=update_and_init, description="")
-    k_init = bpy.props.FloatProperty(default=0.04, min=0.01, max=0.1, update=update_and_init, description="")
-    gradiantSize_init = bpy.props.IntProperty(default=1, min=0, max=100, update=update_and_init, description="")
+    maxCorners_init: bpy.props.IntProperty(default=1000, min=10, max=10000, update=update_and_init, description="")
+    qualityLevel_init: bpy.props.FloatProperty(default=0.01, min=0.001, max=0.99, update=update_and_init, description="")
+    minDistance_init: bpy.props.FloatProperty(default=1., min=1.0, max=3., update=update_and_init, description="")
+    blockSize_init: bpy.props.IntProperty(default=3, min=1, max=8, update=update_and_init, description="")
+    useHarrisDetector_init: bpy.props.BoolProperty(default=False, update=update_and_init, description="")
+    k_init: bpy.props.FloatProperty(default=0.04, min=0.01, max=0.1, update=update_and_init, description="")
+    gradiantSize_init: bpy.props.IntProperty(default=1, min=0, max=100, update=update_and_init, description="")
 
     def init(self, context):
         super().init(context)

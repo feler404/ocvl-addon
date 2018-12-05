@@ -19,12 +19,12 @@ class OCVLdilateNode(OCVLNodeBase):
         anchor_y = value[1] if -1 <= value[1] < self.ksize_in[1] else self.anchor_in[1]
         self["anchor_in"] = (anchor_x, anchor_y)
 
-    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input image.")
-    image_out = bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
+    image_in: bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input image.")
+    image_out: bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
 
-    ksize_in = bpy.props.IntVectorProperty(default=(3, 3), update=update_node, min=1, max=30, size=2, description="Structuring element used for erosion.")
-    anchor_in = bpy.props.IntVectorProperty(default=(-1, -1), update=update_node, get=get_anchor, set=set_anchor, size=2, description="Position of the anchor within the element.")
-    iterations_in = bpy.props.IntProperty(default=2, min=1, max=10, update=update_node, description="Number of times erosion is applied.")
+    ksize_in: bpy.props.IntVectorProperty(default=(3, 3), update=update_node, min=1, max=30, size=2, description="Structuring element used for erosion.")
+    anchor_in: bpy.props.IntVectorProperty(default=(-1, -1), update=update_node, get=get_anchor, set=set_anchor, size=2, description="Position of the anchor within the element.")
+    iterations_in: bpy.props.IntProperty(default=2, min=1, max=10, update=update_node, description="Number of times erosion is applied.")
 
     def init(self, context):
         self.width = 150

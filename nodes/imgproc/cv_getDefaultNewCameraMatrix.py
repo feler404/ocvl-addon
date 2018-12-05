@@ -9,11 +9,11 @@ class OCVLgetDefaultNewCameraMatrixNode(OCVLNodeBase):
 
     n_doc = "Returns the default new camera matrix."
 
-    cameraMatrix_in = bpy.props.StringProperty(default=str(uuid.uuid4()), description="Input camera matrix.")
-    imgsize_in = bpy.props.IntVectorProperty(default=(100, 100), min=1, max=2048, size=2, update=update_node, description="Camera view image size in pixels.")
-    centerPrincipalPoint_in = bpy.props.BoolProperty(default=False, update=update_node, description="Location of the principal point in the new camera matrix. The parameter indicates whether this location should be at the image center or not.")
+    cameraMatrix_in: bpy.props.StringProperty(default=str(uuid.uuid4()), description="Input camera matrix.")
+    imgsize_in: bpy.props.IntVectorProperty(default=(100, 100), min=1, max=2048, size=2, update=update_node, description="Camera view image size in pixels.")
+    centerPrincipalPoint_in: bpy.props.BoolProperty(default=False, update=update_node, description="Location of the principal point in the new camera matrix. The parameter indicates whether this location should be at the image center or not.")
 
-    retval_out = bpy.props.StringProperty(name="retval_out", default=str(uuid.uuid4()), description="Return value.")
+    retval_out: bpy.props.StringProperty(name="retval_out", default=str(uuid.uuid4()), description="Return value.")
 
     def init(self, context):
         self.inputs.new("StringsSocket", "cameraMatrix_in")

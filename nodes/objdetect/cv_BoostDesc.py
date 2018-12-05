@@ -20,9 +20,9 @@ class OCVLBoostDescNode(OCVLNodeBase, OCVLFeature2DNode):
         InitFeature2DOperator.update_class_instance_dict(self, self.id_data.name, self.name)
         self.update_layout(context)
 
-    # desc_init = bpy.props.EnumProperty()
-    # use_scale_orientation_init = bpy.props.BoolProperty()
-    # scale_factor_init = bpy.props.FloatProperty()
+    # desc_init: bpy.props.EnumProperty()
+    # use_scale_orientation_init: bpy.props.BoolProperty()
+    # scale_factor_init: bpy.props.FloatProperty()
 
     def init(self, context):
         super().init(context)

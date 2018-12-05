@@ -9,11 +9,11 @@ class OCVLconvertScaleAbsNode(OCVLNodeBase):
 
     n_doc = "Scales, calculates absolute values, and converts the result to 8-bit."
 
-    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input image.")
-    image_out = bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
+    image_in: bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input image.")
+    image_out: bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
 
-    alpha_in = bpy.props.FloatProperty(default=1, min=0.0, max=100, update=update_node, description="Optional scale factor.")
-    beta_in = bpy.props.FloatProperty(default=0, min=0.0, max=100, update=update_node, description="Optional delta added to the scaled values.")
+    alpha_in: bpy.props.FloatProperty(default=1, min=0.0, max=100, update=update_node, description="Optional scale factor.")
+    beta_in: bpy.props.FloatProperty(default=0, min=0.0, max=100, update=update_node, description="Optional delta added to the scaled values.")
 
     def init(self, context):
         self.inputs.new("StringsSocket", "image_in")

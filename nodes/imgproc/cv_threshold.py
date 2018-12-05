@@ -17,14 +17,14 @@ class OCVLthresholdNode(OCVLNodeBase):
 
     n_doc = "Applies a fixed-level threshold to each array element."
 
-    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input array (single-channel, 8-bit or 32-bit floating point).")
-    mask_out = bpy.props.StringProperty(name="mask_out", default=str(uuid.uuid4()), description="Output mask.")
-    thresh_out = bpy.props.IntProperty(name="thresh_out", default=0, description="Threshold value output.")
+    image_in: bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input array (single-channel, 8-bit or 32-bit floating point).")
+    mask_out: bpy.props.StringProperty(name="mask_out", default=str(uuid.uuid4()), description="Output mask.")
+    thresh_out: bpy.props.IntProperty(name="thresh_out", default=0, description="Threshold value output.")
 
-    thresh_in = bpy.props.IntProperty(default=127, min=0, max=255, update=update_node, description="Threshold value.")
-    maxval_in = bpy.props.IntProperty(default=255, min=0, max=255, update=update_node, description="Maximum value to use with the THRESH_BINARY and THRESH_BINARY_INV thresholding types")
-    type_in = bpy.props.EnumProperty(items=TYPE_THRESHOLD_ITEMS, default="THRESH_BINARY", update=update_node, description="Thresholding type (see the cv::ThresholdTypes).")
-    loc_invert = bpy.props.BoolProperty(default=False, update=update_node, description="Invert output mask.")
+    thresh_in: bpy.props.IntProperty(default=127, min=0, max=255, update=update_node, description="Threshold value.")
+    maxval_in: bpy.props.IntProperty(default=255, min=0, max=255, update=update_node, description="Maximum value to use with the THRESH_BINARY and THRESH_BINARY_INV thresholding types")
+    type_in: bpy.props.EnumProperty(items=TYPE_THRESHOLD_ITEMS, default="THRESH_BINARY", update=update_node, description="Thresholding type (see the cv::ThresholdTypes).")
+    loc_invert: bpy.props.BoolProperty(default=False, update=update_node, description="Invert output mask.")
 
     def init(self, context):
         self.width = 200

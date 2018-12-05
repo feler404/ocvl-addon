@@ -18,10 +18,10 @@ class OCVLcompareNode(OCVLNodeBase):
 
     n_doc = "Performs the per-element comparison of two arrays or an array and scalar value."
 
-    src1_in = bpy.props.StringProperty(name="src1_in", default=str(uuid.uuid4()), description="First input array or a scalar (in the case of cvCmp, cv.Cmp, cvCmpS, cv.CmpS it is always an array); when it is an array, it must have a single channel.")
-    src2_in = bpy.props.StringProperty(name="src2_in", default=str(uuid.uuid4()), description="Second input array or a scalar (in the case of cvCmp and cv.Cmp it is always an array; in the case of cvCmpS, cv.CmpS it is always a scalar); when it is an array, it must have a single channel.")
+    src1_in: bpy.props.StringProperty(name="src1_in", default=str(uuid.uuid4()), description="First input array or a scalar (in the case of cvCmp, cv.Cmp, cvCmpS, cv.CmpS it is always an array); when it is an array, it must have a single channel.")
+    src2_in: bpy.props.StringProperty(name="src2_in", default=str(uuid.uuid4()), description="Second input array or a scalar (in the case of cvCmp and cv.Cmp it is always an array; in the case of cvCmpS, cv.CmpS it is always a scalar); when it is an array, it must have a single channel.")
 
-    cmpop_in = bpy.props.EnumProperty(items=COMPARE_FLAG_ITEMS, default="CMP_EQ", update=update_node, description="""A flag, that specifies correspondence between the arrays:
+    cmpop_in: bpy.props.EnumProperty(items=COMPARE_FLAG_ITEMS, default="CMP_EQ", update=update_node, description="""A flag, that specifies correspondence between the arrays:
 
         CMP_EQ src1 is equal to src2.
         CMP_GT src1 is greater than src2.
@@ -31,7 +31,7 @@ class OCVLcompareNode(OCVLNodeBase):
         CMP_NE src1 is unequal to src2.
         """)
 
-    dst_out = bpy.props.StringProperty(name="dst_out", default=str(uuid.uuid4()), description="Output array that has the same size and type as the input arrays.")
+    dst_out: bpy.props.StringProperty(name="dst_out", default=str(uuid.uuid4()), description="Output array that has the same size and type as the input arrays.")
 
     def init(self, context):
         self.inputs.new("StringsSocket", "src1_in")

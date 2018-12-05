@@ -22,11 +22,11 @@ class OCVLStarDetectorNode(OCVLNodeBase, OCVLFeature2DNode):
         self.update_sockets(context)
         update_node(self, context)
 
-    maxSize_init = bpy.props.IntProperty(default=45, min=1, max=1000, update=update_and_init, description="")
-    responseThreshold_init = bpy.props.IntProperty(default=30, min=1, max=1000, update=update_and_init, description="")
-    lineThresholdProjected_init = bpy.props.IntProperty(default=10, min=1, max=100, update=update_and_init, description="")
-    lineThresholdBinarized_init = bpy.props.IntProperty(default=8, min=1, max=100, update=update_and_init, description="")
-    suppressNonmaxSize_init = bpy.props.IntProperty(default=5, min=1, max=100, update=update_and_init, description="")
+    maxSize_init: bpy.props.IntProperty(default=45, min=1, max=1000, update=update_and_init, description="")
+    responseThreshold_init: bpy.props.IntProperty(default=30, min=1, max=1000, update=update_and_init, description="")
+    lineThresholdProjected_init: bpy.props.IntProperty(default=10, min=1, max=100, update=update_and_init, description="")
+    lineThresholdBinarized_init: bpy.props.IntProperty(default=8, min=1, max=100, update=update_and_init, description="")
+    suppressNonmaxSize_init: bpy.props.IntProperty(default=5, min=1, max=100, update=update_and_init, description="")
 
 
     def init(self, context):

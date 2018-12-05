@@ -9,8 +9,8 @@ class OCVLequalizeHistNode(OCVLNodeBase):
 
     n_doc = "Equalizes the histogram of a grayscale image."
 
-    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Source 8-bit single channel image.")
-    image_out = bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
+    image_in: bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Source 8-bit single channel image.")
+    image_out: bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
 
     def init(self, context):
         self.inputs.new("StringsSocket", "image_in")

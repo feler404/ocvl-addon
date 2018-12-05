@@ -9,12 +9,12 @@ class OCVLmaxNode(OCVLNodeBase):
 
     n_doc = "Calculates per-element maximum of two arrays or an array and a scalar."
 
-    n_id = bpy.props.StringProperty(default='')
-    n_meta = bpy.props.StringProperty(default='')
-    src1_in = bpy.props.StringProperty(name="src1_in", default=str(uuid.uuid4()), description="First input array.")
-    src2_in = bpy.props.StringProperty(name="src2_in", default=str(uuid.uuid4()), description="Second input array of the same size and type as src1.")
+    n_id: bpy.props.StringProperty(default='')
+    n_meta: bpy.props.StringProperty(default='')
+    src1_in: bpy.props.StringProperty(name="src1_in", default=str(uuid.uuid4()), description="First input array.")
+    src2_in: bpy.props.StringProperty(name="src2_in", default=str(uuid.uuid4()), description="Second input array of the same size and type as src1.")
 
-    array_out = bpy.props.StringProperty(name="array_out", default=str(uuid.uuid4()), description="Output array of the same size and type as src1.")
+    array_out: bpy.props.StringProperty(name="array_out", default=str(uuid.uuid4()), description="Output array of the same size and type as src1.")
 
     def init(self, context):
         self.inputs.new("StringsSocket", "src1_in")

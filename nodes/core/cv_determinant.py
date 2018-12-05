@@ -9,8 +9,8 @@ class OCVLdeterminantNode(OCVLNodeBase):
 
     n_doc = "Returns the determinant of a square floating-point matrix."
 
-    mtx_in = bpy.props.StringProperty(name="mtx_in", default=str(uuid.uuid4()), description="Input matrix that must have CV_32FC1 or CV_64FC1 type and square size.")
-    retval_out = bpy.props.FloatProperty(name="retval_out", description="")
+    mtx_in: bpy.props.StringProperty(name="mtx_in", default=str(uuid.uuid4()), description="Input matrix that must have CV_32FC1 or CV_64FC1 type and square size.")
+    retval_out: bpy.props.FloatProperty(name="retval_out", description="")
 
     def init(self, context):
         self.inputs.new("StringsSocket", "mtx_in")

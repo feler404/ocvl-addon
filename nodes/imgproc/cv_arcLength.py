@@ -9,11 +9,11 @@ class OCVLarcLengthNode(OCVLNodeBase):
 
     n_doc = "Calculates a contour perimeter or a curve length."
 
-    curve_in = bpy.props.StringProperty(default=str(uuid.uuid4()), description="Input vector of 2D points, stored in std::vector or Mat.")
-    closed_in = bpy.props.BoolProperty(default=False, update=update_node, description="Flag indicating whether the curve is closed or not.")
-    loc_from_findContours = bpy.props.BoolProperty(default=True, update=update_node, description="If linked with findContour node switch to True.")
+    curve_in: bpy.props.StringProperty(default=str(uuid.uuid4()), description="Input vector of 2D points, stored in std::vector or Mat.")
+    closed_in: bpy.props.BoolProperty(default=False, update=update_node, description="Flag indicating whether the curve is closed or not.")
+    loc_from_findContours: bpy.props.BoolProperty(default=True, update=update_node, description="If linked with findContour node switch to True.")
 
-    length_out = bpy.props.FloatProperty(default=0.0, description="Length of contour.")
+    length_out: bpy.props.FloatProperty(default=0.0, description="Length of contour.")
 
     def init(self, context):
         self.inputs.new("StringsSocket", "curve_in")

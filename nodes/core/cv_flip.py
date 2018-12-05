@@ -19,10 +19,10 @@ class OCVLflipNode(OCVLNodeBase):
     def get_anchor(self):
         return self.get("anchor", (-1, -1))
 
-    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input array.")
-    image_out = bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output array of the same size and type as src.")
+    image_in: bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input array.")
+    image_out: bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output array of the same size and type as src.")
 
-    flipCode_in = bpy.props.EnumProperty(items=FLIP_CODE_ITEMS, default='0', update=update_node, description="Flag to specify how to flip the array.")
+    flipCode_in: bpy.props.EnumProperty(items=FLIP_CODE_ITEMS, default='0', update=update_node, description="Flag to specify how to flip the array.")
 
     def init(self, context):
         self.inputs.new("StringsSocket", "image_in")

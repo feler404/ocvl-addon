@@ -9,8 +9,8 @@ class OCVLminAreaRectNode(OCVLNodeBase):
 
     n_doc = "Finds a rotated rectangle of the minimum area enclosing the input 2D point set."
 
-    points_in = bpy.props.StringProperty(default=str(uuid.uuid4()), description="Input vector of 2D points, stored in std::vector\<\> or Mat")
-    loc_from_findContours = bpy.props.BoolProperty(default=True, update=update_node, description="If linked with findContour node switch to True")
+    points_in: bpy.props.StringProperty(default=str(uuid.uuid4()), description="Input vector of 2D points, stored in std::vector\<\> or Mat")
+    loc_from_findContours: bpy.props.BoolProperty(default=True, update=update_node, description="If linked with findContour node switch to True")
 
     def init(self, context):
         self.inputs.new("StringsSocket", "points_in")

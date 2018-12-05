@@ -9,8 +9,8 @@ class OCVLexpNode(OCVLNodeBase):
 
     n_doc = "Calculates the exponent of every array element."
 
-    src_in = bpy.props.StringProperty(name="src_in", default=str(uuid.uuid4()), description="Input array.")
-    dst_out = bpy.props.StringProperty(name="dst_out", default=str(uuid.uuid4()), description="Output array of the same size and type as input array.")
+    src_in: bpy.props.StringProperty(name="src_in", default=str(uuid.uuid4()), description="Input array.")
+    dst_out: bpy.props.StringProperty(name="dst_out", default=str(uuid.uuid4()), description="Output array of the same size and type as input array.")
 
     def init(self, context):
         self.inputs.new("StringsSocket", "src_in")

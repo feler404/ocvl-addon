@@ -10,15 +10,15 @@ class OCVLwarpPerspectiveNode(OCVLNodeBase):
     bl_flags_list = 'INTER_LINEAR, WARP_FILL_OUTLIERS'
     n_doc = "Applies a perspective transformation to an image."
 
-    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Image input.")
-    image_out = bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Image output.")
+    image_in: bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Image input.")
+    image_out: bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Image output.")
 
-    M_in = bpy.props.StringProperty(name="M_in", default=str(uuid.uuid4()), description="Transformation matrix.")
+    M_in: bpy.props.StringProperty(name="M_in", default=str(uuid.uuid4()), description="Transformation matrix.")
 
-    dsize_in = bpy.props.IntVectorProperty(default=(100, 100), update=update_node, min=1, max=2028, size=2, description="Size of the output image.")
-    flags_in = bpy.props.BoolVectorProperty(default=[False for i in bl_flags_list.split(",")], size=len(bl_flags_list.split(",")), update=update_node, subtype="NONE", description=bl_flags_list)
-    borderMode_in = bpy.props.EnumProperty(items=BORDER_MODE_ITEMS, default='BORDER_CONSTANT', update=update_node, description="Pixel extrapolation method (BORDER_CONSTANT or BORDER_REPLICATE).")
-    borderValue_in = bpy.props.IntProperty(default=0, min=0, max=255, update=update_node, description="Value used in case of a constant border; by default, it equals 0.")
+    dsize_in: bpy.props.IntVectorProperty(default=(100, 100), update=update_node, min=1, max=2028, size=2, description="Size of the output image.")
+    flags_in: bpy.props.BoolVectorProperty(default=[False for i in bl_flags_list.split(",")], size=len(bl_flags_list.split(",")), update=update_node, subtype="NONE", description=bl_flags_list)
+    borderMode_in: bpy.props.EnumProperty(items=BORDER_MODE_ITEMS, default='BORDER_CONSTANT', update=update_node, description="Pixel extrapolation method (BORDER_CONSTANT or BORDER_REPLICATE).")
+    borderValue_in: bpy.props.IntProperty(default=0, min=0, max=255, update=update_node, description="Value used in case of a constant border; by default, it equals 0.")
 
     def init(self, context):
         self.inputs.new("StringsSocket", "image_in")

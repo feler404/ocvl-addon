@@ -9,12 +9,12 @@ class OCVLdivideNode(OCVLNodeBase):
 
     n_doc = "Performs per-element division of two arrays or a scalar by an array."
 
-    src_1_in = bpy.props.StringProperty(name="src_1_in", default=str(uuid.uuid4()), description="First input array.")
-    src_2_in = bpy.props.StringProperty(name="src_2_in", default=str(uuid.uuid4()), description="Second input array of the same size and type as src1.")
-    scale_in = bpy.props.FloatProperty(default=1, min=1, description="Scalar factor.")
-    dtype_in = bpy.props.EnumProperty(items=COLOR_DEPTH_WITH_NONE_ITEMS, default='None', update=update_node, description="Desired depth of the destination image, see @ref filter_depths 'combinations'.")
+    src_1_in: bpy.props.StringProperty(name="src_1_in", default=str(uuid.uuid4()), description="First input array.")
+    src_2_in: bpy.props.StringProperty(name="src_2_in", default=str(uuid.uuid4()), description="Second input array of the same size and type as src1.")
+    scale_in: bpy.props.FloatProperty(default=1, min=1, description="Scalar factor.")
+    dtype_in: bpy.props.EnumProperty(items=COLOR_DEPTH_WITH_NONE_ITEMS, default='None', update=update_node, description="Desired depth of the destination image, see @ref filter_depths 'combinations'.")
 
-    array_out = bpy.props.StringProperty(name="array_out", default=str(uuid.uuid4()), description="Output array.")
+    array_out: bpy.props.StringProperty(name="array_out", default=str(uuid.uuid4()), description="Output array.")
 
     def init(self, context):
         self.inputs.new("StringsSocket", "src_1_in")

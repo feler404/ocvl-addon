@@ -19,11 +19,11 @@ class OCVLSURFNode(OCVLNodeBase, OCVLFeature2DNode):
         self.update_sockets(context)
         update_node(self, context)
 
-    hessianThreshold_init = bpy.props.FloatProperty(default=100, min=10, max=1000, step=100, update=update_and_init, description="Threshold for hessian keypoint detector used in SURF.")
-    nOctaves_init = bpy.props.IntProperty(default=4, min=1, max=10, update=update_and_init, description="Number of pyramid octaves the keypoint detector will use.")
-    nOctaveLayers_init = bpy.props.IntProperty(default=3, min=1, max=3, update=update_and_init, description="Number of octave layers within each octave.")
-    extended_init = bpy.props.BoolProperty(default=False, update=update_and_init, description="Extended descriptor flag (true - use extended 128-element descriptors; false - use 64-element descriptors).")
-    upright_init = bpy.props.BoolProperty(default=False, update=update_and_init, description="	Up-right or rotated features flag (true - do not compute orientation of features; false - compute orientation).")
+    hessianThreshold_init: bpy.props.FloatProperty(default=100, min=10, max=1000, step=100, update=update_and_init, description="Threshold for hessian keypoint detector used in SURF.")
+    nOctaves_init: bpy.props.IntProperty(default=4, min=1, max=10, update=update_and_init, description="Number of pyramid octaves the keypoint detector will use.")
+    nOctaveLayers_init: bpy.props.IntProperty(default=3, min=1, max=3, update=update_and_init, description="Number of octave layers within each octave.")
+    extended_init: bpy.props.BoolProperty(default=False, update=update_and_init, description="Extended descriptor flag (true - use extended 128-element descriptors; false - use 64-element descriptors).")
+    upright_init: bpy.props.BoolProperty(default=False, update=update_and_init, description="	Up-right or rotated features flag (true - do not compute orientation of features; false - compute orientation).")
 
     def init(self, context):
         super().init(context)

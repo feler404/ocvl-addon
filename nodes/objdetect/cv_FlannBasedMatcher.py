@@ -57,26 +57,26 @@ class OCVLFlannBasedMatcherNode(OCVLNodeBase):
         self.update_sockets(context)
         update_node(self, context)
 
-    queryDescriptors_in = bpy.props.StringProperty(default=str(uuid.uuid4()), description="")
-    trainDescriptors_in = bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node, description="")
-    descriptors_in = bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node, description="")
-    k_in = bpy.props.IntProperty(default=2, min=1, max=10)
-    mask_in = bpy.props.StringProperty(default=str(uuid.uuid4()), description="")
-    compactResult_in = bpy.props.BoolProperty(default=False)
+    queryDescriptors_in: bpy.props.StringProperty(default=str(uuid.uuid4()), description="")
+    trainDescriptors_in: bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node, description="")
+    descriptors_in: bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node, description="")
+    k_in: bpy.props.IntProperty(default=2, min=1, max=10)
+    mask_in: bpy.props.StringProperty(default=str(uuid.uuid4()), description="")
+    compactResult_in: bpy.props.BoolProperty(default=False)
 
-    loc_file_save = bpy.props.StringProperty(default="/", description="")
-    loc_file_load = bpy.props.StringProperty(default="/", description="")
-    loc_work_mode = bpy.props.EnumProperty(items=WORK_MODE_ITEMS, default="MATCH", update=update_layout, description="")
-    loc_state_mode = bpy.props.EnumProperty(items=STATE_MODE_ITEMS, default="INIT", update=update_layout, description="")
-    loc_default_norm = bpy.props.IntProperty(default=0, description="")
-    loc_class_repr = bpy.props.StringProperty(default="", description="")
+    loc_file_save: bpy.props.StringProperty(default="/", description="")
+    loc_file_load: bpy.props.StringProperty(default="/", description="")
+    loc_work_mode: bpy.props.EnumProperty(items=WORK_MODE_ITEMS, default="MATCH", update=update_layout, description="")
+    loc_state_mode: bpy.props.EnumProperty(items=STATE_MODE_ITEMS, default="INIT", update=update_layout, description="")
+    loc_default_norm: bpy.props.IntProperty(default=0, description="")
+    loc_class_repr: bpy.props.StringProperty(default="", description="")
 
-    # trees_init = bpy.props.IntProperty(default=4, min=1, max=20, update=update_node, description="")
-    # checks_init = bpy.props.IntProperty(default=32, min=2, max=128, update=update_node, description="")
-    # eps_init = bpy.props.FloatProperty(default=0., min=0., max=1., update=update_node, description="")
-    # sorted_init = bpy.props.BoolProperty(default=True, update=update_node, description="")
+    # trees_init: bpy.props.IntProperty(default=4, min=1, max=20, update=update_node, description="")
+    # checks_init: bpy.props.IntProperty(default=32, min=2, max=128, update=update_node, description="")
+    # eps_init: bpy.props.FloatProperty(default=0., min=0., max=1., update=update_node, description="")
+    # sorted_init: bpy.props.BoolProperty(default=True, update=update_node, description="")
 
-    matches_out = bpy.props.StringProperty(default=str(uuid.uuid4()), description="")
+    matches_out: bpy.props.StringProperty(default=str(uuid.uuid4()), description="")
 
     def init(self, context):
         self.width = 250

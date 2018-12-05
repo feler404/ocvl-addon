@@ -22,10 +22,10 @@ class OCVLFREAKNode(OCVLNodeBase, OCVLFeature2DNode):
         self.update_sockets(context)
         update_node(self, context)
 
-    orientationNormalized_init = bpy.props.BoolProperty(default=True, update=update_and_init, description="")
-    scaleNormalized_init = bpy.props.BoolProperty(default=True, update=update_and_init, description="")
-    patternScale_init = bpy.props.FloatProperty(default=22.0, min=0, max=100, update=update_and_init, description="")
-    nOctaves_init = bpy.props.IntProperty(default=4, min=1, max=10, update=update_and_init, description="")
+    orientationNormalized_init: bpy.props.BoolProperty(default=True, update=update_and_init, description="")
+    scaleNormalized_init: bpy.props.BoolProperty(default=True, update=update_and_init, description="")
+    patternScale_init: bpy.props.FloatProperty(default=22.0, min=0, max=100, update=update_and_init, description="")
+    nOctaves_init: bpy.props.IntProperty(default=4, min=1, max=10, update=update_and_init, description="")
 
     def init(self, context):
         super().init(context)

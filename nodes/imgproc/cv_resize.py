@@ -24,14 +24,14 @@ class OCVLresizeNode(OCVLNodeBase):
         self.update_sockets(context)
         update_node(self, context)
 
-    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input image.")
-    image_out = bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
+    image_in: bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input image.")
+    image_out: bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
 
-    dsize_in = bpy.props.IntVectorProperty(default=(100, 100), min=1, max=1024, size=2, update=update_node, description="Output image size.")
-    fx_in = bpy.props.FloatProperty(default=0.5, min=0.000001, max=0.999999, update=update_node, description="Fx and fy and let the function compute the destination image size.")
-    fy_in = bpy.props.FloatProperty(default=0.5, min=0.000001, max=0.999999, update=update_node, description="Fx and fy and let the function compute the destination image size.")
-    interpolation_in = bpy.props.EnumProperty(items=INTERPOLATION_ITEMS, default='INTER_NEAREST', update=update_node, description="Interpolation method.")
-    loc_resize_mode = bpy.props.EnumProperty(items=RESIZE_MODE_ITEMS, default="SIZE", update=update_layout, description="Loc resize mode.")
+    dsize_in: bpy.props.IntVectorProperty(default=(100, 100), min=1, max=1024, size=2, update=update_node, description="Output image size.")
+    fx_in: bpy.props.FloatProperty(default=0.5, min=0.000001, max=0.999999, update=update_node, description="Fx and fy and let the function compute the destination image size.")
+    fy_in: bpy.props.FloatProperty(default=0.5, min=0.000001, max=0.999999, update=update_node, description="Fx and fy and let the function compute the destination image size.")
+    interpolation_in: bpy.props.EnumProperty(items=INTERPOLATION_ITEMS, default='INTER_NEAREST', update=update_node, description="Interpolation method.")
+    loc_resize_mode: bpy.props.EnumProperty(items=RESIZE_MODE_ITEMS, default="SIZE", update=update_layout, description="Loc resize mode.")
 
     def init(self, context):
         self.inputs.new("StringsSocket", "image_in")

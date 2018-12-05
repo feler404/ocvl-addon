@@ -9,12 +9,12 @@ class OCVLundistortNode(OCVLNodeBase):
 
     n_doc = "Transforms an image to compensate for lens distortion."
 
-    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input (distorted) image.")
-    cameraMatrix_in = bpy.props.StringProperty(name="cameraMatrix_in", default=str(uuid.uuid4()), description="Input camera matrix")
-    distCoeffs_in = bpy.props.StringProperty(name="distCoeffs_in", default=str(uuid.uuid4()), description="Input vector of distortion coefficients (k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6]]) of 4, 5, or 8 elements.")
-    newCameraMatrix_in = bpy.props.StringProperty(name="newCameraMatrix_in", default=str(uuid.uuid4()), description="Camera matrix of the distorted image. By default, it is the same as cameraMatrix but you may additionally scale and shift the result by using a different matrix.")
+    image_in: bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input (distorted) image.")
+    cameraMatrix_in: bpy.props.StringProperty(name="cameraMatrix_in", default=str(uuid.uuid4()), description="Input camera matrix")
+    distCoeffs_in: bpy.props.StringProperty(name="distCoeffs_in", default=str(uuid.uuid4()), description="Input vector of distortion coefficients (k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6]]) of 4, 5, or 8 elements.")
+    newCameraMatrix_in: bpy.props.StringProperty(name="newCameraMatrix_in", default=str(uuid.uuid4()), description="Camera matrix of the distorted image. By default, it is the same as cameraMatrix but you may additionally scale and shift the result by using a different matrix.")
 
-    image_out = bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output (corrected) image.")
+    image_out: bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output (corrected) image.")
 
     def init(self, context):
         self.inputs.new("StringsSocket", "image_in")

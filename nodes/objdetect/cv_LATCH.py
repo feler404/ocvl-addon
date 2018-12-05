@@ -22,10 +22,10 @@ class OCVLLATCHNode(OCVLNodeBase, OCVLFeature2DNode):
         self.update_sockets(context)
         update_node(self, context)
 
-    bytes_init = bpy.props.IntProperty(default=32, min=2, max=256, update=update_and_init, description="")
-    rotationInvariance_init = bpy.props.BoolProperty(default=True, update=update_and_init, description="")
-    half_ssd_size_init = bpy.props.IntProperty(default=3, min=1, max=10, update=update_and_init, description="")
-    sigma_init = bpy.props.FloatProperty(default=2.0, min=0.01, max=9.99, update=update_and_init, description="")
+    bytes_init: bpy.props.IntProperty(default=32, min=2, max=256, update=update_and_init, description="")
+    rotationInvariance_init: bpy.props.BoolProperty(default=True, update=update_and_init, description="")
+    half_ssd_size_init: bpy.props.IntProperty(default=3, min=1, max=10, update=update_and_init, description="")
+    sigma_init: bpy.props.FloatProperty(default=2.0, min=0.01, max=9.99, update=update_and_init, description="")
 
     def init(self, context):
         super().init(context)
