@@ -39,7 +39,7 @@ def simple_screen(node, x, y, width, height):
         shader, 'TRI_FAN',
         {
             "pos": ((x, y), (x+width, y), (x+width, y+height), (x, y+height)),
-            "texCoord": ((0, 0), (1, 0), (1, 1), (0, 1)),
+            "texCoord": ((0, 1), (1, 1), (1, 0), (0, 0)),
         },
     )
 

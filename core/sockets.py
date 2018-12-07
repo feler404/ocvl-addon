@@ -197,7 +197,7 @@ class OCVLSocketBase:
             layout.prop(prop_origin, prop_name)
         else:
             if self.use_expander:
-                split = layout.split(percentage=.2, align=True)
+                split = layout.split(factor=.2, align=True)
                 c1 = split.column(align=True)
                 c2 = split.column(align=True)
 
