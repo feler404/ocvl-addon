@@ -13,7 +13,8 @@ from ocvl.core.settings import IS_WORK_ON_COPY_INPUT, NODE_COLOR_REQUIRE_DATE, W
 from ocvl.core.constants import TEX_CO_FLIP
 from ocvl.core.exceptions import LackRequiredSocket, NoDataError
 from ocvl.core.globals import SOCKET_DATA_CACHE, TEXTURE_CACHE
-from ocvl.core.image_utils import (callback_disable, callback_enable, init_texture, simple_screen)
+from ocvl.core.image_utils import (callback_disable, callback_enable, init_texture, simple_screen, add_background_to_image)
+
 
 logger = getLogger(__name__)
 
@@ -478,6 +479,7 @@ class OCVLPreviewNodeBase(OCVLNodeBase):
         self.texture[uuid_] = self.node_id
         if len(image.shape) == 3:
             if image.shape[2] == 4:
+                _ = add_background_to_image(resized_image)
                 internalFormat = bgl.GL_RGBA
                 format = bgl.GL_BGRA
             elif image.shape[2] == 3:

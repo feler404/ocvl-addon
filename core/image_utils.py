@@ -1,3 +1,4 @@
+import random
 from logging import getLogger
 
 import cv2
@@ -100,3 +101,71 @@ def convert_to_cv_image(image_gl):
     image_cv = cv2.flip(image_cv, 0)
     image_cv.astype(np.uint8)
     return image_cv
+
+
+def gen_image_random_lines(width=200, height=200, layers=3, bg_color=(76, 76, 53), lines_number=20):
+    image = np.zeros((width, height, layers), np.uint8)
+    image[:, :, ] = bg_color
+    for i in range(lines_number):
+        pt1 = (random.randint(1, width), random.randint(1, height))
+        pt2 = (random.randint(1, width), random.randint(1, height))
+        color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+        image = cv2.line(image, pt1, pt2, color, random.randint(1, 10))
+
+
+def gen_image_lines_horizontal(width=200, height=200, layers=4, grid_height=10):
+    image = np.zeros((width, height, layers), np.uint8)
+    image[:, :, ] = [0] * layers
+    a_color = [100] * layers
+    color = b_color = [200] * layers
+    for i in range(int(height / grid_height) + 1):
+        pt1 = (0, i * grid_height)
+        pt2 = (width, i * grid_height)
+        if color == a_color:
+            color = b_color
+        else:
+            color = a_color
+        image = cv2.line(image, pt1, pt2, color, grid_height)
+    return image
+
+
+def gen_image_lines_verticals(width=200, height=200, layers=4, grid_width=10):
+    image = np.zeros((width, height, layers), np.uint8)
+    image[:, :, ] = [0] * layers
+    a_color = [100] * layers
+    color = b_color = [200] * layers
+    for i in range(int(height / grid_width) + 1):
+        pt1 = (i * grid_width, 0)
+        pt2 = (i * grid_width, height)
+        if color == a_color:
+            color = b_color
+        else:
+            color = a_color
+        image = cv2.line(image, pt1, pt2, color, grid_width)
+    return image
+
+
+def gen_image_grid(width=200, height=200, layers=3, grid_width=10, grid_height=10):
+    img_1 = gen_image_lines_horizontal(width=width, height=height, layers=layers, grid_height=grid_height)
+    img_2 = gen_image_lines_verticals(width=width, height=height, layers=layers, grid_width=grid_width)
+    return cv2.bitwise_xor(img_1, img_2)
+
+
+def add_background_to_image(image):
+    height = image.shape[0]
+    width = image.shape[1]
+    bg_image = gen_image_grid(width=width, height=height)
+
+    for y in range(height):
+        for x in range(width):
+            alpha = image[y, x, 3]
+            if alpha > 0:
+                alpha = alpha / 255.
+                image[y, x, 0] = int((alpha * image[y,x,0]) + ((1-alpha) * bg_image[y,x,0]))
+                image[y, x, 1] = int((alpha * image[y,x,1]) + ((1-alpha) * bg_image[y,x,1]))
+                image[y, x, 2] = int((alpha * image[y,x,2]) + ((1-alpha) * bg_image[y,x,2]))
+            else:
+                image[y, x, 0] = bg_image[y, x, 0]
+                image[y, x, 1] = bg_image[y, x, 1]
+                image[y, x, 2] = bg_image[y, x, 2]
+    return image
