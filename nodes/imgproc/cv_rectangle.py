@@ -1,3 +1,4 @@
+import collections
 import uuid
 
 import bpy
@@ -12,9 +13,9 @@ INPUT_MODE_ITEMS = (
 
 
 PROPS_MAPS = {
-    INPUT_MODE_ITEMS[0][0]: ("x_in", "y_in", "w_in", "h_in"),
-    INPUT_MODE_ITEMS[1][0]: ("pt1_in", "pt2_in"),
-    INPUT_MODE_ITEMS[2][0]: ("rect_in",),
+    INPUT_MODE_ITEMS[0][0]: ("x_in|", "y_in|", "w_in|", "h_in|"),
+    INPUT_MODE_ITEMS[1][0]: ("pt1_in|", "pt2_in|"),
+    INPUT_MODE_ITEMS[2][0]: ("rect_in|RectSocket",),
 }
 
 

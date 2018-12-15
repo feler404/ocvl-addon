@@ -84,7 +84,7 @@ def get_socket(socket, deepcopy_=True):
     raise NoDataError(socket)
 
 
-def SvGetSocketInfo(socket):
+def get_socket_info(socket):
     """returns string to show in socket label"""
     ng = socket.id_data.name
 
@@ -151,15 +151,19 @@ class SvLinkNewNodeInput(bpy.types.Operator):
 
 
 class OCVLSocketBase:
-    use_prop = bpy.props.BoolProperty(default=False)
-    use_expander = bpy.props.BoolProperty(default=True)
-    use_quicklink = bpy.props.BoolProperty(default=True)
-    expanded = bpy.props.BoolProperty(default=False)
+    bl_idname = None
+    bl_label = None
+    draw_socket_color = None
 
-    prop_name = bpy.props.StringProperty(default='')
-    prop_type = bpy.props.StringProperty(default='')
-    prop_index = bpy.props.IntProperty()
-    custom_draw = bpy.props.StringProperty()
+    use_prop: bpy.props.BoolProperty(default=False)
+    use_expander: bpy.props.BoolProperty(default=True)
+    use_quicklink: bpy.props.BoolProperty(default=True)
+    expanded: bpy.props.BoolProperty(default=False)
+
+    prop_name: bpy.props.StringProperty(default='')
+    prop_type: bpy.props.StringProperty(default='')
+    prop_index: bpy.props.IntProperty()
+    custom_draw: bpy.props.StringProperty()
 
     @property
     def socket_id(self):
@@ -266,7 +270,7 @@ class OCVLSocketBase:
                 if self.prop_name:
                     prop = node.rna_type.properties.get(self.prop_name, None)
                     t = prop.name if prop else text
-            info_text = t + '. ' + SvGetSocketInfo(self)
+            info_text = t + '. ' + get_socket_info(self)
             info_text += self.extra_info
             layout.label(text=info_text)
 
@@ -293,7 +297,8 @@ class OCVLSocketBase:
                 layout.label(text=text)
 
     def draw_color(self, context, node):
-        return SOCKET_COLORS.__getattribute__(self.bl_idname)
+        _draw_socket = getattr(self, "draw_socket_color", None)
+        return _draw_socket or SOCKET_COLORS.__getattribute__(self.bl_idname)
 
 
 class SvColorSocket(bpy.types.NodeSocket, OCVLSocketBase):
@@ -338,11 +343,18 @@ class ImageSocket(bpy.types.NodeSocket, OCVLSocketBase):
     bl_label = 'ImageSocket'
 
 
+class RectSocket(bpy.types.NodeSocket, OCVLSocketBase):
+    bl_idname = 'RectSocket'
+    bl_label = 'RectSocket'
+    draw_socket_color = 0.1, 0.2, 0.2, 1
+
+
 def register():
     ocvl_register(StringsSocket)
     ocvl_register(ImageSocket)
     ocvl_register(SvLinkNewNodeInput)
     ocvl_register(SvColorSocket)
+    ocvl_register(RectSocket)
 
 
 def unregister():
@@ -350,3 +362,4 @@ def unregister():
     ocvl_unregister(ImageSocket)
     ocvl_unregister(SvLinkNewNodeInput)
     ocvl_unregister(SvColorSocket)
+    ocvl_unregister(RectSocket)
