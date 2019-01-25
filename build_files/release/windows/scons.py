@@ -4,21 +4,21 @@ import subprocess
 
 
 VERSION_DISPLAY = "1.2.0.0"
-VERSION = "1.2"
+VERSION = VERSION_DISPLAY[0:3]
+BUILD_BLENDER_PATH = "C:/Users/Dom/build_blender"
+START_DIR = os.path.join(BUILD_BLENDER_PATH, "blender")
+
+BF_BUILDDIR = "build_windows_Lite_x64_vc15_Release"
+BF_INSTALLDIR = f"{BF_BUILDDIR}/bin/Release"
 
 
-def nsis_installer(target=None, source=None, env=None):
+def nsis_installer():
     print("="*35)
-    print(target, source)
-
     bitness = '64'
 
-    start_dir = os.getcwd()
-    rel_dir = os.path.join(start_dir, 'release', 'windows', 'installer')
-    install_base_dir = start_dir + os.sep
+    rel_dir = os.path.join(BUILD_BLENDER_PATH, 'blender', 'release', 'windows', 'installer')
 
-    bf_installdir = os.path.join(os.getcwd(), env['BF_INSTALLDIR'])
-    bf_installdir = os.path.normpath(bf_installdir)
+    bf_installdir = os.path.normpath(os.path.join(BUILD_BLENDER_PATH, BF_INSTALLDIR))
 
     doneroot = False
     rootdirconts = []
@@ -39,6 +39,9 @@ def nsis_installer(target=None, source=None, env=None):
 
                 for f in df:
                     outfile = os.path.join(dp, f)
+                    if " " in outfile:
+                        print(f"WARNING: filename with space character: {outfile}")
+                        continue
                     datafiles += '  File '+outfile + "\n"
 
         # uninstall
@@ -52,11 +55,9 @@ def nsis_installer(target=None, source=None, env=None):
                 deldatafiles += 'Delete \"$INSTDIR\\' + os.path.join(deldir, f) + "\"\n"
 
     # change to suit install dir
-    inst_dir = install_base_dir + env['BF_INSTALLDIR']
+    inst_dir = bf_installdir
 
-    os.chdir(rel_dir)
-
-    ns = open("00.sconsblender.nsi", "r")
+    ns = open(os.path.join(rel_dir, "00.sconsblender.nsi"), "r")
 
     ns_cnt = str(ns.read())
     ns.close()
@@ -88,13 +89,14 @@ def nsis_installer(target=None, source=None, env=None):
     ns_cnt = ns_cnt.replace("[DELDATAFILES]", deldatafiles)
     ns_cnt = ns_cnt.replace("[DELDATADIRS]", deldatadirs)
 
-    tmpnsi = os.path.normpath(install_base_dir+os.sep+env['BF_BUILDDIR']+os.sep+"00.blender_tmp.nsi")
+    tmpnsi = os.path.normpath(BUILD_BLENDER_PATH+os.sep+BF_BUILDDIR+os.sep+"00.blender_tmp.nsi")
+    print(f"Temp nsi file: {tmpnsi}")
     new_nsis = open(tmpnsi, 'w')
     new_nsis.write(ns_cnt)
     new_nsis.close()
     print("NSIS Installer script created")
 
-    os.chdir(start_dir)
+
     print("Launching 'makensis'")
 
     cmdline = "makensis " + "\""+tmpnsi+"\""
@@ -113,5 +115,12 @@ def nsis_installer(target=None, source=None, env=None):
     rv = proc.wait()
 
     if rv != 0:
-        print(data.strip().split("\n")[-1])
+        print(f"Data: {data}")
+        print(f"Errors: {err}")
+
+    print("Compilation Success!")
+    print(f"Output file in {bf_installdir}")
     return rv
+
+
+nsis_installer()
