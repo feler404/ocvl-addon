@@ -3,21 +3,18 @@ import os.path
 import subprocess
 
 
-VERSION_DISPLAY = "1.2.0.0"
-VERSION = VERSION_DISPLAY[0:3]
-BUILD_BLENDER_PATH = "C:/Users/Dom/build_blender"
-START_DIR = os.path.join(BUILD_BLENDER_PATH, "blender")
+def nsis_installer(
+        VERSION_DISPLAY="1.2.0.0",
+        BUILD_BLENDER_PATH="C:/Users/Dom/blender-build",
+        BF_BUILDDIR="build_windows_Lite_x64_vc15_Release"
+    ):
 
-BF_BUILDDIR = "build_windows_Lite_x64_vc15_Release"
-BF_INSTALLDIR = f"{BF_BUILDDIR}/bin/Release"
+    VERSION = VERSION_DISPLAY[0:3]
+    BF_INSTALLDIR = f"{BF_BUILDDIR}/bin/Release"
 
-
-def nsis_installer():
     print("="*35)
     bitness = '64'
-
-    rel_dir = os.path.join(BUILD_BLENDER_PATH, 'blender', 'release', 'windows', 'installer')
-
+    rel_dir = os.getcwd()
     bf_installdir = os.path.normpath(os.path.join(BUILD_BLENDER_PATH, BF_INSTALLDIR))
 
     doneroot = False
@@ -58,7 +55,6 @@ def nsis_installer():
     inst_dir = bf_installdir
 
     ns = open(os.path.join(rel_dir, "00.sconsblender.nsi"), "r")
-
     ns_cnt = str(ns.read())
     ns.close()
 
