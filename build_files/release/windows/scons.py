@@ -54,6 +54,7 @@ def nsis_installer(target=None, source=None, env=None):
     # change to suit install dir
     inst_dir = install_base_dir + env['BF_INSTALLDIR']
 
+
     os.chdir(rel_dir)
 
     ns = open("00.sconsblender.nsi", "r")
