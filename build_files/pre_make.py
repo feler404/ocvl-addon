@@ -1,18 +1,25 @@
+"""
+Script to full build and release OpenCV Laboratory on base updated Blender
+
+Structure of directories
+
+* - blender-build
+* -- ocvl-addon
+* -- blender
+* -- lib
+* -- build_darwin
+* -- build_darwin_lite
+
+"""
 import os
-import subprocess
 import shutil
-#
-# - blender-build
-# -- ocvl-addon
-# -- blender
-# -- lib
-# -- build_darwin
-# -- build_darwin_lite
-#
+import sys
+import platform
+import subprocess
 
 
 def get_blender_build_path(blender_build_dir_name):
-    cwd = os.getcwd()
+    cwd = os.path.dirname(os.path.realpath(__file__))
     out = True
     head, tail = os.path.split(cwd)
     while out:
@@ -22,30 +29,35 @@ def get_blender_build_path(blender_build_dir_name):
         if tail == blender_build_dir_name:
             out = False
 
-    return os.path.join(head, blender_build_dir_name)
+    cwd = os.path.join(head, blender_build_dir_name)
+    print(f"Current work directory: {cwd}")
+    return cwd
 
 
 def cmd(bash_cmd):
     print("-----CMD-----")
     print(bash_cmd)
-    process = subprocess.Popen(bash_cmd.split(), stdout=subprocess.PIPE)
-    output, error = process.communicate()
-    print("-----OUTPUT----")
-    print(output)
-    if error:
-        print("-----ERROR----")
-        print(error)
-
+    process = subprocess.Popen(bash_cmd.split(), stdout=sys.stdout, stderr=sys.stderr)
+    _, _ = process.communicate()
+    if process.returncode is not 0:
+        raise Exception(f"Status code from command {bash_cmd}: {process.returncode}")
+    print("-----SUCCESS----")
 
 # -----  Settings
 BLENDER_BUILD_DIR_NAME = "blender-build"
-BLENDER_BUILD_DIR = os.path.normpath(get_blender_build_path(BLENDER_BUILD_DIR_NAME))
-OCVL_ADDON_DIR = "ocvl-addon"
-BLENDER_SOURCE_DIR = "blender"
+WORK_DIR = os.path.normpath(get_blender_build_path(BLENDER_BUILD_DIR_NAME))
+OCVL_ADDON_DIR_NAME = "ocvl-addon"
+BLENDER_SOURCE_DIR_NAME = "blender"
 GET_PIP_FILE_NAME = "get-pip.py"
 GET_PIP_URL = f"https://bootstrap.pypa.io/{GET_PIP_FILE_NAME}"
-OCVL_REQUIREMENTS_PATH = os.path.join(BLENDER_BUILD_DIR, OCVL_ADDON_DIR, "requirements.txt")
-WORK_DIR = os.getcwd()
+OCVL_REQUIREMENTS_PATH = os.path.join(WORK_DIR, OCVL_ADDON_DIR_NAME, "requirements.txt")
+MAKE_COMMAND_MAP = {"Windows": "make.bat", "Linux": "", "Darwin": ""}
+MAKE_COMMAND = MAKE_COMMAND_MAP.get(platform.system())
+
+BUILD_VERSION = 'lite'
+BUILD_RELEASE_DIRNAME = "build_windows_{}_x64_vc15_Release".format(BUILD_VERSION.capitalize())
+BLENDER_PYTHON_BIN = os.path.join(WORK_DIR, BUILD_RELEASE_DIRNAME, "bin", "Release", "2.80", "python", "bin", "python")
+BLENDER_PIP_BIN = os.path.join(WORK_DIR, BUILD_RELEASE_DIRNAME, "bin", "Release", "2.80", "python", "Scripts", "pip")
 
 
 def update_blender(branch='master'):
@@ -53,8 +65,8 @@ def update_blender(branch='master'):
     Update Blender
     :return:
     """
-    os.chdir(os.path.join(BLENDER_BUILD_DIR, BLENDER_SOURCE_DIR))
-    cmd(f"git resert --hard")
+    os.chdir(os.path.join(WORK_DIR, BLENDER_SOURCE_DIR_NAME))
+    cmd(f"git reset --hard")
     cmd(f"git checkout {branch}")
     cmd(f"git pull")
     os.chdir(WORK_DIR)
@@ -66,7 +78,7 @@ def update_blender_submodule(branch='master'):
     :param branch:
     :return:
     """
-    os.chdir(os.path.join(BLENDER_BUILD_DIR, BLENDER_SOURCE_DIR))
+    os.chdir(os.path.join(WORK_DIR, BLENDER_SOURCE_DIR_NAME))
     cmd(f"git submodule foreach git checkout {branch}")
     cmd(f"git submodule foreach git pull --rebase origin {branch}")
     os.chdir(WORK_DIR)
@@ -77,18 +89,16 @@ def update_ocvl_addon(branch='master'):
     Update OCVL ADDON
     :return:
     """
-    os.chdir(os.path.join(BLENDER_BUILD_DIR, OCVL_ADDON_DIR))
+    os.chdir(os.path.join(WORK_DIR, OCVL_ADDON_DIR_NAME))
     cmd(f"git resert --hard")
     cmd(f"git checkout {branch}")
     cmd(f"git pull")
     os.chdir(WORK_DIR)
 
 
-def build_blender(version="lite"):
-    os.chdir(os.path.join(BLENDER_BUILD_DIR, BLENDER_SOURCE_DIR))
-    print(os.listdir(os.path.join(BLENDER_BUILD_DIR, BLENDER_SOURCE_DIR)))
-    cmd(f"make.bat clean")
-    cmd(f"make.bat {version}")
+def build_blender(build_version=BUILD_VERSION):
+    os.chdir(os.path.join(WORK_DIR, BLENDER_SOURCE_DIR_NAME))
+    cmd(f"{MAKE_COMMAND} {build_version}")
     os.chdir(WORK_DIR)
 
 
@@ -97,27 +107,56 @@ def get_get_pip_script():
     Get get-pip file from remote server
     :return:
     """
-    if not os.path.isfile("{}".format(os.path.join(BLENDER_BUILD_DIR, GET_PIP_FILE_NAME))):
-        # ----- GetPIP download
-        # cmd(f"cd {BLENDER_BUILD_DIR}")
+    os.chdir(WORK_DIR)
+    get_pip_filepath = os.path.join(WORK_DIR, GET_PIP_FILE_NAME)
+    if not os.path.isfile(f"{get_pip_filepath}"):
         cmd(f"curl {GET_PIP_URL} -o {GET_PIP_FILE_NAME}")
-        # get_pip_path = os.path.join(os.getcwd(), "get-pip.py")
-        # cmd(f"{BLENDER_PYTHON_BIN} {get_pip_path}")
+
+    cmd(f"{BLENDER_PYTHON_BIN} {get_pip_filepath}")
+    os.chdir(WORK_DIR)
 
 
-# # ----- Install requirements
-# cmd("{} install -r {}".format(BLENDER_PYTHON_PIP_BIN, OCVL_REQUIREMENTS_PATH))
-#
-# # ----- Replace files
-# OCVL_RELEASE_DIR = os.path.join(BLENDER_BUILD_DIR, OCVL_ADDON_DIR, "build_files", "release") + "/"
-# BLENDER_RELEASE_DIR = os.path.join(BLENDER_BUILD_DIR, BLENDER_SOURCE_DIR, "release")
-# cmd("cp -Rfv {} {}".format(OCVL_RELEASE_DIR, BLENDER_RELEASE_DIR))
+def install_ocvl_requirements():
+    """
+    Install requirements.txt in Blender Python
+    :return:
+    """
+    def remove_old_numpy():
+        cmd(f"{BLENDER_PIP_BIN} uninstall numpy")
+        destination_path = os.path.join(WORK_DIR, BUILD_RELEASE_DIRNAME, "bin", "Release", "2.80", "python", "lib",
+                                        "site-packages", "numpy")
+        if os.path.exists(destination_path):
+            print("Remove old version Numpy")
+            shutil.rmtree(destination_path)
+    remove_old_numpy()
+    cmd(f"{BLENDER_PIP_BIN} install -r {OCVL_REQUIREMENTS_PATH}")
+    os.chdir(WORK_DIR)
 
+
+def copy_ocvl_to_addons():
+    """
+    Copy(and overwrite) OCVL addon to Blender scripts directory
+    :return:
+    """
+    print("Copy OCVL addon to Blender...")
+    source_path = os.path.join(WORK_DIR, OCVL_ADDON_DIR_NAME)
+    destination_path = os.path.join(WORK_DIR, BUILD_RELEASE_DIRNAME, "bin", "Release", "2.80", "scripts", "addons", "ocvl-addon")
+    print(f"Copy OCVL addon to Blender. From: {source_path} to {destination_path}...")
+    if os.path.exists(destination_path):
+        print("Remove old version OCVL addon")
+        shutil.rmtree(destination_path)
+    shutil.copytree(source_path, destination_path)
+    os.chdir(WORK_DIR)
+    print("Success!")
 
 
 try:
-    # update_blender(branch="blender2.8")
-    # update_blender_submodule()
+    update_blender(branch="blender2.8")
+    update_blender_submodule()
     build_blender()
+    get_get_pip_script()
+    install_ocvl_requirements()
+    copy_ocvl_to_addons()
+    pass
 finally:
     os.chdir(WORK_DIR)
