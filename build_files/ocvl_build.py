@@ -11,12 +11,14 @@ Structure of directories
 * -- build_darwin_lite
 
 """
+import functools
 import os
 import shutil
 import sys
 import platform
 import subprocess
 import os.path
+import tarfile
 
 
 def nsis_installer_build(version_display, build_blender_path, bf_build_dir, rel_dir):
@@ -130,6 +132,18 @@ def nsis_installer_build(version_display, build_blender_path, bf_build_dir, rel_
     return rv
 
 
+def make_tar_gz_form_release():
+    """
+    Make tar.gz archive from release fiels
+    :return:
+    """
+    source = os.path.join(WORK_DIR, BUILD_RELEASE_DIRNAME, BIN_RELEASE)
+    destination = os.path.join(WORK_DIR, f"OCVL-{OCVL_VERSION}-linux.tar.gz")
+    with tarfile.open(destination, "w:gz") as tar:
+        tar.add(source, arcname=os.path.basename(source))
+    print(f"Success. Artifact available on: {destination}")
+
+
 def get_blender_build_path(blender_build_dir_name):
     cwd = os.path.dirname(os.path.realpath(__file__))
     out = True
@@ -192,7 +206,19 @@ BLENDER_PIP_BIN_MAP = {
     "Darwin": ""
 }
 BLENDER_PIP_BIN = BLENDER_PIP_BIN_MAP[PLATFORM]
+PREPARE_ARTIFACT_FN_MAP = {
+    "Windows": functools.partial(
+        nsis_installer_build,
+        version_display=OCVL_VERSION,
+        build_blender_path=WORK_DIR,
+        bf_build_dir=BUILD_RELEASE_DIRNAME,
+        rel_dir=os.path.join(WORK_DIR, OCVL_ADDON_DIR_NAME, "build_files", "release", "windows")
+    ),
+    "Linux": make_tar_gz_form_release,
+    "Darwin": lambda *args: print(args),
+}
 
+PREPARE_ARTIFACT_FN = PREPARE_ARTIFACT_FN_MAP[PLATFORM]
 
 def update_blender(branch='master'):
     """
@@ -285,20 +311,15 @@ def copy_ocvl_to_addons():
 
 
 try:
-    update_blender(branch="blender2.8")
-    update_blender_submodule()
+    #update_blender(branch="blender2.8")
+    #update_blender_submodule()
     #update_ocvl_addon()
-    build_blender()
-    get_get_pip_script()
-    install_ocvl_requirements()
-    copy_ocvl_to_addons()
-    if PLATFORM == "Windows":
-        nsis_installer_build(
-        version_display=OCVL_VERSION,
-        build_blender_path=WORK_DIR,
-        bf_build_dir=BUILD_RELEASE_DIRNAME,
-        rel_dir=os.path.join(WORK_DIR, OCVL_ADDON_DIR_NAME, "build_files", "release", "windows")
-        )
+    #build_blender()
+    #get_get_pip_script()
+    #install_ocvl_requirements()
+    #copy_ocvl_to_addons()
+    PREPARE_ARTIFACT_FN()
+
     pass
 finally:
     os.chdir(WORK_DIR)
