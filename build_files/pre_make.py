@@ -34,12 +34,13 @@ def get_blender_build_path(blender_build_dir_name):
     return cwd
 
 
-def cmd(bash_cmd):
+def cmd(bash_cmd, accepted_status_code=None):
+    accepted_status_code = accepted_status_code or [0]
     print("-----CMD-----")
     print(bash_cmd)
     process = subprocess.Popen(bash_cmd.split(), stdout=sys.stdout, stderr=sys.stderr)
     _, _ = process.communicate()
-    if process.returncode is not 0:
+    if process.returncode not in accepted_status_code:
         raise Exception(f"Status code from command {bash_cmd}: {process.returncode}")
     print("-----SUCCESS----")
 
@@ -68,7 +69,7 @@ def update_blender(branch='master'):
     os.chdir(os.path.join(WORK_DIR, BLENDER_SOURCE_DIR_NAME))
     cmd(f"git reset --hard")
     cmd(f"git checkout {branch}")
-    cmd(f"git pull")
+    cmd(f"git pull", accepted_status_code=[0, 1])
     os.chdir(WORK_DIR)
 
 
@@ -122,7 +123,7 @@ def install_ocvl_requirements():
     :return:
     """
     def remove_old_numpy():
-        cmd(f"{BLENDER_PIP_BIN} uninstall numpy")
+        cmd(f"{BLENDER_PIP_BIN} uninstall -y numpy")
         destination_path = os.path.join(WORK_DIR, BUILD_RELEASE_DIRNAME, "bin", "Release", "2.80", "python", "lib",
                                         "site-packages", "numpy")
         if os.path.exists(destination_path):
@@ -151,9 +152,10 @@ def copy_ocvl_to_addons():
 
 
 try:
-    update_blender(branch="blender2.8")
-    update_blender_submodule()
-    build_blender()
+    #update_blender(branch="blender2.8")
+    #update_blender_submodule()
+    #update_ocvl_addon()
+    #build_blender()
     get_get_pip_script()
     install_ocvl_requirements()
     copy_ocvl_to_addons()
