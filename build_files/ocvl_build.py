@@ -167,13 +167,31 @@ BLENDER_SOURCE_DIR_NAME = "blender"
 GET_PIP_FILE_NAME = "get-pip.py"
 GET_PIP_URL = f"https://bootstrap.pypa.io/{GET_PIP_FILE_NAME}"
 OCVL_REQUIREMENTS_PATH = os.path.join(WORK_DIR, OCVL_ADDON_DIR_NAME, "requirements.txt")
-MAKE_COMMAND_MAP = {"Windows": "make.bat", "Linux": "", "Darwin": ""}
-MAKE_COMMAND = MAKE_COMMAND_MAP.get(PLATFORM)
+MAKE_COMMAND_MAP = {"Windows": "make.bat", "Linux": "make", "Darwin": ""}
+MAKE_COMMAND = MAKE_COMMAND_MAP[PLATFORM]
 
 BUILD_VERSION = 'lite'
-BUILD_RELEASE_DIRNAME = "build_windows_{}_x64_vc15_Release".format(BUILD_VERSION.capitalize())
-BLENDER_PYTHON_BIN = os.path.join(WORK_DIR, BUILD_RELEASE_DIRNAME, "bin", "Release", "2.80", "python", "bin", "python")
-BLENDER_PIP_BIN = os.path.join(WORK_DIR, BUILD_RELEASE_DIRNAME, "bin", "Release", "2.80", "python", "Scripts", "pip")
+BUILD_RELEASE_DIRNAME_TEMPLATE_MAP = {
+    "Windows": "build_windows_{}_x64_vc15_Release".format(BUILD_VERSION.capitalize()),
+    "Linux": "build_linux_{}".format(BUILD_VERSION),
+    "Darwin": ""}
+BUILD_RELEASE_DIRNAME = BUILD_RELEASE_DIRNAME_TEMPLATE_MAP[PLATFORM]
+
+BIN_RELEASE = os.path.join("bin", "Release") if PLATFORM is 'Windows' else "bin"
+PYTHON_PACKAGES = "site-packages" if PLATFORM is 'Windows' else os.path.join("python3.7", "dist-packages")
+BLENDER_PYTHON_BIN_MAP = {
+    "Windows": os.path.join(WORK_DIR, BUILD_RELEASE_DIRNAME, BIN_RELEASE, "2.80", "python", "bin", "python"),
+    "Linux": os.path.join(WORK_DIR, BUILD_RELEASE_DIRNAME, BIN_RELEASE, "2.80", "python", "bin", "python3.7m"),
+    "Darwin": ""
+}
+BLENDER_PYTHON_BIN = BLENDER_PYTHON_BIN_MAP[PLATFORM]
+
+BLENDER_PIP_BIN_MAP = {
+    "Windows": os.path.join(WORK_DIR, BUILD_RELEASE_DIRNAME, BIN_RELEASE, "2.80", "python", "Scripts", "pip"),
+    "Linux": os.path.join(WORK_DIR, BUILD_RELEASE_DIRNAME, BIN_RELEASE, "2.80", "python", "local", "bin", "pip"),
+    "Darwin": ""
+}
+BLENDER_PIP_BIN = BLENDER_PIP_BIN_MAP[PLATFORM]
 
 
 def update_blender(branch='master'):
@@ -239,10 +257,10 @@ def install_ocvl_requirements():
     """
     def remove_old_numpy():
         cmd(f"{BLENDER_PIP_BIN} uninstall -y numpy")
-        destination_path = os.path.join(WORK_DIR, BUILD_RELEASE_DIRNAME, "bin", "Release", "2.80", "python", "lib",
-                                        "site-packages", "numpy")
+        destination_path = os.path.join(WORK_DIR, BUILD_RELEASE_DIRNAME, BIN_RELEASE, "2.80", "python", "lib",
+                                        PYTHON_PACKAGES, "numpy")
         if os.path.exists(destination_path):
-            print("Remove old version Numpy")
+            print(f"Remove old version Numpy from: {destination_path}")
             shutil.rmtree(destination_path)
     remove_old_numpy()
     cmd(f"{BLENDER_PIP_BIN} install -r {OCVL_REQUIREMENTS_PATH}")
@@ -256,7 +274,7 @@ def copy_ocvl_to_addons():
     """
     print("Copy OCVL addon to Blender...")
     source_path = os.path.join(WORK_DIR, OCVL_ADDON_DIR_NAME)
-    destination_path = os.path.join(WORK_DIR, BUILD_RELEASE_DIRNAME, "bin", "Release", "2.80", "scripts", "addons", "ocvl-addon")
+    destination_path = os.path.join(WORK_DIR, BUILD_RELEASE_DIRNAME, BIN_RELEASE, "2.80", "scripts", "addons", "ocvl-addon")
     print(f"Copy OCVL addon to Blender. From: {source_path} to {destination_path}...")
     if os.path.exists(destination_path):
         print("Remove old version OCVL addon")
@@ -267,13 +285,13 @@ def copy_ocvl_to_addons():
 
 
 try:
-    #update_blender(branch="blender2.8")
-    #update_blender_submodule()
+    update_blender(branch="blender2.8")
+    update_blender_submodule()
     #update_ocvl_addon()
-    #build_blender()
-    #get_get_pip_script()
-    #install_ocvl_requirements()
-    #copy_ocvl_to_addons()
+    build_blender()
+    get_get_pip_script()
+    install_ocvl_requirements()
+    copy_ocvl_to_addons()
     if PLATFORM == "Windows":
         nsis_installer_build(
         version_display=OCVL_VERSION,
