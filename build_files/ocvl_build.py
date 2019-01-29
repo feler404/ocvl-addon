@@ -181,29 +181,34 @@ BLENDER_SOURCE_DIR_NAME = "blender"
 GET_PIP_FILE_NAME = "get-pip.py"
 GET_PIP_URL = f"https://bootstrap.pypa.io/{GET_PIP_FILE_NAME}"
 OCVL_REQUIREMENTS_PATH = os.path.join(WORK_DIR, OCVL_ADDON_DIR_NAME, "requirements.txt")
-MAKE_COMMAND_MAP = {"Windows": "make.bat", "Linux": "make", "Darwin": ""}
+MAKE_COMMAND_MAP = {"Windows": "make.bat", "Linux": "make", "Darwin": "make"}
 MAKE_COMMAND = MAKE_COMMAND_MAP[PLATFORM]
 
 BUILD_VERSION = 'lite'
 BUILD_RELEASE_DIRNAME_TEMPLATE_MAP = {
     "Windows": "build_windows_{}_x64_vc15_Release".format(BUILD_VERSION.capitalize()),
-    "Linux": "build_linux_{}".format(BUILD_VERSION),
-    "Darwin": ""}
+    "Linux": f"build_linux_{BUILD_VERSION}",
+    "Darwin": f"build_darwin_{BUILD_VERSION}"}
 BUILD_RELEASE_DIRNAME = BUILD_RELEASE_DIRNAME_TEMPLATE_MAP[PLATFORM]
 
-BIN_RELEASE = os.path.join("bin", "Release") if PLATFORM is 'Windows' else "bin"
+BIN_RELEASE_MAP = {
+    "Windows": os.path.join("bin", "Release"),
+    "Linux": "bin",
+    "Darwin": os.path.join("bin", "blender.app", "Contents", "Resources"),
+}
+BIN_RELEASE = BIN_RELEASE_MAP[PLATFORM]
 PYTHON_PACKAGES = "site-packages" if PLATFORM is 'Windows' else os.path.join("python3.7", "dist-packages")
 BLENDER_PYTHON_BIN_MAP = {
     "Windows": os.path.join(WORK_DIR, BUILD_RELEASE_DIRNAME, BIN_RELEASE, "2.80", "python", "bin", "python"),
     "Linux": os.path.join(WORK_DIR, BUILD_RELEASE_DIRNAME, BIN_RELEASE, "2.80", "python", "bin", "python3.7m"),
-    "Darwin": ""
+    "Darwin": os.path.join(WORK_DIR, BUILD_RELEASE_DIRNAME, BIN_RELEASE, "2.80", "python", "bin", "python3.7m")
 }
 BLENDER_PYTHON_BIN = BLENDER_PYTHON_BIN_MAP[PLATFORM]
 
 BLENDER_PIP_BIN_MAP = {
     "Windows": os.path.join(WORK_DIR, BUILD_RELEASE_DIRNAME, BIN_RELEASE, "2.80", "python", "Scripts", "pip"),
     "Linux": os.path.join(WORK_DIR, BUILD_RELEASE_DIRNAME, BIN_RELEASE, "2.80", "python", "local", "bin", "pip"),
-    "Darwin": ""
+    "Darwin": os.path.join(WORK_DIR, BUILD_RELEASE_DIRNAME, BIN_RELEASE, "2.80", "python", "bin", "pip"),
 }
 BLENDER_PIP_BIN = BLENDER_PIP_BIN_MAP[PLATFORM]
 PREPARE_ARTIFACT_FN_MAP = {
@@ -311,13 +316,13 @@ def copy_ocvl_to_addons():
 
 
 try:
-    #update_blender(branch="blender2.8")
+    #update_blender()
     #update_blender_submodule()
     #update_ocvl_addon()
     #build_blender()
     #get_get_pip_script()
-    #install_ocvl_requirements()
-    #copy_ocvl_to_addons()
+    install_ocvl_requirements()
+    copy_ocvl_to_addons()
     PREPARE_ARTIFACT_FN()
 
     pass
