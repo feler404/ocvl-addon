@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 Script to full build and release OpenCV Laboratory on base updated Blender
 
@@ -172,6 +173,7 @@ def cmd(bash_cmd, accepted_status_code=None):
 
 
 # -----  Settings
+DEBUG = True
 PLATFORM = platform.system()
 OCVL_VERSION = "1.2.0.0"
 BLENDER_BUILD_DIR_NAME = "blender-build"
@@ -254,6 +256,8 @@ def update_ocvl_addon(branch='master'):
     Update OCVL ADDON
     :return:
     """
+    if DEBUG:
+        return
     os.chdir(os.path.join(WORK_DIR, OCVL_ADDON_DIR_NAME))
     cmd(f"git resert --hard")
     cmd(f"git checkout {branch}")
@@ -293,7 +297,8 @@ def install_ocvl_requirements():
         if os.path.exists(destination_path):
             print(f"Remove old version Numpy from: {destination_path}")
             shutil.rmtree(destination_path)
-    remove_old_numpy()
+    if PLATFORM is not "Darwin":
+        remove_old_numpy()
     cmd(f"{BLENDER_PIP_BIN} install -r {OCVL_REQUIREMENTS_PATH}")
     os.chdir(WORK_DIR)
 
@@ -315,16 +320,18 @@ def copy_ocvl_to_addons():
     print("Success!")
 
 
-try:
-    #update_blender()
-    #update_blender_submodule()
-    #update_ocvl_addon()
-    #build_blender()
-    #get_get_pip_script()
-    install_ocvl_requirements()
-    copy_ocvl_to_addons()
-    PREPARE_ARTIFACT_FN()
+if __name__ == "__main__":
 
-    pass
-finally:
-    os.chdir(WORK_DIR)
+    try:
+        update_blender()
+        update_blender_submodule()
+        update_ocvl_addon()
+        build_blender()
+        get_get_pip_script()
+        install_ocvl_requirements()
+        copy_ocvl_to_addons()
+        PREPARE_ARTIFACT_FN()
+
+        pass
+    finally:
+        os.chdir(WORK_DIR)

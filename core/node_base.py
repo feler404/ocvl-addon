@@ -503,7 +503,7 @@ class OCVLPreviewNodeBase(OCVLNodeBase):
         row = layout.row()
         row.label(text='')
 
-        SCALE = bpy.context.user_preferences.system.pixel_size
+        SCALE = bpy.context.preferences.system.pixel_size
 
         width = (self.width - 20) * SCALE
         height = proportion * width
