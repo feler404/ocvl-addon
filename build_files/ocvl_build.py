@@ -14,6 +14,7 @@ Structure of directories
 """
 import functools
 import os
+import re
 import shutil
 import sys
 import platform
@@ -161,15 +162,17 @@ def get_blender_build_path(blender_build_dir_name):
     return cwd
 
 
-def cmd(bash_cmd, accepted_status_code=None):
+def cmd(bash_cmd, accepted_status_code=None, stdout=None):
     accepted_status_code = accepted_status_code or [0]
+    stdout = stdout or sys.stdout
     print("-----CMD-----")
     print(bash_cmd)
-    process = subprocess.Popen(bash_cmd.split(), stdout=sys.stdout, stderr=sys.stderr)
-    _, _ = process.communicate()
+    process = subprocess.Popen(bash_cmd.split(), stdout=stdout, stderr=sys.stderr)
+    out, err = process.communicate()
     if process.returncode not in accepted_status_code:
         raise Exception(f"Status code from command {bash_cmd}: {process.returncode}")
     print("-----SUCCESS----")
+    return out, err
 
 
 # -----  Settings
@@ -183,6 +186,7 @@ BLENDER_SOURCE_DIR_NAME = "blender"
 GET_PIP_FILE_NAME = "get-pip.py"
 GET_PIP_URL = f"https://bootstrap.pypa.io/{GET_PIP_FILE_NAME}"
 OCVL_REQUIREMENTS_PATH = os.path.join(WORK_DIR, OCVL_ADDON_DIR_NAME, "requirements.txt")
+OCVL_PATCHES_PATH = os.path.join(WORK_DIR, OCVL_ADDON_DIR_NAME, "build_files", "patches")
 MAKE_COMMAND_MAP = {"Windows": "make.bat", "Linux": "make", "Darwin": "make"}
 MAKE_COMMAND = MAKE_COMMAND_MAP[PLATFORM]
 
@@ -320,12 +324,38 @@ def copy_ocvl_to_addons():
     print("Success!")
 
 
+def make_patches():
+    """
+    Override some original blender files for OCVL
+    :return:
+    """
+
+    def check_hash(patch):
+        with open(patch, 'r') as fp:
+            match = re.match(r"diff --git a/(.*) b/", str(fp.readline()))
+        path = match.groups()[0]
+        out, _ = cmd(f"git ls-files -s {path}", stdout=subprocess.PIPE)
+        new_hash = str(out).split(" ")[1]
+        match = re.match(r".*build_files/patches/(.*)-.*", str(patch))
+        old_hash = match.groups()[0]
+        if old_hash != new_hash:
+            print(f"WARNING: Update files patches - {patch}")
+
+    os.chdir(os.path.join(WORK_DIR, BLENDER_SOURCE_DIR_NAME))
+    patch_names = os.listdir(OCVL_PATCHES_PATH)
+    for patch_name in patch_names:
+        patch = os.path.join(OCVL_PATCHES_PATH, patch_name)
+        check_hash(patch)
+        cmd(f"git apply {patch}")
+        os.chdir(WORK_DIR)
+
 if __name__ == "__main__":
 
     try:
         update_blender()
         update_blender_submodule()
-        update_ocvl_addon()
+        #update_ocvl_addon()
+        make_patches()
         build_blender()
         get_get_pip_script()
         install_ocvl_requirements()
