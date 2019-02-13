@@ -20,167 +20,21 @@ import sys
 import platform
 import subprocess
 import os.path
-import tarfile
 
+sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), ".."))
 
-def nsis_installer_build(version_display, build_blender_path, bf_build_dir, rel_dir):
+from build_files.build_utils.linux import make_tar_gz_from_release
+from build_files.build_utils.common import cmd, get_blender_build_path
+from build_files.build_utils.windows import nsis_installer_build
 
-    VERSION = version_display[0:3]
-    BF_INSTALLDIR = f"{bf_build_dir}/bin/Release"
-
-    print("="*35)
-    bitness = '64'
-    bf_installdir = os.path.normpath(os.path.join(build_blender_path, BF_INSTALLDIR))
-
-    doneroot = False
-    rootdirconts = []
-    datafiles = ''
-    deldatafiles = ''
-    deldatadirs = ''
-    len_bf_installdir = len(bf_installdir)
-
-    for dp, dn, df in os.walk(bf_installdir):
-        # install
-        if not doneroot:
-            for f in df:
-                rootdirconts.append(os.path.join(dp, f))
-            doneroot = True
-        else:
-            if len(df) > 0:
-                datafiles += "\n" + r'SetOutPath $INSTDIR' + dp[len_bf_installdir:] + "\n\n"
-
-                for f in df:
-                    outfile = os.path.join(dp, f)
-                    if " " in outfile:
-                        print(f"WARNING: filename with space character: {outfile}")
-                        continue
-                    datafiles += '  File '+outfile + "\n"
-
-        # uninstall
-        deldir = dp[len_bf_installdir+1:]
-
-        if len(deldir) > 0:
-            deldatadirs = "RMDir $INSTDIR\\" + deldir + "\n" + deldatadirs
-            deldatadirs = "RMDir /r $INSTDIR\\" + deldir + "\\__pycache__\n" + deldatadirs
-
-            for f in df:
-                deldatafiles += 'Delete \"$INSTDIR\\' + os.path.join(deldir, f) + "\"\n"
-
-    # change to suit install dir
-    inst_dir = bf_installdir
-
-    ns = open(os.path.join(rel_dir, "00.sconsblender.nsi"), "r")
-    ns_cnt = str(ns.read())
-    ns.close()
-
-    # var replacements
-    ns_cnt = ns_cnt.replace("[DISTDIR]", os.path.normpath(inst_dir+os.sep))
-    ns_cnt = ns_cnt.replace("[VERSION]", version_display)
-    ns_cnt = ns_cnt.replace("[SHORTVERSION]", VERSION)
-    ns_cnt = ns_cnt.replace("[RELDIR]", os.path.normpath(rel_dir))
-    ns_cnt = ns_cnt.replace("[BITNESS]", bitness)
-
-    # do root
-    rootlist = []
-    for rootitem in rootdirconts:
-        rootlist.append("File \"" + rootitem + "\"")
-    rootstring = "\n  ".join(rootlist)
-    rootstring += "\n\n"
-    ns_cnt = ns_cnt.replace("[ROOTDIRCONTS]", rootstring)
-
-    # do delete items
-    delrootlist = []
-    for rootitem in rootdirconts:
-        delrootlist.append("Delete $INSTDIR\\" + rootitem[len_bf_installdir+1:])
-    del_root_string = "\n ".join(delrootlist)
-    del_root_string += "\n"
-    ns_cnt = ns_cnt.replace("[DELROOTDIRCONTS]", del_root_string)
-
-    ns_cnt = ns_cnt.replace("[DODATAFILES]", datafiles)
-    ns_cnt = ns_cnt.replace("[DELDATAFILES]", deldatafiles)
-    ns_cnt = ns_cnt.replace("[DELDATADIRS]", deldatadirs)
-
-    tmpnsi = os.path.normpath(build_blender_path + os.sep + bf_build_dir + os.sep + "00.blender_tmp.nsi")
-    print(f"Temp nsi file: {tmpnsi}")
-    new_nsis = open(tmpnsi, 'w')
-    new_nsis.write(ns_cnt)
-    new_nsis.close()
-    print("NSIS Installer script created")
-
-
-    print("Launching 'makensis'")
-
-    cmdline = "makensis " + "\""+tmpnsi+"\""
-
-    startupinfo = subprocess.STARTUPINFO()
-    #  startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
-    proc = subprocess.Popen(
-        cmdline,
-        stdin=subprocess.PIPE,
-        stdout=sys.stdout,
-        stderr=sys.stderr,
-        startupinfo=startupinfo,
-        shell=True
-    )
-    data, err = proc.communicate()
-    rv = proc.wait()
-
-    if rv != 0:
-        print(f"Data: {data}")
-        print(f"Errors: {err}")
-
-    print("Compilation Success!")
-    print(f"Output file in {bf_installdir}")
-    return rv
-
-
-def make_tar_gz_form_release():
-    """
-    Make tar.gz archive from release fiels
-    :return:
-    """
-    source = os.path.join(WORK_DIR, BUILD_RELEASE_DIRNAME, BIN_RELEASE)
-    destination = os.path.join(WORK_DIR, f"OCVL-{OCVL_VERSION}-linux.tar.gz")
-    with tarfile.open(destination, "w:gz") as tar:
-        tar.add(source, arcname=os.path.basename(source))
-    print(f"Success. Artifact available on: {destination}")
-
-
-def get_blender_build_path(blender_build_dir_name):
-    cwd = os.path.dirname(os.path.realpath(__file__))
-    out = True
-    head, tail = os.path.split(cwd)
-    while out:
-        head, tail = os.path.split(head)
-        if tail is '':
-            raise Exception(f"Can't find '{blender_build_dir_name}' in path")
-        if tail == blender_build_dir_name:
-            out = False
-
-    cwd = os.path.join(head, blender_build_dir_name)
-    print(f"Current work directory: {cwd}")
-    return cwd
-
-
-def cmd(bash_cmd, accepted_status_code=None, stdout=None):
-    accepted_status_code = accepted_status_code or [0]
-    stdout = stdout or sys.stdout
-    print("-----CMD-----")
-    print(bash_cmd)
-    process = subprocess.Popen(bash_cmd.split(), stdout=stdout, stderr=sys.stderr)
-    out, err = process.communicate()
-    if process.returncode not in accepted_status_code:
-        raise Exception(f"Status code from command {bash_cmd}: {process.returncode}")
-    print("-----SUCCESS----")
-    return out, err
 
 
 # -----  Settings
-DEBUG = True
+DEBUG = bool(os.environ.get("DEBUG")) or True
 PLATFORM = platform.system()
 OCVL_VERSION = "1.2.0.0"
 BLENDER_BUILD_DIR_NAME = "blender-build"
-WORK_DIR = os.path.normpath(get_blender_build_path(BLENDER_BUILD_DIR_NAME))
+WORK_DIR = os.path.normpath(get_blender_build_path(BLENDER_BUILD_DIR_NAME, os.path.dirname(os.path.realpath(__file__))))
 OCVL_ADDON_DIR_NAME = "ocvl-addon"
 BLENDER_SOURCE_DIR_NAME = "blender"
 GET_PIP_FILE_NAME = "get-pip.py"
@@ -225,8 +79,8 @@ PREPARE_ARTIFACT_FN_MAP = {
         bf_build_dir=BUILD_RELEASE_DIRNAME,
         rel_dir=os.path.join(WORK_DIR, OCVL_ADDON_DIR_NAME, "build_files", "release", "windows")
     ),
-    "Linux": make_tar_gz_form_release,
-    "Darwin": lambda *args: print(args),
+    "Linux": make_tar_gz_from_release,
+    "Darwin": lambda *args, **kwargs: print(args),
 }
 
 PREPARE_ARTIFACT_FN = PREPARE_ARTIFACT_FN_MAP[PLATFORM]
@@ -351,6 +205,10 @@ def make_patches():
 
 
 def print_bin():
+    """
+    Create link to quick lunch Blender
+    :return:
+    """
     destination_path_darwin = os.path.join(WORK_DIR, BUILD_RELEASE_DIRNAME, "bin", "blender.app", "Contents", "MacOS", "blender")
     print(destination_path_darwin)
 
@@ -360,13 +218,13 @@ if __name__ == "__main__":
     try:
         update_blender()
         update_blender_submodule()
-        #update_ocvl_addon()
+        update_ocvl_addon()
         make_patches()
         build_blender()
         get_get_pip_script()
         install_ocvl_requirements()
         copy_ocvl_to_addons()
-        PREPARE_ARTIFACT_FN()
+        PREPARE_ARTIFACT_FN(kwargs=locals())
         print_bin()
 
         pass
