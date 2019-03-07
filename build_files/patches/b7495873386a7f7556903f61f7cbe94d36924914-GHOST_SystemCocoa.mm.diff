@@ -1,0 +1,38 @@
+diff --git a/intern/ghost/intern/GHOST_SystemCocoa.mm b/intern/ghost/intern/GHOST_SystemCocoa.mm
+index b7495873386..0e428c94c3b 100644
+--- a/intern/ghost/intern/GHOST_SystemCocoa.mm
++++ b/intern/ghost/intern/GHOST_SystemCocoa.mm
+@@ -415,12 +415,12 @@ GHOST_TSuccess GHOST_SystemCocoa::init()
+ 			NSMenu *appMenu;
+ 
+ 			//Create the application menu
+-			appMenu = [[NSMenu alloc] initWithTitle:@"Blender"];
++			appMenu = [[NSMenu alloc] initWithTitle:@"OpenCV Laboratory"];
+ 
+-			[appMenu addItemWithTitle:@"About Blender" action:@selector(orderFrontStandardAboutPanel:) keyEquivalent:@""];
++			[appMenu addItemWithTitle:@"About OpenCV Laboratory" action:@selector(orderFrontStandardAboutPanel:) keyEquivalent:@""];
+ 			[appMenu addItem:[NSMenuItem separatorItem]];
+ 
+-			menuItem = [appMenu addItemWithTitle:@"Hide Blender" action:@selector(hide:) keyEquivalent:@"h"];
++			menuItem = [appMenu addItemWithTitle:@"Hide OpenCV Laboratory" action:@selector(hide:) keyEquivalent:@"h"];
+ 			[menuItem setKeyEquivalentModifierMask:NSCommandKeyMask];
+ 
+ 			menuItem = [appMenu addItemWithTitle:@"Hide others" action:@selector(hideOtherApplications:) keyEquivalent:@"h"];
+@@ -428,7 +428,7 @@ GHOST_TSuccess GHOST_SystemCocoa::init()
+ 
+ 			[appMenu addItemWithTitle:@"Show All" action:@selector(unhideAllApplications:) keyEquivalent:@""];
+ 
+-			menuItem = [appMenu addItemWithTitle:@"Quit Blender" action:@selector(terminate:) keyEquivalent:@"q"];
++			menuItem = [appMenu addItemWithTitle:@"Quit OpenCV Laboratory" action:@selector(terminate:) keyEquivalent:@"q"];
+ 			[menuItem setKeyEquivalentModifierMask:NSCommandKeyMask];
+ 
+ 			menuItem = [[NSMenuItem alloc] init];
+@@ -1130,7 +1130,7 @@ GHOST_TUns8 GHOST_SystemCocoa::handleQuitRequest()
+ 	//Check open windows if some changes are not saved
+ 	if (m_windowManager->getAnyModifiedState())
+ 	{
+-		int shouldQuit = NSRunAlertPanel(@"Exit Blender", @"Some changes have not been saved.\nDo you really want to quit?",
++		int shouldQuit = NSRunAlertPanel(@"Exit OpenCV Laboratory", @"Some changes have not been saved.\nDo you really want to quit?",
+ 		                                 @"Cancel", @"Quit Anyway", nil);
+ 		if (shouldQuit == NSAlertAlternateReturn)
+ 		{

@@ -24,7 +24,7 @@ import os.path
 sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), ".."))
 
 from build_files.build_utils.linux import make_tar_gz_from_release
-from build_files.build_utils.common import cmd, get_blender_build_path
+from build_files.build_utils.common import cmd, get_blender_build_path, recursive_overwrite
 from build_files.build_utils.windows import nsis_installer_build
 
 
@@ -54,7 +54,7 @@ BUILD_RELEASE_DIRNAME = BUILD_RELEASE_DIRNAME_TEMPLATE_MAP[PLATFORM]
 BIN_RELEASE_MAP = {
     "Windows": os.path.join("bin", "Release"),
     "Linux": "bin",
-    "Darwin": os.path.join("bin", "blender.app", "Contents", "Resources"),
+    "Darwin": os.path.join("bin", "OpenCVLaboratory.app", "Contents", "Resources"),
 }
 BIN_RELEASE = BIN_RELEASE_MAP[PLATFORM]
 PYTHON_PACKAGES = "site-packages" if PLATFORM is 'Windows' else os.path.join("python3.7", "dist-packages")
@@ -201,9 +201,9 @@ def make_patches():
         patch = os.path.join(OCVL_PATCHES_PATH, patch_name)
         try:
             check_hash(patch)
+            cmd(f"git apply {patch}")
         except Exception as e:
             print(f"WARNING: Can not check hashes - {e}")
-        cmd(f"git apply {patch}")
         os.chdir(WORK_DIR)
 
 
@@ -212,17 +212,25 @@ def print_bin():
     Create link to quick lunch Blender
     :return:
     """
-    destination_path_darwin = os.path.join(WORK_DIR, BUILD_RELEASE_DIRNAME, "bin", "blender.app", "Contents", "MacOS", "blender")
+    destination_path_darwin = os.path.join(WORK_DIR, BUILD_RELEASE_DIRNAME, "bin", "OpenCVLaboratory.app", "Contents", "MacOS", "blender")
     print(destination_path_darwin)
+
+
+def override_blender_release():
+    src = os.path.join(WORK_DIR, OCVL_ADDON_DIR_NAME, "build_files", "release")
+    dst = os.path.join(WORK_DIR, "blender", "release")
+    recursive_overwrite(src, dst)
 
 
 if __name__ == "__main__":
 
     try:
+
         #update_blender()
         #update_blender_submodule()
         #update_ocvl_addon()
         #make_patches()
+        override_blender_release()
         build_blender()
         get_get_pip_script()
         install_ocvl_requirements()
