@@ -26,7 +26,7 @@
 		</dict>
 	</array>
 	<key>CFBundleExecutable</key>
-	<string>OpenCV Laboratory</string>
+	<string>OpenCVLaboratory</string>
 	<key>CFBundleGetInfoString</key>
 	<string>${MACOSX_BUNDLE_LONG_VERSION_STRING}, Teredo</string>
 	<key>CFBundleIconFile</key>
@@ -36,7 +36,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>OpenCV Laboratory</string>
+	<string>OpenCVLaboratory</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
