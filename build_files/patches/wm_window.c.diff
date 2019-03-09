@@ -1,0 +1,22 @@
+diff --git a/source/blender/windowmanager/intern/wm_window.c b/source/blender/windowmanager/intern/wm_window.c
+index 4fc4e391b8a..e613a3d1854 100644
+--- a/source/blender/windowmanager/intern/wm_window.c
++++ b/source/blender/windowmanager/intern/wm_window.c
+@@ -554,7 +554,7 @@ void wm_window_title(wmWindowManager *wm, wmWindow *win)
+ 			GHOST_SetTitle(win->ghostwin, str);
+ 		}
+ 		else
+-			GHOST_SetTitle(win->ghostwin, "Blender");
++			GHOST_SetTitle(win->ghostwin, "OpenCVLaboratory");
+ 
+ 		/* Informs GHOST of unsaved changes, to set window modified visual indicator (MAC OS X)
+ 		 * and to give hint of unsaved changes for a user warning mechanism
+@@ -971,7 +971,7 @@ wmWindow *WM_window_open_temp(bContext *C, int x, int y, int sizex, int sizey, i
+ 	else if (sa->spacetype == SPACE_GRAPH)
+ 		title = IFACE_("Blender Drivers Editor");
+ 	else
+-		title = "Blender";
++		title = "OpenCVLaboratory";
+ 
+ 	if (win->ghostwin) {
+ 		GHOST_SetTitle(win->ghostwin, title);
