@@ -201,10 +201,10 @@ def make_patches():
         patch = os.path.join(OCVL_PATCHES_PATH, patch_name)
         try:
             check_hash(patch)
-            cmd(f"git apply {patch}")
         except Exception as e:
             print(f"WARNING: Can not check hashes - {e}")
-        os.chdir(WORK_DIR)
+        cmd(f"git apply {patch}")
+    os.chdir(WORK_DIR)
 
 
 def print_bin():
@@ -226,9 +226,9 @@ if __name__ == "__main__":
 
     try:
 
-        #update_blender()
-        #update_blender_submodule()
-        update_ocvl_addon()
+        update_blender()
+        update_blender_submodule()
+        #update_ocvl_addon()
         make_patches()
         override_blender_release()
         build_blender()
