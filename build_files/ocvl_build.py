@@ -212,7 +212,7 @@ def print_bin():
     Create link to quick lunch Blender
     :return:
     """
-    destination_path_darwin = os.path.join(WORK_DIR, BUILD_RELEASE_DIRNAME, "bin", "OpenCVLaboratory.app", "Contents", "MacOS", "blender")
+    destination_path_darwin = os.path.join(WORK_DIR, BUILD_RELEASE_DIRNAME, "bin", "OpenCVLaboratory.app", "Contents", "MacOS", "OpenCVLaboratory")
     print(destination_path_darwin)
 
 
@@ -228,8 +228,8 @@ if __name__ == "__main__":
 
         #update_blender()
         #update_blender_submodule()
-        #update_ocvl_addon()
-        #make_patches()
+        update_ocvl_addon()
+        make_patches()
         override_blender_release()
         build_blender()
         get_get_pip_script()
