@@ -28,11 +28,21 @@ from build_files.build_utils.common import cmd, get_blender_build_path, recursiv
 from build_files.build_utils.windows import nsis_installer_build
 
 
+def update_build_number():
+    build_version_file = os.path.join(os.path.dirname(os.path.realpath(__file__)), "BUILD_NUMBER")
+    with open(build_version_file, "r") as fp:
+        build_number = int(fp.readline().replace("\n", "")) + 1
+    with open(build_version_file, "w") as fp:
+        fp.write(str(build_number) + "\n")
+
+
+BUILD_NUMBER = update_build_number()
+
 
 # -----  Settings
 DEBUG = bool(os.environ.get("DEBUG")) or True
 PLATFORM = platform.system()
-OCVL_VERSION = "1.2.0.0"
+OCVL_VERSION = f"1.2.0.{BUILD_NUMBER}"
 BLENDER_BUILD_DIR_NAME = "blender-build"
 WORK_DIR = os.path.normpath(get_blender_build_path(BLENDER_BUILD_DIR_NAME, os.path.dirname(os.path.realpath(__file__))))
 OCVL_ADDON_DIR_NAME = "ocvl-addon"
