@@ -1,17 +1,17 @@
 diff --git a/intern/ghost/intern/GHOST_WindowCocoa.mm b/intern/ghost/intern/GHOST_WindowCocoa.mm
-index 9a7bed513db..87e4b9364be 100644
+index 1af39f11f08..95be7dbb9cb 100644
 --- a/intern/ghost/intern/GHOST_WindowCocoa.mm
 +++ b/intern/ghost/intern/GHOST_WindowCocoa.mm
-@@ -640,7 +640,7 @@ - (NSArray*)validAttributesForMarkedText
+@@ -640,7 +640,7 @@ void GHOST_WindowCocoa::setTitle(const STR_String& title)
  	NSString *windowTitle = [[NSString alloc] initWithCString:title encoding:NSUTF8StringEncoding];
- 	
+ 
  	//Set associated file if applicable
 -	if (windowTitle && [windowTitle hasPrefix:@"Blender"]) {
 +	if (windowTitle && [windowTitle hasPrefix:@"OpenCVLaboratory"]) {
  		NSRange fileStrRange;
  		NSString *associatedFileName;
  		int len;
-@@ -1066,7 +1066,7 @@ - (NSArray*)validAttributesForMarkedText
+@@ -1066,7 +1066,7 @@ GHOST_TSuccess GHOST_WindowCocoa::setProgressBar(float progress)
  static void postNotification()
  {
  	NSUserNotification *notification = [[NSUserNotification alloc] init];
