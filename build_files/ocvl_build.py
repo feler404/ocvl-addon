@@ -193,6 +193,15 @@ def make_patches():
     Override some original blender files for OCVL
     :return:
     """
+    FILES_TO_CLEAN = [
+        "tests/python/CMakeLists.txt"
+    ]
+
+    def clean_up_tests():
+        for file in FILES_TO_CLEAN:
+            with open(file, 'w') as fp:
+                pass
+
 
     def check_hash(patch):
         with open(patch, 'r') as fp:
@@ -214,6 +223,8 @@ def make_patches():
         except Exception as e:
             print(f"WARNING: Can not check hashes - {e}")
         cmd(f"git apply {patch}")
+
+    clean_up_tests()
     os.chdir(WORK_DIR)
 
 
