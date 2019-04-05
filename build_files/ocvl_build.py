@@ -34,6 +34,7 @@ def update_build_number():
         build_number = int(fp.readline().replace("\n", "")) + 1
     with open(build_version_file, "w") as fp:
         fp.write(str(build_number) + "\n")
+    return build_number
 
 
 BUILD_NUMBER = update_build_number()
