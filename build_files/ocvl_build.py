@@ -257,9 +257,12 @@ if __name__ == "__main__":
         get_get_pip_script()
         install_ocvl_requirements()
         copy_ocvl_to_addons()
-        PREPARE_ARTIFACT_FN(kwargs=locals())
+        #PREPARE_ARTIFACT_FN(kwargs=locals())
         print_bin()
 
         pass
     finally:
         os.chdir(WORK_DIR)
+
+
+

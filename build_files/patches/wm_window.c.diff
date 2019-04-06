@@ -1,8 +1,15 @@
 diff --git a/source/blender/windowmanager/intern/wm_window.c b/source/blender/windowmanager/intern/wm_window.c
-index 4fc4e391b8a..e613a3d1854 100644
+index a4c953fd958..a7bdcead479 100644
 --- a/source/blender/windowmanager/intern/wm_window.c
 +++ b/source/blender/windowmanager/intern/wm_window.c
-@@ -554,7 +554,7 @@ void wm_window_title(wmWindowManager *wm, wmWindow *win)
+@@ -555,13 +555,13 @@ void wm_window_title(wmWindowManager *wm, wmWindow *win)
+ 		/* this is set to 1 if you don't have startup.blend open */
+ 		if (G.save_over && BKE_main_blendfile_path_from_global()[0]) {
+ 			char str[sizeof(((Main *)NULL)->name) + 24];
+-			BLI_snprintf(str, sizeof(str), "Blender%s [%s%s]", wm->file_saved ? "" : "*",
++			BLI_snprintf(str, sizeof(str), "OCVL%s [%s%s]", wm->file_saved ? "" : "*",
+ 			             BKE_main_blendfile_path_from_global(),
+ 			             G_MAIN->recovered ? " (Recovered)" : "");
  			GHOST_SetTitle(win->ghostwin, str);
  		}
  		else
@@ -11,12 +18,41 @@ index 4fc4e391b8a..e613a3d1854 100644
  
  		/* Informs GHOST of unsaved changes, to set window modified visual indicator (MAC OS X)
  		 * and to give hint of unsaved changes for a user warning mechanism
-@@ -971,7 +971,7 @@ wmWindow *WM_window_open_temp(bContext *C, int x, int y, int sizex, int sizey, i
+@@ -788,7 +788,7 @@ void wm_window_ghostwindows_ensure(wmWindowManager *wm)
+ 				win->cursor = CURSOR_STD;
+ 			}
+ 
+-			wm_window_ghostwindow_add(wm, "Blender", win);
++			wm_window_ghostwindow_add(wm, "OpenCVLaboratory", win);
+ 		}
+ 		/* happens after fileread */
+ 		wm_window_ensure_eventstate(win);
+@@ -974,15 +974,15 @@ wmWindow *WM_window_open_temp(bContext *C, int x, int y, int sizex, int sizey, i
+ 	}
+ 
+ 	if (sa->spacetype == SPACE_IMAGE)
+-		title = IFACE_("Blender Render");
++		title = IFACE_("OCVL Render");
+ 	else if (ELEM(sa->spacetype, SPACE_OUTLINER, SPACE_USERPREF))
+-		title = IFACE_("Blender Preferences");
++		title = IFACE_("OCVL Preferences");
+ 	else if (sa->spacetype == SPACE_FILE)
+-		title = IFACE_("Blender File View");
++		title = IFACE_("OCVL File View");
  	else if (sa->spacetype == SPACE_GRAPH)
- 		title = IFACE_("Blender Drivers Editor");
+-		title = IFACE_("Blender Drivers Editor");
++		title = IFACE_("OCVL Drivers Editor");
  	else
 -		title = "Blender";
 +		title = "OpenCVLaboratory";
  
  	if (win->ghostwin) {
  		GHOST_SetTitle(win->ghostwin, title);
+@@ -1846,6 +1846,7 @@ char *WM_clipboard_text_get(bool selection, int *r_len)
+ /**
+  * Convenience function for pasting to areas of Blender which don't support newlines.
+  */
++
+ char *WM_clipboard_text_get_firstline(bool selection, int *r_len)
+ {
+ 	return wm_clipboard_text_get_ex(selection, r_len, true);
