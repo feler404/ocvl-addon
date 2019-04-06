@@ -4,7 +4,7 @@ import tarfile
 
 def make_tar_gz_from_release(kwargs):
     """
-    Make tar.gz archive from release fiels
+    Make tar.gz archive from release files
     :return:
     """
     WORK_DIR = kwargs["WORK_DIR"]
