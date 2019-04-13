@@ -251,17 +251,17 @@ if __name__ == "__main__":
 
     try:
 
-        #update_blender()
-        #update_blender_submodule()
+        update_blender()
+        update_blender_submodule()
         #update_ocvl_addon()
-        #make_patches()
-        #override_blender_release()
-        #build_blender()
-        #get_get_pip_script()
-        #install_ocvl_requirements()
-        #copy_ocvl_to_addons()
-        #PREPARE_ARTIFACT_FN(kwargs=locals())
-        print_bin()
+        make_patches()
+        override_blender_release()
+        build_blender()
+        get_get_pip_script()
+        install_ocvl_requirements()
+        copy_ocvl_to_addons()
+        PREPARE_ARTIFACT_FN(kwargs=locals())
+        #print_bin()
 
         pass
     finally:

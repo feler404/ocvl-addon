@@ -50,7 +50,7 @@ def nsis_installer_build(version_display, build_blender_path, bf_build_dir, rel_
     # change to suit install dir
     inst_dir = bf_installdir
 
-    ns = open(os.path.join(rel_dir, "00.sconsblender.nsi"), "r")
+    ns = open(os.path.join(rel_dir, "installer/00.sconsblender.nsi"), "r")
     ns_cnt = str(ns.read())
     ns.close()
 

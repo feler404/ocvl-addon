@@ -19,13 +19,13 @@ RequestExecutionLevel admin
 !define MUI_ABORTWARNING
 
 !define MUI_WELCOMEPAGE_TEXT  "This wizard will guide you through the installation of OpenCV Laboratory. It is recommended that you close all other applications before starting Setup."
-!define MUI_WELCOMEFINISHPAGE_BITMAP "[RELDIR]\01.installer.bmp"
+!define MUI_WELCOMEFINISHPAGE_BITMAP "[RELDIR]\installer\01.installer.bmp"
 !define MUI_HEADERIMAGE
-!define MUI_HEADERIMAGE_BITMAP  "[RELDIR]\00.header.bmp"
+!define MUI_HEADERIMAGE_BITMAP  "[RELDIR]\installer\00.header.bmp"
 !define MUI_COMPONENTSPAGE_SMALLDESC
-!define MUI_FINISHPAGE_RUN "$INSTDIR\blender.exe"
+!define MUI_FINISHPAGE_RUN "$INSTDIR\OpenCVLaboratory.exe"
 !define MUI_CHECKBITMAP "[RELDIR]\00.checked.bmp"
-!define MUI_UNWELCOMEFINISHPAGE_BITMAP "[RELDIR]\01.installer.bmp"
+!define MUI_UNWELCOMEFINISHPAGE_BITMAP "[RELDIR]\installer\01.installer.bmp"
 
 !insertmacro MUI_PAGE_WELCOME
 !insertmacro MUI_PAGE_LICENSE "[DISTDIR]\copyright.txt"
@@ -45,8 +45,8 @@ UninstPage custom un.OptionalRemoveConfig un.OptionalRemoveConfigOnLeave
 !insertmacro VersionCompare
 
 
-Icon "[RELDIR]\00.installer.ico"
-UninstallIcon "[RELDIR]\00.installer.ico"
+Icon "[RELDIR]\installer\00.installer.ico"
+UninstallIcon "[RELDIR]\installer\00.installer.ico"
 
 ;--------------------------------
 ;Languages
