@@ -141,12 +141,12 @@ Function un.OptionalRemoveConfigOnLeave
 FunctionEnd
 
 
-Section "Blender [VERSION] (required)" InstallFiles
+Section "OpenCV Laborator [VERSION] (required)" InstallFiles
   SectionIn RO
 
   ; Set output path to the installation directory.
   SetOutPath $INSTDIR
-  ; The contents of Blender installation root dir
+  ; The contents of OpenCV Laborator installation root dir
   [ROOTDIRCONTS]
 
   ; All datafiles (python, scripts, datafiles)
@@ -157,42 +157,42 @@ Section "Blender [VERSION] (required)" InstallFiles
     SetRegView 64
   ${EndIf}
   ; Write the installation path into the registry
-  WriteRegStr HKLM "SOFTWARE\BlenderFoundation" "Install_Dir" "$INSTDIR"
-  WriteRegStr HKLM "SOFTWARE\BlenderFoundation" "ShortVersion" "[SHORTVERSION]"
+  WriteRegStr HKLM "SOFTWARE\Teredo" "Install_Dir" "$INSTDIR"
+  WriteRegStr HKLM "SOFTWARE\Teredo" "ShortVersion" "[SHORTVERSION]"
   ; Write the uninstall keys for Windows
-  WriteRegStr   HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Blender" "DisplayName" "Blender"
-  WriteRegStr   HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Blender" "Publisher" "Blender Foundation"
-  WriteRegStr   HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Blender" "URLInfoAbout" "http://www.blender.org/"
-  WriteRegStr   HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Blender" "DisplayVersion" "[VERSION]"
-  WriteRegStr   HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Blender" "DisplayIcon" "$INSTDIR\blender.exe"
-  WriteRegStr   HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Blender" "UninstallString" '"$INSTDIR\uninstall.exe"'
-  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Blender" "NoModify" 1
-  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Blender" "NoRepair " 1
+  WriteRegStr   HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\OpenCVLaboratory" "DisplayName" "OpenCV Laboratory"
+  WriteRegStr   HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\OpenCVLaboratory" "Publisher" "Teredo"
+  WriteRegStr   HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\OpenCVLaboratory" "URLInfoAbout" "http://www.kube.pl/"
+  WriteRegStr   HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\OpenCVLaboratory" "DisplayVersion" "[VERSION]"
+  WriteRegStr   HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\OpenCVLaboratory" "DisplayIcon" "$INSTDIR\OpenCVLaboratory.exe"
+  WriteRegStr   HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\OpenCVLaboratory" "UninstallString" '"$INSTDIR\uninstall.exe"'
+  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\OpenCVLaboratory" "NoModify" 1
+  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\OpenCVLaboratory" "NoRepair " 1
   WriteUninstaller "uninstall.exe"
 
 SectionEnd
 
 Section "Add Start Menu Shortcuts" StartMenu
   SetShellVarContext all
-  CreateDirectory "$SMPROGRAMS\Blender Foundation\Blender\"
-  CreateShortCut "$SMPROGRAMS\Blender Foundation\Blender\Uninstall.lnk" "$INSTDIR\uninstall.exe" "" "$INSTDIR\uninstall.exe" 0
-  CreateShortCut "$SMPROGRAMS\Blender Foundation\Blender\Blender.lnk" "$INSTDIR\Blender.exe" "" "$INSTDIR\blender.exe" 0
-  CreateShortCut "$SMPROGRAMS\Blender Foundation\Blender\Readme.lnk" "$INSTDIR\readme.html" "" "" 0
-  CreateShortCut "$SMPROGRAMS\Blender Foundation\Blender\Copyright.lnk" "$INSTDIR\Copyright.txt" "" "$INSTDIR\copyright.txt" 0
-  CreateShortCut "$SMPROGRAMS\Blender Foundation\Blender\GPL-license.lnk" "$INSTDIR\GPL-license.txt" "" "$INSTDIR\GPL-license.txt" 0
+  CreateDirectory "$SMPROGRAMS\Teredo\OpenCV Laboratory\"
+  CreateShortCut "$SMPROGRAMS\Teredo\OpenCV Laboratory\Uninstall.lnk" "$INSTDIR\uninstall.exe" "" "$INSTDIR\uninstall.exe" 0
+  CreateShortCut "$SMPROGRAMS\Teredo\OpenCV Laboratory\OpenCVLaboratory.lnk" "$INSTDIR\OpenCVLaboratory.exe" "" "$INSTDIR\OpenCVLaboratory.exe" 0
+  CreateShortCut "$SMPROGRAMS\Teredo\OpenCV Laboratory\Readme.lnk" "$INSTDIR\readme.html" "" "" 0
+  CreateShortCut "$SMPROGRAMS\Teredo\OpenCV Laboratory\Copyright.lnk" "$INSTDIR\Copyright.txt" "" "$INSTDIR\copyright.txt" 0
+  CreateShortCut "$SMPROGRAMS\Teredo\OpenCV Laboratory\GPL-license.lnk" "$INSTDIR\GPL-license.txt" "" "$INSTDIR\GPL-license.txt" 0
   System::Call 'shell32.dll::SHChangeNotify(i, i, i, i) v (0x08000000, 0, 0, 0)' ; refresh icons
 SectionEnd
 
 Section "Add Desktop Shortcut" DesktopShortcut
-  CreateShortCut "$DESKTOP\Blender.lnk" "$INSTDIR\blender.exe" "" "$INSTDIR\blender.exe" 0
+  CreateShortCut "$DESKTOP\OpenCVLaboratory.lnk" "$INSTDIR\OpenCVLaboratory.exe" "" "$INSTDIR\OpenCVLaboratory.exe" 0
   System::Call 'shell32.dll::SHChangeNotify(i, i, i, i) v (0x08000000, 0, 0, 0)' ; refresh icons
 SectionEnd
 
-Section "Open .blend files with Blender" BlendRegister
-  ExecWait '"$INSTDIR\blender.exe" -r'
+Section "Open .blend files with OpenCV Laboratory" BlendRegister
+  ExecWait '"$INSTDIR\OpenCVLaboratory.exe" -r'
 SectionEnd
 
-UninstallText "This will uninstall Blender [VERSION], and all installed files. Hit 'Uninstall' to continue."
+UninstallText "This will uninstall OpenCV Laboratory [VERSION], and all installed files. Hit 'Uninstall' to continue."
 
 Section "Uninstall"
   ; Remove registry keys
@@ -200,9 +200,9 @@ Section "Uninstall"
     SetRegView 64
   ${EndIf}
 
-  ReadRegStr $SHORTVERSION HKLM "SOFTWARE\BlenderFoundation" "ShortVersion"
-  DeleteRegKey HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Blender"
-  DeleteRegKey HKLM "SOFTWARE\BlenderFoundation"
+  ReadRegStr $SHORTVERSION HKLM "SOFTWARE\Teredo" "ShortVersion"
+  DeleteRegKey HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\OpenCVLaboratory"
+  DeleteRegKey HKLM "SOFTWARE\Teredo"
   DeleteRegKey HKCR ".blend"
   DeleteRegKey HKCR "blendfile"
   DeleteRegKey HKCR "CLSID\{D45F043D-F17F-4e8a-8435-70971D9FA46D}"
@@ -222,11 +222,11 @@ Section "Uninstall"
   ; Remove install directory if it's empty
   RMDir $INSTDIR
   ; Remove shortcuts
-  Delete "$SMPROGRAMS\Blender Foundation\Blender\*.*"
-  Delete "$DESKTOP\Blender.lnk"
+  Delete "$SMPROGRAMS\Teredo\OpenCV Laboratory\*.*"
+  Delete "$DESKTOP\OpenCVLaboratory.lnk"
   ; Remove all link related directories and files
-  RMDir "$SMPROGRAMS\Blender Foundation\Blender"
-  RMDir "$SMPROGRAMS\Blender Foundation"
+  RMDir "$SMPROGRAMS\Teredo\OpenCV Laboratory"
+  RMDir "$SMPROGRAMS\Teredo"
 
   System::Call 'shell32.dll::SHChangeNotify(i, i, i, i) v (0x08000000, 0, 0, 0)' ; Refresh icons
 SectionEnd

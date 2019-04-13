@@ -238,6 +238,8 @@ def print_bin():
         destination_path = os.path.join(WORK_DIR, BUILD_RELEASE_DIRNAME, "bin", "OpenCVLaboratory.app", "Contents", "MacOS", "OpenCVLaboratory")
     elif PLATFORM == "Linux":
         destination_path = os.path.join(WORK_DIR, BUILD_RELEASE_DIRNAME, "bin", "OpenCVLaboratory")
+    elif PLATFORM == "Windows":
+        destination_path = os.path.join(WORK_DIR, BUILD_RELEASE_DIRNAME, "bin", "Release", "OpenCVLaboratory.exe")
     print(destination_path)
 
 
@@ -261,7 +263,7 @@ if __name__ == "__main__":
         install_ocvl_requirements()
         copy_ocvl_to_addons()
         PREPARE_ARTIFACT_FN(kwargs=locals())
-        #print_bin()
+        print_bin()
 
         pass
     finally:
