@@ -252,7 +252,7 @@ class OCVLSocketBase:
                 node.check_input_requirements(node.n_requirements)
                 op_icon = "LIGHT"
             except (Exception, LackRequiredSocket) as e:
-                op_icon = ""
+                op_icon = "NONE"
 
             op = layout.operator('node.sv_quicklink_new_node', text="", icon=op_icon)
             op.socket_index = self.index
