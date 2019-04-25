@@ -1,0 +1,15 @@
+diff --git a/source/blender/windowmanager/intern/wm_operators.c b/source/blender/windowmanager/intern/wm_operators.c
+index 9680f82fe8b..3a4d1c548c8 100644
+--- a/source/blender/windowmanager/intern/wm_operators.c
++++ b/source/blender/windowmanager/intern/wm_operators.c
+@@ -1620,8 +1620,8 @@ static uiBlock *wm_block_create_splash(bContext *C, ARegion *ar, void *UNUSED(ar
+ 
+     but = uiDefBut(block, UI_BTYPE_LABEL, 0, version, x, y, w, UI_UNIT_Y, NULL, 0, 0, 0, 0, NULL);
+     /* XXX, set internal flag - UI_SELECT */
+-    UI_but_flag_enable(but, 1);
+-    UI_block_emboss_set(block, UI_EMBOSS);
++//    UI_but_flag_enable(but, 1);
++//    UI_block_emboss_set(block, UI_EMBOSS);
+   }
+ 
+   MEM_freeN(version);
