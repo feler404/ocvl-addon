@@ -249,6 +249,14 @@ def override_blender_release():
     recursive_overwrite(src, dst)
 
 
+def delete_dirs():
+    src = os.path.join(WORK_DIR, "blender", "release", "scripts", "startup", "bl_app_templates_system")
+    for app in os.listdir(src):
+        del_dir = os.path.join(src, app)
+        print(f"Deleting directory: {del_dir}")
+        shutil.rmtree(del_dir)
+    os.chdir(WORK_DIR)
+
 if __name__ == "__main__":
 
     try:
@@ -257,10 +265,11 @@ if __name__ == "__main__":
         update_blender_submodule()
         #update_ocvl_addon()
         make_patches()
+        delete_dirs()
         override_blender_release()
         build_blender()
-        get_get_pip_script()
-        install_ocvl_requirements()
+        #get_get_pip_script()
+        #install_ocvl_requirements()
         copy_ocvl_to_addons()
         PREPARE_ARTIFACT_FN(kwargs=locals())
         print_bin()
