@@ -15,7 +15,7 @@ from ocvl import bl_info
 logger = logging.getLogger(__name__)
 
 #  SETTINGS
-bpy.context.preferences.view.show_splash = False
+bpy.context.preferences.view.show_splash = True
 IS_WORK_ON_COPY_INPUT = True
 DEBUG = True
 
