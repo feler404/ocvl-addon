@@ -4,6 +4,8 @@ import logging
 from collections import OrderedDict
 from urllib import parse
 from os.path import dirname
+from shutil import copyfile
+
 
 import bpy
 import requests
@@ -141,6 +143,7 @@ class Settings:
         if not os.path.exists(OCVL_APP_DATA_USER_DIR):
             os.makedirs(OCVL_APP_DATA_USER_DIR)
         full_path = os.path.join(OCVL_APP_DATA_USER_DIR, OCVL_APP_DATA_USER_FILE_NAME)
+        self.copy_config_to_local_dir()
         if os.path.isfile(full_path):
             logger.info("Load settings file: {}".format(full_path))
             with open(full_path, "r") as fp:
@@ -151,6 +154,19 @@ class Settings:
             with open(full_path, "w") as fp:
                 json.dump(APP_DATA_USER_SETTINGS, fp)
             return APP_DATA_USER_SETTINGS
+
+    def copy_config_to_local_dir(self):
+        """
+        This is hack to override defualt settings
+        :return:
+        """
+        file_startup = os.path.join(os.path.dirname(os.path.abspath(__file__)), "build_files/build_utils/2.80/config/startup.blend")
+        file_userpref = os.path.join(os.path.dirname(os.path.abspath(__file__)), "build_files/build_utils/2.80/config/userpref.blend")
+
+        if not os.path.exists(os.path.join(OCVL_APP_DATA_USER_DIR, "startup.blend")):
+            copyfile(file_startup, os.path.join(OCVL_APP_DATA_USER_DIR, "startup.blend"))
+        if not os.path.exists(os.path.join(os.path.join(OCVL_APP_DATA_USER_DIR, "userpref.blend"))):
+            copyfile(file_userpref, os.path.join(OCVL_APP_DATA_USER_DIR, "userpref.blend"))
 
 
 ocvl_auth = Auth()
