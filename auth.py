@@ -138,6 +138,8 @@ class Settings:
         self._settings = self.get_or_create_settings()
 
     def get_or_create_settings(self):
+        if not os.path.exists(OCVL_APP_DATA_USER_DIR):
+            os.makedirs(OCVL_APP_DATA_USER_DIR)
         full_path = os.path.join(OCVL_APP_DATA_USER_DIR, OCVL_APP_DATA_USER_FILE_NAME)
         if os.path.isfile(full_path):
             logger.info("Load settings file: {}".format(full_path))
