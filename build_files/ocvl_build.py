@@ -261,10 +261,10 @@ if __name__ == "__main__":
 
     try:
 
-        update_blender()
-        update_blender_submodule()
+        #update_blender()
+        #update_blender_submodule()
         #update_ocvl_addon()
-        make_patches()
+        #make_patches()
         delete_dirs()
         override_blender_release()
         build_blender()
