@@ -9,11 +9,11 @@ class OCVLaddNode(OCVLNodeBase):
 
     n_doc = "Calculates the per-element sum of two arrays or an array and a scalar."
 
-    image_1_in = bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node, description="First input array or a scalar.")
-    image_2_in = bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node, description="Second input array or a scalar.")
-    mask_in = bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node, description="Optional operation mask, 8-bit single channel array, that specifies elements of the output array to be changed.")
+    image_1_in: bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node, description="First input array or a scalar.")
+    image_2_in: bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node, description="Second input array or a scalar.")
+    mask_in: bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node, description="Optional operation mask, 8-bit single channel array, that specifies elements of the output array to be changed.")
 
-    image_out = bpy.props.StringProperty(default=str(uuid.uuid4()))
+    image_out: bpy.props.StringProperty(default=str(uuid.uuid4()))
 
     @property
     def n_requirements(self):

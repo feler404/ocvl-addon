@@ -7,12 +7,12 @@ class OCVLKeyPointNode(OCVLNodeBase):
 
     n_doc = "The keypoint constructors"
 
-    pt_in = bpy.props.FloatVectorProperty(default=(10, 10), size=2, min=0, max=2048, description="The x & y coordinates of the keypoint.")
-    size_in = bpy.props.FloatProperty(default=10, min=0, max=100, update=update_node, description="Keypoint diameter.")
-    angle_in = bpy.props.FloatProperty(default=-1, min=-1, max=360, update=update_node, description="Keypoint orientation.")
-    response_in = bpy.props.FloatProperty(default=0, min=0, max=100, update=update_node, description="Keypoint detector response on the keypoint (that is, strength of the keypoint).")
-    octave_in = bpy.props.IntProperty(default=0, min=0, max=100, update=update_node, description="Pyramid octave in which the keypoint has been detected.")
-    class_id_in = bpy.props.IntProperty(default=-1, min=-1, max=100, update=update_node, description="Object id.")
+    pt_in: bpy.props.FloatVectorProperty(default=(10, 10), size=2, min=0, max=2048, description="The x & y coordinates of the keypoint.")
+    size_in: bpy.props.FloatProperty(default=10, min=0, max=100, update=update_node, description="Keypoint diameter.")
+    angle_in: bpy.props.FloatProperty(default=-1, min=-1, max=360, update=update_node, description="Keypoint orientation.")
+    response_in: bpy.props.FloatProperty(default=0, min=0, max=100, update=update_node, description="Keypoint detector response on the keypoint (that is, strength of the keypoint).")
+    octave_in: bpy.props.IntProperty(default=0, min=0, max=100, update=update_node, description="Pyramid octave in which the keypoint has been detected.")
+    class_id_in: bpy.props.IntProperty(default=-1, min=-1, max=100, update=update_node, description="Object id.")
 
     def init(self, context):
         self.inputs.new("StringsSocket", "pt_in").prop_name = "pt_in"

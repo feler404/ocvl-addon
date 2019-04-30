@@ -9,8 +9,8 @@ class OCVLinvertAffineTransformNode(OCVLNodeBase):
 
     n_doc = "Inverts an affine transformation."
 
-    matrix_invert_in = bpy.props.StringProperty(name="matrix_invert_in", default=str(uuid.uuid4()), description="Original affine transformation.")
-    matrix_invert_out = bpy.props.StringProperty(name="matrix_invert_out", default=str(uuid.uuid4()), description="Output reverse affine transformation.")
+    matrix_invert_in: bpy.props.StringProperty(name="matrix_invert_in", default=str(uuid.uuid4()), description="Original affine transformation.")
+    matrix_invert_out: bpy.props.StringProperty(name="matrix_invert_out", default=str(uuid.uuid4()), description="Output reverse affine transformation.")
 
     def init(self, context):
         self.inputs.new("StringsSocket", "matrix_invert_in")

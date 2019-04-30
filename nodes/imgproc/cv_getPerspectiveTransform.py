@@ -10,10 +10,10 @@ class OCVLgetPerspectiveTransformNode(OCVLNodeBase):
 
     n_doc = "Calculates a perspective transform from four pairs of the corresponding points."
 
-    pts1_in = bpy.props.StringProperty(name="pts1_in", default=str(uuid.uuid4()), description="Input pts1.")
-    pts2_in = bpy.props.StringProperty(name="pts2_in", default=str(uuid.uuid4()), description="Input pts2.")
+    pts1_in: bpy.props.StringProperty(name="pts1_in", default=str(uuid.uuid4()), description="Input pts1.")
+    pts2_in: bpy.props.StringProperty(name="pts2_in", default=str(uuid.uuid4()), description="Input pts2.")
 
-    matrix_out = bpy.props.StringProperty(name="matrix_out", default=str(uuid.uuid4()), description="Output matrix.")
+    matrix_out: bpy.props.StringProperty(name="matrix_out", default=str(uuid.uuid4()), description="Output matrix.")
 
     def init(self, context):
         self.inputs.new("StringsSocket", "pts1_in")

@@ -9,15 +9,15 @@ class OCVLScharrNode(OCVLNodeBase):
 
     n_doc = "Calculates the first x- or y- image derivative using Scharr operator."
 
-    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input image.")
-    image_out = bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
+    image_in: bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input image.")
+    image_out: bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
 
-    dx_in = bpy.props.IntProperty(default=1, min=0, max=1, update=update_node, description="Order of the derivative x.")
-    dy_in = bpy.props.IntProperty(default=0, min=0, max=1, update=update_node, description="Order of the derivative y.")
-    ddepth_in = bpy.props.EnumProperty(items=COLOR_DEPTH_ITEMS, default='CV_8U', update=update_node, description="Output image depth, see @ref filter_depths 'combinations'.")
-    scale_in = bpy.props.FloatProperty(default=1.0, min=1, max=8, update=update_node, description="Optional scale factor for the computed Laplacian values.")
-    delta_in = bpy.props.FloatProperty(default=0.0, min=0, max=255, update=update_node, description="Optional delta value that is added to the results prior to storing them in dst.")
-    borderType_in = bpy.props.EnumProperty(items=BORDER_TYPE_ITEMS, default='None', update=update_node, description="Pixel extrapolation method, see cv::BorderTypes")
+    dx_in: bpy.props.IntProperty(default=1, min=0, max=1, update=update_node, description="Order of the derivative x.")
+    dy_in: bpy.props.IntProperty(default=0, min=0, max=1, update=update_node, description="Order of the derivative y.")
+    ddepth_in: bpy.props.EnumProperty(items=COLOR_DEPTH_ITEMS, default='CV_8U', update=update_node, description="Output image depth, see @ref filter_depths 'combinations'.")
+    scale_in: bpy.props.FloatProperty(default=1.0, min=1, max=8, update=update_node, description="Optional scale factor for the computed Laplacian values.")
+    delta_in: bpy.props.FloatProperty(default=0.0, min=0, max=255, update=update_node, description="Optional delta value that is added to the results prior to storing them in dst.")
+    borderType_in: bpy.props.EnumProperty(items=BORDER_TYPE_ITEMS, default='None', update=update_node, description="Pixel extrapolation method, see cv::BorderTypes")
 
     def init(self, context):
         self.inputs.new("StringsSocket", "image_in")

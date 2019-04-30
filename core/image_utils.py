@@ -1,12 +1,17 @@
-from collections import defaultdict
+import random
+from logging import getLogger
 
 import cv2
-import bgl
 import bpy
-import blf
+import gpu
+import bgl
 import numpy as np
-from ocvl.core.constants import TEX_CO
+from gpu_extras.batch import batch_for_shader
+
 from ocvl.core.globals import CALLBACK_DICT
+
+
+logger = getLogger(__name__)
 
 
 def tag_redraw_all_nodeviews():
@@ -18,97 +23,38 @@ def tag_redraw_all_nodeviews():
                         region.tag_redraw()
 
 
-def restore_opengl_defaults():
-    bgl.glLineWidth(1)
-    bgl.glDisable(bgl.GL_BLEND)
-    bgl.glColor4f(0.0, 0.0, 0.0, 1.0)
+def extract_bind_code(node):
+    try:
+        return node.texture[node.node_id]['name'][0]
+    except (KeyError, IndexError) as e:
+        logger.error("Node {} hasn't bide texture.".format(node))
+        raise
 
 
-def draw_text_data(data):
-    lines = data.get('content', 'no data')
-    x, y = data.get('location', (120, 120))
-    x, y = int(x), int(y)
-    color = data.get('color', (0.1, 0.1, 0.1))
-    font_id = data.get('font_id', 0)
-    scale = data.get('scale', 1.0)
+def simple_screen(node, x, y, width, height):
+    bgl.glActiveTexture(bgl.GL_TEXTURE0)
+    bgl.glBindTexture(bgl.GL_TEXTURE_2D, extract_bind_code(node))
 
-    text_height = 15 * scale
-    line_height = 14 * scale
+    shader = gpu.shader.from_builtin('2D_IMAGE')
+    batch = batch_for_shader(
+        shader, 'TRI_FAN',
+        {
+            "pos": ((x, y), (x+width, y), (x+width, y+height), (x, y+height)),
+            "texCoord": ((0, 1), (1, 1), (1, 0), (0, 0)),
+        },
+    )
 
-    # why does the text look so jagged?  <-- still valid question
-    # dpi = bpy.context.user_preferences.system.dpi
-    blf.size(font_id, int(text_height), 72)
-    bgl.glColor3f(*color)
-    ypos = y
-
-    for line in lines:
-        blf.position(0, x, ypos, 0)
-        blf.draw(font_id, line)
-        ypos -= int(line_height * 1.3)
+    shader.bind()
+    shader.uniform_int("image", 0)
+    batch.draw(shader)
 
 
-def draw_graphical_data(data):
-    lines = data.get('content')
-    x, y = data.get('location', (120, 120))
-    color = data.get('color', (0.1, 0.1, 0.1))
-    font_id = data.get('font_id', 0)
-    scale = data.get('scale', 1.0)
-    text_height = 15 * scale
-
-    if not lines:
+def callback_enable(node=None, x=None, y=None, width=None, height=None):
+    if node.n_id in CALLBACK_DICT:
         return
-
-    blf.size(font_id, int(text_height), 72)
-
-    def draw_text(color, xpos, ypos, line):
-        bgl.glColor3f(*color)
-        blf.position(0, xpos, ypos, 0)
-        blf.draw(font_id, line)
-        return blf.dimensions(font_id, line)
-
-    lineheight = 20 * scale
-    num_containers = len(lines)
-    for idx, line in enumerate(lines):
-        y_pos = y - (idx * lineheight)
-        gfx_x = x
-
-        num_items = str(len(line))
-        kind_of_item = type(line).__name__
-
-        tx, _ = draw_text(color, gfx_x, y_pos, "{0} of {1} items".format(kind_of_item, num_items))
-        gfx_x += (tx + 5)
-
-        content_dict = defaultdict(int)
-        for item in line:
-            content_dict[type(item).__name__] += 1
-
-        tx, _ = draw_text(color, gfx_x, y_pos, str(dict(content_dict)))
-        gfx_x += (tx + 5)
-
-        if idx == 19 and num_containers > 20:
-            y_pos = y - ((idx + 1) * lineheight)
-            text_body = "Showing the first 20 of {0} items"
-            draw_text(color, x, y_pos, text_body.format(num_containers))
-            break
-
-
-def draw_callback_px(n_id, data):
-    if not bpy.context.space_data.edit_tree:
-        return
-    drawing_func = data.get('custom_function')
-    x, y = data.get('loc', (20, 20))
-    args = data.get('args', (None,))
-    drawing_func(x, y, args)
-    restore_opengl_defaults()
-
-
-def callback_enable(*args):
-    n_id = args[0]
-    if n_id in CALLBACK_DICT:
-        return
-
-    handle_pixel = bpy.types.SpaceNodeEditor.draw_handler_add(draw_callback_px, args, 'WINDOW', 'POST_VIEW')
-    CALLBACK_DICT[n_id] = handle_pixel
+    args = node, x, y, width, height
+    handle_pixel = bpy.types.SpaceNodeEditor.draw_handler_add(simple_screen, args, 'WINDOW', 'POST_VIEW')
+    CALLBACK_DICT[node.n_id] = handle_pixel
     tag_redraw_all_nodeviews()
 
 
@@ -137,8 +83,8 @@ def init_texture(width, height, texname, texture, internalFormat, format):
     bgl.glEnable(bgl.GL_TEXTURE_2D)
     bgl.glBindTexture(bgl.GL_TEXTURE_2D, texname)
     bgl.glActiveTexture(bgl.GL_TEXTURE0)
-    bgl.glTexParameterf(bgl.GL_TEXTURE_2D, bgl.GL_TEXTURE_WRAP_S, bgl.GL_CLAMP)
-    bgl.glTexParameterf(bgl.GL_TEXTURE_2D, bgl.GL_TEXTURE_WRAP_T, bgl.GL_CLAMP)
+    bgl.glTexParameterf(bgl.GL_TEXTURE_2D, bgl.GL_TEXTURE_WRAP_S, bgl.GL_CLAMP_TO_EDGE)  # bgl.GL_CLAMP
+    bgl.glTexParameterf(bgl.GL_TEXTURE_2D, bgl.GL_TEXTURE_WRAP_T, bgl.GL_CLAMP_TO_EDGE)  # bgl.GL_CLAMP
     bgl.glTexParameterf(bgl.GL_TEXTURE_2D, bgl.GL_TEXTURE_MAG_FILTER, bgl.GL_LINEAR)
     bgl.glTexParameterf(bgl.GL_TEXTURE_2D, bgl.GL_TEXTURE_MIN_FILTER, bgl.GL_LINEAR)
     bgl.glTexImage2D(
@@ -148,33 +94,6 @@ def init_texture(width, height, texname, texture, internalFormat, format):
     )
 
 
-def simple_screen(x, y, args):
-    texture, texname, width, height, r, g, b, alpha, tex_co = args
-
-    def draw_texture(x=0, y=0, w=30, h=10, texname=texname, r=1.0, g=1.0, b=1.0, alpha=0.9, tex_co=TEX_CO):
-        bgl.glDisable(bgl.GL_DEPTH_TEST)
-        bgl.glActiveTexture(bgl.GL_TEXTURE0)
-        bgl.glEnable(bgl.GL_TEXTURE_2D)
-
-        bgl.glColor4f(r, g, b, alpha)
-        bgl.glBindTexture(bgl.GL_TEXTURE_2D, texname)
-
-        SCALE = bpy.context.user_preferences.system.pixel_size
-        x *= SCALE; y *= SCALE
-        verco = [(x, y), (x + w, y), (x + w, y - h), (x, y - h)]
-        bgl.glBegin(bgl.GL_QUADS)
-
-        for i in range(4):
-            bgl.glTexCoord3f(tex_co[i][0], tex_co[i][1], 0.0)
-            bgl.glVertex2f(verco[i][0], verco[i][1])
-
-        bgl.glEnd()
-
-        bgl.glDisable(bgl.GL_TEXTURE_2D)
-
-    draw_texture(x=x, y=y, w=width, h=height, texname=texname, r=r, g=g, b=b, alpha=alpha, tex_co=tex_co)
-
-
 def convert_to_cv_image(image_gl):
     image_cv = np.array(image_gl.pixels, dtype=np.float32)
     image_cv = image_cv.reshape((image_gl.size[1], image_gl.size[0], image_gl.channels))
@@ -182,3 +101,71 @@ def convert_to_cv_image(image_gl):
     image_cv = cv2.flip(image_cv, 0)
     image_cv.astype(np.uint8)
     return image_cv
+
+
+def gen_image_random_lines(width=200, height=200, layers=3, bg_color=(76, 76, 53), lines_number=20):
+    image = np.zeros((width, height, layers), np.uint8)
+    image[:, :, ] = bg_color
+    for i in range(lines_number):
+        pt1 = (random.randint(1, width), random.randint(1, height))
+        pt2 = (random.randint(1, width), random.randint(1, height))
+        color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+        image = cv2.line(image, pt1, pt2, color, random.randint(1, 10))
+
+
+def gen_image_lines_horizontal(width=200, height=200, layers=4, grid_height=10):
+    image = np.zeros((width, height, layers), np.uint8)
+    image[:, :, ] = [0] * layers
+    a_color = [100] * layers
+    color = b_color = [200] * layers
+    for i in range(int(height / grid_height) + 1):
+        pt1 = (0, i * grid_height)
+        pt2 = (width, i * grid_height)
+        if color == a_color:
+            color = b_color
+        else:
+            color = a_color
+        image = cv2.line(image, pt1, pt2, color, grid_height)
+    return image
+
+
+def gen_image_lines_verticals(width=200, height=200, layers=4, grid_width=10):
+    image = np.zeros((width, height, layers), np.uint8)
+    image[:, :, ] = [0] * layers
+    a_color = [100] * layers
+    color = b_color = [200] * layers
+    for i in range(int(height / grid_width) + 1):
+        pt1 = (i * grid_width, 0)
+        pt2 = (i * grid_width, height)
+        if color == a_color:
+            color = b_color
+        else:
+            color = a_color
+        image = cv2.line(image, pt1, pt2, color, grid_width)
+    return image
+
+
+def gen_image_grid(width=200, height=200, layers=3, grid_width=10, grid_height=10):
+    img_1 = gen_image_lines_horizontal(width=width, height=height, layers=layers, grid_height=grid_height)
+    img_2 = gen_image_lines_verticals(width=width, height=height, layers=layers, grid_width=grid_width)
+    return cv2.bitwise_xor(img_1, img_2)
+
+
+def add_background_to_image(image):
+    height = image.shape[0]
+    width = image.shape[1]
+    bg_image = gen_image_grid(width=width, height=height)
+
+    for y in range(height):
+        for x in range(width):
+            alpha = image[y, x, 3]
+            if alpha > 0:
+                alpha = alpha / 255.
+                image[y, x, 0] = int((alpha * image[y,x,0]) + ((1-alpha) * bg_image[y,x,0]))
+                image[y, x, 1] = int((alpha * image[y,x,1]) + ((1-alpha) * bg_image[y,x,1]))
+                image[y, x, 2] = int((alpha * image[y,x,2]) + ((1-alpha) * bg_image[y,x,2]))
+            else:
+                image[y, x, 0] = bg_image[y, x, 0]
+                image[y, x, 1] = bg_image[y, x, 1]
+                image[y, x, 2] = bg_image[y, x, 2]
+    return image

@@ -2,7 +2,7 @@ import logging
 
 
 def register():
-    # create logger
+    # create loggera
     logger = logging.getLogger()
     logger.setLevel(logging.DEBUG)
 

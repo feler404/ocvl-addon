@@ -22,11 +22,11 @@ class OCVLVGGNode(OCVLNodeBase, OCVLFeature2DNode):
         self.update_sockets(context)
         update_node(self, context)
 
-    isigma_init = bpy.props.FloatProperty(default=1.4, min=0, max=10, update=update_and_init, description="")
-    img_normalize_init = bpy.props.BoolProperty(default=True, update=update_and_init, description="")
-    use_scale_orientation_init = bpy.props.BoolProperty(default=True, update=update_and_init, description="")
-    scale_factor_init = bpy.props.FloatProperty(default=6.25, min=1, max=10, update=update_and_init, description="")
-    dsc_normalize_init = bpy.props.BoolProperty(default=False, update=update_and_init, description="")
+    isigma_init: bpy.props.FloatProperty(default=1.4, min=0, max=10, update=update_and_init, description="")
+    img_normalize_init: bpy.props.BoolProperty(default=True, update=update_and_init, description="")
+    use_scale_orientation_init: bpy.props.BoolProperty(default=True, update=update_and_init, description="")
+    scale_factor_init: bpy.props.FloatProperty(default=6.25, min=1, max=10, update=update_and_init, description="")
+    dsc_normalize_init: bpy.props.BoolProperty(default=False, update=update_and_init, description="")
 
     def init(self, context):
         super().init(context)

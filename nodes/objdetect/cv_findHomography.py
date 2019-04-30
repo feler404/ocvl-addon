@@ -33,23 +33,23 @@ class OCVLfindHomographyNode(OCVLNodeBase):
         update_node(self, context)
 
     # Default input
-    srcPoints_in = bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node, description="Coordinates of the points in the original plane, a matrix of the type CV_32FC2 or vector<Point2f>.")
-    dstPoints_in = bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node, description="Coordinates of the points in the target plane, a matrix of the type CV_32FC2 or a vector<Point2f>.")
+    srcPoints_in: bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node, description="Coordinates of the points in the original plane, a matrix of the type CV_32FC2 or vector<Point2f>.")
+    dstPoints_in: bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node, description="Coordinates of the points in the target plane, a matrix of the type CV_32FC2 or a vector<Point2f>.")
     # Matches input
-    matches_in = bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node)
-    keypoints1_in = bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node)
-    keypoints2_in = bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node)
-    # img1_in = bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node)
-    # img2_in = bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node)
+    matches_in: bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node)
+    keypoints1_in: bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node)
+    keypoints2_in: bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node)
+    # img1_in: bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node)
+    # img2_in: bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node)
 
-    ransacReprojThreshold_in = bpy.props.FloatProperty(default=3., min=1., max=10., update=update_node, description="Maximum allowed reprojection error to treat a point pair as an inlier (used in the RANSAC and RHO methods only).")
-    method_in = bpy.props.EnumProperty(items=METHOD_MODE_ITEMS, default="0", update=update_node, description="Method used to computed a homography matrix.")
+    ransacReprojThreshold_in: bpy.props.FloatProperty(default=3., min=1., max=10., update=update_node, description="Maximum allowed reprojection error to treat a point pair as an inlier (used in the RANSAC and RHO methods only).")
+    method_in: bpy.props.EnumProperty(items=METHOD_MODE_ITEMS, default="0", update=update_node, description="Method used to computed a homography matrix.")
 
-    mask_out = bpy.props.StringProperty(default=str(uuid.uuid4()), description="Output mask.")
-    retval_out = bpy.props.StringProperty(default=str(uuid.uuid4()), description="Output retval.")
-    # img3_out = bpy.props.StringProperty(default=str(uuid.uuid4()), description="Output retval.")
+    mask_out: bpy.props.StringProperty(default=str(uuid.uuid4()), description="Output mask.")
+    retval_out: bpy.props.StringProperty(default=str(uuid.uuid4()), description="Output retval.")
+    # img3_out: bpy.props.StringProperty(default=str(uuid.uuid4()), description="Output retval.")
 
-    loc_work_mode = bpy.props.EnumProperty(items=WORK_MODE_ITEMS, default="DEFAULT", update=update_layout, description="")
+    loc_work_mode: bpy.props.EnumProperty(items=WORK_MODE_ITEMS, default="DEFAULT", update=update_layout, description="")
 
     def init(self, context):
         self.inputs.new("StringsSocket", "srcPoints_in")

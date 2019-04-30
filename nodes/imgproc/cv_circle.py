@@ -10,15 +10,15 @@ class OCVLcircleNode(OCVLNodeBase):
     bl_icon = 'GREASEPENCIL'
     n_doc = "Draws a circle."
 
-    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input image.")
-    image_out = bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
+    image_in: bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input image.")
+    image_out: bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
 
-    center_in = bpy.props.IntVectorProperty(default=(0, 0), size=2, update=update_node, description="Center of the circle.")
-    radius_in = bpy.props.IntProperty(default=50, min=1, max=100, update=update_node, description="Radius of the circle.")
-    color_in = bpy.props.FloatVectorProperty(update=update_node, default=(.7, .7, .1, 1.0), size=4, min=0.0, max=1.0, subtype='COLOR', description="Circle color.")
-    thickness_in = bpy.props.IntProperty(default=2, min=-1, max=10, update=update_node, description="Thickness of the circle outline, if positive. Negative thickness means that a filled circle is to be drawn.")
-    lineType_in = bpy.props.EnumProperty(items=LINE_TYPE_ITEMS, default="LINE_AA",update=update_node, description="Type of the circle boundary. See the line description.")
-    shift_in = bpy.props.IntProperty(default=0, min=0, max=10, update=update_node, description="Number of fractional bits in the coordinates of the center and in the radius value.")
+    center_in: bpy.props.IntVectorProperty(default=(0, 0), size=2, update=update_node, description="Center of the circle.")
+    radius_in: bpy.props.IntProperty(default=50, min=1, max=100, update=update_node, description="Radius of the circle.")
+    color_in: bpy.props.FloatVectorProperty(update=update_node, default=(.7, .7, .1, 1.0), size=4, min=0.0, max=1.0, subtype='COLOR', description="Circle color.")
+    thickness_in: bpy.props.IntProperty(default=2, min=-1, max=10, update=update_node, description="Thickness of the circle outline, if positive. Negative thickness means that a filled circle is to be drawn.")
+    lineType_in: bpy.props.EnumProperty(items=LINE_TYPE_ITEMS, default="LINE_AA",update=update_node, description="Type of the circle boundary. See the line description.")
+    shift_in: bpy.props.IntProperty(default=0, min=0, max=10, update=update_node, description="Number of fractional bits in the coordinates of the center and in the radius value.")
 
     def init(self, context):
         self.inputs.new("StringsSocket", "image_in")

@@ -26,8 +26,8 @@ def drawn_docs_buttons(layout, col, node):
 
 
 class OCVLDocsNode(OCVLPreviewNodeBase):
-    origin = bpy.props.StringProperty("")
-    docs = bpy.props.BoolProperty(default=False)
+    origin: bpy.props.StringProperty("")
+    docs: bpy.props.BoolProperty(default=False)
 
     def init(self, context):
         self.width = 180

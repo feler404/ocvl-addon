@@ -22,8 +22,8 @@ class OCVLLUCIDNode(OCVLNodeBase, OCVLFeature2DNode):
         self.update_sockets(context)
         update_node(self, context)
 
-    lucid_kernel_init = bpy.props.IntProperty(default=1, min=1, max=9, update=update_and_init, description="")
-    blur_kernel_init = bpy.props.IntProperty(default=1, min=1, max=9, update=update_and_init, description="")
+    lucid_kernel_init: bpy.props.IntProperty(default=1, min=1, max=9, update=update_and_init, description="")
+    blur_kernel_init: bpy.props.IntProperty(default=1, min=1, max=9, update=update_and_init, description="")
 
     def init(self, context):
         super().init(context)

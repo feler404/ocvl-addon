@@ -9,9 +9,9 @@ class OCVLisContourConvexNode(OCVLNodeBase):
 
     n_doc = "Tests a contour convexity."
 
-    is_convex_out = bpy.props.BoolProperty(default=False, description="True if contour is convex")
-    contour_in = bpy.props.StringProperty(default=str(uuid.uuid4()), description="Input vector of 2D points, stored in std::vector\<\> or Mat")
-    loc_from_findContours = bpy.props.BoolProperty(default=True, update=update_node, description="If linked with findContour node switch to True")
+    is_convex_out: bpy.props.BoolProperty(default=False, description="True if contour is convex")
+    contour_in: bpy.props.StringProperty(default=str(uuid.uuid4()), description="Input vector of 2D points, stored in std::vector\<\> or Mat")
+    loc_from_findContours: bpy.props.BoolProperty(default=True, update=update_node, description="If linked with findContour node switch to True")
 
     def init(self, context):
         self.inputs.new("StringsSocket", "contour_in")
@@ -29,5 +29,5 @@ class OCVLisContourConvexNode(OCVLNodeBase):
         self.refresh_output_socket("is_convex_out", is_convex_out)
 
     def draw_buttons(self, context, layout):
-        layout.label('Contour is convex: {}'.format(self.is_convex_out))
+        layout.label(text='Contour is convex: {}'.format(self.is_convex_out))
         self.add_button(layout, 'loc_from_findContours')

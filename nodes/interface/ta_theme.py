@@ -7,8 +7,8 @@ logger = getLogger(__name__)
 
 
 class OCVLThemeNode(OCVLPreviewNodeBase):
-    origin = bpy.props.StringProperty("")
-    theme = bpy.props.BoolProperty(default=False)
+    origin: bpy.props.StringProperty("")
+    theme: bpy.props.BoolProperty(default=False)
 
     def init(self, context):
         self.width = 180
@@ -21,5 +21,5 @@ class OCVLThemeNode(OCVLPreviewNodeBase):
         row = layout.row()
         col = row.column()
         col_split = col.split(0.5, align=True)
-        col_split.operator('node.change_theme_light', text='Light', icon="OUTLINER_OB_LAMP")
-        col_split.operator('node.change_theme_dark', text='Dark', icon="OUTLINER_DATA_LAMP")
+        col_split.operator('node.change_theme_light', text='Light')
+        col_split.operator('node.change_theme_dark', text='Dark')

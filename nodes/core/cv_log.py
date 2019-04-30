@@ -9,8 +9,8 @@ class OCVLlogNode(OCVLNodeBase):
 
     n_doc = "Calculates the natural logarithm of every array element."
 
-    array_in = bpy.props.StringProperty(name="array_in", default=str(uuid.uuid4()), description="Input array.")
-    array_out = bpy.props.StringProperty(name="array_out", default=str(uuid.uuid4()), description="Iutput array of the same size and type as input array .")
+    array_in: bpy.props.StringProperty(name="array_in", default=str(uuid.uuid4()), description="Input array.")
+    array_out: bpy.props.StringProperty(name="array_out", default=str(uuid.uuid4()), description="Iutput array of the same size and type as input array .")
 
     def init(self, context):
         self.width = 150

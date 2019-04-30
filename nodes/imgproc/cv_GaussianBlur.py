@@ -10,13 +10,13 @@ class OCVLGaussianBlurNode(OCVLNodeBase):
     bl_icon = 'FILTER'
     n_doc = "Blurs an image using a Gaussian filter."
 
-    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input image.")
-    ksize_in = bpy.props.IntVectorProperty(default=(1, 1), min=1, max=30, size=2, update=update_node, description="Gaussian kernel size.")
-    sigmaX_in = bpy.props.FloatProperty(default=0, min=0, max=255, update=update_node, description="Gaussian kernel standard deviation in X direction.")
-    sigmaY_in = bpy.props.FloatProperty(default=0, min=0, max=255, update=update_node, description="Gaussian kernel standard deviation in Y direction.")
-    borderType_in = bpy.props.EnumProperty(items=BORDER_TYPE_ITEMS, default='None', update=update_node, description="Pixel extrapolation method, see cv::BorderTypes.")
+    image_in: bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input image.")
+    ksize_in: bpy.props.IntVectorProperty(default=(1, 1), min=1, max=30, size=2, update=update_node, description="Gaussian kernel size.")
+    sigmaX_in: bpy.props.FloatProperty(default=0, min=0, max=255, update=update_node, description="Gaussian kernel standard deviation in X direction.")
+    sigmaY_in: bpy.props.FloatProperty(default=0, min=0, max=255, update=update_node, description="Gaussian kernel standard deviation in Y direction.")
+    borderType_in: bpy.props.EnumProperty(items=BORDER_TYPE_ITEMS, default='None', update=update_node, description="Pixel extrapolation method, see cv::BorderTypes.")
 
-    image_out = bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
+    image_out: bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
 
     def init(self, context):
         self.inputs.new("StringsSocket", "image_in")

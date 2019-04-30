@@ -14,21 +14,21 @@ logger = getLogger(__name__)
 
 
 class OCVLSplashNode(OCVLPreviewNodeBase):
-    origin = bpy.props.StringProperty("")
-    image_out = bpy.props.StringProperty(default=str(uuid.uuid4()))
+    origin: bpy.props.StringProperty("")
+    image_out: bpy.props.StringProperty(default=str(uuid.uuid4()))
 
-    login_in = bpy.props.StringProperty(name="Login", default="", description="Login", maxlen=60)
-    password_in = bpy.props.StringProperty(name="Password", default="", subtype="PASSWORD", description="Password", maxlen=60)
-    is_remember_in = bpy.props.BoolProperty(name="Remember", default=True, description="Remember credentials")
+    login_in: bpy.props.StringProperty(name="Login", default="", description="Login", maxlen=60)
+    password_in: bpy.props.StringProperty(name="Password", default="", subtype="PASSWORD", description="Password", maxlen=60)
+    is_remember_in: bpy.props.BoolProperty(name="Remember", default=True, description="Remember credentials")
 
-    is_licence_key = bpy.props.BoolProperty(name="Licence Key", default=False)
-    licence_key_in = bpy.props.StringProperty(name="Licence Key", default="", description="licence_key_in", maxlen=600)
+    is_licence_key: bpy.props.BoolProperty(name="Licence Key", default=False)
+    licence_key_in: bpy.props.StringProperty(name="Licence Key", default="", description="licence_key_in", maxlen=600)
 
-    auth = bpy.props.BoolProperty(default=False)
-    docs = bpy.props.BoolProperty(default=False)
-    settings = bpy.props.BoolProperty(default=False)
+    auth: bpy.props.BoolProperty(default=False)
+    docs: bpy.props.BoolProperty(default=False)
+    settings: bpy.props.BoolProperty(default=False)
 
-    is_splash_loaded = bpy.props.BoolProperty(default=False)
+    is_splash_loaded: bpy.props.BoolProperty(default=False)
 
     def init(self, context):
         self.width = 512
@@ -97,12 +97,12 @@ class OCVLSplashNode(OCVLPreviewNodeBase):
         self.layout_add_store_link(row)
         row = layout.row()
         col = row.column()
-        col_split = col.split(0.5, align=True)
+        col_split = col.split(factor=0.5, align=True)
         col_split.operator('node.tutorial_show_first_step', text="Tutorial - First steps", icon='PARTICLES')
         col_split.operator('wm.url_open', text="More mutorials".format(self.bl_label), icon='INFO').url = OCVL_LINK_TO_MORE_TUTORIALS
         for i, tutorial in enumerate(ocvl_user.local_tutorials):
             if i % 2:
-                col_split = col.split(0.5, align=True)
+                col_split = col.split(factor=0.5, align=True)
             text = tutorial.get("name")
             icon = tutorial.get("icon", "URL")
             col_split.operator('wm.url_open', text=text.format(self.bl_label), icon=icon).url = ocvl_user.tutorials.get("package_site", "http://kube.pl")
@@ -143,6 +143,6 @@ class OCVLSplashNode(OCVLPreviewNodeBase):
             row.operator('node.login_in_request_in_splash', text='Submit', icon='FILE_TICK').origin = self.get_node_origin(props_name=[get_fn_url, get_args])
             row = layout.row()
             col = row.column()
-            col_split = col.split(0.5, align=True)
+            col_split = col.split(factor=0.5, align=True)
             col_split.operator('node.tutorial_show_first_step', text="Tutorial - First steps", icon='PARTICLES')
             col_split.operator('node.clean_desk', text="Start with blank desk - Community version", icon='RESTRICT_VIEW_OFF')

@@ -10,15 +10,15 @@ class OCVLGetDerivKernelsNode(OCVLNodeBase):
 
     n_doc = "Returns filter coefficients for computing spatial image derivatives."
 
-    kx_out = bpy.props.StringProperty(name="kx_out", default=str(uuid.uuid4()), description="Output matrix of row filter coefficients. It has the type ktype .")
-    ky_out = bpy.props.StringProperty(name="ky_out", default=str(uuid.uuid4()), description="Output matrix of column filter coefficients. It has the type ktype .")
-    kernel_out = bpy.props.StringProperty(name="kernel_out", default=str(uuid.uuid4()), description="Output kernel.")
+    kx_out: bpy.props.StringProperty(name="kx_out", default=str(uuid.uuid4()), description="Output matrix of row filter coefficients. It has the type ktype .")
+    ky_out: bpy.props.StringProperty(name="ky_out", default=str(uuid.uuid4()), description="Output matrix of column filter coefficients. It has the type ktype .")
+    kernel_out: bpy.props.StringProperty(name="kernel_out", default=str(uuid.uuid4()), description="Output kernel.")
 
-    dx_in = bpy.props.IntProperty(default=3, min=1, max=10, update=update_node, description="Derivative order in respect of x.")
-    dy_in = bpy.props.IntProperty(default=3, min=1, max=10, update=update_node, description="Derivative order in respect of y.")
-    ksize_in = bpy.props.IntProperty(default=1, update=update_node, min=1, max=30, description="Aperture size. It can be CV_SCHARR, 1, 3, 5, or 7.")
-    normalize_in = bpy.props.BoolProperty(default=False, update=update_node, description="Flag indicating whether to normalize (scale down) the filter coefficients or not.")
-    ktype_in = bpy.props.EnumProperty(items=COEFFICIENTS_TYPE_ITEMS, default='CV_32F', update=update_node, description="Type of filter coefficients. It can be CV_32f or CV_64F.")
+    dx_in: bpy.props.IntProperty(default=3, min=1, max=10, update=update_node, description="Derivative order in respect of x.")
+    dy_in: bpy.props.IntProperty(default=3, min=1, max=10, update=update_node, description="Derivative order in respect of y.")
+    ksize_in: bpy.props.IntProperty(default=1, update=update_node, min=1, max=30, description="Aperture size. It can be CV_SCHARR, 1, 3, 5, or 7.")
+    normalize_in: bpy.props.BoolProperty(default=False, update=update_node, description="Flag indicating whether to normalize (scale down) the filter coefficients or not.")
+    ktype_in: bpy.props.EnumProperty(items=COEFFICIENTS_TYPE_ITEMS, default='CV_32F', update=update_node, description="Type of filter coefficients. It can be CV_32f or CV_64F.")
 
     def init(self, context):
         self.inputs.new('StringsSocket', "dx_in").prop_name = 'dx_in'

@@ -9,11 +9,11 @@ class OCVLmeanStdDevNode(OCVLNodeBase):
 
     n_doc = "Calculates a mean and standard deviation of array elements."
 
-    src_in = bpy.props.StringProperty(name="src_in", default=str(uuid.uuid4()), description="Input array that should have from 1 to 4 channels so that the results can be stored in Scalar_ ‘s.")
-    mask_in = bpy.props.StringProperty(name="mask_in", default=str(uuid.uuid4()), description="Optional operation mask.")
+    src_in: bpy.props.StringProperty(name="src_in", default=str(uuid.uuid4()), description="Input array that should have from 1 to 4 channels so that the results can be stored in Scalar_ ‘s.")
+    mask_in: bpy.props.StringProperty(name="mask_in", default=str(uuid.uuid4()), description="Optional operation mask.")
 
-    mean_out = bpy.props.StringProperty(name="array_out", default=str(uuid.uuid4()), description="Output parameter: calculated mean value.")
-    stddev_out = bpy.props.StringProperty(name="array_out", default=str(uuid.uuid4()), description="Output parameter: calculateded standard deviation.")
+    mean_out: bpy.props.StringProperty(name="array_out", default=str(uuid.uuid4()), description="Output parameter: calculated mean value.")
+    stddev_out: bpy.props.StringProperty(name="array_out", default=str(uuid.uuid4()), description="Output parameter: calculateded standard deviation.")
 
     def init(self, context):
         self.inputs.new("StringsSocket", "src_in")

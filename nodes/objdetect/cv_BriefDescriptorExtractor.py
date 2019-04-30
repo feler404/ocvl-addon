@@ -30,8 +30,8 @@ class OCVLBriefDescriptorExtractorNode(OCVLNodeBase, OCVLFeature2DNode):
         InitFeature2DOperator.update_class_instance_dict(self, self.id_data.name, self.name)
         self.update_layout(context)
 
-    bytes_init = bpy.props.EnumProperty(items=BYTES_ITEMS, default="32", update=update_and_init, description="")
-    use_orientation_init = bpy.props.BoolProperty(default=False, update=update_and_init, description="")
+    bytes_init: bpy.props.EnumProperty(items=BYTES_ITEMS, default="32", update=update_and_init, description="")
+    use_orientation_init: bpy.props.BoolProperty(default=False, update=update_and_init, description="")
 
     def init(self, context):
         super().init(context)

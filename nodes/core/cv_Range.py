@@ -7,8 +7,8 @@ class OCVLRangeNode(OCVLNodeBase):
 
     n_doc = "Range."
 
-    start_in = bpy.props.IntProperty(default=10, min=0, update=update_node, description="Start input.")
-    end_in = bpy.props.IntProperty(default=10, min=0, update=update_node, description="End input.")
+    start_in: bpy.props.IntProperty(default=10, min=0, update=update_node, description="Start input.")
+    end_in: bpy.props.IntProperty(default=10, min=0, update=update_node, description="End input.")
 
     def init(self, context):
         self.inputs.new("StringsSocket", "start_in").prop_name = "start_in"

@@ -9,9 +9,9 @@ class OCVLfitEllipseNode(OCVLNodeBase):
 
     n_doc = "Fits an ellipse around a set of 2D points."
 
-    points_in = bpy.props.StringProperty(default=str(uuid.uuid4()), description="Input vector of 2D points, stored in std::vector\<\> or Mat")
-    ellipse_out = bpy.props.StringProperty(default=str(uuid.uuid4()), description="Output ellipse.")
-    loc_from_findContours = bpy.props.BoolProperty(default=True, update=update_node, description="If linked with findContour node switch to True")
+    points_in: bpy.props.StringProperty(default=str(uuid.uuid4()), description="Input vector of 2D points, stored in std::vector\<\> or Mat")
+    ellipse_out: bpy.props.StringProperty(default=str(uuid.uuid4()), description="Output ellipse.")
+    loc_from_findContours: bpy.props.BoolProperty(default=True, update=update_node, description="If linked with findContour node switch to True")
 
     def init(self, context):
         self.inputs.new("StringsSocket", "points_in")

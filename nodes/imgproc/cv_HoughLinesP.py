@@ -25,16 +25,16 @@ class OCVLHoughLinesPNode(OCVLNodeBase):
         self.update_sockets(context)
         update_node(self, context)
 
-    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input image.")
-    rho_in = bpy.props.FloatProperty(default=3, min=1, max=10, update=update_node, description="Distance resolution of the accumulator in pixels.")
-    theta_in = bpy.props.FloatProperty(default=0.0574, min=0.0001, max=3.1415, update=update_node, description="Angle resolution of the accumulator in radians.")
-    threshold_in = bpy.props.IntProperty(default=200, min=0, max=255, update=update_node, description="Accumulator threshold parameter.")
-    minLineLength_in = bpy.props.FloatProperty(default=0, min=0, update=update_node, description="Minimum line length. Line segments shorter than that are rejected.")
-    maxLineGap_in = bpy.props.FloatProperty(default=0, min=0, update=update_node, description="Maximum allowed gap between points on the same line to link them.")
+    image_in: bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input image.")
+    rho_in: bpy.props.FloatProperty(default=3, min=1, max=10, update=update_node, description="Distance resolution of the accumulator in pixels.")
+    theta_in: bpy.props.FloatProperty(default=0.0574, min=0.0001, max=3.1415, update=update_node, description="Angle resolution of the accumulator in radians.")
+    threshold_in: bpy.props.IntProperty(default=200, min=0, max=255, update=update_node, description="Accumulator threshold parameter.")
+    minLineLength_in: bpy.props.FloatProperty(default=0, min=0, update=update_node, description="Minimum line length. Line segments shorter than that are rejected.")
+    maxLineGap_in: bpy.props.FloatProperty(default=0, min=0, update=update_node, description="Maximum allowed gap between points on the same line to link them.")
 
-    loc_output_mode = bpy.props.EnumProperty(items=OUTPUT_MODE_ITEMS, default="LINES", update=update_layout, description="Output mode.")
-    lines_out = bpy.props.StringProperty(name="lines_out", default=str(uuid.uuid4()), description="Output vector of lines.")
-    image_out = bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
+    loc_output_mode: bpy.props.EnumProperty(items=OUTPUT_MODE_ITEMS, default="LINES", update=update_layout, description="Output mode.")
+    lines_out: bpy.props.StringProperty(name="lines_out", default=str(uuid.uuid4()), description="Output vector of lines.")
+    image_out: bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
 
     def init(self, context):
         self.inputs.new("StringsSocket", "image_in")

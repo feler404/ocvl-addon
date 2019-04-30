@@ -7,11 +7,11 @@ class OCVLborderInterpolateNode(OCVLNodeBase):
 
     n_doc = "Computes the source location of an extrapolated pixel."
 
-    p_in = bpy.props.IntProperty(name="p", default=5, update=update_node, description="0-based coordinate of the extrapolated pixel along one of the axes, likely <0 or >= len .")
-    len_in = bpy.props.IntProperty(name="len", default=10, update=update_node, description="Length of the array along the corresponding axis.")
-    borderType_in = bpy.props.EnumProperty(name="borderType", items=BORDER_TYPE_ITEMS, default='BORDER_DEFAULT', update=update_node, description="Pixel extrapolation method, see cv::BorderTypes")
+    p_in: bpy.props.IntProperty(name="p", default=5, update=update_node, description="0-based coordinate of the extrapolated pixel along one of the axes, likely <0 or >= len .")
+    len_in: bpy.props.IntProperty(name="len", default=10, update=update_node, description="Length of the array along the corresponding axis.")
+    borderType_in: bpy.props.EnumProperty(name="borderType", items=BORDER_TYPE_ITEMS, default='BORDER_DEFAULT', update=update_node, description="Pixel extrapolation method, see cv::BorderTypes")
 
-    retval_out = bpy.props.IntProperty(name="retval", default=0, description="")
+    retval_out: bpy.props.IntProperty(name="retval", default=0, description="")
 
     def init(self, context):
         self.inputs.new("StringsSocket", "p").prop_name = "p_in"

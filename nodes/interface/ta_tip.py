@@ -13,9 +13,9 @@ logger = getLogger(__name__)
 
 class OCVLTipNode(OCVLPreviewNodeBase):
 
-    tip = bpy.props.IntProperty(default=0)
-    image_out = bpy.props.StringProperty(default='')
-    is_splash_loaded = bpy.props.BoolProperty(default=False)
+    tip: bpy.props.IntProperty(default=0)
+    image_out: bpy.props.StringProperty(default='')
+    is_splash_loaded: bpy.props.BoolProperty(default=False)
 
     def init(self, context):
         self.width = 512

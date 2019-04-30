@@ -16,13 +16,13 @@ class OCVLintegral3Node(OCVLNodeBase):
 
     n_doc = "Calculates the integral of an image."
 
-    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input image as W x H, 8-bit or floating-point (32f or 64f).")
-    sum_out = bpy.props.StringProperty(name="sum_out", default=str(uuid.uuid4()), description="Integral image as (W+1) x (H+1) , 32-bit integer or floating-point (32f or 64f).")
-    sqsum_out = bpy.props.StringProperty(name="sqsum_out", default=str(uuid.uuid4()), description="integral image for squared pixel values; it is (W+1) x (H+1), double-precision floating-point (64f) array.")
-    tilted_out = bpy.props.StringProperty(name="tilted_out", default=str(uuid.uuid4()), description="Integral for the image rotated by 45 degrees; it is (W+1) x (H+1) array with the same data type as sum.")
+    image_in: bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input image as W x H, 8-bit or floating-point (32f or 64f).")
+    sum_out: bpy.props.StringProperty(name="sum_out", default=str(uuid.uuid4()), description="Integral image as (W+1) x (H+1) , 32-bit integer or floating-point (32f or 64f).")
+    sqsum_out: bpy.props.StringProperty(name="sqsum_out", default=str(uuid.uuid4()), description="integral image for squared pixel values; it is (W+1) x (H+1), double-precision floating-point (64f) array.")
+    tilted_out: bpy.props.StringProperty(name="tilted_out", default=str(uuid.uuid4()), description="Integral for the image rotated by 45 degrees; it is (W+1) x (H+1) array with the same data type as sum.")
 
-    sdepth_in = bpy.props.EnumProperty(items=SDEPTH_ITEMS, default="None", update=update_node, description="Desired depth of the integral and the tilted integral images, CV_32S, CV_32F, or CV_64F.")
-    sqdepth_in = bpy.props.EnumProperty(items=SDEPTH_ITEMS, default="None", update=update_node, description="Desired depth of the integral and the tilted integral images, CV_32S, CV_32F, or CV_64F.")
+    sdepth_in: bpy.props.EnumProperty(items=SDEPTH_ITEMS, default="None", update=update_node, description="Desired depth of the integral and the tilted integral images, CV_32S, CV_32F, or CV_64F.")
+    sqdepth_in: bpy.props.EnumProperty(items=SDEPTH_ITEMS, default="None", update=update_node, description="Desired depth of the integral and the tilted integral images, CV_32S, CV_32F, or CV_64F.")
 
     def init(self, context):
         self.inputs.new("StringsSocket", "image_in")

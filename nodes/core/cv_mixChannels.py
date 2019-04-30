@@ -9,10 +9,10 @@ class OCVLmixChannelsNode(OCVLNodeBase):
 
     n_doc = "Copies specified channels from input arrays to the specified channels of output arrays."
 
-    src_in = bpy.props.StringProperty(name="src_in", default=str(uuid.uuid4()), description="Input array or vector of matrices; all of the matrices must have the same size and the same depth.")
-    fromTo_in = bpy.props.StringProperty(name="fromTo_in", default=str(uuid.uuid4()), description="Array of index pairs specifying which channels are copied and where.")
+    src_in: bpy.props.StringProperty(name="src_in", default=str(uuid.uuid4()), description="Input array or vector of matrices; all of the matrices must have the same size and the same depth.")
+    fromTo_in: bpy.props.StringProperty(name="fromTo_in", default=str(uuid.uuid4()), description="Array of index pairs specifying which channels are copied and where.")
 
-    image_out = bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output array or vector of matrices.")
+    image_out: bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output array or vector of matrices.")
 
     def init(self, context):
         self.inputs.new("StringsSocket", "src_in")

@@ -7,9 +7,9 @@ class OCVLRotatedRectNode(OCVLNodeBase):
 
     n_doc = "Rotated Rect node."
 
-    center_in = bpy.props.IntVectorProperty(default=(10, 10), size=2, min=0, max=2048, description="Center input.")
-    size_in = bpy.props.IntVectorProperty(default=(10, 10), size=2, min=0, max=2048, description="Size input.")
-    angle_in = bpy.props.IntProperty(default=10, min=0, max=360, update=update_node, subtype='ANGLE', description="Angle input.")
+    center_in: bpy.props.IntVectorProperty(default=(10, 10), size=2, min=0, max=2048, description="Center input.")
+    size_in: bpy.props.IntVectorProperty(default=(10, 10), size=2, min=0, max=2048, description="Size input.")
+    angle_in: bpy.props.IntProperty(default=10, min=0, max=360, update=update_node, subtype='ANGLE', description="Angle input.")
 
     def init(self, context):
         self.inputs.new("StringsSocket", "center_in").prop_name = "center_in"

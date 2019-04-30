@@ -9,14 +9,14 @@ class OCVLremapNode(OCVLNodeBase):
 
     n_doc = "Applies a generic geometrical transformation to an image."
 
-    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input image.")
-    map1_in = bpy.props.StringProperty(name="map1_in", default=str(uuid.uuid4()), description="The first map of either (x,y) points or just x values having the type CV_16SC2 , CV_32FC1 , or CV_32FC2 .")
-    map2_in = bpy.props.StringProperty(name="map2_in", default=str(uuid.uuid4()), description="The second map of y values having the type CV_16UC1 , CV_32FC1 , or none (empty map if map1 is (x,y) points), respectively.")
-    image_out = bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image. It has the same size as map1 and the same type as src .")
+    image_in: bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input image.")
+    map1_in: bpy.props.StringProperty(name="map1_in", default=str(uuid.uuid4()), description="The first map of either (x,y) points or just x values having the type CV_16SC2 , CV_32FC1 , or CV_32FC2 .")
+    map2_in: bpy.props.StringProperty(name="map2_in", default=str(uuid.uuid4()), description="The second map of y values having the type CV_16UC1 , CV_32FC1 , or none (empty map if map1 is (x,y) points), respectively.")
+    image_out: bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image. It has the same size as map1 and the same type as src .")
 
-    interpolation_in = bpy.props.EnumProperty(items=INTERPOLATION_ITEMS, default='INTER_NEAREST', update=update_node, description="Interpolation method.")
-    borderMode_in = bpy.props.EnumProperty(items=BORDER_TYPE_ITEMS, default='None', update=update_node, description="Border mode used to extrapolate pixels outside of the image, see cv::BorderTypes.")
-    borderValue_in = bpy.props.IntProperty(default=0, min=0, max=255, update=update_node, description="Value used in case of a constant border; by default, it equals 0.")
+    interpolation_in: bpy.props.EnumProperty(items=INTERPOLATION_ITEMS, default='INTER_NEAREST', update=update_node, description="Interpolation method.")
+    borderMode_in: bpy.props.EnumProperty(items=BORDER_TYPE_ITEMS, default='None', update=update_node, description="Border mode used to extrapolate pixels outside of the image, see cv::BorderTypes.")
+    borderValue_in: bpy.props.IntProperty(default=0, min=0, max=255, update=update_node, description="Value used in case of a constant border; by default, it equals 0.")
 
     def init(self, context):
         self.inputs.new("StringsSocket", "image_in")

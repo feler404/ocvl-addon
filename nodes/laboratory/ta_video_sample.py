@@ -44,15 +44,15 @@ class OCVLVideoSampleNode(OCVLPreviewNodeBase):
         self.process()
         update_node(self, context)
 
-    width_in = bpy.props.IntProperty(default=100, min=1, max=1024, update=update_node, name="width_in")
-    height_in = bpy.props.IntProperty(default=100, min=1, max=1020, update=update_node, name="height_in")
-    image_out = bpy.props.StringProperty(default=str(uuid.uuid4()))
+    width_in: bpy.props.IntProperty(default=100, min=1, max=1024, update=update_node, name="width_in")
+    height_in: bpy.props.IntProperty(default=100, min=1, max=1020, update=update_node, name="height_in")
+    image_out: bpy.props.StringProperty(default=str(uuid.uuid4()))
 
-    loc_stream = bpy.props.StringProperty(default='0', update=update_node)
-    loc_name_image = bpy.props.StringProperty(default='', update=update_prop_search)
-    loc_filepath = bpy.props.StringProperty(default='', update=update_node)
-    loc_image_mode = bpy.props.EnumProperty(items=STREAM_MODE_ITEMS, default="CAMERA", update=update_layout)
-    loc_camera_device = bpy.props.EnumProperty(items=CAMERA_DEVICE_ITEMS, default="0", update=update_layout)
+    loc_stream: bpy.props.StringProperty(default='0', update=update_node)
+    loc_name_image: bpy.props.StringProperty(default='', update=update_prop_search)
+    loc_filepath: bpy.props.StringProperty(default='', update=update_node)
+    loc_image_mode: bpy.props.EnumProperty(items=STREAM_MODE_ITEMS, default="CAMERA", update=update_layout)
+    loc_camera_device: bpy.props.EnumProperty(items=CAMERA_DEVICE_ITEMS, default="0", update=update_layout)
 
     def init(self, context):
         self.width = 200
@@ -103,14 +103,14 @@ class OCVLVideoSampleNode(OCVLPreviewNodeBase):
             self.add_button(layout, "loc_stream")
         elif self.loc_image_mode == "FILE":
             col = layout.row().column()
-            col_split = col.split(1, align=True)
+            col_split = col.split(factor=1, align=True)
             col_split.operator('image.image_importer', text='', icon="FILE_FOLDER").origin = origin
 
         if self.n_id not in self.texture:
             return
 
         col = layout.row().column()
-        col_split = col.split(1, align=True)
+        col_split = col.split(factor=1, align=True)
         if not screen.is_animation_playing:
             col_split.operator("screen.animation_play", text="", icon='PLAY')
         else:

@@ -13,13 +13,13 @@ class OCVLmatchTemplateNode(OCVLNodeBase):
     def get_anchor(self):
         return self.get("anchor_in", (-1, -1))
 
-    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Image where the search is running. It must be 8-bit or 32-bit floating-point.")
-    templ_in = bpy.props.StringProperty(name="templ_in", default=str(uuid.uuid4()), description="Searched template. It must be not greater than the source image and have the same data type.")
-    mask_in = bpy.props.StringProperty(name="templ_in", default=str(uuid.uuid4()), description="Input mask.")
-    method_in = bpy.props.EnumProperty(items=TEMPLATE_MATCH_MODE_ITEMS, default='TM_CCOEFF_NORMED', update=update_node, description="Parameter specifying the comparison method, see cv::TemplateMatchModes.")
+    image_in: bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Image where the search is running. It must be 8-bit or 32-bit floating-point.")
+    templ_in: bpy.props.StringProperty(name="templ_in", default=str(uuid.uuid4()), description="Searched template. It must be not greater than the source image and have the same data type.")
+    mask_in: bpy.props.StringProperty(name="templ_in", default=str(uuid.uuid4()), description="Input mask.")
+    method_in: bpy.props.EnumProperty(items=TEMPLATE_MATCH_MODE_ITEMS, default='TM_CCOEFF_NORMED', update=update_node, description="Parameter specifying the comparison method, see cv::TemplateMatchModes.")
 
-    image_out = bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
-    result_out = bpy.props.StringProperty(name="result_out", default=str(uuid.uuid4()), description="Map of comparison results. It must be single-channel 32-bit floating-point.")
+    image_out: bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
+    result_out: bpy.props.StringProperty(name="result_out", default=str(uuid.uuid4()), description="Map of comparison results. It must be single-channel 32-bit floating-point.")
 
     def init(self, context):
         self.width = 150

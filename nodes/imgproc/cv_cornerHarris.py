@@ -9,13 +9,13 @@ class OCVLcornerHarrisNode(OCVLNodeBase):
 
     n_doc = "Harris corner detector."
 
-    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input single-channel 8-bit or floating-point image.")
-    image_out = bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Image to store the Harris detector responses.")
+    image_in: bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input single-channel 8-bit or floating-point image.")
+    image_out: bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Image to store the Harris detector responses.")
 
-    blockSize_in = bpy.props.IntProperty(default=2, min=1, max=30, update=update_node, description="Neighborhood size (see the details on cornerEigenValsAndVecs ).")
-    ksize_in = bpy.props.IntProperty(default=3, min=1, max=30, update=update_node, description="Aperture parameter for the Sobel operator.")
-    k_in = bpy.props.FloatProperty(default=0.04, min=0.01, max=1, update=update_node, description="Harris detector free parameter. See the formula below.")
-    borderType_in = bpy.props.EnumProperty(items=BORDER_TYPE_ITEMS, default='None', update=update_node, description="Pixel extrapolation method. See cv::BorderTypes.")
+    blockSize_in: bpy.props.IntProperty(default=2, min=1, max=30, update=update_node, description="Neighborhood size (see the details on cornerEigenValsAndVecs ).")
+    ksize_in: bpy.props.IntProperty(default=3, min=1, max=30, update=update_node, description="Aperture parameter for the Sobel operator.")
+    k_in: bpy.props.FloatProperty(default=0.04, min=0.01, max=1, update=update_node, description="Harris detector free parameter. See the formula below.")
+    borderType_in: bpy.props.EnumProperty(items=BORDER_TYPE_ITEMS, default='None', update=update_node, description="Pixel extrapolation method. See cv::BorderTypes.")
 
     def init(self, context):
         self.width = 150

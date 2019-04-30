@@ -11,16 +11,16 @@ class OCVLdrawKeypointsNode(OCVLNodeBase):
     n_doc = "Class for extracting keypoints and computing descriptors using the Scale Invariant Feature Transform (SIFT) algorithm by D. Lowe"
     _url = "https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_feature2d/py_sift_intro/py_sift_intro.html"
 
-    image_in = bpy.props.StringProperty(default=str(uuid.uuid4()),
+    image_in: bpy.props.StringProperty(default=str(uuid.uuid4()),
         description="Source image.")
 
-    keypoints_in = bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node,
+    keypoints_in: bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node,
         description="Keypoints from the source image.")
-    # color_in = bpy.props.FloatProperty(default=1.6, min=0.1, max=5., update=update_node,
+    # color_in: bpy.props.FloatProperty(default=1.6, min=0.1, max=5., update=update_node,
     #     description="The sigma of the Gaussian applied to the input image at the octave #0.")
     # flags_in =
 
-    outImage_out = bpy.props.StringProperty(default=str(uuid.uuid4()),
+    outImage_out: bpy.props.StringProperty(default=str(uuid.uuid4()),
         description="Output image.")
 
     def init(self, context):

@@ -9,10 +9,10 @@ class OCVLmeanNode(OCVLNodeBase):
 
     n_doc = "Calculates an average (mean) of array elements."
 
-    src_in = bpy.props.StringProperty(name="src_in", default=str(uuid.uuid4()), description="Input array that should have from 1 to 4 channels so that the result can be stored in Scalar_. ")
-    mask_in = bpy.props.StringProperty(name="mask_in", default=str(uuid.uuid4()), description="Optional operation mask.")
+    src_in: bpy.props.StringProperty(name="src_in", default=str(uuid.uuid4()), description="Input array that should have from 1 to 4 channels so that the result can be stored in Scalar_. ")
+    mask_in: bpy.props.StringProperty(name="mask_in", default=str(uuid.uuid4()), description="Optional operation mask.")
 
-    mean_out = bpy.props.StringProperty(name="mean_out", default=str(uuid.uuid4()), description="Output parameter: calculated mean value.")
+    mean_out: bpy.props.StringProperty(name="mean_out", default=str(uuid.uuid4()), description="Output parameter: calculated mean value.")
 
     def init(self, context):
         self.inputs.new("StringsSocket", "src_in")

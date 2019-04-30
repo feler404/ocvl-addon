@@ -30,9 +30,9 @@ class OCVLAgastFeatureDetectorNode(OCVLNodeBase, OCVLFeature2DNode):
         self.update_sockets(context)
         update_node(self, context)
 
-    threshold_init = bpy.props.IntProperty(default=10, min=0, max=100, update=update_and_init, description="")
-    nonmaxSuppression_init = bpy.props.BoolProperty(default=True, update=update_and_init, description="")
-    type_init = bpy.props.EnumProperty(items=TYPE_ITEMS, default="AGAST_FEATURE_DETECTOR_OAST_9_16", update=update_and_init, description="")
+    threshold_init: bpy.props.IntProperty(default=10, min=0, max=100, update=update_and_init, description="")
+    nonmaxSuppression_init: bpy.props.BoolProperty(default=True, update=update_and_init, description="")
+    type_init: bpy.props.EnumProperty(items=TYPE_ITEMS, default="AGAST_FEATURE_DETECTOR_OAST_9_16", update=update_and_init, description="")
 
     def init(self, context):
         super().init(context)

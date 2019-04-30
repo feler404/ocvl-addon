@@ -47,21 +47,21 @@ class OCVLFeature2DNode:
         self.update_sockets(context)
         update_node(self, context)
 
-    image_in = bpy.props.StringProperty(default=str(uuid.uuid4()), description="Input 8-bit or floating-point 32-bit, single-channel image.")
-    mask_in = bpy.props.StringProperty(default=str(uuid.uuid4()), description="Optional region of interest.")
-    keypoints_in = bpy.props.StringProperty(default=str(uuid.uuid4()), description="")
+    image_in: bpy.props.StringProperty(default=str(uuid.uuid4()), description="Input 8-bit or floating-point 32-bit, single-channel image.")
+    mask_in: bpy.props.StringProperty(default=str(uuid.uuid4()), description="Optional region of interest.")
+    keypoints_in: bpy.props.StringProperty(default=str(uuid.uuid4()), description="")
 
-    keypoints_out = bpy.props.StringProperty(default=str(uuid.uuid4()), description="")
-    descriptors_out = bpy.props.StringProperty(default=str(uuid.uuid4()), description="")
+    keypoints_out: bpy.props.StringProperty(default=str(uuid.uuid4()), description="")
+    descriptors_out: bpy.props.StringProperty(default=str(uuid.uuid4()), description="")
 
-    loc_file_load = bpy.props.StringProperty(default="/", description="")
-    loc_file_save = bpy.props.StringProperty(default="/", description="")
-    loc_work_mode = bpy.props.EnumProperty(items=WORK_MODE_ITEMS, default="DETECT-COMPUTE", update=update_layout, description="")
-    loc_state_mode = bpy.props.EnumProperty(items=STATE_MODE_ITEMS, default="INIT", update=update_layout, description="")
-    loc_descriptor_size = bpy.props.IntProperty(default=0, description="")
-    loc_descriptor_type = bpy.props.IntProperty(default=0, description="")
-    loc_default_norm = bpy.props.IntProperty(default=0, description="")
-    loc_class_repr = bpy.props.StringProperty(default="", description="")
+    loc_file_load: bpy.props.StringProperty(default="/", description="")
+    loc_file_save: bpy.props.StringProperty(default="/", description="")
+    loc_work_mode: bpy.props.EnumProperty(items=WORK_MODE_ITEMS, default="DETECT-COMPUTE", update=update_layout, description="")
+    loc_state_mode: bpy.props.EnumProperty(items=STATE_MODE_ITEMS, default="INIT", update=update_layout, description="")
+    loc_descriptor_size: bpy.props.IntProperty(default=0, description="")
+    loc_descriptor_type: bpy.props.IntProperty(default=0, description="")
+    loc_default_norm: bpy.props.IntProperty(default=0, description="")
+    loc_class_repr: bpy.props.StringProperty(default="", description="")
 
     def init(self, context):
         self.width = 250
@@ -88,7 +88,7 @@ class OCVLFeature2DNode:
         self.add_button(layout=layout, prop_name='loc_state_mode', expand=True)
         if self.loc_state_mode == "INIT":
             layout.operator("node.init_feature_2d", icon='MENU_PANEL').origin = origin
-            layout.label("Instance: {}".format(self.loc_class_repr))
+            layout.label(text="Instance: {}".format(self.loc_class_repr))
             for key in InitFeature2DOperator.get_init_kwargs(self):
                 arg_name = key
                 if arg_name.startswith("_"):

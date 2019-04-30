@@ -57,23 +57,23 @@ class OCVLBFMatcherNode(OCVLNodeBase):
         self.update_sockets(context)
         update_node(self, context)
 
-    queryDescriptors_in = bpy.props.StringProperty(default=str(uuid.uuid4()), description="")
-    trainDescriptors_in = bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node, description="")
-    descriptors_in = bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node, description="")
-    k_in = bpy.props.IntProperty(default=2, min=1, max=10)
-    mask_in = bpy.props.StringProperty(default=str(uuid.uuid4()), description="")
-    compactResult_in = bpy.props.BoolProperty(default=False)
+    queryDescriptors_in: bpy.props.StringProperty(default=str(uuid.uuid4()), description="")
+    trainDescriptors_in: bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node, description="")
+    descriptors_in: bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node, description="")
+    k_in: bpy.props.IntProperty(default=2, min=1, max=10)
+    mask_in: bpy.props.StringProperty(default=str(uuid.uuid4()), description="")
+    compactResult_in: bpy.props.BoolProperty(default=False)
 
-    normType_init = bpy.props.EnumProperty(default="NORM_L1", items=NORM_TYPE_ITEMS, update=update_node, description="")
-    crossCheck_init = bpy.props.BoolProperty(default=False, update=update_node, description="")
-    loc_file_save = bpy.props.StringProperty(default="/", description="")
-    loc_file_load = bpy.props.StringProperty(default="/", description="")
-    loc_work_mode = bpy.props.EnumProperty(items=WORK_MODE_ITEMS, default="MATCH", update=update_layout, description="")
-    loc_state_mode = bpy.props.EnumProperty(items=STATE_MODE_ITEMS, default="INIT", update=update_layout, description="")
-    loc_default_norm = bpy.props.IntProperty(default=0, description="")
-    loc_class_repr = bpy.props.StringProperty(default="", description="")
+    normType_init: bpy.props.EnumProperty(default="NORM_L1", items=NORM_TYPE_ITEMS, update=update_node, description="")
+    crossCheck_init: bpy.props.BoolProperty(default=False, update=update_node, description="")
+    loc_file_save: bpy.props.StringProperty(default="/", description="")
+    loc_file_load: bpy.props.StringProperty(default="/", description="")
+    loc_work_mode: bpy.props.EnumProperty(items=WORK_MODE_ITEMS, default="MATCH", update=update_layout, description="")
+    loc_state_mode: bpy.props.EnumProperty(items=STATE_MODE_ITEMS, default="INIT", update=update_layout, description="")
+    loc_default_norm: bpy.props.IntProperty(default=0, description="")
+    loc_class_repr: bpy.props.StringProperty(default="", description="")
 
-    matches_out = bpy.props.StringProperty(default=str(uuid.uuid4()), description="")
+    matches_out: bpy.props.StringProperty(default=str(uuid.uuid4()), description="")
 
     def init(self, context):
         self.width = 250
@@ -108,7 +108,7 @@ class OCVLBFMatcherNode(OCVLNodeBase):
         self.add_button(layout=layout, prop_name='loc_state_mode', expand=True)
         if self.loc_state_mode == "INIT":
             layout.operator("node.init_feature_2d", icon='MENU_PANEL').origin = origin
-            layout.label("Instance: {}".format(self.loc_class_repr))
+            layout.label(text="Instance: {}".format(self.loc_class_repr))
             for key in InitDescriptorMatcherOperator.get_init_kwargs(self):
                 layout.row().prop(self, "{}_init".format(key))
         elif self.loc_state_mode == "LOAD":

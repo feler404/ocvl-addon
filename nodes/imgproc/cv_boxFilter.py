@@ -18,14 +18,14 @@ class OCVLboxFilterNode(OCVLNodeBase):
         anchor_y = value[1] if -1 <= value[1] < self.ksize_in[1] else self.anchor_in[1]
         self["anchor_in"] = (anchor_x, anchor_y)
 
-    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input image.")
-    ksize_in = bpy.props.IntVectorProperty(default=(3, 3), min=1, max=30, size=2, update=update_node, description="Blurring kernel size.")
-    anchor_in = bpy.props.IntVectorProperty(default=(-1, -1), update=update_node, get=get_anchor, set=set_anchor, size=2, description="Anchor point.")
-    ddepth_in = bpy.props.EnumProperty(items=COLOR_DEPTH_ITEMS, default='CV_8U', update=update_node, description="The output image depth.")
-    normalize_in = bpy.props.BoolProperty(default=True, update=update_node, description="Flag, specifying whether the kernel is normalized by its area or not.")
-    borderType_in = bpy.props.EnumProperty(items=BORDER_TYPE_ITEMS, default='None', update=update_node, description="Pixel extrapolation method, see cv::BorderTypes")
+    image_in: bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input image.")
+    ksize_in: bpy.props.IntVectorProperty(default=(3, 3), min=1, max=30, size=2, update=update_node, description="Blurring kernel size.")
+    anchor_in: bpy.props.IntVectorProperty(default=(-1, -1), update=update_node, get=get_anchor, set=set_anchor, size=2, description="Anchor point.")
+    ddepth_in: bpy.props.EnumProperty(items=COLOR_DEPTH_ITEMS, default='CV_8U', update=update_node, description="The output image depth.")
+    normalize_in: bpy.props.BoolProperty(default=True, update=update_node, description="Flag, specifying whether the kernel is normalized by its area or not.")
+    borderType_in: bpy.props.EnumProperty(items=BORDER_TYPE_ITEMS, default='None', update=update_node, description="Pixel extrapolation method, see cv::BorderTypes")
 
-    image_out = bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
+    image_out: bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
 
     def init(self, context):
         self.inputs.new("StringsSocket", "image_in")

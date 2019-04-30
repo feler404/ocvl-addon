@@ -21,12 +21,12 @@ class OCVLsplitNode(OCVLNodeBase):
 
     n_doc = "Divides a multi-channel array into several single-channel arrays."
 
-    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input multi-channel array.")
+    image_in: bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input multi-channel array.")
 
-    layer_0_out = bpy.props.StringProperty(name="layer_0_out", default=str(uuid.uuid4()), description="Channel 0.")
-    layer_1_out = bpy.props.StringProperty(name="layer_1_out", default=str(uuid.uuid4()), description="Channel 1.")
-    layer_2_out = bpy.props.StringProperty(name="layer_2_out", default=str(uuid.uuid4()), description="Channel 2.")
-    layer_3_out = bpy.props.StringProperty(name="layer_3_out", default=str(uuid.uuid4()), description="Channel 3.")
+    layer_0_out: bpy.props.StringProperty(name="layer_0_out", default=str(uuid.uuid4()), description="Channel 0.")
+    layer_1_out: bpy.props.StringProperty(name="layer_1_out", default=str(uuid.uuid4()), description="Channel 1.")
+    layer_2_out: bpy.props.StringProperty(name="layer_2_out", default=str(uuid.uuid4()), description="Channel 2.")
+    layer_3_out: bpy.props.StringProperty(name="layer_3_out", default=str(uuid.uuid4()), description="Channel 3.")
 
     def init(self, context):
         self.inputs.new("StringsSocket", "image_in")

@@ -8,11 +8,11 @@ class OCVLApplyROINode(OCVLNodeBase):
 
     n_doc = "Insert ROI to other image."
 
-    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()))
-    image_roi_in = bpy.props.StringProperty(name="image_roi_in", default=str(uuid.uuid4()))
-    image_out = bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()))
+    image_in: bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()))
+    image_roi_in: bpy.props.StringProperty(name="image_roi_in", default=str(uuid.uuid4()))
+    image_out: bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()))
 
-    pt1_in = bpy.props.IntVectorProperty(default=(0, 0), size=2, min=0, update=update_node, description="Upper left corner ROI inserting.")
+    pt1_in: bpy.props.IntVectorProperty(default=(0, 0), size=2, min=0, update=update_node, description="Upper left corner ROI inserting.")
 
     def init(self, context):
         self.width = 200

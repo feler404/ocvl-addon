@@ -28,9 +28,9 @@ class OCVLBRISKNode(OCVLNodeBase, OCVLFeature2DNode):
         InitFeature2DOperator.update_class_instance_dict(self, self.id_data.name, self.name)
         self.update_layout(context)
 
-    thresh_init = bpy.props.IntProperty(default=30, min=5, max=100, update=update_and_init)
-    octaves_init = bpy.props.IntProperty(default=3, min=1, max=10, update=update_and_init)
-    patternScale_init = bpy.props.IntProperty(default=1.0, min=0.1, max=10., update=update_and_init)
+    thresh_init: bpy.props.IntProperty(default=30, min=5, max=100, update=update_and_init)
+    octaves_init: bpy.props.IntProperty(default=3, min=1, max=10, update=update_and_init)
+    patternScale_init: bpy.props.IntProperty(default=1.0, min=0.1, max=10., update=update_and_init)
 
     def init(self, context):
         super().init(context)

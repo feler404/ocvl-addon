@@ -13,7 +13,8 @@ from ocvl.core.settings import IS_WORK_ON_COPY_INPUT, NODE_COLOR_REQUIRE_DATE, W
 from ocvl.core.constants import TEX_CO_FLIP
 from ocvl.core.exceptions import LackRequiredSocket, NoDataError
 from ocvl.core.globals import SOCKET_DATA_CACHE, TEXTURE_CACHE
-from ocvl.core.image_utils import (callback_disable, callback_enable, init_texture, simple_screen)
+from ocvl.core.image_utils import (callback_disable, callback_enable, init_texture, simple_screen, add_background_to_image)
+
 
 logger = getLogger(__name__)
 
@@ -99,15 +100,15 @@ DISTANCE_TYPE_FOR_TRANSFORM_ITEMS = (
     ("DIST_L2", "DIST_L2", "DIST_L2", "", 2),
 )
 FONT_FACE_ITEMS = [
-        ('FONT_HERSHEY_COMPLEX', 'FONT_HERSHEY_COMPLEX', 'FONT_HERSHEY_COMPLEX', "", 1),
-        ('FONT_HERSHEY_COMPLEX_SMALL', 'FONT_HERSHEY_COMPLEX_SMALL', 'FONT_HERSHEY_COMPLEX_SMALL', "", 2),
-        ('FONT_HERSHEY_DUPLEX', 'FONT_HERSHEY_DUPLEX', 'FONT_HERSHEY_DUPLEX', "", 3),
-        ('FONT_HERSHEY_PLAIN', 'FONT_HERSHEY_PLAIN', 'FONT_HERSHEY_PLAIN', "", 4),
-        ('FONT_HERSHEY_SCRIPT_COMPLEX', 'FONT_HERSHEY_SCRIPT_COMPLEX', 'FONT_HERSHEY_SCRIPT_COMPLEX', "", 5),
-        ('FONT_HERSHEY_SCRIPT_SIMPLEX', 'FONT_HERSHEY_SCRIPT_SIMPLEX', 'FONT_HERSHEY_SCRIPT_SIMPLEX', "", 6),
-        ('FONT_HERSHEY_SIMPLEX', 'FONT_HERSHEY_SIMPLEX', 'FONT_HERSHEY_SIMPLEX', "", 7),
-        ('FONT_HERSHEY_TRIPLEX', 'FONT_HERSHEY_TRIPLEX', 'FONT_HERSHEY_TRIPLEX', "", 8),
-        ('FONT_ITALIC', 'FONT_ITALIC', 'FONT_ITALIC', "", 9),
+        ('FONT_HERSHEY_COMPLEX', 'FONT_HERSHEY_COMPLEX', 'FONT_HERSHEY_COMPLEX', "", 0),
+        ('FONT_HERSHEY_COMPLEX_SMALL', 'FONT_HERSHEY_COMPLEX_SMALL', 'FONT_HERSHEY_COMPLEX_SMALL', "", 1),
+        ('FONT_HERSHEY_DUPLEX', 'FONT_HERSHEY_DUPLEX', 'FONT_HERSHEY_DUPLEX', "", 2),
+        ('FONT_HERSHEY_PLAIN', 'FONT_HERSHEY_PLAIN', 'FONT_HERSHEY_PLAIN', "", 3),
+        ('FONT_HERSHEY_SCRIPT_COMPLEX', 'FONT_HERSHEY_SCRIPT_COMPLEX', 'FONT_HERSHEY_SCRIPT_COMPLEX', "", 4),
+        ('FONT_HERSHEY_SCRIPT_SIMPLEX', 'FONT_HERSHEY_SCRIPT_SIMPLEX', 'FONT_HERSHEY_SCRIPT_SIMPLEX', "", 5),
+        ('FONT_HERSHEY_SIMPLEX', 'FONT_HERSHEY_SIMPLEX', 'FONT_HERSHEY_SIMPLEX', "", 6),
+        ('FONT_HERSHEY_TRIPLEX', 'FONT_HERSHEY_TRIPLEX', 'FONT_HERSHEY_TRIPLEX', "", 7),
+        ('FONT_ITALIC', 'FONT_ITALIC', 'FONT_ITALIC', "", 8),
     ]
 INTERPOLATION_ITEMS = [
     ('INTER_AREA', 'INTER_AREA', 'INTER_AREA', '', 0),
@@ -305,16 +306,19 @@ class OCVLNodeBase(bpy.types.Node):
 
     def update_sockets_for_node_mode(self, props_maps, node_mode):
         for socket_name in list(chain(*props_maps.values())):
+            socket_name = socket_name.split("|")[0]
             sockets = self._get_sockets_by_socket_name(socket_name)
             if socket_name in sockets and socket_name not in props_maps[node_mode]:
                 sockets.remove(sockets[socket_name])
         for prop_name in props_maps[node_mode]:
+            prop_name, socket_type = prop_name.split("|")
             sockets = self._get_sockets_by_socket_name(prop_name)
+            socket_type = socket_type or 'StringsSocket'
             if prop_name not in sockets:
                 if self.is_uuid(getattr(self, prop_name)):
-                    sockets.new('StringsSocket', prop_name)
+                    sockets.new(socket_type, prop_name)
                 else:
-                    sockets.new('StringsSocket', prop_name).prop_name = prop_name
+                    sockets.new(socket_type, prop_name).prop_name = prop_name
 
     def get_kwargs_inputs(self, props_maps, input_mode):
         kwargs_inputs = {}
@@ -400,15 +404,15 @@ class OCVLNodeBase(bpy.types.Node):
         #     row.operator('text.show_help_in_text_editor', text='Documentation docstring - {}'.format(self.bl_label), icon="TEXT").origin = self.get_node_origin()
 
         for msg in self.n_meta.split("\n"):
-            layout.label(msg)
+            layout.label(text=msg)
 
         if self.n_error:
-            layout.label("Error(in line {}): ".format(self.n_error_line))
-            layout.label("*" * WRAP_TEXT_SIZE_FOR_ERROR_DISPLAY)
+            layout.label(text="Error(in line {}): ".format(self.n_error_line))
+            layout.label(text="*" * WRAP_TEXT_SIZE_FOR_ERROR_DISPLAY)
             lines = textwrap.wrap(self.n_error, WRAP_TEXT_SIZE_FOR_ERROR_DISPLAY)
             for line in lines:
-                layout.label(line)
-            layout.label("*" * WRAP_TEXT_SIZE_FOR_ERROR_DISPLAY)
+                layout.label(text=line)
+            layout.label(text="*" * WRAP_TEXT_SIZE_FOR_ERROR_DISPLAY)
 
     def get_node_origin(self, props_name=None):
         node_tree = self.id_data.name
@@ -477,11 +481,17 @@ class OCVLPreviewNodeBase(OCVLNodeBase):
         self.texture[self.node_id] = {"name": name, "uuid": uuid_}
         self.texture[uuid_] = self.node_id
         if len(image.shape) == 3:
-            internalFormat = bgl.GL_RGB
-            format = bgl.GL_BGR
+            if image.shape[2] == 4:
+                _ = add_background_to_image(resized_image)
+                internalFormat = bgl.GL_RGBA
+                format = bgl.GL_BGRA
+            elif image.shape[2] == 3:
+                internalFormat = bgl.GL_RGB
+                format = bgl.GL_BGR
         elif len(image.shape) == 2:
-            internalFormat = bgl.GL_LUMINANCE
-            format = bgl.GL_LUMINANCE
+            # TODO bgl.GL_LUMINANCE - don't working
+            internalFormat = bgl.GL_RED
+            format = bgl.GL_RED
         init_texture(width=resized_width,
                      height=resized_height,
                      texname=name[0],
@@ -493,49 +503,26 @@ class OCVLPreviewNodeBase(OCVLNodeBase):
         row = layout.row()
         row.label(text='')
 
-        if self.n_id not in self.texture:
-            return
-        callback_disable(self.n_id)
-        # height, width = DEFAULT_WEIGHT_PREVIEW, DEFAULT_WEIGHT_PREVIEW
-        # prop = height / width
-        SCALE = bpy.context.user_preferences.system.pixel_size
+        SCALE = bpy.context.preferences.system.pixel_size
 
         width = (self.width - 20) * SCALE
         height = proportion * width
         row.scale_y = self.width * proportion / 20
 
-        self._draw_preview(location_x=location_x, location_y=location_y, width=width, height=height)
+        if self.n_id not in self.texture:
+            logger.debug("Preview node without texture. Node:{}".format(self.n_id))
+            return
 
-    def _draw_preview(self, location_x=0, location_y=0, width=0, height=0, hide=False):
-            if self.n_id not in self.texture:
-                logger.debug("Preview node without texture. Node:{}".format(self.n_id))
-                return
+        if not self.texture[self.n_id]:
+            logger.debug("Empty texture for node. Node:{}".format(self.n_id))
+            return
 
-            if not self.texture[self.n_id]:
-                logger.debug("Empty texture for node. Node:{}".format(self.n_id))
-                return
+        if isinstance(self.texture[self.n_id], (str,)):
+            logger.debug("Texture is string instance for node: {}".format(self.n_id))
+            return
 
-            if isinstance(self.texture[self.n_id], (str,)):
-                logger.debug("Texture is string instance for node: {}".format(self.n_id))
-                return
+        callback_disable(self.n_id)
 
-            callback_disable(self.n_id)
+        x, y = (self.location[0] + location_x) * SCALE, (self.location[1] + location_y) * SCALE - height
 
-            draw_data = {
-                'tree_name': self.id_data.name,
-                'mode': 'custom_function',
-                'custom_function': simple_screen,
-                'loc': (self.location[0] + location_x, self.location[1] + location_y - self.height),
-                'args': (None,
-                         self.texture[self.n_id]["name"][0],
-                         width,
-                         height,
-                         getattr(self, 'r_in', 1),
-                         getattr(self, 'g_in', 1),
-                         getattr(self, 'b_in', 1),
-                         0 if hide else 1,
-                         TEX_CO_FLIP,
-                         )
-                }
-
-            callback_enable(self.n_id, draw_data)
+        callback_enable(node=self, x=x, y=y, width=width, height=height)

@@ -29,15 +29,15 @@ class OCVLImageSampleNode(OCVLPreviewNodeBase):
         self.update_sockets(context)
         self.process()
 
-    width_in = bpy.props.IntProperty(default=100, min=1, max=1024, update=update_layout, name="width_in")
-    height_in = bpy.props.IntProperty(default=100, min=1, max=1020, update=update_layout, name="height_in")
-    width_out = bpy.props.IntProperty(default=0, name="width_out")
-    height_out = bpy.props.IntProperty(default=0, name="height_out")
-    image_out = bpy.props.StringProperty(default=str(uuid.uuid4()))
+    width_in: bpy.props.IntProperty(default=100, min=1, max=1024, update=update_layout, name="width_in")
+    height_in: bpy.props.IntProperty(default=100, min=1, max=1020, update=update_layout, name="height_in")
+    width_out: bpy.props.IntProperty(default=0, name="width_out")
+    height_out: bpy.props.IntProperty(default=0, name="height_out")
+    image_out: bpy.props.StringProperty(default=str(uuid.uuid4()))
 
-    loc_name_image = bpy.props.StringProperty(default='', update=update_prop_search)
-    loc_filepath = bpy.props.StringProperty(default='', update=update_layout)
-    loc_image_mode = bpy.props.EnumProperty(items=IMAGE_MODE_ITEMS, default="RANDOM", update=update_layout)
+    loc_name_image: bpy.props.StringProperty(default='', update=update_prop_search)
+    loc_filepath: bpy.props.StringProperty(default='', update=update_layout)
+    loc_image_mode: bpy.props.EnumProperty(items=IMAGE_MODE_ITEMS, default="RANDOM", update=update_layout)
 
     def init(self, context):
         self.width = 200
@@ -75,7 +75,7 @@ class OCVLImageSampleNode(OCVLPreviewNodeBase):
                 image = convert_to_cv_image(bpy.data.images[self.loc_name_image])
                 uuid_ = self.loc_name_image
             elif self.loc_filepath:
-                image = cv2.imread(self.loc_filepath)
+                image = cv2.imread(self.loc_filepath, flags=cv2.IMREAD_UNCHANGED)
             if image is None:
                 image = np.zeros((200, 200, 3), np.uint8)
 
@@ -106,7 +106,7 @@ class OCVLImageSampleNode(OCVLPreviewNodeBase):
 
         if self.loc_image_mode == "FILE":
             col = layout.row().column()
-            col_split = col.split(1, align=True)
+            col_split = col.split(factor=1, align=True)
             col_split.operator('image.image_importer', text='', icon="FILE_FOLDER").origin = origin
         elif self.loc_image_mode == "PLANE":
             pass
@@ -116,7 +116,7 @@ class OCVLImageSampleNode(OCVLPreviewNodeBase):
         if self.n_id not in self.texture:
             return
 
-        location_y = -20 if self.loc_image_mode in ["PLANE", "RANDOM"] else -40
+        location_y = -130 if self.loc_image_mode in ["PLANE", "RANDOM"] else -150
         self.draw_preview(layout=layout, prop_name="image_out", location_x=10, location_y=location_y)
 
     def copy(self, node):

@@ -9,12 +9,12 @@ class OCVLgetRectSubPixNode(OCVLNodeBase):
 
     n_doc = "Retrieves a pixel rectangle from an image with sub-pixel accuracy."
 
-    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Source image.")
-    patch_out = bpy.props.StringProperty(name="patch_out", default=str(uuid.uuid4()), description="Patch out")
+    image_in: bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Source image.")
+    patch_out: bpy.props.StringProperty(name="patch_out", default=str(uuid.uuid4()), description="Patch out")
 
-    patchSize_in = bpy.props.IntVectorProperty(default=(5, 5), min=1, max=30, size=2, update=update_node, description="Size of the extracted patch.")
-    center_in = bpy.props.IntVectorProperty(default=(2, 2), min=1, max=30, size=2, update=update_node, description="Floating point coordinates of the center of the extracted rectangle.")
-    patchType_in = bpy.props.IntProperty(default=-1, min=-1, max=30, update=update_node, description="Depth of the extracted pixels. By default, they have the same depth as src.")
+    patchSize_in: bpy.props.IntVectorProperty(default=(5, 5), min=1, max=30, size=2, update=update_node, description="Size of the extracted patch.")
+    center_in: bpy.props.IntVectorProperty(default=(2, 2), min=1, max=30, size=2, update=update_node, description="Floating point coordinates of the center of the extracted rectangle.")
+    patchType_in: bpy.props.IntProperty(default=-1, min=-1, max=30, update=update_node, description="Depth of the extracted pixels. By default, they have the same depth as src.")
 
     def init(self, context):
         self.inputs.new("StringsSocket", "image_in")

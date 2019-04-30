@@ -14,15 +14,15 @@ class OCVLinitUndistortRectifyMapNode(OCVLNodeBase):
 
     n_doc = "Computes the undistortion and rectification transformation map."
 
-    cameraMatrix_in = bpy.props.StringProperty(name="cameraMatrix_in", default=str(uuid.uuid4()), description="Input camera matrix A")
-    distCoeffs_in = bpy.props.StringProperty(name="distCoeffs_in", default=str(uuid.uuid4()), description="Input vector of distortion coefficients (k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6]]) of 4, 5, or 8 elements. If the vector is NULL/empty, the zero distortion coefficients are assumed.")
-    newCameraMatrix = bpy.props.StringProperty(name="newCameraMatrix", default=str(uuid.uuid4()), description="New camera matrix A'")
-    R_in = bpy.props.StringProperty(name="R_in", default=str(uuid.uuid4()), description="Optional rectification transformation in the object space (3x3 matrix). R1 or R2 , computed by stereoRectify() can be passed here.")
-    size_in = bpy.props.IntVectorProperty(default=(100, 100), min=1, max=2048, size=2, update=update_node, description="Undistorted image size.")
-    m1type_in = bpy.props.EnumProperty(items=M1TYPE_ITEMS, default="CV_32FC1", update=update_node, description="Type of the first output map that can be CV_32FC1 or CV_16SC2.")
+    cameraMatrix_in: bpy.props.StringProperty(name="cameraMatrix_in", default=str(uuid.uuid4()), description="Input camera matrix A")
+    distCoeffs_in: bpy.props.StringProperty(name="distCoeffs_in", default=str(uuid.uuid4()), description="Input vector of distortion coefficients (k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6]]) of 4, 5, or 8 elements. If the vector is NULL/empty, the zero distortion coefficients are assumed.")
+    newCameraMatrix: bpy.props.StringProperty(name="newCameraMatrix", default=str(uuid.uuid4()), description="New camera matrix A'")
+    R_in: bpy.props.StringProperty(name="R_in", default=str(uuid.uuid4()), description="Optional rectification transformation in the object space (3x3 matrix). R1 or R2 , computed by stereoRectify() can be passed here.")
+    size_in: bpy.props.IntVectorProperty(default=(100, 100), min=1, max=2048, size=2, update=update_node, description="Undistorted image size.")
+    m1type_in: bpy.props.EnumProperty(items=M1TYPE_ITEMS, default="CV_32FC1", update=update_node, description="Type of the first output map that can be CV_32FC1 or CV_16SC2.")
 
-    map1_out = bpy.props.StringProperty(name="map1_out", default=str(uuid.uuid4()), description="First output map")
-    map2_out = bpy.props.StringProperty(name="map2_out", default=str(uuid.uuid4()), description="Second output map")
+    map1_out: bpy.props.StringProperty(name="map1_out", default=str(uuid.uuid4()), description="First output map")
+    map2_out: bpy.props.StringProperty(name="map2_out", default=str(uuid.uuid4()), description="Second output map")
 
     def init(self, context):
         self.inputs.new("StringsSocket", "cameraMatrix_in")

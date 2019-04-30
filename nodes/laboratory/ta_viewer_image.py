@@ -3,10 +3,12 @@ from ocvl.core.node_base import OCVLPreviewNodeBase
 
 
 class OCVLImageViewerNode(OCVLPreviewNodeBase):
-    '''Image Viewer node'''
+    """
+    Image Viewer node
+    """
     bl_icon = 'ZOOM_ALL'
 
-    image_in = bpy.props.StringProperty(default='')
+    image_in: bpy.props.StringProperty(default='')
 
     def init(self, context):
         self.inputs.new('ImageSocket', "image_in")
@@ -34,6 +36,6 @@ class OCVLImageViewerNode(OCVLPreviewNodeBase):
 
     def draw_buttons(self, context, layout):
         col = layout.column(align=True)
-        col.operator('image.image_full_screen', text='', icon="FULLSCREEN").origin = self.get_node_origin()
+        col.operator('image.image_full_screen', text='', icon="PLUS").origin = self.get_node_origin()
         # col.operator('node.generate_python_code', text='', icon="FULLSCREEN").origin = self.get_node_origin()
-        self.draw_preview(layout=layout, prop_name="image_in", location_x=10, location_y=40)
+        self.draw_preview(layout=layout, prop_name="image_in", location_x=10, location_y=-60)

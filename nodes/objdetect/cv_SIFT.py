@@ -17,15 +17,15 @@ class OCVLSIFTNode(OCVLNodeBase, OCVLFeature2DNode):
         self.update_sockets(context)
         update_node(self, context)
 
-    nfeatures_init = bpy.props.IntProperty(default=0, min=0, max=100, update=update_and_init,
+    nfeatures_init: bpy.props.IntProperty(default=0, min=0, max=100, update=update_and_init,
         description="The number of best features to retain.")
-    nOctaveLayers_init = bpy.props.IntProperty(default=3, min=1, max=3, update=update_and_init,
+    nOctaveLayers_init: bpy.props.IntProperty(default=3, min=1, max=3, update=update_and_init,
         description="The number of layers in each octave.")
-    contrastThreshold_init = bpy.props.FloatProperty(default=0.04, min=0.01, max=0.1, update=update_and_init,
+    contrastThreshold_init: bpy.props.FloatProperty(default=0.04, min=0.01, max=0.1, update=update_and_init,
         description="The contrast threshold used to filter out weak features in semi-uniform (low-contrast) regions.")
-    edgeThreshold_init = bpy.props.FloatProperty(default=10, min=0.1, max=100, update=update_and_init,
+    edgeThreshold_init: bpy.props.FloatProperty(default=10, min=0.1, max=100, update=update_and_init,
         description="Size of an average block for computing a derivative covariation matrix over each pixel neighborhood.")
-    sigma_init = bpy.props.FloatProperty(default=1.6, min=0.1, max=5., update=update_and_init,
+    sigma_init: bpy.props.FloatProperty(default=1.6, min=0.1, max=5., update=update_and_init,
         description="The sigma of the Gaussian applied to the input image at the octave #0.")
 
     def init(self, context):

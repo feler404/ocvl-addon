@@ -10,13 +10,13 @@ class OCVLclipLineNode(OCVLNodeBase):
     bl_icon = 'GREASEPENCIL'
     n_doc = "Clips the line against the image rectangle."
 
-    imgRect_in = bpy.props.StringProperty(name="imgRect_in", default=str(uuid.uuid4()), description="Image rectangle.")
-    retval_out = bpy.props.StringProperty(name="retval_out", default=str(uuid.uuid4()), description="Return value.")
-    pt1_out = bpy.props.StringProperty(name="pt1_out", default=str(uuid.uuid4()), description="Pt1 output.")
-    pt2_out = bpy.props.StringProperty(name="pt2_out", default=str(uuid.uuid4()), description="Pt2 output.")
+    imgRect_in: bpy.props.StringProperty(name="imgRect_in", default=str(uuid.uuid4()), description="Image rectangle.")
+    retval_out: bpy.props.StringProperty(name="retval_out", default=str(uuid.uuid4()), description="Return value.")
+    pt1_out: bpy.props.StringProperty(name="pt1_out", default=str(uuid.uuid4()), description="Pt1 output.")
+    pt2_out: bpy.props.StringProperty(name="pt2_out", default=str(uuid.uuid4()), description="Pt2 output.")
 
-    pt1_in = bpy.props.IntVectorProperty(default=(0, 0), size=2, min=0, update=update_node, description="First point of the line segment.")
-    pt2_in = bpy.props.IntVectorProperty(default=(1, 1), size=2, min=0, update=update_node, description="Second point of the line segment.")
+    pt1_in: bpy.props.IntVectorProperty(default=(0, 0), size=2, min=0, update=update_node, description="First point of the line segment.")
+    pt2_in: bpy.props.IntVectorProperty(default=(1, 1), size=2, min=0, update=update_node, description="Second point of the line segment.")
 
     def init(self, context):
         self.width = 200

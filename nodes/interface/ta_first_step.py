@@ -207,9 +207,9 @@ class TutorialFirstStep:
 
 
 class OCVLFirstStepsNode(OCVLPreviewNodeBase):
-    origin = bpy.props.StringProperty("")
-    docs = bpy.props.BoolProperty(default=False)
-    tip = bpy.props.IntProperty(default=1)
+    origin: bpy.props.StringProperty("")
+    docs: bpy.props.BoolProperty(default=False)
+    tip: bpy.props.IntProperty(default=1)
 
     def init(self, context):
         self.width = 340

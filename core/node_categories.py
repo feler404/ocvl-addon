@@ -41,7 +41,7 @@ def auto_register_node_categories(register_mode=True):
             if is_node_class_name(obj_name):
                 node_class = getattr(mod, obj_name)
                 if dir_category:
-                    node_class.n_category = node_file_path.split("/")[-2]
+                    node_class.n_category = node_file_path.split(os.sep)[-2]
                 if node_class.n_category and node_class.n_auto_register:
                     node_classes_list.append(node_class)
                     _ocvl_auto_register(node_class)

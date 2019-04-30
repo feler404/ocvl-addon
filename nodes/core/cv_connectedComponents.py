@@ -19,12 +19,12 @@ class OCVLconnectedComponentsNode(OCVLNodeBase):
 
     n_doc = "Connected components."
 
-    image_in = bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="The 8-bit single-channel image to be labeled.")
-    connectivity_in = bpy.props.EnumProperty(items=CONNECTIVITY_ITEMS, default="8", update=update_node, description="8 or 4 for 8-way or 4-way connectivity respectively.")
-    ltype_in = bpy.props.EnumProperty(items=LTYPE_ITEMS, default="CV_16U", update=update_node, description="Output image label type. Currently CV_32S and CV_16U are supported.")
+    image_in: bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="The 8-bit single-channel image to be labeled.")
+    connectivity_in: bpy.props.EnumProperty(items=CONNECTIVITY_ITEMS, default="8", update=update_node, description="8 or 4 for 8-way or 4-way connectivity respectively.")
+    ltype_in: bpy.props.EnumProperty(items=LTYPE_ITEMS, default="CV_16U", update=update_node, description="Output image label type. Currently CV_32S and CV_16U are supported.")
 
-    labels_out = bpy.props.StringProperty(name="labels_out", default=str(uuid.uuid4()), description="Labels output.")
-    retval_out = bpy.props.StringProperty(name="retval_out", default=str(uuid.uuid4()), description="Return value.")
+    labels_out: bpy.props.StringProperty(name="labels_out", default=str(uuid.uuid4()), description="Labels output.")
+    retval_out: bpy.props.StringProperty(name="retval_out", default=str(uuid.uuid4()), description="Return value.")
 
     def init(self, context):
         self.inputs.new("StringsSocket", "image_in")

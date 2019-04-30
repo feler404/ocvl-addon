@@ -29,13 +29,13 @@ class OCVLDAISYNode(OCVLNodeBase, OCVLFeature2DNode):
         self.update_sockets(context)
         update_node(self, context)
 
-    radius_init = bpy.props.FloatProperty(default=15, min=0.1, max=100, update=update_and_init, description="")
-    q_radius_init = bpy.props.IntProperty(default=3, min=0, max=100, update=update_and_init, description="")
-    q_theta_init = bpy.props.IntProperty(default=8, min=0, max=100, update=update_and_init, description="")
-    q_hist_init = bpy.props.IntProperty(default=8, min=0, max=100, update=update_and_init, description="")
-    norm_init = bpy.props.EnumProperty(items=NORM_ITEMS, default="DAISY_NRM_NONE", update=update_and_init, description="")
-    interpolation_init = bpy.props.BoolProperty(default=True, update=update_and_init, description="")
-    use_orientation_init = bpy.props.BoolProperty(default=False, update=update_and_init, description="")
+    radius_init: bpy.props.FloatProperty(default=15, min=0.1, max=100, update=update_and_init, description="")
+    q_radius_init: bpy.props.IntProperty(default=3, min=0, max=100, update=update_and_init, description="")
+    q_theta_init: bpy.props.IntProperty(default=8, min=0, max=100, update=update_and_init, description="")
+    q_hist_init: bpy.props.IntProperty(default=8, min=0, max=100, update=update_and_init, description="")
+    norm_init: bpy.props.EnumProperty(items=NORM_ITEMS, default="DAISY_NRM_NONE", update=update_and_init, description="")
+    interpolation_init: bpy.props.BoolProperty(default=True, update=update_and_init, description="")
+    use_orientation_init: bpy.props.BoolProperty(default=False, update=update_and_init, description="")
 
     def init(self, context):
         super().init(context)

@@ -9,11 +9,11 @@ class OCVLbitwise_andNode(OCVLNodeBase):
 
     n_doc = "Computes bitwise conjunction of the two arrays (dst = src1 & src2) Calculates the per-element bit-wise conjunction of two arrays or an array and a scalar."
 
-    image_1_in = bpy.props.StringProperty(name="image_1_in", default=str(uuid.uuid4()), update=update_node, description="First input array or a scalar.")
-    image_2_in = bpy.props.StringProperty(name="image_2_in", default=str(uuid.uuid4()), update=update_node, description="Second input array or a scalar.")
-    mask_in = bpy.props.StringProperty(name="mask_in", default=str(uuid.uuid4()), update=update_node, description="Optional operation mask, 8-bit single channel array, that specifies elements of the output array to be changed.")
+    image_1_in: bpy.props.StringProperty(name="image_1_in", default=str(uuid.uuid4()), update=update_node, description="First input array or a scalar.")
+    image_2_in: bpy.props.StringProperty(name="image_2_in", default=str(uuid.uuid4()), update=update_node, description="Second input array or a scalar.")
+    mask_in: bpy.props.StringProperty(name="mask_in", default=str(uuid.uuid4()), update=update_node, description="Optional operation mask, 8-bit single channel array, that specifies elements of the output array to be changed.")
 
-    image_out = bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()))
+    image_out: bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()))
 
     def init(self, context):
         self.inputs.new("StringsSocket", "image_1_in")

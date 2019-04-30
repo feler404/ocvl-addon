@@ -9,7 +9,7 @@ class OCVLboxPointsNode(OCVLNodeBase):
 
     n_doc = "Finds the four vertices of a rotated rect. Useful to draw the rotated rectangle."
 
-    rect_in = bpy.props.StringProperty(default=str(uuid.uuid4()), description="Points and angle in one list.")
+    rect_in: bpy.props.StringProperty(default=str(uuid.uuid4()), description="Points and angle in one list.")
 
     def init(self, context):
         self.inputs.new("StringsSocket", "rect_in")

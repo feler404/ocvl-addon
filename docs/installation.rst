@@ -34,7 +34,8 @@ Python and you must install it first.
 
 Depending on the operating system and version of Blender, Python may have a different name and location.
 Here's an example of Python's location in Blender:
-`~/Downloads/blender-2.79-macOS-10.6/blender.app/Contents/Resources/2.79/python/bin/python3.5m`
+`~/Downloads/blender-2.79-macOS-10.6/
+blender.app/Contents/Resources/2.79/python/bin/python3.5m`
 The Pip installation will look like:
 `~/Downloads/blender-2.79-macOS-10.6/blender.app/Contents/Resources/2.79/python/bin/python3.5m ./get-pip.py`
 
@@ -48,7 +49,7 @@ Now you can install packages:
 
 
     wget https://github.com/nortikin/sverchok/archive/cae276520184c94b877ffc88e196469086e9f7eb.zip
-    cd ~/Downloads/blender-2.79-macOS-10.6/blender.app/Contents/Resources/2.79/scripts/
+    cd ~/Downloads/blender-2.79-macOS-10.6/OpenCVLaboratory.app/Contents/Resources/2.79/scripts/
 
     unzip ./cae276520184c94b877ffc88e196469086e9f7eb.zip
     mv ./sverchok-cae276520184c94b877ffc88e196469086e9f7eb ./addons/sverchok
