@@ -1,5 +1,5 @@
 diff --git a/source/creator/CMakeLists.txt b/source/creator/CMakeLists.txt
-index 877d9c971a3..3494cc458b9 100644
+index 0f7612abb0c..303b5c04a0d 100644
 --- a/source/creator/CMakeLists.txt
 +++ b/source/creator/CMakeLists.txt
 @@ -231,9 +231,9 @@ if(WITH_BUILDINFO)
@@ -245,7 +245,8 @@ index 877d9c971a3..3494cc458b9 100644
      DESTINATION "."
    )
    set_target_properties(
-     blender
+-    blender
++    OpenCVLaboratory
      PROPERTIES
 -      VS_USER_PROPS "blender.Cpp.user.props"
 +      VS_USER_PROPS "OpenCVLaboratory.Cpp.user.props"
