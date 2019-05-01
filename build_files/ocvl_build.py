@@ -95,6 +95,7 @@ PREPARE_ARTIFACT_FN_MAP = {
     ),
     "Linux": make_tar_gz_from_release,
     "Darwin": lambda *args, **kwargs: print(args),
+    #create-dmg OpenCVLaboratory.app
 }
 
 PREPARE_ARTIFACT_FN = PREPARE_ARTIFACT_FN_MAP[PLATFORM]
