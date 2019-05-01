@@ -273,10 +273,16 @@ def get_release_details(version=None):
         raise IndexError(f"Version {version} not exists")
 
     print(f"-----Version: {version}-----")
-
     pprint(version_details)
     return version_details
 
+
+def check_permission_protected_dir():
+    permission_protected_path = os.path.join(WORK_DIR, BUILD_RELEASE_DIRNAME, "bin", "Release", "2.80", "scripts", "addons", "ocvl-addon")
+    if os.path.isdir(permission_protected_path):
+        raise PermissionError(f"""
+        Protected path: {permission_protected_path} exists, delete it before build.\nTIP: runas /user:Administrator "powershell -c rmdir /s {permission_protected_path}"""
+                              )
 
 
 if __name__ == "__main__":
@@ -285,6 +291,7 @@ if __name__ == "__main__":
 
     try:
         version_details = get_release_details(version)
+        check_permission_protected_dir()
         update_blender(version_details["git_state_blender"])
         update_blender_submodule()
         # update_ocvl_addon()
