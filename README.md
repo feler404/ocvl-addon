@@ -23,6 +23,7 @@ The application was created on the basis of proven engines: Python, OpenCV, Blen
 **Addon for**: [Blender](http://blender.org)  (version *2.79* and above).  
 **Current version**: 1.0.5 beta
 **License**: [GPL3](http://www.gnu.org/licenses/quick-guide-gplv3.html)   
-**Prerequisites**: Python 3.6, `opencv`, `numpy`  
+**Prerequisites**: Python 3.7, `opencv`, `numpy`  
 **Docs**: [In English](http://opencv-laboratory.readthedocs.io/) - Documentation   
-**Problems** [Issue Tracker](https://github.com/feler404/ocvl-addon/issues) - If you have problem
+**Problems** [Issue Tracker](https://github.com/feler404/ocvl-addon/issues) - If you have problem   
+**Binaries** [Download](https://www.ocvl.teredo.tech/#download-tab) - Current version for various platforms

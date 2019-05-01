@@ -13,8 +13,11 @@ Structure of directories
 
 """
 import functools
+import json
 import os
 import re
+from pprint import pprint
+
 import shutil
 import sys
 import platform
@@ -166,7 +169,7 @@ def install_ocvl_requirements():
         if os.path.exists(destination_path):
             print(f"Remove old version Numpy from: {destination_path}")
             shutil.rmtree(destination_path)
-    if PLATFORM is not "Darwin":
+    if PLATFORM != "Darwin":
         remove_old_numpy()
     cmd(f"{BLENDER_PIP_BIN} install -r {OCVL_REQUIREMENTS_PATH}")
     os.chdir(WORK_DIR)
@@ -257,14 +260,35 @@ def delete_dirs():
         shutil.rmtree(del_dir)
     os.chdir(WORK_DIR)
 
+
+def get_release_details(version=None):
+    if not version:
+        raise ValueError("Version is required")
+    release_version_path = os.path.join(WORK_DIR, OCVL_ADDON_DIR_NAME, "build_files", "RELEASE_NUMBER.json")
+    with open(release_version_path, 'r') as fh:
+        versions_dict = json.load(fh)
+
+    version_details = versions_dict.get(version)
+    if not version_details:
+        raise IndexError(f"Version {version} not exists")
+
+    print(f"-----Version: {version}-----")
+
+    pprint(version_details)
+    return version_details
+
+
+
 if __name__ == "__main__":
 
-    try:
+    version = "1.2.0"
 
-        #update_blender()
-        #update_blender_submodule()
-        #update_ocvl_addon()
-        #make_patches()
+    try:
+        version_details = get_release_details(version)
+        update_blender(version_details["git_state_blender"])
+        update_blender_submodule()
+        # update_ocvl_addon()
+        make_patches()
         delete_dirs()
         override_blender_release()
         build_blender()
