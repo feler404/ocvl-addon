@@ -29,11 +29,7 @@ import os
 
 bl_info = {
     "name": "ocvl",
-    "author": (
-        "Dawid Aniol, ",
-        "OCVL team, ",
-        "Teredo team",
-    ),
+    "author": "Dawid Aniol,OCVL team,Teredo team",
     "version": (1, 1, 0),
     "blender": (2, 80, 0),
     "location": "Nodes > CustomNodesTree > Add user nodes",
