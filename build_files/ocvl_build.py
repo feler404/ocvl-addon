@@ -288,7 +288,7 @@ def check_permission_protected_dir():
 
 if __name__ == "__main__":
 
-    version = "1.2.0"
+    version = "9.9.9"
 
     try:
         version_details = get_release_details(version)
