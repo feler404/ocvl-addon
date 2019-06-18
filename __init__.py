@@ -36,7 +36,7 @@ bl_info = {
     "description": "Computer vision node-based programming",
     "warning": "",
     "wiki_url": "https://opencv-laboratory.readthedocs.io/en/latest/",
-    "tracker_url": "https://github.com/feler404/ocvl/issues",
+    "tracker_url": "https://github.com/feler404/ocvl-addon/issues",
     "category": "Node"
 }
 
