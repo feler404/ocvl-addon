@@ -362,12 +362,19 @@ class OCVLNodeBase(bpy.types.Node):
 
     def process(self):
         self.n_meta = ""
+        self.n_error = ""
+        self.use_custom_color = False
         start = time.time()
         try:
             self.wrapped_process()
         except LackRequiredSocket as e:
             logger.info("SOCKET UNLINKED - {}".format(self))
-        self.n_meta += "\nProcess time: {0:.2f}ms".format((time.time() - start) * 1000)
+        except cv2.error as e:
+            self.n_error = str(e)
+            self.use_custom_color = True
+            self.color = (0.6, 0.0, 0.0)
+        finally:
+            self.n_meta += "\nProcess time: {0:.2f}ms".format((time.time() - start) * 1000)
 
         for output in self.outputs:
             if output.is_linked:

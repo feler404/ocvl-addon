@@ -31,14 +31,17 @@ class OCVLseamlessCloneNode(OCVLNodeBase):
 
     def wrapped_process(self):
         self.check_input_requirements(["src_in", "dst_in"])
-        src_in = self.get_from_props("src_in")
+
         kwargs = {
-            'src_in': src_in,
+            'src_in': self.get_from_props("src_in"),
             'dst_in': self.get_from_props("dst_in"),
-            'mask_in': 255 * np.ones(src_in.shape, src_in.dtype),
+            'mask_in': self.get_from_props("mask_in"),
             'p_in': self.get_from_props("p_in"),
             'flags_in': self.get_from_props("flags_in"),
             }
+
+        if isinstance(kwargs['mask_in'], str) and isinstance(kwargs['src_in'], np.ndarray):
+            kwargs['mask_in'] = 255 * np.ones(kwargs['src_in'].shape, kwargs['src_in'].dtype)
 
         result_out = self.process_cv(fn=cv2.seamlessClone, kwargs=kwargs)
         self.refresh_output_socket("result_out", result_out, is_uuid_type=True)
