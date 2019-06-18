@@ -10,11 +10,24 @@ from ocvl.core.image_utils import convert_to_cv_image
 
 logger = getLogger(__name__)
 
+
 IMAGE_MODE_ITEMS = [
+    # ("CAM", "CAM", "From camera", "", 0),
     ("FILE", "FILE", "From file", "", 0),
     ("PLANE", "PLANE", "Plane color", "", 1),
     ("RANDOM", "RANDOM", "Random figures", "", 2),
     ]
+
+
+PROPS_MAPS = {
+    # IMAGE_MODE_ITEMS[0][0]: ("width_in", "height_in"),
+    IMAGE_MODE_ITEMS[0][0]: ("width_in", "height_in"),
+    IMAGE_MODE_ITEMS[1][0]: ("color_in", "width_in", "height_in"),
+    IMAGE_MODE_ITEMS[2][0]: ("color_in", "width_in", "height_in"),
+}
+
+
+video_capture = cv2.VideoCapture()
 
 
 class OCVLImageSampleNode(OCVLPreviewNodeBase):
@@ -25,12 +38,13 @@ class OCVLImageSampleNode(OCVLPreviewNodeBase):
         self.process()
 
     def update_prop_search(self, context):
-        self.process()
         self.update_sockets(context)
         self.process()
 
     width_in: bpy.props.IntProperty(default=100, min=1, max=1024, update=update_layout, name="width_in")
-    height_in: bpy.props.IntProperty(default=100, min=1, max=1020, update=update_layout, name="height_in")
+    height_in: bpy.props.IntProperty(default=100, min=1, max=1024, update=update_layout, name="height_in")
+    color_in: bpy.props.FloatVectorProperty(update=update_layout, name='color_in', default=(.3, .3, .2, 1.0), size=4, min=0.0, max=1.0, subtype='COLOR')
+
     width_out: bpy.props.IntProperty(default=0, name="width_out")
     height_out: bpy.props.IntProperty(default=0, name="height_out")
     image_out: bpy.props.StringProperty(default=str(uuid.uuid4()))
@@ -38,12 +52,14 @@ class OCVLImageSampleNode(OCVLPreviewNodeBase):
     loc_name_image: bpy.props.StringProperty(default='', update=update_prop_search)
     loc_filepath: bpy.props.StringProperty(default='', update=update_layout)
     loc_image_mode: bpy.props.EnumProperty(items=IMAGE_MODE_ITEMS, default="RANDOM", update=update_layout)
+    loc_resize: bpy.props.BoolProperty(default=False, name="Resize", update=update_layout)
 
     def init(self, context):
         self.width = 200
         self.outputs.new('ImageSocket', 'image_out')
         self.outputs.new('StringsSocket', 'width_out')
         self.outputs.new('StringsSocket', 'height_out')
+        self.inputs.new('SvColorSocket', 'color_in').prop_name = 'color_in'
         self.update_layout(context)
 
         # if not np.bl_listener:
@@ -60,10 +76,11 @@ class OCVLImageSampleNode(OCVLPreviewNodeBase):
         image = None
         uuid_ = None
         if self.loc_image_mode in ["PLANE", "RANDOM"]:
+            color_in = self.get_from_props("color_in")
             width_in = self.get_from_props("width_in")
             height_in = self.get_from_props("height_in")
             image = np.zeros((width_in, height_in, 3), np.uint8)
-            image[:,:,] = (76, 76, 53)
+            image[:,:,] = color_in
             if self.loc_image_mode == "RANDOM":
                 for i in range(20):
                     pt1 = (random.randint(1, width_in), random.randint(1, height_in))
@@ -125,4 +142,10 @@ class OCVLImageSampleNode(OCVLPreviewNodeBase):
         node.process()
 
     def update_sockets(self, context):
+        self.update_sockets_for_node_mode(PROPS_MAPS, self.loc_image_mode)
+        if self.loc_image_mode in ["FILE", "CAM"] and not self.loc_resize:
+            if "width_in" in self.inputs:
+                self.inputs.remove(self.inputs["width_in"])
+            if "height_in" in self.inputs:
+                self.inputs.remove(self.inputs["height_in"])
         self.process()

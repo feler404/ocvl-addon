@@ -315,9 +315,14 @@ class OCVLNodeBase(bpy.types.Node):
             if socket_name in sockets and socket_name not in props_maps[node_mode]:
                 sockets.remove(sockets[socket_name])
         for prop_name in props_maps[node_mode]:
-            prop_name, socket_type = prop_name.split("|")
+            split_prop_name = prop_name.split("|")
+            if len(split_prop_name) == 1:
+                prop_name = split_prop_name[0]
+                socket_type = 'StringsSocket'
+            else:
+                prop_name = split_prop_name[0]
+                socket_type = split_prop_name[1]
             sockets = self._get_sockets_by_socket_name(prop_name)
-            socket_type = socket_type or 'StringsSocket'
             if prop_name not in sockets:
                 if self.is_uuid(getattr(self, prop_name)):
                     sockets.new(socket_type, prop_name)
