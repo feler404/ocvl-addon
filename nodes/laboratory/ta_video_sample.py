@@ -116,7 +116,7 @@ class OCVLVideoSampleNode(OCVLPreviewNodeBase):
         else:
             col_split.operator("screen.animation_play", text="", icon='PAUSE')
 
-        location_y = -80 if self.loc_image_mode in ["PLANE", "RANDOM"] else -100
+        location_y = -180 if self.loc_image_mode in ["PLANE", "RANDOM"] else -200
         self.draw_preview(layout=layout, prop_name="image_out", location_x=10, location_y=location_y)
 
     def copy(self, node):
