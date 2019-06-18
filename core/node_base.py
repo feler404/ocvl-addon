@@ -9,7 +9,7 @@ import bgl
 import bpy
 import cv2
 import numpy as np
-from ocvl.core.settings import IS_WORK_ON_COPY_INPUT, NODE_COLOR_REQUIRE_DATE, WRAP_TEXT_SIZE_FOR_ERROR_DISPLAY, CATEGORY_TREE
+from ocvl.core.settings import IS_WORK_ON_COPY_INPUT, NODE_COLOR_REQUIRE_DATE, WRAP_TEXT_SIZE_FOR_ERROR_DISPLAY, CATEGORY_TREE, NODE_COLOR_CV_ERROR
 from ocvl.core.constants import TEX_CO_FLIP
 from ocvl.core.exceptions import LackRequiredSocket, NoDataError
 from ocvl.core.globals import SOCKET_DATA_CACHE, TEXTURE_CACHE
@@ -222,11 +222,15 @@ class OCVLNodeBase(bpy.types.Node):
     n_doc = ""
     n_see_also = ""
     n_requirements = []
+
     bl_idname = None
     bl_label = None
     bl_icon = None
     bl_flags_list = ""
     socket_data_cache = SOCKET_DATA_CACHE
+
+    use_custom_color = False
+    color = (0.33, 0.33, 0.33)
 
     def is_uuid(self, prop):
         try:
@@ -372,7 +376,7 @@ class OCVLNodeBase(bpy.types.Node):
         except cv2.error as e:
             self.n_error = str(e)
             self.use_custom_color = True
-            self.color = (0.6, 0.0, 0.0)
+            self.color = NODE_COLOR_CV_ERROR
         finally:
             self.n_meta += "\nProcess time: {0:.2f}ms".format((time.time() - start) * 1000)
 

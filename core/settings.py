@@ -1,5 +1,7 @@
 # Color node without necessary data to process
 NODE_COLOR_REQUIRE_DATE = (1, 0.3, 0)
+# Color node with CV error
+NODE_COLOR_CV_ERROR = (0.6, 0.0, 0.0)
 # In draw_buttons_ext width text
 WRAP_TEXT_SIZE_FOR_ERROR_DISPLAY = 75
 # In NodeBase if True make copy for "image_in/img_in" sockets data
