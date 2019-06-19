@@ -57,6 +57,8 @@ class OCVLVideoSampleNode(OCVLPreviewNodeBase):
     def init(self, context):
         self.width = 200
         self.outputs.new('StringsSocket', 'image_out')
+        self.outputs.new('StringsSocket', 'width_out')
+        self.outputs.new('StringsSocket', 'height_out')
         self.update_layout(context)
 
     def wrapped_process(self):
@@ -116,7 +118,7 @@ class OCVLVideoSampleNode(OCVLPreviewNodeBase):
         else:
             col_split.operator("screen.animation_play", text="", icon='PAUSE')
 
-        location_y = -180 if self.loc_image_mode in ["PLANE", "RANDOM"] else -200
+        location_y = -220
         self.draw_preview(layout=layout, prop_name="image_out", location_x=10, location_y=location_y)
 
     def copy(self, node):
