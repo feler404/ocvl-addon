@@ -8,7 +8,12 @@ from ocvl.core.node_base import OCVLNodeBase, update_node
 class OCVLmulSpectrumsNode(OCVLNodeBase):
 
     bl_flags_list = 'DFT_ROWS'
+
     n_doc = "Performs the per-element multiplication of two Fourier spectrums."
+    n_quick_link_requirements = {
+        "a_in": {"code_in": "COLOR_BGR2GRAY", "value_type_in": "float32"},
+        "b_in": {"code_in": "COLOR_BGR2GRAY", "value_type_in": "float32"},
+    }
 
     a_in: bpy.props.StringProperty(name="a_in", default=str(uuid.uuid4()), description="First input array.")
     b_in: bpy.props.StringProperty(name="b_in", default=str(uuid.uuid4()), description="Second input array of the same size and type as src1.")
@@ -18,8 +23,8 @@ class OCVLmulSpectrumsNode(OCVLNodeBase):
     image_out: bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output array.")
 
     def init(self, context):
-        self.inputs.new("StringsSocket", "a_in")
-        self.inputs.new("StringsSocket", "b_in")
+        self.inputs.new("ImageSocket", "a_in")
+        self.inputs.new("ImageSocket", "b_in")
 
         self.outputs.new("ImageSocket", "image_out")
 

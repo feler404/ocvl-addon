@@ -7,8 +7,10 @@ from ocvl.core.node_base import OCVLNodeBase, update_node
 
 class OCVLidftNode(OCVLNodeBase):
 
-    n_doc = "Calculates the inverse Discrete Fourier Transform of a 1D or 2D array."
     bl_flags_list = 'DFT_INVERSE, DFT_SCALE, DFT_ROWS, DFT_COMPLEX_OUTPUT, DFT_REAL_OUTPUT'
+
+    n_doc = "Calculates the inverse Discrete Fourier Transform of a 1D or 2D array."
+    n_quick_link_requirements = {"src_in": {"code_in": "COLOR_BGR2GRAY", "value_type_in": "float32"}}
 
     src_in: bpy.props.StringProperty(name="src_in", default=str(uuid.uuid4()), description="Input floating-point real or complex array.")
     flags_in: bpy.props.BoolVectorProperty(default=[False for i in bl_flags_list.split(",")], size=len(bl_flags_list.split(",")), update=update_node, subtype="NONE", description=bl_flags_list)
@@ -17,10 +19,10 @@ class OCVLidftNode(OCVLNodeBase):
     dst_out: bpy.props.StringProperty(name="dst_out", default=str(uuid.uuid4()), description="Output array whose size and type depend on the flags.")
 
     def init(self, context):
-        self.inputs.new("StringsSocket", "src_in")
+        self.inputs.new("ImageSocket", "src_in")
         self.inputs.new("StringsSocket", "nonzeroRows_in").prop_name = "nonzeroRows_in"
 
-        self.outputs.new("StringsSocket", "dst_out")
+        self.outputs.new("ImageSocket", "dst_out")
 
     def wrapped_process(self):
         self.check_input_requirements(["src_in"])

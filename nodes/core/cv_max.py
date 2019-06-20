@@ -19,7 +19,7 @@ class OCVLmaxNode(OCVLNodeBase):
     def init(self, context):
         self.inputs.new("ImageSocket", "src1_in")
         self.inputs.new("ImageSocket", "src2_in")
-        self.outputs.new("StringsSocket", "array_out")
+        self.outputs.new("ImageSocket", "array_out")
 
     def wrapped_process(self):
         self.check_input_requirements(["src1_in", "src2_in"])
