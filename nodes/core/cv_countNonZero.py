@@ -8,12 +8,15 @@ from ocvl.core.node_base import OCVLNodeBase
 class OCVLcountNonZeroNode(OCVLNodeBase):
 
     n_doc = "Counts non-zero array elements."
+    n_quick_link_requirements = {
+        "src_in": {"code_in": "COLOR_BGR2GRAY"}
+    }
 
     src_in: bpy.props.StringProperty(name="src", default=str(uuid.uuid4()), description="First input single channel array or a scalar.")
     retval_out: bpy.props.IntProperty(name="retval", default=0, description="")
 
     def init(self, context):
-        self.inputs.new("StringsSocket", "src_in")
+        self.inputs.new("ImageSocket", "src_in")
         self.outputs.new("StringsSocket", "retval_out")
 
     def wrapped_process(self):

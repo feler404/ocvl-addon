@@ -203,6 +203,7 @@ class OCVLNodeBase(bpy.types.Node):
     :param n_see_also: <string> annotation tell about similar nodes
     :param n_requirements: <list> requirements inputs
     :param n_note: <string> addition note to documentation
+    :param n_quick_link_requirements: <dict> specification to quic_link socket
     :param bl_idname: <string> id for Blender scope
     :param bl_label: <string> the node label
     :param bl_icon: <string> the node icon
@@ -222,6 +223,7 @@ class OCVLNodeBase(bpy.types.Node):
     n_doc = ""
     n_see_also = ""
     n_requirements = []
+    n_quick_link_requirements = {}
 
     bl_idname = None
     bl_label = None

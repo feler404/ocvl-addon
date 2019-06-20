@@ -8,12 +8,13 @@ from ocvl.core.node_base import OCVLNodeBase
 class OCVLexpNode(OCVLNodeBase):
 
     n_doc = "Calculates the exponent of every array element."
+    n_quick_link_requirements = {"src_in": {"code_in": "COLOR_BGR2GRAY", "value_type_in": "float32"}}
 
     src_in: bpy.props.StringProperty(name="src_in", default=str(uuid.uuid4()), description="Input array.")
     dst_out: bpy.props.StringProperty(name="dst_out", default=str(uuid.uuid4()), description="Output array of the same size and type as input array.")
 
     def init(self, context):
-        self.inputs.new("StringsSocket", "src_in")
+        self.inputs.new("ImageSocket", "src_in")
         self.outputs.new("StringsSocket", "dst_out")
 
     def wrapped_process(self):

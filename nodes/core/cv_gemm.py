@@ -18,8 +18,13 @@ PROPS_MAPS = {
 
 
 class OCVLgemmNode(OCVLNodeBase):
-    n_doc = "Performs generalized matrix multiplication."
     bl_flags_list = 'GEMM_1_T, GEMM_2_T, GEMM_3_T'
+    n_doc = "Performs generalized matrix multiplication."
+    n_quick_link_requirements = {
+        "src_1_in": {"code_in": "COLOR_BGR2GRAY", "value_type_in": "float32"},
+        "src_2_in": {"code_in": "COLOR_BGR2GRAY", "value_type_in": "float32"},
+        "src_3_in": {"code_in": "COLOR_BGR2GRAY", "value_type_in": "float32"},
+    }
 
     src_1_in: bpy.props.StringProperty(name="src_1_in", default=str(uuid.uuid4()), description="First multiplied input matrix that could be real(CV_32FC1, CV_64FC1) or complex(CV_32FC2, CV_64FC2).")
     src_2_in: bpy.props.StringProperty(name="src_2_in", default=str(uuid.uuid4()), description="Second multiplied input matrix of the same type as src1.")
@@ -31,13 +36,13 @@ class OCVLgemmNode(OCVLNodeBase):
     dst_out: bpy.props.StringProperty(name="dst_out", default=str(uuid.uuid4()), description="Output matrix; it has the proper size and the same type as input matrices.")
 
     def init(self, context):
-        self.inputs.new("StringsSocket", "src_1_in")
-        self.inputs.new("StringsSocket", "src_2_in")
-        self.inputs.new("StringsSocket", "src_3_in")
+        self.inputs.new("ImageSocket", "src_1_in")
+        self.inputs.new("ImageSocket", "src_2_in")
+        self.inputs.new("ImageSocket", "src_3_in")
         self.inputs.new("StringsSocket", "alpha_in").prop_name = "alpha_in"
         self.inputs.new("StringsSocket", "beta_in").prop_name = "beta_in"
 
-        self.outputs.new("StringsSocket", "dst_out")
+        self.outputs.new("ImageSocket", "dst_out")
 
     def wrapped_process(self):
         self.check_input_requirements(["src_1_in", "src_2_in", "src_3_in"])

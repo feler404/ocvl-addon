@@ -18,6 +18,9 @@ LTYPE_ITEMS = (
 class OCVLconnectedComponentsNode(OCVLNodeBase):
 
     n_doc = "Connected components."
+    n_quick_link_requirements = {
+        "image_in": {"code_in": "COLOR_BGR2GRAY"}
+    }
 
     image_in: bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="The 8-bit single-channel image to be labeled.")
     connectivity_in: bpy.props.EnumProperty(items=CONNECTIVITY_ITEMS, default="8", update=update_node, description="8 or 4 for 8-way or 4-way connectivity respectively.")

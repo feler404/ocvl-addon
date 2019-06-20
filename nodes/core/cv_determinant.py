@@ -8,12 +8,15 @@ from ocvl.core.node_base import OCVLNodeBase
 class OCVLdeterminantNode(OCVLNodeBase):
 
     n_doc = "Returns the determinant of a square floating-point matrix."
+    n_quick_link_requirements = {
+        "mtx_in": {"code_in": "COLOR_BGR2GRAY", "value_type_in": "float32"}
+    }
 
     mtx_in: bpy.props.StringProperty(name="mtx_in", default=str(uuid.uuid4()), description="Input matrix that must have CV_32FC1 or CV_64FC1 type and square size.")
     retval_out: bpy.props.FloatProperty(name="retval_out", description="")
 
     def init(self, context):
-        self.inputs.new("StringsSocket", "mtx_in")
+        self.inputs.new("ImageSocket", "mtx_in")
         self.outputs.new("StringsSocket", "retval_out")
 
     def wrapped_process(self):
