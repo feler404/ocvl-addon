@@ -124,11 +124,15 @@ class SvLinkNewNodeInput(bpy.types.Operator):
     socket_index = bpy.props.IntProperty()
     origin = bpy.props.StringProperty()
     is_input_mode = bpy.props.BoolProperty(default=True)
+    is_requirements = bpy.props.BoolProperty(default=False)
     new_node_idname = bpy.props.StringProperty()
     new_node_offsetx = bpy.props.IntProperty(default=-200)
     new_node_offsety = bpy.props.IntProperty(default=0)
 
     def execute(self, context):
+        if self.is_requirements:
+            return {'FINISHED'}
+
         tree = context.space_data.edit_tree
         nodes, links = tree.nodes, tree.links
 
@@ -236,6 +240,7 @@ class OCVLSocketBase:
                 return
 
             op = layout.operator('node.sv_quicklink_new_node', text="", icon="PLUGIN")
+            op.is_requirements = False
             op.socket_index = self.index
             op.origin = node.name
             op.is_input_mode = True
@@ -255,11 +260,12 @@ class OCVLSocketBase:
 
             try:
                 node.check_input_requirements(node.n_requirements)
-                op_icon = "LIGHT"
+                op_icon = "OUTLINER_OB_LIGHT"
             except (Exception, LackRequiredSocket) as e:
-                op_icon = "NONE"
+                op_icon = "LIGHT"
 
             op = layout.operator('node.sv_quicklink_new_node', text="", icon=op_icon)
+            op.is_requirements = bool(op_icon == "LIGHT")
             op.socket_index = self.index
             op.origin = node.name
             op.is_input_mode = False
