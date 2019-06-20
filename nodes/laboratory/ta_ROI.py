@@ -1,8 +1,4 @@
 import uuid
-import bpy
-
-from ocvl.core.node_base import OCVLNodeBase, update_node
-import uuid
 
 import bpy
 from ocvl.core.node_base import OCVLNodeBase, update_node

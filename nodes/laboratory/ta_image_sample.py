@@ -11,6 +11,37 @@ from ocvl.core.image_utils import convert_to_cv_image
 logger = getLogger(__name__)
 
 
+NP_VALUE_TYPE_ITEMS = (
+    ("NONE", "NONE", "NONE", "", 0),
+    ("intc", "intc", "intc", "", 1),
+    ("intp", "intp", "intp", "", 2),
+    ("int8", "int8", "int8", "", 3),
+    ("int16", "int16", "int16", "", 4),
+    ("int32", "int32", "int32", "", 5),
+    ("int64", "int64", "int64", "", 6),
+    ("uint8", "uint8", "uint8", "", 7),
+    ("uint16", "uint16", "uint16", "", 8),
+    ("uint32", "uint32", "uint32", "", 9),
+    ("uint64", "uint64", "uint64", "", 10),
+    ("float16", "float16", "float16", "", 11),
+    ("float32", "float32", "float32", "", 12),
+    ("float64", "float64", "float64", "", 13),
+)
+
+
+CODE_COLOR_POOR_ITEMS_FOR_IMAGE_SAMPLE = (
+    ("NONE", "NONE", "NONE", "", 0),
+    ("COLOR_BGR2GRAY", "COLOR_BGR2GRAY", "COLOR_BGR2GRAY", "", 1),
+    ("COLOR_BGR2RGB", "COLOR_BGR2RGB", "COLOR_BGR2RGB", "", 2),
+    ("COLOR_BGR2HLS", "COLOR_BGR2HLS", "COLOR_BGR2HLS", "", 3),
+    ("COLOR_BGR2HSV", "COLOR_BGR2HSV", "COLOR_BGR2HSV", "", 4),
+    ("COLOR_BGR2LAB", "COLOR_BGR2LAB", "COLOR_BGR2LAB", "", 5),
+    ("COLOR_BGR2LUV", "COLOR_BGR2LUV", "COLOR_BGR2LUV", "", 6),
+    ("COLOR_BGR2YCR_CB", "COLOR_BGR2YCR_CB", "COLOR_BGR2YCR_CB", "", 7),
+    ("COLOR_BGR2YUV", "COLOR_BGR2YUV", "COLOR_BGR2YUV", "", 8),
+)
+
+
 IMAGE_MODE_ITEMS = [
     # ("CAM", "CAM", "From camera", "", 0),
     ("FILE", "FILE", "From file", "", 0),
@@ -44,6 +75,8 @@ class OCVLImageSampleNode(OCVLPreviewNodeBase):
     width_in: bpy.props.IntProperty(default=100, min=1, max=1024, update=update_layout, name="width_in")
     height_in: bpy.props.IntProperty(default=100, min=1, max=1024, update=update_layout, name="height_in")
     color_in: bpy.props.FloatVectorProperty(update=update_layout, name='color_in', default=(.3, .3, .2, 1.0), size=4, min=0.0, max=1.0, subtype='COLOR')
+    code_in: bpy.props.EnumProperty(items=CODE_COLOR_POOR_ITEMS_FOR_IMAGE_SAMPLE, default='NONE', update=update_layout, description="Color space conversion code (see cv::ColorConversionCodes).")
+    value_type_in: bpy.props.EnumProperty(items=NP_VALUE_TYPE_ITEMS, default='NONE', update=update_layout, description="Data type.")
 
     width_out: bpy.props.IntProperty(default=0, name="width_out")
     height_out: bpy.props.IntProperty(default=0, name="height_out")
@@ -56,10 +89,14 @@ class OCVLImageSampleNode(OCVLPreviewNodeBase):
 
     def init(self, context):
         self.width = 200
+        self.inputs.new('SvColorSocket', 'color_in').prop_name = 'color_in'
+        self.inputs.new("StringsSocket", "code_in").prop_name = "code_in"
+        self.inputs.new("StringsSocket", "value_type_in").prop_name = "value_type_in"
+
         self.outputs.new('ImageSocket', 'image_out')
         self.outputs.new('StringsSocket', 'width_out')
         self.outputs.new('StringsSocket', 'height_out')
-        self.inputs.new('SvColorSocket', 'color_in').prop_name = 'color_in'
+
         self.update_layout(context)
 
         # if not np.bl_listener:
@@ -75,6 +112,9 @@ class OCVLImageSampleNode(OCVLPreviewNodeBase):
         logger.info("Process: self: {}, loc_image_mode: {}, loc_filepath: {}".format(self, self.loc_image_mode, self.loc_filepath))
         image = None
         uuid_ = None
+        code_in = self.get_from_props("code_in")
+        value_type_in = self.get_from_props("value_type_in")
+
         if self.loc_image_mode in ["PLANE", "RANDOM"]:
             color_in = self.get_from_props("color_in")
             width_in = self.get_from_props("width_in")
@@ -96,6 +136,12 @@ class OCVLImageSampleNode(OCVLPreviewNodeBase):
             if image is None:
                 image = np.zeros((200, 200, 3), np.uint8)
 
+        if code_in != "NONE":
+            image = cv2.cvtColor(src=image, code=code_in)
+
+        if value_type_in != "NONE":
+            image = image.astype(getattr(np, value_type_in))
+
         image, self.image_out = self._update_node_cache(image=image, resize=False, uuid_=uuid_)
         self.outputs['image_out'].sv_set(self.image_out)
         self.refresh_output_socket("height_out", image.shape[0])
@@ -113,7 +159,7 @@ class OCVLImageSampleNode(OCVLPreviewNodeBase):
     def _add_meta_info(self, image):
         self.n_meta = "\n".join(["Width: {}".format(image.shape[1]),
                                  "Height: {}".format(image.shape[0]),
-                                 "Channels: {}".format(image.shape[2]),
+                                 "Channels: {}".format(1 if len(image.shape) > 1 else image.shape[2]),
                                  "DType: {}".format(image.dtype),
                                  "Size: {}".format(image.size)])
 

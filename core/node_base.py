@@ -490,8 +490,6 @@ class OCVLPreviewNodeBase(OCVLNodeBase):
         resized_image = cv2.resize(image, (width, height))
         resized_height, resized_width = resized_image.shape[:2]
 
-        texture_mini = bgl.Buffer(bgl.GL_BYTE, resized_image.shape, resized_image)
-
         name = bgl.Buffer(bgl.GL_INT, 1)
         bgl.glGenTextures(1, name)
         self.texture[self.node_id] = {"name": name, "uuid": uuid_}
@@ -506,8 +504,15 @@ class OCVLPreviewNodeBase(OCVLNodeBase):
                 format = bgl.GL_BGR
         elif len(image.shape) == 2:
             # TODO bgl.GL_LUMINANCE - don't working
-            internalFormat = bgl.GL_RED
-            format = bgl.GL_RED
+            internalFormat = bgl.GL_RGB
+            format = bgl.GL_RGB
+            if not isinstance(resized_image[0][0], np.uint8):
+                resized_image = resized_image.astype(np.uint8)
+            resized_image = cv2.cvtColor(src=resized_image, code=cv2.COLOR_GRAY2RGB)
+
+
+        texture_mini = bgl.Buffer(bgl.GL_BYTE, resized_image.shape, resized_image)
+
         init_texture(width=resized_width,
                      height=resized_height,
                      texname=name[0],

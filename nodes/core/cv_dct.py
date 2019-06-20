@@ -17,8 +17,7 @@ class OCVLdctNode(OCVLNodeBase):
 
     def init(self, context):
         self.inputs.new("StringsSocket", "src_in")
-
-        self.outputs.new("StringsSocket", "dst_out")
+        self.outputs.new("ImageSocket", "dst_out")
 
     def wrapped_process(self):
         self.check_input_requirements(["src_in"])
