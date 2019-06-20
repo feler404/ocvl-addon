@@ -27,6 +27,10 @@ class OCVLaddWeightedNode(OCVLNodeBase):
 
     loc_auto_resize: bpy.props.EnumProperty(items=AUTO_RESIZE_ITEMS, default="SECOND", update=update_node, description="Automatic adjust size image.")
 
+    @property
+    def n_requirements(self):
+        return ["image_1_in", "image_2_in"]
+
     def init(self, context):
         self.inputs.new("ImageSocket", "image_1_in")
         self.inputs.new("ImageSocket", "image_2_in")
@@ -37,7 +41,7 @@ class OCVLaddWeightedNode(OCVLNodeBase):
         self.outputs.new("ImageSocket", "image_out")
 
     def wrapped_process(self):
-        self.check_input_requirements(["image_1_in", "image_2_in"])
+        self.check_input_requirements(self.n_requirements)
 
         image_1_in = self.get_from_props("image_1_in")
         image_2_in = self.get_from_props("image_2_in")

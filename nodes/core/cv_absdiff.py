@@ -14,6 +14,10 @@ class OCVLabsdiffNode(OCVLNodeBase):
     src2_in: bpy.props.StringProperty(name="src2", default=str(uuid.uuid4()), description="Second input array or a scalar.")
     dst_out: bpy.props.StringProperty(name="dst", default=str(uuid.uuid4()), description="Output array that has the same size and type as input arrays.")
 
+    @property
+    def n_requirements(self):
+        return ["src1_in", "src2_in"]
+
     def init(self, context):
         self.inputs.new("ImageSocket", "src1_in")
         self.inputs.new("ImageSocket", "src2_in")
@@ -21,7 +25,7 @@ class OCVLabsdiffNode(OCVLNodeBase):
         self.outputs.new("ImageSocket", "dst_out")
 
     def wrapped_process(self):
-        self.check_input_requirements(["src1_in", "src2_in"])
+        self.check_input_requirements(self.n_requirements)
 
         kwargs = {
             'src1': self.get_from_props("src1_in"),
