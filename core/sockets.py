@@ -263,6 +263,8 @@ class OCVLSocketBase:
                 op_icon = "OUTLINER_OB_LIGHT"
             except (Exception, LackRequiredSocket) as e:
                 op_icon = "LIGHT"
+            except (Exception, LackRequiredSocket) as e:
+                op_icon = "NONE"
 
             op = layout.operator('node.sv_quicklink_new_node', text="", icon=op_icon)
             op.is_block_quick_link_requirements = bool(op_icon == "LIGHT")
