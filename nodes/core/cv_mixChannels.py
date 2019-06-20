@@ -18,7 +18,7 @@ class OCVLmixChannelsNode(OCVLNodeBase):
         self.inputs.new("StringsSocket", "src_in")
         self.inputs.new("StringsSocket", "fromTo_in")
 
-        self.outputs.new("StringsSocket", "image_out")
+        self.outputs.new("ImageSocket", "image_out")
 
     def wrapped_process(self):
         self.check_input_requirements(["src_in", "fromTo_in"])

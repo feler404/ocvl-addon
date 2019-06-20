@@ -28,11 +28,11 @@ class OCVLthresholdNode(OCVLNodeBase):
 
     def init(self, context):
         self.width = 200
-        self.inputs.new("StringsSocket", "image_in")
+        self.inputs.new("ImageSocket", "image_in")
         self.inputs.new('StringsSocket', "thresh_in").prop_name = 'thresh_in'
         self.inputs.new('StringsSocket', "maxval_in").prop_name = 'maxval_in'
 
-        self.outputs.new("StringsSocket", "image_out")
+        self.outputs.new("ImageSocket", "image_out")
         self.outputs.new("StringsSocket", "retval_out")
 
     def wrapped_process(self):

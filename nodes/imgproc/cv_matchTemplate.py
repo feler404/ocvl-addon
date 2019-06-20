@@ -23,11 +23,11 @@ class OCVLmatchTemplateNode(OCVLNodeBase):
 
     def init(self, context):
         self.width = 150
-        self.inputs.new("StringsSocket", "image_in")
+        self.inputs.new("ImageSocket", "image_in")
         self.inputs.new('StringsSocket', "templ_in")
         self.inputs.new('StringsSocket', "mask_in")
 
-        self.outputs.new("StringsSocket", "image_out")
+        self.outputs.new("ImageSocket", "image_out")
         self.outputs.new("StringsSocket", "result_out")
 
     def wrapped_process(self):

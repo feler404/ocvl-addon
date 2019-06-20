@@ -14,10 +14,10 @@ class OCVLbitwise_notNode(OCVLNodeBase):
     image_out: bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()))
 
     def init(self, context):
-        self.inputs.new("StringsSocket", "image_in")
+        self.inputs.new("ImageSocket", "image_in")
         self.inputs.new('StringsSocket', "mask_in")
 
-        self.outputs.new("StringsSocket", "image_out")
+        self.outputs.new("ImageSocket", "image_out")
 
     def wrapped_process(self):
         self.check_input_requirements(["image_in"])

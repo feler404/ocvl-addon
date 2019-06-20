@@ -50,12 +50,12 @@ class OCVLrectangleNode(OCVLNodeBase):
     loc_input_mode: bpy.props.EnumProperty(items=INPUT_MODE_ITEMS, default="PT1, PT2", update=update_layout, description="Loc input mode.")
 
     def init(self, context):
-        self.inputs.new("StringsSocket", "image_in")
+        self.inputs.new("ImageSocket", "image_in")
         self.inputs.new('SvColorSocket', 'color_in').prop_name = 'color_in'
         self.inputs.new('StringsSocket', "thickness_in").prop_name = 'thickness_in'
         self.inputs.new('StringsSocket', "shift_in").prop_name = 'shift_in'
 
-        self.outputs.new("StringsSocket", "image_out")
+        self.outputs.new("ImageSocket", "image_out")
         self.update_layout(context)
 
     def wrapped_process(self):

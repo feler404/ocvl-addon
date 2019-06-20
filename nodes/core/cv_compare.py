@@ -34,8 +34,8 @@ class OCVLcompareNode(OCVLNodeBase):
     dst_out: bpy.props.StringProperty(name="dst_out", default=str(uuid.uuid4()), description="Output array that has the same size and type as the input arrays.")
 
     def init(self, context):
-        self.inputs.new("StringsSocket", "src1_in")
-        self.inputs.new("StringsSocket", "src2_in")
+        self.inputs.new("ImageSocket", "src1_in")
+        self.inputs.new("ImageSocket", "src2_in")
 
         self.outputs.new("StringsSocket", "dst_out")
 

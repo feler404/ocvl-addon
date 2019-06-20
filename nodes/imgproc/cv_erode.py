@@ -29,12 +29,12 @@ class OCVLerodeNode(OCVLNodeBase):
 
     def init(self, context):
         self.width = 150
-        self.inputs.new("StringsSocket", "image_in")
+        self.inputs.new("ImageSocket", "image_in")
         self.inputs.new('StringsSocket', "ksize_in").prop_name = 'ksize_in'
         self.inputs.new('StringsSocket', "anchor_in").prop_name = 'anchor_in'
         self.inputs.new('StringsSocket', "iterations_in").prop_name = 'iterations_in'
 
-        self.outputs.new("StringsSocket", "image_out")
+        self.outputs.new("ImageSocket", "image_out")
 
     def wrapped_process(self):
         self.check_input_requirements(["image_in"])

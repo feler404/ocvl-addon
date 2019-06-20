@@ -31,11 +31,11 @@ class OCVLadaptiveThresholdNode(OCVLNodeBase):
     image_out: bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Destination image of the same size and the same type as src.")
 
     def init(self, context):
-        self.inputs.new("StringsSocket", "image_in")
+        self.inputs.new("ImageSocket", "image_in")
         self.inputs.new("StringsSocket", "maxValue_in").prop_name = "maxValue_in"
         self.inputs.new("StringsSocket", "C_in").prop_name = "C_in"
 
-        self.outputs.new("StringsSocket", "image_out")
+        self.outputs.new("ImageSocket", "image_out")
 
     def wrapped_process(self):
         self.check_input_requirements(["image_in"])

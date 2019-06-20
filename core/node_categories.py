@@ -7,6 +7,7 @@ import ocvl
 from nodeitems_utils import NodeCategory, NodeItem, register_node_categories, unregister_node_categories
 from ocvl.core import constants
 from ocvl.core.register_utils import register_node, unregister_node
+from ocvl.core.settings import BLACK_LIST_REGISTER_NODE_CATEGORY
 
 logger = logging.getLogger(__name__)
 
@@ -47,6 +48,8 @@ def auto_register_node_categories(register_mode=True):
                     _ocvl_auto_register(node_class)
 
     for file_name in os.listdir(nodes_module_path):
+        if file_name in BLACK_LIST_REGISTER_NODE_CATEGORY:
+            continue
 
         if not file_name.startswith("__"):
             node_file_path = node_file_path_in = os.path.join(nodes_module_path, file_name)

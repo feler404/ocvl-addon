@@ -21,12 +21,12 @@ class OCVLwarpPerspectiveNode(OCVLNodeBase):
     borderValue_in: bpy.props.IntProperty(default=0, min=0, max=255, update=update_node, description="Value used in case of a constant border; by default, it equals 0.")
 
     def init(self, context):
-        self.inputs.new("StringsSocket", "image_in")
+        self.inputs.new("ImageSocket", "image_in")
         self.inputs.new('StringsSocket', "M_in")
         self.inputs.new('StringsSocket', "dsize_in").prop_name = 'dsize_in'
         self.inputs.new('StringsSocket', "borderValue_in").prop_name = 'borderValue_in'
 
-        self.outputs.new("StringsSocket", "image_out")
+        self.outputs.new("ImageSocket", "image_out")
 
     def wrapped_process(self):
         self.check_input_requirements(["image_in", "M_in"])

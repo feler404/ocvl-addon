@@ -19,12 +19,12 @@ class OCVLGaussianBlurNode(OCVLNodeBase):
     image_out: bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
 
     def init(self, context):
-        self.inputs.new("StringsSocket", "image_in")
+        self.inputs.new("ImageSocket", "image_in")
         self.inputs.new('StringsSocket', "ksize_in").prop_name = 'ksize_in'
         self.inputs.new('StringsSocket', "sigmaX_in").prop_name = 'sigmaX_in'
         self.inputs.new('StringsSocket', "sigmaY_in").prop_name = 'sigmaY_in'
 
-        self.outputs.new("StringsSocket", "image_out")
+        self.outputs.new("ImageSocket", "image_out")
 
     def wrapped_process(self):
         self.check_input_requirements(["image_in"])

@@ -40,7 +40,7 @@ class OCVLHoughLinesNode(OCVLNodeBase):
     image_out: bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
 
     def init(self, context):
-        self.inputs.new("StringsSocket", "image_in")
+        self.inputs.new("ImageSocket", "image_in")
         self.inputs.new('StringsSocket', "rho_in").prop_name = 'rho_in'
         self.inputs.new('StringsSocket', "theta_in").prop_name = 'theta_in'
         self.inputs.new('StringsSocket', "threshold_in").prop_name = 'threshold_in'

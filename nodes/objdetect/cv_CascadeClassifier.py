@@ -29,12 +29,12 @@ class OCVLCascadeClassifierNode(OCVLNodeBase):
     loc_cascade_filename: bpy.props.EnumProperty(items=CASCADE_FILENAME_ITEMS, default=CASCADE_FILENAME_ITEMS_DEFAULT, update=update_node)
 
     def init(self, context):
-        self.inputs.new("StringsSocket", "image_in")
+        self.inputs.new("ImageSocket", "image_in")
         self.inputs.new('StringsSocket', "scaleFactor_in").prop_name = 'scaleFactor_in'
         self.inputs.new('StringsSocket', "minNeighbors_in").prop_name = 'minNeighbors_in'
         self.inputs.new('StringsSocket', "minSize_in").prop_name = 'minSize_in'
 
-        self.outputs.new("StringsSocket", "image_out")
+        self.outputs.new("ImageSocket", "image_out")
         self.outputs.new("StringsSocket", "objects_out")
 
     def wrapped_process(self):

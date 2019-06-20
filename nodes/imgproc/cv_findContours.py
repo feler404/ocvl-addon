@@ -19,10 +19,10 @@ class OCVLfindContoursNode(OCVLNodeBase):
     offset_in: bpy.props.IntVectorProperty(default=(0, 0), size=2, update=update_node, description="Optional offset by which every contour point is shifted. This is useful if the.")
 
     def init(self, context):
-        self.inputs.new("StringsSocket", "image_in")
+        self.inputs.new("ImageSocket", "image_in")
         self.inputs.new('StringsSocket', "offset_in").prop_name = 'offset_in'
 
-        self.outputs.new("StringsSocket", "image_out")
+        self.outputs.new("ImageSocket", "image_out")
         self.outputs.new("StringsSocket", "contours_out")
         self.outputs.new("StringsSocket", "hierarchy_out")
 

@@ -23,14 +23,14 @@ class OCVLputTextNode(OCVLNodeBase):
     bottomLeftOrigin_in: bpy.props.BoolProperty(default=False, update=update_node, description="When true, the image data origin is at the bottom-left corner. Otherwise, it is at the top-left corner.")
 
     def init(self, context):
-        self.inputs.new("StringsSocket", "image_in")
+        self.inputs.new("ImageSocket", "image_in")
         self.inputs.new('StringsSocket', "text_in").prop_name = 'text_in'
         self.inputs.new('StringsSocket', "org_in").prop_name = 'org_in'
         self.inputs.new('StringsSocket', "fontScale_in").prop_name = 'fontScale_in'
         self.inputs.new('StringsSocket', "thickness_in").prop_name = 'thickness_in'
         self.inputs.new('SvColorSocket', 'color_in').prop_name = 'color_in'
 
-        self.outputs.new("StringsSocket", "image_out")
+        self.outputs.new("ImageSocket", "image_out")
 
     def wrapped_process(self):
         self.check_input_requirements(["image_in"])

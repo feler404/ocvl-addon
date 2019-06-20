@@ -17,7 +17,7 @@ class OCVLgetRectSubPixNode(OCVLNodeBase):
     patchType_in: bpy.props.IntProperty(default=-1, min=-1, max=30, update=update_node, description="Depth of the extracted pixels. By default, they have the same depth as src.")
 
     def init(self, context):
-        self.inputs.new("StringsSocket", "image_in")
+        self.inputs.new("ImageSocket", "image_in")
         self.inputs.new("StringsSocket", "patchSize_in").prop_name = "patchSize_in"
         self.inputs.new("StringsSocket", "center_in").prop_name = "center_in"
         self.inputs.new("StringsSocket", "patchType_in").prop_name = "patchType_in"

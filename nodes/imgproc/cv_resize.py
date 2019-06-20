@@ -34,8 +34,8 @@ class OCVLresizeNode(OCVLNodeBase):
     loc_resize_mode: bpy.props.EnumProperty(items=RESIZE_MODE_ITEMS, default="SIZE", update=update_layout, description="Loc resize mode.")
 
     def init(self, context):
-        self.inputs.new("StringsSocket", "image_in")
-        self.outputs.new("StringsSocket", "image_out")
+        self.inputs.new("ImageSocket", "image_in")
+        self.outputs.new("ImageSocket", "image_out")
         self.update_layout(context)
 
     def wrapped_process(self):

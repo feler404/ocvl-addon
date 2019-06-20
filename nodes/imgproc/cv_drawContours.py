@@ -25,7 +25,7 @@ class OCVLdrawContoursNode(OCVLNodeBase):
     offset_in: bpy.props.IntVectorProperty(default=(0, 0), size=2, update=update_node, description="Optional contour shift parameter. Shift all the drawn contours by the specified \f$\texttt{offset}=(dx,dy)\f$ .")
 
     def init(self, context):
-        self.inputs.new("StringsSocket", "image_in")
+        self.inputs.new("ImageSocket", "image_in")
         self.inputs.new('StringsSocket', "contours_in")
         self.inputs.new('StringsSocket', "hierarchy_in")
         self.inputs.new('StringsSocket', "contourIdx_in").prop_name = 'contourIdx_in'
@@ -34,7 +34,7 @@ class OCVLdrawContoursNode(OCVLNodeBase):
         self.inputs.new('StringsSocket', "maxLevel_in").prop_name = 'maxLevel_in'
         self.inputs.new('StringsSocket', "offset_in").prop_name = 'offset_in'
 
-        self.outputs.new("StringsSocket", "image_out")
+        self.outputs.new("ImageSocket", "image_out")
 
     def wrapped_process(self):
         self.check_input_requirements(["image_in"])

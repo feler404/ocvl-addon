@@ -36,7 +36,7 @@ class OCVLmergeNode(OCVLNodeBase):
         self.inputs.new("StringsSocket", "layer_2_in")
         # self.inputs.new("StringsSocket", "layer_3_in")
 
-        self.outputs.new("StringsSocket", "image_out")
+        self.outputs.new("ImageSocket", "image_out")
 
     def wrapped_process(self):
         mv_tmp = []

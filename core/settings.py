@@ -6,6 +6,8 @@ NODE_COLOR_CV_ERROR = (0.6, 0.0, 0.0)
 WRAP_TEXT_SIZE_FOR_ERROR_DISPLAY = 75
 # In NodeBase if True make copy for "image_in/img_in" sockets data
 IS_WORK_ON_COPY_INPUT = True
+# Category nodes which don't should appear in interface
+BLACK_LIST_REGISTER_NODE_CATEGORY = ["interface"]
 
 DEBUG_MODE = False
 DEBUG = DEBUG_MODE

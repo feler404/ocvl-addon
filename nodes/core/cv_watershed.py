@@ -15,7 +15,7 @@ class OCVLwatershedNode(OCVLNodeBase):
     markers_out: bpy.props.StringProperty(name="markers_out", default=str(uuid.uuid4()), description="Markers output.")
 
     def init(self, context):
-        self.inputs.new("StringsSocket", "image_in")
+        self.inputs.new("ImageSocket", "image_in")
         self.inputs.new("StringsSocket", "markers_in")
 
         self.outputs.new("StringsSocket", "markers_out")

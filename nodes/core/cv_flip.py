@@ -25,8 +25,8 @@ class OCVLflipNode(OCVLNodeBase):
     flipCode_in: bpy.props.EnumProperty(items=FLIP_CODE_ITEMS, default='0', update=update_node, description="Flag to specify how to flip the array.")
 
     def init(self, context):
-        self.inputs.new("StringsSocket", "image_in")
-        self.outputs.new("StringsSocket", "image_out")
+        self.inputs.new("ImageSocket", "image_in")
+        self.outputs.new("ImageSocket", "image_out")
 
     def wrapped_process(self):
         self.check_input_requirements(["image_in"])

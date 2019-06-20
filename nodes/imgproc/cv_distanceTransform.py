@@ -22,8 +22,8 @@ class OCVLdistanceTransformNode(OCVLNodeBase):
     maskSize_in: bpy.props.EnumProperty(items=MASK_SIZE_ITEMS, default='3', update=update_node, description="Size of the distance transform mask.")
 
     def init(self, context):
-        self.inputs.new("StringsSocket", "image_in")
-        self.outputs.new("StringsSocket", "image_out")
+        self.inputs.new("ImageSocket", "image_in")
+        self.outputs.new("ImageSocket", "image_out")
 
     def wrapped_process(self):
         self.check_input_requirements(["image_in"])

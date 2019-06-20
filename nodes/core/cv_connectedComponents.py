@@ -27,7 +27,7 @@ class OCVLconnectedComponentsNode(OCVLNodeBase):
     retval_out: bpy.props.StringProperty(name="retval_out", default=str(uuid.uuid4()), description="Return value.")
 
     def init(self, context):
-        self.inputs.new("StringsSocket", "image_in")
+        self.inputs.new("ImageSocket", "image_in")
 
         self.outputs.new("StringsSocket", "labels_out")
         self.outputs.new("StringsSocket", "retval_out")

@@ -29,7 +29,7 @@ class OCVLsplitNode(OCVLNodeBase):
     layer_3_out: bpy.props.StringProperty(name="layer_3_out", default=str(uuid.uuid4()), description="Channel 3.")
 
     def init(self, context):
-        self.inputs.new("StringsSocket", "image_in")
+        self.inputs.new("ImageSocket", "image_in")
 
         self.outputs.new("StringsSocket", "layer_0_out")
         self.outputs.new("StringsSocket", "layer_1_out")

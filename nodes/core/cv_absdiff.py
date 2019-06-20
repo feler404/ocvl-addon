@@ -15,10 +15,10 @@ class OCVLabsdiffNode(OCVLNodeBase):
     dst_out: bpy.props.StringProperty(name="dst", default=str(uuid.uuid4()), description="Output array that has the same size and type as input arrays.")
 
     def init(self, context):
-        self.inputs.new("StringsSocket", "src1_in")
-        self.inputs.new("StringsSocket", "src2_in")
+        self.inputs.new("ImageSocket", "src1_in")
+        self.inputs.new("ImageSocket", "src2_in")
 
-        self.outputs.new("StringsSocket", "dst_out")
+        self.outputs.new("ImageSocket", "dst_out")
 
     def wrapped_process(self):
         self.check_input_requirements(["src1_in", "src2_in"])

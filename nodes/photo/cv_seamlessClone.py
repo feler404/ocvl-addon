@@ -22,7 +22,7 @@ class OCVLseamlessCloneNode(OCVLNodeBase):
     result_out: bpy.props.StringProperty(name="result_out", default=str(uuid.uuid4()), description="Output image with the same size and type as dst.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "src_in")
+        self.inputs.new("StringsSocket", "src_in")
         self.inputs.new('ImageSocket', "dst_in")
         self.inputs.new('StringsSocket', "mask_in")
         self.inputs.new('StringsSocket', "p_in").prop_name = 'p_in'

@@ -24,7 +24,7 @@ class OCVLCannyNode(OCVLNodeBase):
     edges_out: bpy.props.StringProperty(name="edges_out", default=str(uuid.uuid4()), description="Output edge map. Single channels 8-bit image, which has the same size as image.")
 
     def init(self, context):
-        self.inputs.new("StringsSocket", "image_in")
+        self.inputs.new("ImageSocket", "image_in")
         self.inputs.new('StringsSocket', "threshold1_in").prop_name = 'threshold1_in'
         self.inputs.new('StringsSocket', "threshold2_in").prop_name = 'threshold2_in'
 

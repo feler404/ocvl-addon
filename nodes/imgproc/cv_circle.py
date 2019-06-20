@@ -21,14 +21,14 @@ class OCVLcircleNode(OCVLNodeBase):
     shift_in: bpy.props.IntProperty(default=0, min=0, max=10, update=update_node, description="Number of fractional bits in the coordinates of the center and in the radius value.")
 
     def init(self, context):
-        self.inputs.new("StringsSocket", "image_in")
+        self.inputs.new("ImageSocket", "image_in")
         self.inputs.new('StringsSocket', "center_in").prop_name = 'center_in'
         self.inputs.new('StringsSocket', "radius_in").prop_name = 'radius_in'
         self.inputs.new('SvColorSocket', 'color_in').prop_name = 'color_in'
         self.inputs.new('StringsSocket', "thickness_in").prop_name = 'thickness_in'
         self.inputs.new('StringsSocket', "shift_in").prop_name = 'shift_in'
 
-        self.outputs.new("StringsSocket", "image_out")
+        self.outputs.new("ImageSocket", "image_out")
 
     def wrapped_process(self):
         self.check_input_requirements(["image_in"])

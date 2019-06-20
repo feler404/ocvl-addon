@@ -44,11 +44,11 @@ class OCVLellipseNode(OCVLNodeBase):
     loc_input_mode: bpy.props.EnumProperty(items=INPUT_NODE_ITEMS, default="SIMPLE", update=update_layout, description="Input mode.")
 
     def init(self, context):
-        self.inputs.new("StringsSocket", "image_in")
+        self.inputs.new("ImageSocket", "image_in")
         self.inputs.new('SvColorSocket', 'color_in').prop_name = 'color_in'
         self.inputs.new('StringsSocket', "thickness_in").prop_name = 'thickness_in'
 
-        self.outputs.new("StringsSocket", "image_out")
+        self.outputs.new("ImageSocket", "image_out")
         self.update_layout(context)
 
     def update_sockets(self, context):

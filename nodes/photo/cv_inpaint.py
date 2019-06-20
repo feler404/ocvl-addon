@@ -18,11 +18,11 @@ class OCVLinpaintNode(OCVLNodeBase):
     flags_in: bpy.props.BoolVectorProperty(default=[False for i in bl_flags_list.split(",")], size=len(bl_flags_list.split(",")), update=update_node, subtype="NONE", description=bl_flags_list)
 
     def init(self, context):
-        self.inputs.new("StringsSocket", "image_in")
+        self.inputs.new("ImageSocket", "image_in")
         self.inputs.new('StringsSocket', "inpaintMask_in")
         self.inputs.new('StringsSocket', "inpaintRadius_in").prop_name = 'inpaintRadius_in'
 
-        self.outputs.new("StringsSocket", "image_out")
+        self.outputs.new("ImageSocket", "image_out")
 
     def wrapped_process(self):
         self.check_input_requirements(["image_in", "inpaintMask_in"])

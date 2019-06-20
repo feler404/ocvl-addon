@@ -28,7 +28,7 @@ class OCVLcopyMakeBorderNode(OCVLNodeBase):
         self.inputs.new('StringsSocket', "right_in").prop_name = 'right_in'
         self.inputs.new('SvColorSocket', "color_in").prop_name = "color_in"
 
-        self.outputs.new("StringsSocket", "image_out")
+        self.outputs.new("ImageSocket", "image_out")
 
     def wrapped_process(self):
         self.check_input_requirements(["image_in"])

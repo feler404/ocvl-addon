@@ -21,7 +21,7 @@ class OCVLmulSpectrumsNode(OCVLNodeBase):
         self.inputs.new("StringsSocket", "a_in")
         self.inputs.new("StringsSocket", "b_in")
 
-        self.outputs.new("StringsSocket", "image_out")
+        self.outputs.new("ImageSocket", "image_out")
 
     def wrapped_process(self):
         self.check_input_requirements(["a_in", "b_in"])

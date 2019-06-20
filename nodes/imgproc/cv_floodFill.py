@@ -33,13 +33,13 @@ class OCVLfloodFillNode(OCVLNodeBase):
     flag_mask_only_in: bpy.props.BoolProperty(default=False, update=update_node, description="If set, the function does not change the image ( newVal is ignored), and only fills the mask with the value specified in bits 8-16 of flags as described above.")
 
     def init(self, context):
-        self.inputs.new("StringsSocket", "image_in")
+        self.inputs.new("ImageSocket", "image_in")
         self.inputs.new("StringsSocket", "seedPoint_in").prop_name = "seedPoint_in"
         self.inputs.new("SvColorSocket", "newVal_in").prop_name = "newVal_in"
         self.inputs.new("SvColorSocket", "loDiff_in").prop_name = "loDiff_in"
         self.inputs.new("SvColorSocket", "upDiff_in").prop_name = "upDiff_in"
 
-        self.outputs.new("StringsSocket", "image_out")
+        self.outputs.new("ImageSocket", "image_out")
         self.outputs.new("StringsSocket", "mask_out")
         self.outputs.new("StringsSocket", "rect_out")
 
