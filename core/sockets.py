@@ -136,6 +136,11 @@ class SvLinkNewNodeInput(bpy.types.Operator):
         new_node = nodes.new(self.new_node_idname)
         new_node.location[0] = caller_node.location[0] + self.new_node_offsetx
         new_node.location[1] = caller_node.location[1] + self.new_node_offsety
+        preset_requirements = getattr(caller_node, "n_quick_link_requirements", {}).get(caller_node.inputs[self.socket_index].name)
+        if preset_requirements:
+            for requirement in preset_requirements.keys():
+                setattr(new_node, requirement, preset_requirements[requirement])
+
         if self.is_input_mode:
             links.new(new_node.outputs[0], caller_node.inputs[self.socket_index])
         else:
@@ -236,7 +241,7 @@ class OCVLSocketBase:
             op.is_input_mode = True
             op.new_node_idname = new_node_idname
             op.new_node_offsetx = -250 - 40 #* self.index
-            op.new_node_offsety = -350 * self.index
+            op.new_node_offsety = -460 * self.index
 
     def draw_quick_link_output(self, context, layout, node):
 

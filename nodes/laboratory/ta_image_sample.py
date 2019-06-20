@@ -12,20 +12,20 @@ logger = getLogger(__name__)
 
 
 NP_VALUE_TYPE_ITEMS = (
-    ("NONE", "NONE", "NONE", "", 0),
-    ("intc", "intc", "intc", "", 1),
-    ("intp", "intp", "intp", "", 2),
-    ("int8", "int8", "int8", "", 3),
-    ("int16", "int16", "int16", "", 4),
-    ("int32", "int32", "int32", "", 5),
-    ("int64", "int64", "int64", "", 6),
-    ("uint8", "uint8", "uint8", "", 7),
-    ("uint16", "uint16", "uint16", "", 8),
-    ("uint32", "uint32", "uint32", "", 9),
-    ("uint64", "uint64", "uint64", "", 10),
-    ("float16", "float16", "float16", "", 11),
-    ("float32", "float32", "float32", "", 12),
-    ("float64", "float64", "float64", "", 13),
+    # ("NONE", "NONE", "NONE", "", 0),
+    # ("intc", "intc", "intc", "", 1),
+    # ("intp", "intp", "intp", "", 2),
+    # ("int8", "int8", "int8", "", 3),
+    # ("int16", "int16", "int16", "", 4),
+    # ("int32", "int32", "int32", "", 5),
+    # ("int64", "int64", "int64", "", 6),
+    ("uint8", "uint8", "uint8", "", 0),
+    ("uint16", "uint16", "uint16", "", 1),
+    # ("uint32", "uint32", "uint32", "", 2),
+    # ("uint64", "uint64", "uint64", "", 10),
+    # ("float16", "float16", "float16", "", 3),
+    ("float32", "float32", "float32", "", 2),
+    # ("float64", "float64", "float64", "", 13),
 )
 
 
@@ -76,7 +76,7 @@ class OCVLImageSampleNode(OCVLPreviewNodeBase):
     height_in: bpy.props.IntProperty(default=100, min=1, max=1024, update=update_layout, name="height_in")
     color_in: bpy.props.FloatVectorProperty(update=update_layout, name='color_in', default=(.3, .3, .2, 1.0), size=4, min=0.0, max=1.0, subtype='COLOR')
     code_in: bpy.props.EnumProperty(items=CODE_COLOR_POOR_ITEMS_FOR_IMAGE_SAMPLE, default='NONE', update=update_layout, description="Color space conversion code (see cv::ColorConversionCodes).")
-    value_type_in: bpy.props.EnumProperty(items=NP_VALUE_TYPE_ITEMS, default='NONE', update=update_layout, description="Data type.")
+    value_type_in: bpy.props.EnumProperty(items=NP_VALUE_TYPE_ITEMS, default='uint8', update=update_layout, description="Data type.")
 
     width_out: bpy.props.IntProperty(default=0, name="width_out")
     height_out: bpy.props.IntProperty(default=0, name="height_out")
