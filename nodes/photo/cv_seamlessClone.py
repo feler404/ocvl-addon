@@ -9,11 +9,10 @@ from ocvl.core.node_base import OCVLNodeBase, update_node
 class OCVLseamlessCloneNode(OCVLNodeBase):
 
     bl_flags_list = 'NORMAL_CLONE, MIXED_CLONE, FEATURE_EXCHANGE'
+
     n_doc = "Image editing tasks concern either global changes (color/intensity corrections, filters, deformations) or local changes concerned to a selection. Here we are interested in achieving local changes, ones that are restricted to a region manually selected (ROI), in a seamless and effortless manner. The extent of the changes ranges from slight distortions to complete replacement by novel content"
-    n_quick_link_requirements = {
-        "src_in": {"width_in": 100, "height_in": 100},
-        "dst_in": {"width_in": 300, "height_in": 300},
-    }
+    n_quick_link_requirements = {"src_in": {"width_in": 100, "height_in": 100}, "dst_in": {"width_in": 300, "height_in": 300}}
+    n_requirements = {"__and__": ["src_in", "dst_in"]}
 
     src_in: bpy.props.StringProperty(name="src_in", default=str(uuid.uuid4()), description="Input 8-bit 3-channel image.")
     dst_in: bpy.props.StringProperty(name="dst_in", default=str(uuid.uuid4()), description="Input 8-bit 3-channel image.")
@@ -26,14 +25,12 @@ class OCVLseamlessCloneNode(OCVLNodeBase):
     def init(self, context):
         self.inputs.new("ImageSocket", "src_in")
         self.inputs.new('ImageSocket', "dst_in")
-        self.inputs.new('StringsSocket', "mask_in")
+        self.inputs.new('MaskSocket', "mask_in")
         self.inputs.new('StringsSocket', "p_in").prop_name = 'p_in'
 
         self.outputs.new("ImageSocket", "result_out")
 
     def wrapped_process(self):
-        self.check_input_requirements(["src_in", "dst_in"])
-
         kwargs = {
             'src_in': self.get_from_props("src_in"),
             'dst_in': self.get_from_props("dst_in"),

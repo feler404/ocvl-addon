@@ -258,6 +258,8 @@ class OCVLSocketBase:
         if self.use_quicklink:
             if self.bl_idname == "ImageSocket":
                 new_node_idname = "OCVLImageSampleNode"
+            elif self.bl_idname == "MaskSocket":
+                new_node_idname = "OCVLMaskSampleNode"
             elif self.bl_idname == "VerticesSocket":
                 new_node_idname = "GenVectorsNode"
             elif self.bl_idname == "RectSocket":
@@ -387,6 +389,11 @@ class ImageSocket(bpy.types.NodeSocket, OCVLSocketBase):
     bl_label = 'ImageSocket'
 
 
+class MaskSocket(bpy.types.NodeSocket, OCVLSocketBase):
+    bl_idname = 'MaskSocket'
+    bl_label = 'MaskSocket'
+
+
 class RectSocket(bpy.types.NodeSocket, OCVLSocketBase):
     bl_idname = 'RectSocket'
     bl_label = 'RectSocket'
@@ -399,17 +406,19 @@ class ContourSocket(bpy.types.NodeSocket, OCVLSocketBase):
 
 def register():
     ocvl_register(SvLinkNewNodeInput)
+    ocvl_register(SvColorSocket)
     ocvl_register(StringsSocket)
     ocvl_register(ImageSocket)
-    ocvl_register(SvColorSocket)
+    ocvl_register(MaskSocket)
     ocvl_register(RectSocket)
     ocvl_register(ContourSocket)
 
 
 def unregister():
     ocvl_unregister(SvLinkNewNodeInput)
+    ocvl_unregister(SvColorSocket)
     ocvl_unregister(StringsSocket)
     ocvl_unregister(ImageSocket)
-    ocvl_unregister(SvColorSocket)
+    ocvl_unregister(MaskSocket)
     ocvl_unregister(RectSocket)
     ocvl_unregister(ContourSocket)
