@@ -22,6 +22,11 @@ class OCVLmergeNode(OCVLNodeBase):
 
     n_doc = "Creates one multichannel array out of several single-channel ones."
     n_note= "In example image was used node cvtColor to make one single channel array in graz scale. Node merge is giving out multichannel array on the input channel Red."
+    n_quick_link_requirements = {
+        "layer_0_in": {"code_in": "COLOR_BGR2GRAY"},
+        "layer_1_in": {"code_in": "COLOR_BGR2GRAY"},
+        "layer_2_in": {"code_in": "COLOR_BGR2GRAY"},
+    }
 
     layer_0_in: bpy.props.StringProperty(name="layer_0_in", default=str(uuid.uuid4()), description="First channel Blue.")
     layer_1_in: bpy.props.StringProperty(name="layer_1_in", default=str(uuid.uuid4()), description="Second channel Green.")
@@ -30,10 +35,14 @@ class OCVLmergeNode(OCVLNodeBase):
 
     image_out: bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Image output.")
 
+    @property
+    def n_requirements(self):
+        return {"__or__0": ["layer_0_in", "layer_1_in", "image_2_in"]}
+
     def init(self, context):
-        self.inputs.new("StringsSocket", "layer_0_in")
-        self.inputs.new("StringsSocket", "layer_1_in")
-        self.inputs.new("StringsSocket", "layer_2_in")
+        self.inputs.new("ImageSocket", "layer_0_in")
+        self.inputs.new("ImageSocket", "layer_1_in")
+        self.inputs.new("ImageSocket", "layer_2_in")
         # self.inputs.new("StringsSocket", "layer_3_in")
 
         self.outputs.new("ImageSocket", "image_out")

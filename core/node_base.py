@@ -340,12 +340,29 @@ class OCVLNodeBase(bpy.types.Node):
             kwargs_inputs[prop_name] = value
         return kwargs_inputs
 
-    def check_input_requirements(self, requirements=None, optional=None):
-        requirements = [] if requirements is None else requirements
-        optional = [] if optional is None else optional
+    def check_input_requirements(self, requirements=()):
+        if isinstance(requirements, (list, tuple)):
+            self._check_input_requirements_and(requirements)
+            return
+
         for requirement in requirements:
-            if requirement in optional:
+            if requirement.startswith("__or__"):
+                self._check_input_requirements_or(requirements[requirement])
                 continue
+            elif requirement.startswith("__and__"):
+                self._check_input_requirements_and(requirements[requirement])
+                continue
+
+    def _check_input_requirements_or(self, requirements=()):
+        raise_required_exception = True
+        for requirement in requirements:
+            if self.inputs.get(requirement) and self.inputs[requirement].is_linked:
+                raise_required_exception = False
+        if raise_required_exception:
+            raise LackRequiredSocket("Inputs[{}] not linked".format(requirement))
+
+    def _check_input_requirements_and(self, requirements=()):
+        for requirement in requirements:
             if not self.inputs.get(requirement) or (not self.inputs[requirement].is_linked):
                 # self.use_custom_color = True
                 # self.color = NODE_COLOR_REQUIRE_DATE
