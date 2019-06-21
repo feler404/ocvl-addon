@@ -145,8 +145,11 @@ class SvLinkNewNodeInput(bpy.types.Operator):
         if not caller_node.inputs[self.socket_index].name in multi_link:
             multi_link = []
 
-        print(1111, multi_link)
-        preset_requirements = n_quick_link_requirements.get(caller_node.inputs[self.socket_index].name)
+        if self.is_input_mode:
+            preset_requirements = n_quick_link_requirements.get(caller_node.inputs[self.socket_index].name)
+        else:
+            preset_requirements = n_quick_link_requirements.get(caller_node.outputs[self.socket_index].name)
+
         if not multi_link and preset_requirements:
             for requirement in preset_requirements.keys():
                 setattr(new_node, requirement, preset_requirements[requirement])
@@ -281,6 +284,8 @@ class OCVLSocketBase:
                 new_node_idname = "OCVLImageViewerNode"
             elif self.bl_idname == "VerticesSocket":
                 new_node_idname = "GenVectorsNode"
+            elif self.bl_idname == "ContourSocket":
+                new_node_idname = "OCVLdrawContoursNode"
             else:
                 return
 

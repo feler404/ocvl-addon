@@ -1,5 +1,6 @@
 import uuid
 
+import numpy as np
 import bpy
 import cv2
 from ocvl.core.node_base import OCVLNodeBase, update_node, LINE_TYPE_ITEMS
@@ -27,6 +28,7 @@ class OCVLdrawContoursNode(OCVLNodeBase):
     offset_in: bpy.props.IntVectorProperty(default=(0, 0), size=2, update=update_node, description="Optional contour shift parameter. Shift all the drawn contours by the specified \f$\texttt{offset}=(dx,dy)\f$ .")
 
     def init(self, context):
+        self.width = 250
         self.inputs.new("ImageSocket", "image_in")
         self.inputs.new('ContourSocket', "contours_in")
         self.inputs.new('StringsSocket', "hierarchy_in")
@@ -50,6 +52,9 @@ class OCVLdrawContoursNode(OCVLNodeBase):
             'maxLevel_in': self.get_from_props("maxLevel_in"),
             'offset_in': self.get_from_props("offset_in"),
             }
+
+        if not isinstance(kwargs['hierarchy_in'], np.ndarray):
+            kwargs.pop('hierarchy_in')
 
         image_out = self.process_cv(fn=cv2.drawContours, kwargs=kwargs)
         self.refresh_output_socket("image_out", image_out, is_uuid_type=True)

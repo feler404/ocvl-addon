@@ -8,14 +8,16 @@ from ocvl.core.node_base import OCVLNodeBase, update_node, BORDER_TYPE_ITEMS
 class OCVLcornerHarrisNode(OCVLNodeBase):
 
     n_doc = "Harris corner detector."
+    n_quick_link_requirements = {"image_in": {"code_in": "COLOR_BGR2GRAY", "value_type_in": "float32", "color_in": (0, 0, 0, 0)}}
+    n_requirements = {"__and__": ["image_in"]}
 
     image_in: bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input single-channel 8-bit or floating-point image.")
-    image_out: bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Image to store the Harris detector responses.")
-
     blockSize_in: bpy.props.IntProperty(default=2, min=1, max=30, update=update_node, description="Neighborhood size (see the details on cornerEigenValsAndVecs ).")
     ksize_in: bpy.props.IntProperty(default=3, min=1, max=30, update=update_node, description="Aperture parameter for the Sobel operator.")
     k_in: bpy.props.FloatProperty(default=0.04, min=0.01, max=1, update=update_node, description="Harris detector free parameter. See the formula below.")
     borderType_in: bpy.props.EnumProperty(items=BORDER_TYPE_ITEMS, default='None', update=update_node, description="Pixel extrapolation method. See cv::BorderTypes.")
+
+    image_out: bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Image to store the Harris detector responses.")
 
     def init(self, context):
         self.width = 150
@@ -27,7 +29,6 @@ class OCVLcornerHarrisNode(OCVLNodeBase):
         self.outputs.new("ImageSocket", "image_out")
 
     def wrapped_process(self):
-        self.check_input_requirements(["image_in"])
 
         kwargs = {
             'src': self.get_from_props("image_in"),

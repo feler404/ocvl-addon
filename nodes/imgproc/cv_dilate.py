@@ -9,7 +9,9 @@ from ocvl.core.node_base import OCVLNodeBase, update_node
 class OCVLdilateNode(OCVLNodeBase):
 
     bl_icon = 'FILTER'
+
     n_doc = "Dilates an image by using a specific structuring element."
+    n_requirements = {"__and__": ["image_in"]}
 
     def get_anchor(self):
         return self.get("anchor_in", (-1, -1))
@@ -24,7 +26,7 @@ class OCVLdilateNode(OCVLNodeBase):
 
     ksize_in: bpy.props.IntVectorProperty(default=(3, 3), update=update_node, min=1, max=30, size=2, description="Structuring element used for erosion.")
     anchor_in: bpy.props.IntVectorProperty(default=(-1, -1), update=update_node, get=get_anchor, set=set_anchor, size=2, description="Position of the anchor within the element.")
-    iterations_in: bpy.props.IntProperty(default=2, min=1, max=10, update=update_node, description="Number of times erosion is applied.")
+    iterations_in: bpy.props.IntProperty(default=8, min=1, max=20, update=update_node, description="Number of times erosion is applied.")
 
     def init(self, context):
         self.width = 150
@@ -36,8 +38,6 @@ class OCVLdilateNode(OCVLNodeBase):
         self.outputs.new("ImageSocket", "image_out")
 
     def wrapped_process(self):
-        self.check_input_requirements(["image_in"])
-
         kernel = np.array(self.get_from_props("ksize_in"))
         kwargs = {
             'src': self.get_from_props("image_in"),
