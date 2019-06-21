@@ -8,6 +8,8 @@ from ocvl.core.node_base import OCVLNodeBase, update_node, RETRIEVAL_MODE_ITEMS,
 class OCVLfindContoursNode(OCVLNodeBase):
 
     n_doc = "Finds contours in a binary image."
+    n_quick_link_requirements = {"image_in": {"code_in": "COLOR_BGR2GRAY", "color_in": (0, 0, 0, 0)}}
+    n_requirements = {"__and__": ["image_in"]}
 
     image_in: bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input image.")
     image_out: bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
@@ -23,12 +25,10 @@ class OCVLfindContoursNode(OCVLNodeBase):
         self.inputs.new('StringsSocket', "offset_in").prop_name = 'offset_in'
 
         self.outputs.new("ImageSocket", "image_out")
-        self.outputs.new("StringsSocket", "contours_out")
+        self.outputs.new("ContourSocket", "contours_out")
         self.outputs.new("StringsSocket", "hierarchy_out")
 
     def wrapped_process(self):
-        self.check_input_requirements(["image_in"])
-
         kwargs = {
             'image_in': self.get_from_props("image_in"),
             'mode_in': self.get_from_props("mode_in"),

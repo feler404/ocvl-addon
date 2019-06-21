@@ -8,12 +8,14 @@ from ocvl.core.node_base import OCVLNodeBase, update_node, LINE_TYPE_ITEMS
 class OCVLdrawContoursNode(OCVLNodeBase):
 
     n_doc = "Draws contours outlines or filled contours."
+    n_quick_link_requirements = {"image_in": {"code_in": "COLOR_BGR2GRAY", "color_in": (0, 0, 0, 0)}}
+    n_requirements = {"__and__": ["image_in", "contours_in"]}
 
     image_in: bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input image.")
     image_out: bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
 
     contours_in: bpy.props.StringProperty(default="", update=update_node, description="All the input contours. Each contour is stored as a point vector.")
-    contourIdx_in: bpy.props.IntProperty(default=-1, min=-1, max=10, update=update_node, description="Parameter indicating a contour to draw. If it is negative, all the contours are drawn.")
+    contourIdx_in: bpy.props.IntProperty(default=-1, min=-1, max=100, update=update_node, description="Parameter indicating a contour to draw. If it is negative, all the contours are drawn.")
     color_in: bpy.props.FloatVectorProperty(update=update_node, default=(.7, .7, .1, 1.0), size=4, min=0.0, max=1.0, subtype='COLOR', description="Color of the contours.")
     thickness_in: bpy.props.IntProperty(default=2, min=1, max=10, update=update_node, description="Thickness of lines the contours are drawn with. If it is negative (for example, thickness=CV_FILLED ), the contour interiors are drawn.")
     lineType_in: bpy.props.EnumProperty(items=LINE_TYPE_ITEMS, default="LINE_AA",update=update_node, description="Line connectivity. See cv::LineTypes.")
@@ -26,7 +28,7 @@ class OCVLdrawContoursNode(OCVLNodeBase):
 
     def init(self, context):
         self.inputs.new("ImageSocket", "image_in")
-        self.inputs.new('StringsSocket', "contours_in")
+        self.inputs.new('ContourSocket', "contours_in")
         self.inputs.new('StringsSocket', "hierarchy_in")
         self.inputs.new('StringsSocket', "contourIdx_in").prop_name = 'contourIdx_in'
         self.inputs.new('SvColorSocket', 'color_in').prop_name = 'color_in'
@@ -37,8 +39,6 @@ class OCVLdrawContoursNode(OCVLNodeBase):
         self.outputs.new("ImageSocket", "image_out")
 
     def wrapped_process(self):
-        self.check_input_requirements(["image_in"])
-
         kwargs = {
             'image_in': self.get_from_props("image_in"),
             'contours_in': self.get_from_props("contours_in"),

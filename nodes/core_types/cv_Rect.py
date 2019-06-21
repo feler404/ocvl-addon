@@ -17,7 +17,8 @@ class OCVLRectNode(OCVLNodeBase):
         self.inputs.new("StringsSocket", "y_in").prop_name = "y_in"
         self.inputs.new("StringsSocket", "width_in").prop_name = "width_in"
         self.inputs.new("StringsSocket", "height_in").prop_name = "height_in"
-        self.outputs.new("StringsSocket", "rect_out")
+
+        self.outputs.new("RectSocket", "rect_out")
 
     def wrapped_process(self):
         x_in = self.get_from_props("x_in")

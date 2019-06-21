@@ -14,6 +14,7 @@ SOBEL_SIZE_ITEMS = (
 class OCVLCannyNode(OCVLNodeBase):
 
     n_doc = "Finds edges in an image using the [Canny86] algorithm."
+    n_requirements = {"__and__": ["image_in"]}
 
     image_in: bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="8-bit input image.")
     threshold1_in: bpy.props.FloatProperty(default=100, min=0, max=255, update=update_node, description="First threshold for the hysteresis procedure.")
@@ -28,11 +29,9 @@ class OCVLCannyNode(OCVLNodeBase):
         self.inputs.new('StringsSocket', "threshold1_in").prop_name = 'threshold1_in'
         self.inputs.new('StringsSocket', "threshold2_in").prop_name = 'threshold2_in'
 
-        self.outputs.new("StringsSocket", "edges_out")
+        self.outputs.new("ImageSocket", "edges_out")
 
     def wrapped_process(self):
-        self.check_input_requirements(["image_in"])
-
         kwargs = {
             'image_in': self.get_from_props("image_in"),
             'threshold1_in': self.get_from_props("threshold1_in"),

@@ -146,9 +146,9 @@ class SvLinkNewNodeInput(bpy.types.Operator):
                 setattr(new_node, requirement, preset_requirements[requirement])
 
         if self.is_input_mode:
-            links.new(new_node.outputs[0], caller_node.inputs[self.socket_index])
+            self._connect_same_type_sockets(links, new_node.outputs, caller_node.inputs)
         else:
-            links.new(new_node.inputs[0], caller_node.outputs[self.socket_index])
+            self._connect_same_type_sockets(links, new_node.inputs, caller_node.outputs)
 
         if caller_node.parent:
             new_node.parent = caller_node.parent
@@ -157,6 +157,12 @@ class SvLinkNewNodeInput(bpy.types.Operator):
             new_node.location = locx, locy
 
         return {'FINISHED'}
+
+    def _connect_same_type_sockets(self, links, new_node_sockets, caller_node_sockets):
+        bl_idname = caller_node_sockets[self.socket_index].bl_idname
+        for socket in new_node_sockets:
+            if socket.bl_idname == bl_idname:
+                links.new(socket, caller_node_sockets[self.socket_index])
 
 
 class OCVLSocketBase:
@@ -236,6 +242,10 @@ class OCVLSocketBase:
                 new_node_idname = "OCVLImageSampleNode"
             elif self.bl_idname == "VerticesSocket":
                 new_node_idname = "GenVectorsNode"
+            elif self.bl_idname == "RectSocket":
+                new_node_idname = "OCVLRectNode"
+            elif self.bl_idname == "ContourSocket":
+                new_node_idname = "OCVLfindContoursNode"
             else:
                 return
 
@@ -359,20 +369,26 @@ class ImageSocket(bpy.types.NodeSocket, OCVLSocketBase):
 class RectSocket(bpy.types.NodeSocket, OCVLSocketBase):
     bl_idname = 'RectSocket'
     bl_label = 'RectSocket'
-    draw_socket_color = 0.1, 0.2, 0.2, 1
+
+
+class ContourSocket(bpy.types.NodeSocket, OCVLSocketBase):
+    bl_idname = 'ContourSocket'
+    bl_label = 'ContourSocket'
 
 
 def register():
+    ocvl_register(SvLinkNewNodeInput)
     ocvl_register(StringsSocket)
     ocvl_register(ImageSocket)
-    ocvl_register(SvLinkNewNodeInput)
     ocvl_register(SvColorSocket)
     ocvl_register(RectSocket)
+    ocvl_register(ContourSocket)
 
 
 def unregister():
+    ocvl_unregister(SvLinkNewNodeInput)
     ocvl_unregister(StringsSocket)
     ocvl_unregister(ImageSocket)
-    ocvl_unregister(SvLinkNewNodeInput)
     ocvl_unregister(SvColorSocket)
     ocvl_unregister(RectSocket)
+    ocvl_unregister(ContourSocket)

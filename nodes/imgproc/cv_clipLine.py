@@ -8,7 +8,9 @@ from ocvl.core.node_base import OCVLNodeBase, update_node
 class OCVLclipLineNode(OCVLNodeBase):
 
     bl_icon = 'GREASEPENCIL'
+
     n_doc = "Clips the line against the image rectangle."
+    n_requirements = {"__and__": ["imgRect_in"]}
 
     imgRect_in: bpy.props.StringProperty(name="imgRect_in", default=str(uuid.uuid4()), description="Image rectangle.")
     retval_out: bpy.props.StringProperty(name="retval_out", default=str(uuid.uuid4()), description="Return value.")
@@ -20,7 +22,7 @@ class OCVLclipLineNode(OCVLNodeBase):
 
     def init(self, context):
         self.width = 200
-        self.inputs.new("StringsSocket", "imgRect_in")
+        self.inputs.new("RectSocket", "imgRect_in")
         self.inputs.new('StringsSocket', "pt1_in").prop_name = 'pt1_in'
         self.inputs.new('StringsSocket', "pt2_in").prop_name = 'pt2_in'
 
