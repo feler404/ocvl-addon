@@ -20,7 +20,9 @@ PROPS_MAPS = {
 class OCVLellipse2PolyNode(OCVLNodeBase):
 
     bl_icon = 'GREASEPENCIL'
+
     n_doc = "Approximates an elliptic arc with a polyline."
+    n_requirements = {}
 
     center_in: bpy.props.IntVectorProperty(default=(0, 0), size=2, update=update_node, description="Center of the ellipse.")
     axes_in: bpy.props.IntVectorProperty(default=(1, 1), size=2, min=0, max=1000, update=update_node, description="Half of the size of the ellipse main axes.")
@@ -43,8 +45,6 @@ class OCVLellipse2PolyNode(OCVLNodeBase):
         # self.update_layout(context)
 
     def wrapped_process(self):
-        self.check_input_requirements([])
-
         kwargs = {
             'center_in': self.get_from_props("center_in"),
             'axes_in': self.get_from_props("axes_in"),

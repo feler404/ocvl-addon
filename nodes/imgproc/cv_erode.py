@@ -9,7 +9,9 @@ from ocvl.core.node_base import OCVLNodeBase, update_node, BORDER_TYPE_ITEMS
 class OCVLerodeNode(OCVLNodeBase):
 
     bl_icon = 'FILTER'
+
     n_doc = "Erodes an image by using a specific structuring element."
+    n_requirements = {"__and__": ["image_in"]}
 
     def get_anchor(self):
         return self.get("anchor_in", (-1, -1))
@@ -37,8 +39,6 @@ class OCVLerodeNode(OCVLNodeBase):
         self.outputs.new("ImageSocket", "image_out")
 
     def wrapped_process(self):
-        self.check_input_requirements(["image_in"])
-
         kernel = np.array(self.get_from_props("ksize_in"))
         kwargs = {
             'src': self.get_from_props("image_in"),

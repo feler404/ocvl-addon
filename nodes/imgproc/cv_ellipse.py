@@ -19,7 +19,10 @@ PROPS_MAPS = {
 class OCVLellipseNode(OCVLNodeBase):
 
     bl_icon = 'GREASEPENCIL'
+
     n_doc = "Draws a simple or thick elliptic arc or fills an ellipse sector."
+    n_quick_link_requirements = {"image_in": {"loc_image_mode": "PLANE"}}
+    n_requirements = {"__and__": ["image_in"]}
 
     def update_layout(self, context):
         self.update_sockets(context)
@@ -31,8 +34,8 @@ class OCVLellipseNode(OCVLNodeBase):
     # INPUT MODE PROPERTIES
     box_in: bpy.props.StringProperty(default=str(uuid.uuid4()), description="Alternative ellipse representation via RotatedRect. This means that the function draws an ellipse inscribed in the rotated rectangle.")
 
-    center_in: bpy.props.IntVectorProperty(default=(0, 0), size=2, update=update_node, description="Center of the ellipse.")
-    axes_in: bpy.props.IntVectorProperty(default=(1, 1), size=2, min=0, max=1000, update=update_node, description="Half of the size of the ellipse main axes.")
+    center_in: bpy.props.IntVectorProperty(default=(30, 30), size=2, update=update_node, description="Center of the ellipse.")
+    axes_in: bpy.props.IntVectorProperty(default=(17, 5), size=2, min=0, max=1000, update=update_node, description="Half of the size of the ellipse main axes.")
     angle_in: bpy.props.IntProperty(default=30, min=0, max=360, update=update_node, description="Ellipse rotation angle in degrees.")
     startAngle_in: bpy.props.IntProperty(default=0, min=0, max=360, update=update_node, description="Starting angle of the elliptic arc in degrees.")
     endAngle_in: bpy.props.IntProperty(default=270, min=0, max=360, update=update_node, description="Ending angle of the elliptic arc in degrees")
@@ -41,9 +44,10 @@ class OCVLellipseNode(OCVLNodeBase):
     color_in: bpy.props.FloatVectorProperty(update=update_node, default=(.7, .7, .1, 1.0), size=4, min=0.0, max=1.0, subtype='COLOR', description="Ellipse color.")
     thickness_in: bpy.props.IntProperty(default=2, min=-1, max=10, update=update_node, description="Thickness of the ellipse arc outline, if positive. Otherwise, this indicates that a filled ellipse sector is to be drawn.")
     lineType_in: bpy.props.EnumProperty(items=LINE_TYPE_ITEMS, default="LINE_AA",update=update_node, description="Type of the ellipse boundary. See the line description.")
-    loc_input_mode: bpy.props.EnumProperty(items=INPUT_NODE_ITEMS, default="SIMPLE", update=update_layout, description="Input mode.")
+    loc_input_mode: bpy.props.EnumProperty(items=INPUT_NODE_ITEMS, default="FULL", update=update_layout, description="Input mode.")
 
     def init(self, context):
+        self.width = 250
         self.inputs.new("ImageSocket", "image_in")
         self.inputs.new('SvColorSocket', 'color_in').prop_name = 'color_in'
         self.inputs.new('StringsSocket', "thickness_in").prop_name = 'thickness_in'
@@ -56,7 +60,6 @@ class OCVLellipseNode(OCVLNodeBase):
         self.process()
 
     def wrapped_process(self):
-        self.check_input_requirements(["image_in"])
         self.check_inputs_requirements_mode(requirements=(("box_in", "SIMPLE"),), props_maps=PROPS_MAPS, input_mode=self.loc_input_mode)
         kwargs_inputs= self.get_kwargs_inputs(PROPS_MAPS, self.loc_input_mode)
 
