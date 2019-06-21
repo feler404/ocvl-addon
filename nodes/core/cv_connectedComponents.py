@@ -18,9 +18,8 @@ LTYPE_ITEMS = (
 class OCVLconnectedComponentsNode(OCVLNodeBase):
 
     n_doc = "Connected components."
-    n_quick_link_requirements = {
-        "image_in": {"code_in": "COLOR_BGR2GRAY"}
-    }
+    n_quick_link_requirements = {"image_in": {"code_in": "COLOR_BGR2GRAY"}}
+    n_requirements = {"__and__": ["image_in"]}
 
     image_in: bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="The 8-bit single-channel image to be labeled.")
     connectivity_in: bpy.props.EnumProperty(items=CONNECTIVITY_ITEMS, default="8", update=update_node, description="8 or 4 for 8-way or 4-way connectivity respectively.")
@@ -36,8 +35,6 @@ class OCVLconnectedComponentsNode(OCVLNodeBase):
         self.outputs.new("StringsSocket", "retval_out")
 
     def wrapped_process(self):
-        self.check_input_requirements(["image_in"])
-
         kwargs = {
             'image_in': self.get_from_props("image_in"),
             'connectivity_in': int(self.get_from_props("connectivity_in")),

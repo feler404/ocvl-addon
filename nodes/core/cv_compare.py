@@ -17,6 +17,7 @@ COMPARE_FLAG_ITEMS = (
 class OCVLcompareNode(OCVLNodeBase):
 
     n_doc = "Performs the per-element comparison of two arrays or an array and scalar value."
+    n_requirements = {"__and__": ["src1_in", "src2_in"]}
 
     src1_in: bpy.props.StringProperty(name="src1_in", default=str(uuid.uuid4()), description="First input array or a scalar (in the case of cvCmp, cv.Cmp, cvCmpS, cv.CmpS it is always an array); when it is an array, it must have a single channel.")
     src2_in: bpy.props.StringProperty(name="src2_in", default=str(uuid.uuid4()), description="Second input array or a scalar (in the case of cvCmp and cv.Cmp it is always an array; in the case of cvCmpS, cv.CmpS it is always a scalar); when it is an array, it must have a single channel.")
@@ -40,8 +41,6 @@ class OCVLcompareNode(OCVLNodeBase):
         self.outputs.new("ImageSocket", "dst_out")
 
     def wrapped_process(self):
-        self.check_input_requirements(["src1_in", "src2_in"])
-
         kwargs = {
             'src1_in': self.get_from_props("src1_in"),
             'src2_in': self.get_from_props("src2_in"),

@@ -18,9 +18,10 @@ COMPARE_FLAG_ITEMS = (
 
 class OCVLcalcCovarMatrixNode(OCVLNodeBase):
 
-    n_doc = "Calculates the covariance matrix of a set of vectors."
     bl_flags_list = 'CV_COVAR_SCRAMBLED, CV_COVAR_NORMAL, CV_COVAR_USE_AVG, CV_COVAR_SCALE, CV_COVAR_ROWS, CV_COVAR_COLS'
 
+    n_doc = "Calculates the covariance matrix of a set of vectors."
+    n_requirements = {"__and__": ["samples_in"]}
 
     samples_in: bpy.props.StringProperty(name="samples_in", default=str(uuid.uuid4()), description="Samples stored either as separate matrices or as rows/columns of a single matrix.")
     mean_in: bpy.props.IntProperty(name="mean_in", default=10, update=update_node, description="Input or output (depending on the flags) array as the average value of the input vectors.")
@@ -37,8 +38,6 @@ class OCVLcalcCovarMatrixNode(OCVLNodeBase):
         self.outputs.new("StringsSocket", "mean_out")
 
     def wrapped_process(self):
-        self.check_input_requirements(["samples_in"])
-
         kwargs = {
             'samples_in': self.get_from_props("samples_in"),
             'flags_in': self.get_from_props("flags_in"),

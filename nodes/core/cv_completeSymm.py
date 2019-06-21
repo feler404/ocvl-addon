@@ -8,6 +8,7 @@ from ocvl.core.node_base import OCVLNodeBase, update_node
 class OCVLcompleteSymmNode(OCVLNodeBase):
 
     n_doc = "Copies the lower or the upper half of a square matrix to another half."
+    n_requirements = {"__and__": ["mtx_in"]}
 
     mtx_in: bpy.props.StringProperty(name="mtx_in", default=str(uuid.uuid4()), description="Input-output floating-point square matrix.")
 
@@ -21,8 +22,6 @@ class OCVLcompleteSymmNode(OCVLNodeBase):
         self.outputs.new("StringsSocket", "mtx_out")
 
     def wrapped_process(self):
-        self.check_input_requirements(["mtx_in"])
-
         kwargs = {
             'mtx_in': self.get_from_props("mtx_in"),
             'lowerToUpper_in': self.get_from_props("lowerToUpper_in"),

@@ -9,6 +9,7 @@ class OCVLcartToPolarNode(OCVLNodeBase):
 
     n_doc = "Calculates the magnitude and angle of 2D vectors."
 
+
     x_in: bpy.props.StringProperty(name="x_in", default=str(uuid.uuid4()), description="Array of x-coordinates; this must be a single-precision or double-precision floating-point array.")
     y_in: bpy.props.StringProperty(name="y_in", default=str(uuid.uuid4()), description="Array of y-coordinates, that must have the same size and same type as x.")
 
