@@ -104,7 +104,7 @@ class TutorialModeOperator(bpy.types.Operator):
     bl_idname = "node.tutorial_mode"
     bl_label = "Node Tutorial Mode"
 
-    loc_tutorial_path = bpy.props.StringProperty(default="")
+    loc_tutorial_path: bpy.props.StringProperty(default="")
 
     def execute(self, context):
         bpy.ops.node.clean_desk()
@@ -127,7 +127,7 @@ class TutorialModeCommandOperator(bpy.types.Operator):
     bl_idname = "node.tutorial_mode_command"
     bl_label = "Node Tutorial Mode Command"
 
-    loc_command = bpy.props.StringProperty(default="")
+    loc_command: bpy.props.StringProperty(default="")
 
     def execute(self, context):
 
@@ -187,7 +187,7 @@ class TutorialShowFirstStepCommandOperator(bpy.types.Operator):
     bl_idname = "node.tutorial_show_first_step"
     bl_label = "Node Tutorial Show First Step"
 
-    loc_command = bpy.props.StringProperty(default="")
+    loc_command: bpy.props.StringProperty(default="")
 
     def execute(self, context):
         for area in bpy.context.screen.areas:

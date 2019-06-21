@@ -12,46 +12,45 @@ AUTO_RESIZE_ITEMS = (
 
 
 class OCVLaddWeightedNode(OCVLNodeBase):
-
     n_doc = "Calculates the weighted sum of two arrays."
     n_note = ""
-    n_requirements = {"__and__": ["image_1_in", "image_2_in"]}
+    n_requirements = {"__and__": ["src1", "src2"]}
 
-    image_1_in: bpy.props.StringProperty(name="image_1_in", default=str(uuid.uuid4()), description="First input array.")
-    image_2_in: bpy.props.StringProperty(name="image_2_in", default=str(uuid.uuid4()), description="Second input array.")
+    loc_auto_resize: bpy.props.EnumProperty(items=AUTO_RESIZE_ITEMS, default="SECOND", update=update_node, description="Automatic adjust size image.")
+
+    src1_in: bpy.props.StringProperty(default=str(uuid.uuid4()), description="First input array.")
+    src2_in: bpy.props.StringProperty(default=str(uuid.uuid4()), description="Second input array.")
     alpha_in: bpy.props.FloatProperty(default=0.3, min=0.0, max=1.0, step=1,update=update_node, description="Weight of the first array elements.")
     beta_in: bpy.props.FloatProperty(default=0.7, min=0.0, max=1.0, step=1, update=update_node, description="Weight of the second array elements.")
     gamma_in: bpy.props.FloatProperty(default=0.0, min=0.0, max=1.0, step=1, update=update_node, description="Scalar added to each sum.")
     dtype_in: bpy.props.EnumProperty(items=COLOR_DEPTH_WITH_NONE_ITEMS, default='None', update=update_node, description="Desired depth of the destination image, see @ref filter_depths 'combinations'.")
 
-    image_out: bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
-
-    loc_auto_resize: bpy.props.EnumProperty(items=AUTO_RESIZE_ITEMS, default="SECOND", update=update_node, description="Automatic adjust size image.")
+    dst_out: bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "image_1_in")
-        self.inputs.new("ImageSocket", "image_2_in")
-        self.inputs.new('StringsSocket', "alpha_in").prop_name = 'alpha_in'
-        self.inputs.new('StringsSocket', "beta_in").prop_name = 'beta_in'
-        self.inputs.new('StringsSocket', "gamma_in").prop_name = 'gamma_in'
+        self.inputs.new("ImageSocket", name="src1", identifier="src1_in")
+        self.inputs.new("ImageSocket", name="src2", identifier="src2_in")
+        self.inputs.new('StringsSocket', name="alpha_in", identifier="alpha_in").prop_name = 'alpha_in'
+        self.inputs.new('StringsSocket', name="beta_in", identifier="beta_in").prop_name = 'beta_in'
+        self.inputs.new('StringsSocket', name="gamma_in", identifier="gamma_in").prop_name = 'gamma_in'
 
-        self.outputs.new("ImageSocket", "image_out")
+        self.outputs.new("ImageSocket", name="dst", identifier="dst_out")
 
     def wrapped_process(self):
-        image_1_in = self.get_from_props("image_1_in")
-        image_2_in = self.get_from_props("image_2_in")
+        src1 = self.get_from_props("src1")
+        src2 = self.get_from_props("src2")
         dtype_in = self.get_from_props("dtype_in")
         kwargs = {
-            'src1': image_1_in if self.loc_auto_resize != "FIRST" else cv2.resize(image_1_in, image_2_in.shape[::-1][1:]),
-            'src2': image_2_in if self.loc_auto_resize != "SECOND" else cv2.resize(image_2_in, image_1_in.shape[::-1][1:]),
-            'alpha_in': self.get_from_props("alpha_in"),
-            'beta_in': self.get_from_props("beta_in"),
-            'gamma_in': self.get_from_props("gamma_in"),
+            'src1': src1 if self.loc_auto_resize != "FIRST" else cv2.resize(src1, src1.shape[::-1][1:]),
+            'src2': src2 if self.loc_auto_resize != "SECOND" else cv2.resize(src2, src2.shape[::-1][1:]),
+            'alpha': self.get_from_props("alpha_in"),
+            'beta': self.get_from_props("beta_in"),
+            'gamma': self.get_from_props("gamma_in"),
             'dtype_in': -1 if dtype_in is None else dtype_in
             }
 
-        image_out = self.process_cv(fn=cv2.addWeighted, kwargs=kwargs)
-        self.refresh_output_socket("image_out", image_out, is_uuid_type=True)
+        dst = self.process_cv(fn=cv2.addWeighted, kwargs=kwargs)
+        self.refresh_output_socket("dst", dst, is_uuid_type=True)
 
     def draw_buttons(self, context, layout):
         self.add_button(layout, "loc_auto_resize", expand=True)

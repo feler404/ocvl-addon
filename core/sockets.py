@@ -121,13 +121,13 @@ class SvLinkNewNodeInput(bpy.types.Operator):
     bl_idname = "node.sv_quicklink_new_node"
     bl_label = "Add a new node to the left"
 
-    socket_index = bpy.props.IntProperty()
-    origin = bpy.props.StringProperty()
-    is_input_mode = bpy.props.BoolProperty(default=True)
-    is_block_quick_link_requirements = bpy.props.BoolProperty(default=True)
-    new_node_idname = bpy.props.StringProperty()
-    new_node_offsetx = bpy.props.IntProperty(default=-200)
-    new_node_offsety = bpy.props.IntProperty(default=0)
+    socket_index: bpy.props.IntProperty()
+    origin: bpy.props.StringProperty()
+    is_input_mode: bpy.props.BoolProperty(default=True)
+    is_block_quick_link_requirements: bpy.props.BoolProperty(default=True)
+    new_node_idname: bpy.props.StringProperty()
+    new_node_offsetx: bpy.props.IntProperty(default=-200)
+    new_node_offsety: bpy.props.IntProperty(default=0)
 
     def execute(self, context):
         if self.is_block_quick_link_requirements:

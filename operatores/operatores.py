@@ -78,7 +78,7 @@ class OCVLImageImporterOperator(bpy.types.Operator):
     bl_label = "Open Image"
     bl_options = {'REGISTER'}
 
-    n_id = bpy.props.StringProperty(default='')
+    n_id: bpy.props.StringProperty(default='')
 
     filepath = bpy.props.StringProperty(
         name="File Path",
