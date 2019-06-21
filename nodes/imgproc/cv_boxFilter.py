@@ -7,8 +7,10 @@ from ocvl.core.node_base import OCVLNodeBase, update_node, COLOR_DEPTH_ITEMS, BO
 
 class OCVLboxFilterNode(OCVLNodeBase):
 
-    n_doc = "Blurs an image using the box filter."
     bl_icon = 'FILTER'
+
+    n_doc = "Blurs an image using the box filter."
+    n_requirements = {"__and__": ["image_in"]}
 
     def get_anchor(self):
         return self.get("anchor_in", (-1, -1))
@@ -28,6 +30,7 @@ class OCVLboxFilterNode(OCVLNodeBase):
     image_out: bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
 
     def init(self, context):
+        self.width = 260
         self.inputs.new("ImageSocket", "image_in")
         self.inputs.new('StringsSocket', "ksize_in").prop_name = 'ksize_in'
         self.inputs.new('StringsSocket', "anchor_in").prop_name = 'anchor_in'
@@ -35,8 +38,6 @@ class OCVLboxFilterNode(OCVLNodeBase):
         self.outputs.new("ImageSocket", "image_out")
 
     def wrapped_process(self):
-        self.check_input_requirements(["image_in"])
-
         kwargs = {
             'src': self.get_from_props("image_in"),
             'ksize_in': self.get_from_props("ksize_in"),

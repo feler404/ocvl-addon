@@ -272,7 +272,7 @@ class OCVLSocketBase:
             op.origin = node.name
             op.is_input_mode = False
             op.new_node_idname = new_node_idname
-            op.new_node_offsetx = 250 + 40 * self.index
+            op.new_node_offsetx = node.width + 80
             op.new_node_offsety = 230 * self.index
 
     def draw(self, context, layout, node, text):

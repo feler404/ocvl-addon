@@ -8,11 +8,13 @@ from ocvl.core.node_base import OCVLNodeBase, update_node, BORDER_TYPE_ITEMS
 class OCVLbilateralFilterNode(OCVLNodeBase):
 
     bl_icon = 'FILTER'
-    n_doc = "Applies the bilateral filter to an image."
 
-    d_in: bpy.props.IntProperty(default=2, min=1, max=10, update=update_node, description="Diameter of each pixel neighborhood that is used during filtering. If it is non-positive, it is computed from sigmaSpace.")
-    sigmaColor_in: bpy.props.FloatProperty(default=75, min=0, max=255, update=update_node, description="Filter sigma in the color space.")
-    sigmaSpace_in: bpy.props.FloatProperty(default=75, min=0, max=255, update=update_node, description="Filter sigma in the coordinate space.")
+    n_doc = "Applies the bilateral filter to an image."
+    n_requirements = {"__and__": ["image_in"]}
+
+    d_in: bpy.props.IntProperty(default=8, min=1, max=20, update=update_node, description="Diameter of each pixel neighborhood that is used during filtering. If it is non-positive, it is computed from sigmaSpace.")
+    sigmaColor_in: bpy.props.FloatProperty(default=130, min=0, max=255, update=update_node, description="Filter sigma in the color space.")
+    sigmaSpace_in: bpy.props.FloatProperty(default=130, min=0, max=255, update=update_node, description="Filter sigma in the coordinate space.")
     borderType_in: bpy.props.EnumProperty(items=BORDER_TYPE_ITEMS, default='None', update=update_node, description="Border mode used to extrapolate pixels outside of the image, see cv::BorderTypes.")
 
     image_out: bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
@@ -27,8 +29,6 @@ class OCVLbilateralFilterNode(OCVLNodeBase):
         self.outputs.new("ImageSocket", "image_out")
 
     def wrapped_process(self):
-        self.check_input_requirements(["image_in"])
-
         kwargs = {
             'src': self.get_from_props("image_in"),
             'd_in': self.get_from_props("d_in"),

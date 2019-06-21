@@ -8,11 +8,14 @@ from ocvl.core.node_base import OCVLNodeBase, update_node, LINE_TYPE_ITEMS
 class OCVLarrowedLineNode(OCVLNodeBase):
 
     bl_icon = 'GREASEPENCIL'
+
     n_doc = "Draws a arrow segment pointing from the first point to the second one."
+    n_quick_link_requirements = {"image_in": {"loc_image_mode": "PLANE"}}
+    n_requirements = {"__and__": ["image_in"]}
 
     image_in: bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input image.")
     pt1_in: bpy.props.IntVectorProperty(default=(0, 0), size=2, update=update_node, description="First point of the line segment.")
-    pt2_in: bpy.props.IntVectorProperty(default=(1, 1), size=2, update=update_node, description="Second point of the line segment.")
+    pt2_in: bpy.props.IntVectorProperty(default=(50, 50), size=2, update=update_node, description="Second point of the line segment.")
     color_in: bpy.props.FloatVectorProperty(update=update_node, default=(.7, .7, .1, 1.0), size=4, min=0.0, max=1.0, subtype='COLOR', description="Line color.")
     thickness_in: bpy.props.IntProperty(default=2, min=1, max=10, update=update_node, description="Line thickness.")
     lineType_in: bpy.props.EnumProperty(items=LINE_TYPE_ITEMS, default="LINE_AA", update=update_node, description="Line type.")
@@ -34,8 +37,6 @@ class OCVLarrowedLineNode(OCVLNodeBase):
         self.outputs.new("ImageSocket", "image_out")
 
     def wrapped_process(self):
-        self.check_input_requirements(["image_in"])
-
         kwargs = {
             'img_in': self.get_from_props("image_in"),
             'pt1_in': self.get_from_props("pt1_in"),

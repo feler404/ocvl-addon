@@ -18,8 +18,11 @@ KERNEL_SIZE_ITEMS = (
 
 class OCVLadaptiveThresholdNode(OCVLNodeBase):
 
-    n_doc = "Applies an adaptive threshold to an array."
     bl_icon = 'MOD_MASK'
+
+    n_doc = "Applies an adaptive threshold to an array."
+    n_quick_link_requirements = {"image_in": {"code_in": "COLOR_BGR2GRAY"}}
+    n_requirements = {"__and__": ["image_in"]}
 
     image_in: bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Source 8-bit single-channel image.")
     maxValue_in: bpy.props.IntProperty(default=150, min=0, max=255, update=update_node, description="Non-zero value assigned to the pixels for which the condition is satisfied.")
@@ -31,6 +34,7 @@ class OCVLadaptiveThresholdNode(OCVLNodeBase):
     image_out: bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Destination image of the same size and the same type as src.")
 
     def init(self, context):
+        self.width = 250
         self.inputs.new("ImageSocket", "image_in")
         self.inputs.new("StringsSocket", "maxValue_in").prop_name = "maxValue_in"
         self.inputs.new("StringsSocket", "C_in").prop_name = "C_in"
@@ -38,8 +42,6 @@ class OCVLadaptiveThresholdNode(OCVLNodeBase):
         self.outputs.new("ImageSocket", "image_out")
 
     def wrapped_process(self):
-        self.check_input_requirements(["image_in"])
-
         kwargs = {
             'src': self.get_from_props("image_in"),
             'maxValue_in': self.get_from_props("maxValue_in"),
