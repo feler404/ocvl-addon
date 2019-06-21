@@ -140,15 +140,21 @@ class SvLinkNewNodeInput(bpy.types.Operator):
         new_node = nodes.new(self.new_node_idname)
         new_node.location[0] = caller_node.location[0] + self.new_node_offsetx
         new_node.location[1] = caller_node.location[1] + self.new_node_offsety
-        preset_requirements = getattr(caller_node, "n_quick_link_requirements", {}).get(caller_node.inputs[self.socket_index].name)
-        if preset_requirements:
+        n_quick_link_requirements = getattr(caller_node, "n_quick_link_requirements", {})
+        multi_link = n_quick_link_requirements.get("multi_link", [])
+        if not caller_node.inputs[self.socket_index].name in multi_link:
+            multi_link = []
+
+        print(1111, multi_link)
+        preset_requirements = n_quick_link_requirements.get(caller_node.inputs[self.socket_index].name)
+        if not multi_link and preset_requirements:
             for requirement in preset_requirements.keys():
                 setattr(new_node, requirement, preset_requirements[requirement])
 
         if self.is_input_mode:
-            self._connect_same_type_sockets(links, new_node.outputs, caller_node.inputs)
+            self._connect_same_type_sockets(links, new_node.outputs, caller_node.inputs, multi_link)
         else:
-            self._connect_same_type_sockets(links, new_node.inputs, caller_node.outputs)
+            self._connect_same_type_sockets(links, new_node.inputs, caller_node.outputs, multi_link)
 
         if caller_node.parent:
             new_node.parent = caller_node.parent
@@ -158,11 +164,20 @@ class SvLinkNewNodeInput(bpy.types.Operator):
 
         return {'FINISHED'}
 
-    def _connect_same_type_sockets(self, links, new_node_sockets, caller_node_sockets):
+    def _connect_same_type_sockets(self, links, new_node_sockets, caller_node_sockets, multi_link):
+        if multi_link:
+            self._connect_multi_sockets(links, new_node_sockets, caller_node_sockets)
+            return
         bl_idname = caller_node_sockets[self.socket_index].bl_idname
         for socket in new_node_sockets:
             if socket.bl_idname == bl_idname:
                 links.new(socket, caller_node_sockets[self.socket_index])
+
+    def _connect_multi_sockets(self, links, new_node_sockets, caller_node_sockets):
+        for socket_new in new_node_sockets:
+            for socket_caller in caller_node_sockets:
+                if socket_new.name.split("_")[0] == socket_caller.name.split("_")[0]:
+                    links.new(socket_new, caller_node_sockets[socket_caller.index])
 
 
 class OCVLSocketBase:
@@ -249,14 +264,15 @@ class OCVLSocketBase:
             else:
                 return
 
-            op = layout.operator('node.sv_quicklink_new_node', text="", icon="PLUGIN")
+            icon = "PARTICLEMODE" if node.n_quick_link_requirements.get("multi_link", [None])[0] == node.inputs[self.index].name else "PLUGIN"
+            op = layout.operator('node.sv_quicklink_new_node', text="", icon=icon)
             op.is_block_quick_link_requirements = False
             op.socket_index = self.index
             op.origin = node.name
             op.is_input_mode = True
             op.new_node_idname = new_node_idname
             op.new_node_offsetx = -250 - 40
-            op.new_node_offsety = -460 * self.index
+            op.new_node_offsety = -460 * self.index if icon == "PLUGIN" else 0
 
     def draw_quick_link_output(self, context, layout, node):
 
