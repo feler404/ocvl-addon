@@ -4,6 +4,7 @@ import bpy
 import cv2
 from ocvl.core.node_base import COLOR_DEPTH_WITH_NONE_ITEMS, OCVLNodeBase, update_node
 
+
 AUTO_RESIZE_ITEMS = (
     ("OFF", "OFF", "Resize OFF", "", 0),
     ("FIRST", "FIRST", "Resize first", "", 1),
@@ -41,8 +42,8 @@ class OCVLaddWeightedNode(OCVLNodeBase):
         src2 = self.get_from_props("src2")
         dtype_in = self.get_from_props("dtype_in")
         kwargs = {
-            'src1': src1 if self.loc_auto_resize != "FIRST" else cv2.resize(src1, src1.shape[::-1][1:]),
-            'src2': src2 if self.loc_auto_resize != "SECOND" else cv2.resize(src2, src2.shape[::-1][1:]),
+            'src1': src1 if self.loc_auto_resize != "FIRST" else cv2.resize(src1, src2.shape[::-1][1:]),
+            'src2': src2 if self.loc_auto_resize != "SECOND" else cv2.resize(src2, src1.shape[::-1][1:]),
             'alpha': self.get_from_props("alpha_in"),
             'beta': self.get_from_props("beta_in"),
             'gamma': self.get_from_props("gamma_in"),
