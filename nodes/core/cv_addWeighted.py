@@ -15,21 +15,18 @@ class OCVLaddWeightedNode(OCVLNodeBase):
 
     n_doc = "Calculates the weighted sum of two arrays."
     n_note = ""
+    n_requirements = {"__and__": ["image_1_in", "image_2_in"]}
 
     image_1_in: bpy.props.StringProperty(name="image_1_in", default=str(uuid.uuid4()), description="First input array.")
     image_2_in: bpy.props.StringProperty(name="image_2_in", default=str(uuid.uuid4()), description="Second input array.")
-    alpha_in: bpy.props.FloatProperty(default=0.3, min=0.0, max=1.0, update=update_node, description="Weight of the first array elements.")
-    beta_in: bpy.props.FloatProperty(default=0.7, min=0.0, max=1.0, update=update_node, description="Weight of the second array elements.")
-    gamma_in: bpy.props.FloatProperty(default=0.0, min=0.0, max=1.0, update=update_node, description="Scalar added to each sum.")
+    alpha_in: bpy.props.FloatProperty(default=0.3, min=0.0, max=1.0, step=1,update=update_node, description="Weight of the first array elements.")
+    beta_in: bpy.props.FloatProperty(default=0.7, min=0.0, max=1.0, step=1, update=update_node, description="Weight of the second array elements.")
+    gamma_in: bpy.props.FloatProperty(default=0.0, min=0.0, max=1.0, step=1, update=update_node, description="Scalar added to each sum.")
     dtype_in: bpy.props.EnumProperty(items=COLOR_DEPTH_WITH_NONE_ITEMS, default='None', update=update_node, description="Desired depth of the destination image, see @ref filter_depths 'combinations'.")
 
     image_out: bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
 
     loc_auto_resize: bpy.props.EnumProperty(items=AUTO_RESIZE_ITEMS, default="SECOND", update=update_node, description="Automatic adjust size image.")
-
-    @property
-    def n_requirements(self):
-        return ["image_1_in", "image_2_in"]
 
     def init(self, context):
         self.inputs.new("ImageSocket", "image_1_in")
@@ -41,8 +38,6 @@ class OCVLaddWeightedNode(OCVLNodeBase):
         self.outputs.new("ImageSocket", "image_out")
 
     def wrapped_process(self):
-        self.check_input_requirements(self.n_requirements)
-
         image_1_in = self.get_from_props("image_1_in")
         image_2_in = self.get_from_props("image_2_in")
         dtype_in = self.get_from_props("dtype_in")

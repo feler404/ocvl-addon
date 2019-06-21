@@ -8,6 +8,7 @@ from ocvl.core.node_base import OCVLNodeBase, update_node
 class OCVLbitwise_andNode(OCVLNodeBase):
 
     n_doc = "Computes bitwise conjunction of the two arrays (dst = src1 & src2) Calculates the per-element bit-wise conjunction of two arrays or an array and a scalar."
+    n_requirements = {"__and__": ["image_1_in", "image_2_in"]}
 
     image_1_in: bpy.props.StringProperty(name="image_1_in", default=str(uuid.uuid4()), update=update_node, description="First input array or a scalar.")
     image_2_in: bpy.props.StringProperty(name="image_2_in", default=str(uuid.uuid4()), update=update_node, description="Second input array or a scalar.")
@@ -23,8 +24,6 @@ class OCVLbitwise_andNode(OCVLNodeBase):
         self.outputs.new("ImageSocket", "image_out")
 
     def wrapped_process(self):
-        self.check_input_requirements(["image_1_in", "image_2_in"])
-
         kwargs = {
             'src1': self.get_from_props("image_1_in"),
             'src2': self.get_from_props("image_2_in"),

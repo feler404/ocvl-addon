@@ -245,7 +245,7 @@ class OCVLSocketBase:
             op.origin = node.name
             op.is_input_mode = True
             op.new_node_idname = new_node_idname
-            op.new_node_offsetx = -250 - 40 #* self.index
+            op.new_node_offsetx = -250 - 40
             op.new_node_offsety = -460 * self.index
 
     def draw_quick_link_output(self, context, layout, node):

@@ -7,6 +7,7 @@ from ocvl.core.node_base import OCVLNodeBase, update_node
 
 class OCVLbitwise_notNode(OCVLNodeBase):
     n_doc = "Inverts every bit of an array."
+    n_requirements = {"__and__": ["image_in"]}
 
     image_in: bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node, description="First input array or a scalar.")
     mask_in: bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node, description="Optional operation mask, 8-bit single channel array, that specifies elements of the output array to be changed.")
@@ -20,8 +21,6 @@ class OCVLbitwise_notNode(OCVLNodeBase):
         self.outputs.new("ImageSocket", "image_out")
 
     def wrapped_process(self):
-        self.check_input_requirements(["image_in"])
-
         kwargs = {
             'src': self.get_from_props("image_in"),
             'mask_in': self.get_from_props("mask_in"),

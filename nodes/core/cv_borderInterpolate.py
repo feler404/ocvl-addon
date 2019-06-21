@@ -6,6 +6,7 @@ from ocvl.core.node_base import OCVLNodeBase, update_node, BORDER_TYPE_ITEMS
 class OCVLborderInterpolateNode(OCVLNodeBase):
 
     n_doc = "Computes the source location of an extrapolated pixel."
+    n_requirements = {}
 
     p_in: bpy.props.IntProperty(name="p", default=5, update=update_node, description="0-based coordinate of the extrapolated pixel along one of the axes, likely <0 or >= len .")
     len_in: bpy.props.IntProperty(name="len", default=10, update=update_node, description="Length of the array along the corresponding axis.")
@@ -20,8 +21,6 @@ class OCVLborderInterpolateNode(OCVLNodeBase):
         self.outputs.new("StringsSocket", "retval")
 
     def wrapped_process(self):
-        self.check_input_requirements([])
-
         kwargs = {
             'p': self.get_from_props("p_in"),
             'len': self.get_from_props("len_in"),

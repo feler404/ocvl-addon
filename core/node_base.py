@@ -201,7 +201,7 @@ class OCVLNodeBase(bpy.types.Node):
     :param n_category: <string> default category for auto register
     :param n_doc: <string> short documentation for node
     :param n_see_also: <string> annotation tell about similar nodes
-    :param n_requirements: <list> requirements inputs
+    :param n_requirements: <dict> requirements inputs
     :param n_note: <string> addition note to documentation
     :param n_quick_link_requirements: <dict> specification to quic_link socket
     :param bl_idname: <string> id for Blender scope
@@ -340,9 +340,8 @@ class OCVLNodeBase(bpy.types.Node):
             kwargs_inputs[prop_name] = value
         return kwargs_inputs
 
-    def check_input_requirements(self, requirements=()):
-        if isinstance(requirements, (list, tuple)):
-            self._check_input_requirements_and(requirements)
+    def check_input_requirements(self, requirements=None):
+        if not requirements:
             return
 
         for requirement in requirements:
@@ -394,6 +393,7 @@ class OCVLNodeBase(bpy.types.Node):
         self.use_custom_color = False
         start = time.time()
         try:
+            self.check_input_requirements(self.n_requirements)
             self.wrapped_process()
         except LackRequiredSocket as e:
             logger.info("SOCKET UNLINKED - {}".format(self))

@@ -8,6 +8,7 @@ from ocvl.core.node_base import OCVLNodeBase, update_node
 class OCVLaddNode(OCVLNodeBase):
 
     n_doc = "Calculates the per-element sum of two arrays or an array and a scalar."
+    n_requirements = {"__and__": ["image_1_in", "image_2_in"]}
 
     image_1_in: bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node, description="First input array or a scalar.")
     image_2_in: bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node, description="Second input array or a scalar.")
@@ -15,19 +16,14 @@ class OCVLaddNode(OCVLNodeBase):
 
     image_out: bpy.props.StringProperty(default=str(uuid.uuid4()))
 
-    @property
-    def n_requirements(self):
-        return ["image_1_in", "image_2_in"]
-
     def init(self, context):
-        self.inputs.new("ImageSocket", "image_1_in")
-        self.inputs.new("ImageSocket", "image_2_in")
-        self.inputs.new('StringsSocket', "mask_in")
+        self.inputs.new("ImageSocket", name="image_1_in", identifier="image_1_in")
+        self.inputs.new("ImageSocket", name="image_2_in", identifier="image_2_in")
+        self.inputs.new('StringsSocket', name="mask_in", identifier="mask_in")
 
-        self.outputs.new("ImageSocket", "image_out")
+        self.outputs.new("ImageSocket", name="image_out", identifier="image_out")
 
     def wrapped_process(self):
-        self.check_input_requirements(self.n_requirements)
 
         kwargs = {
             'src1': self.get_from_props("image_1_in"),
