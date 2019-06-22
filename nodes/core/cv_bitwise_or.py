@@ -18,7 +18,7 @@ class OCVLbitwise_orNode(OCVLNodeBase):
     def init(self, context):
         self.inputs.new("ImageSocket", name="src1", identifier="src1_in")
         self.inputs.new("ImageSocket", name="src2", identifier="src2_in")
-        self.inputs.new('StringsSocket', name="mask", identifier="mask_in")
+        self.inputs.new('MaskSocket', name="mask", identifier="mask_in")
 
         self.outputs.new("ImageSocket", name="dst", identifier="dst_out")
 

@@ -269,7 +269,8 @@ class OCVLSocketBase:
             else:
                 return
 
-            icon = "PARTICLEMODE" if node.n_quick_link_requirements.get("multi_link", [None])[0] == node.inputs[self.index].name else "PLUGIN"
+            icon = "PLUGIN" if node.inputs[self.index].name in node.n_requirements.get("__and__", []) else "SNAP_ON"
+            icon = "PARTICLEMODE" if node.n_quick_link_requirements.get("multi_link", [None])[0] == node.inputs[self.index].name else icon
             op = layout.operator('node.sv_quicklink_new_node', text="", icon=icon)
             op.is_block_quick_link_requirements = False
             op.socket_index = self.index
@@ -277,7 +278,7 @@ class OCVLSocketBase:
             op.is_input_mode = True
             op.new_node_idname = new_node_idname
             op.new_node_offsetx = -250 - 40
-            op.new_node_offsety = -460 * self.index if icon == "PLUGIN" else 0
+            op.new_node_offsety = -460 * self.index if icon in ["PLUGIN", "SNAP_ON"] else 0
 
     def draw_quick_link_output(self, context, layout, node):
 
