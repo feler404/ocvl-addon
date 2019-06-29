@@ -2,7 +2,7 @@ import uuid
 
 import bpy
 from ocvl.core.node_base import OCVLNodeBase, update_node
-from ocvl.core.settings import STETHOSCOPE_NODE_MAX_LINES
+from ocvl.core.settings import STETHOSCOPE_NODE_MAX_LINES, WRAP_TEXT_SIZE_FOR_ERROR_DISPLAY
 
 
 class OCVLStethoscopeNode(OCVLNodeBase):
@@ -14,7 +14,7 @@ class OCVLStethoscopeNode(OCVLNodeBase):
 
     def init(self, context):
         self.width = 200
-        self.inputs.new("ImageSocket", "matrix_in")
+        self.inputs.new("StringsSocket", "matrix_in")
 
     def wrapped_process(self):
         pass
@@ -26,4 +26,4 @@ class OCVLStethoscopeNode(OCVLNodeBase):
             if i > STETHOSCOPE_NODE_MAX_LINES:
                 layout.label(text="...")
                 break
-            layout.label(text=str(line))
+            layout.label(text=str(line)[:WRAP_TEXT_SIZE_FOR_ERROR_DISPLAY])

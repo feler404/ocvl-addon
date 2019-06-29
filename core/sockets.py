@@ -188,6 +188,14 @@ class OCVLSocketBase:
     bl_label = None
     draw_socket_color = None
 
+    _map_quick_link_icons = {
+        "output": {
+            "ImageSocket": ["LIGHT", "OUTLINER_OB_LIGHT"],
+            "ContourSocket": ["LIGHT", "OUTLINER_OB_LIGHT"],
+            "StringsSocket": ["OUTLINER_DATA_LIGHTPROBE", "OUTLINER_OB_LIGHTPROBE"],
+        }
+    }
+
     use_prop: bpy.props.BoolProperty(default=False)
     use_expander: bpy.props.BoolProperty(default=True)
     use_quicklink: bpy.props.BoolProperty(default=True)
@@ -260,8 +268,6 @@ class OCVLSocketBase:
                 new_node_idname = "OCVLImageSampleNode"
             elif self.bl_idname == "MaskSocket":
                 new_node_idname = "OCVLMaskSampleNode"
-            elif self.bl_idname == "VerticesSocket":
-                new_node_idname = "GenVectorsNode"
             elif self.bl_idname == "RectSocket":
                 new_node_idname = "OCVLRectNode"
             elif self.bl_idname == "ContourSocket":
@@ -285,18 +291,18 @@ class OCVLSocketBase:
         if self.use_quicklink:
             if self.bl_idname == "ImageSocket":
                 new_node_idname = "OCVLImageViewerNode"
-            elif self.bl_idname == "VerticesSocket":
-                new_node_idname = "GenVectorsNode"
             elif self.bl_idname == "ContourSocket":
                 new_node_idname = "OCVLdrawContoursNode"
+            elif self.bl_idname == "StringsSocket":
+                new_node_idname = "OCVLStethoscopeNode"
             else:
                 return
 
             try:
                 node.check_input_requirements(node.n_requirements)
-                op_icon = "OUTLINER_OB_LIGHT"
+                op_icon = self._map_quick_link_icons["output"][self.bl_idname][1]
             except (Exception, LackRequiredSocket) as e:
-                op_icon = "LIGHT"
+                op_icon = self._map_quick_link_icons["output"][self.bl_idname][0]
             except (Exception, LackRequiredSocket) as e:
                 op_icon = "NONE"
 
