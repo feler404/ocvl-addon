@@ -8,6 +8,8 @@ WRAP_TEXT_SIZE_FOR_ERROR_DISPLAY = 75
 IS_WORK_ON_COPY_INPUT = True
 # Category nodes which don't should appear in interface
 BLACK_LIST_REGISTER_NODE_CATEGORY = ["interface"]
+# Max number lines displayed on Stethoscope node
+STETHOSCOPE_NODE_MAX_LINES = 30
 
 DEBUG_MODE = False
 DEBUG = DEBUG_MODE
