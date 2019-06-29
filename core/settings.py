@@ -30,3 +30,6 @@ class SocketColors:
 
 CATEGORY_TREE = Category()
 SOCKET_COLORS = SocketColors()
+
+# Maximum value for float number from sys.float_info.max
+DBL_MAX = 1.7976931348623156e+308
