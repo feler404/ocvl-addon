@@ -36,7 +36,7 @@ class OCVLcalcCovarMatrixNode(OCVLNodeBase):
 
     def init(self, context):
         self.inputs.new("ImageSocket", "samples_in")
-        self.inputs.new("StringsSocket", "mean_out").prop_name = "mean_in"
+        self.inputs.new("StringsSocket", "mean_in").prop_name = "mean_in"
 
         self.outputs.new("StringsSocket", "covar_out")
         self.outputs.new("StringsSocket", "mean_out")

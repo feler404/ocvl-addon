@@ -287,6 +287,7 @@ class OCVLSocketBase:
             op.new_node_offsety = -460 * self.index if icon in ["PLUGIN", "SNAP_ON"] else 0
 
     def draw_quick_link_output(self, context, layout, node):
+        is_block_quick_link_requirements = True
 
         if self.use_quicklink:
             if self.bl_idname == "ImageSocket":
@@ -301,13 +302,14 @@ class OCVLSocketBase:
             try:
                 node.check_input_requirements(node.n_requirements)
                 op_icon = self._map_quick_link_icons["output"][self.bl_idname][1]
+                is_block_quick_link_requirements = False
             except (Exception, LackRequiredSocket) as e:
                 op_icon = self._map_quick_link_icons["output"][self.bl_idname][0]
             except (Exception, LackRequiredSocket) as e:
                 op_icon = "NONE"
 
             op = layout.operator('node.sv_quicklink_new_node', text="", icon=op_icon)
-            op.is_block_quick_link_requirements = bool(op_icon == "LIGHT")
+            op.is_block_quick_link_requirements = is_block_quick_link_requirements
             op.socket_index = self.index
             op.origin = node.name
             op.is_input_mode = False

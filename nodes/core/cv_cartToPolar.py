@@ -8,7 +8,11 @@ from ocvl.core.node_base import OCVLNodeBase, update_node
 class OCVLcartToPolarNode(OCVLNodeBase):
 
     n_doc = "Calculates the magnitude and angle of 2D vectors."
-
+    n_requirements = {"__and__": ["x_in", "y_in"]}
+    n_quick_link_requirements = {
+        "x_in": {"width_in": 30, "height_in": 30, "code_in": "COLOR_BGR2GRAY", "value_type_in": "float32"},
+        "y_in": {"width_in": 30, "height_in": 30, "code_in": "COLOR_BGR2GRAY", "value_type_in": "float32"},
+    }
 
     x_in: bpy.props.StringProperty(name="x_in", default=str(uuid.uuid4()), description="Array of x-coordinates; this must be a single-precision or double-precision floating-point array.")
     y_in: bpy.props.StringProperty(name="y_in", default=str(uuid.uuid4()), description="Array of y-coordinates, that must have the same size and same type as x.")
@@ -19,15 +23,13 @@ class OCVLcartToPolarNode(OCVLNodeBase):
     angle_out: bpy.props.StringProperty(name="angle_out", default=str(uuid.uuid4()), description="Output array of angles that has the same size and type as x; the angles are measured in radians (from 0 to 2*Pi) or in degrees (0 to 360 degrees).")
 
     def init(self, context):
-        self.inputs.new("StringsSocket", "x_in")
-        self.inputs.new("StringsSocket", "y_in")
+        self.inputs.new("ImageSocket", "x_in")
+        self.inputs.new("ImageSocket", "y_in")
 
         self.outputs.new("StringsSocket", "magnitude_out")
         self.outputs.new("StringsSocket", "angle_out")
 
     def wrapped_process(self):
-        self.check_input_requirements(["x_in", "y_in"])
-
         kwargs = {
             'x_in': self.get_from_props("x_in"),
             'y_in': self.get_from_props("y_in"),
