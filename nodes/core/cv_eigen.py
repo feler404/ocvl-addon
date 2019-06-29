@@ -8,6 +8,7 @@ from ocvl.core.node_base import OCVLNodeBase
 class OCVLeigenNode(OCVLNodeBase):
 
     n_doc = "Calculates eigenvalues and eigenvectors of a symmetric matrix."
+    n_requirements = {"__and__": ["src_in"]}
     n_quick_link_requirements = {"src_in": {"code_in": "COLOR_BGR2GRAY", "value_type_in": "float32"}}
 
     src_in: bpy.props.StringProperty(name="src_in", default=str(uuid.uuid4()), description="Input matrix that must have CV_32FC1 or CV_64FC1 type, square size and be symmetrical.")
@@ -24,16 +25,11 @@ class OCVLeigenNode(OCVLNodeBase):
         self.outputs.new("StringsSocket", "eigenvectors_out")
 
     def wrapped_process(self):
-        self.check_input_requirements(["src_in"])
-
         kwargs = {
             'src_in': self.get_from_props("src_in"),
             }
 
         retval_out, eigenvalues_out, eigenvectors_out = self.process_cv(fn=cv2.eigen, kwargs=kwargs)
         self.refresh_output_socket("retval_out", retval_out, is_uuid_type=True)
-        self.refresh_output_socket("eigenvalues_out", eigenvalues_out, is_uuid_type=True)
-        self.refresh_output_socket("eigenvectors_out", eigenvectors_out, is_uuid_type=True)
-
-    def draw_buttons(self, context, layout):
-        pass
+        # self.refresh_output_socket("eigenvalues_out", eigenvalues_out, is_uuid_type=True)
+        # self.refresh_output_socket("eigenvectors_out", eigenvectors_out, is_uuid_type=True)
