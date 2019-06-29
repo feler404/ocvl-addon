@@ -204,6 +204,7 @@ class OCVLNodeBase(bpy.types.Node):
     :param n_requirements: <dict> requirements inputs
     :param n_note: <string> addition note to documentation
     :param n_quick_link_requirements: <dict> specification to quic_link socket
+    :param n_input_output_only: node don't make copy input image
     :param bl_idname: <string> id for Blender scope
     :param bl_label: <string> the node label
     :param bl_icon: <string> the node icon
@@ -224,6 +225,7 @@ class OCVLNodeBase(bpy.types.Node):
     n_see_also = ""
     n_requirements = []
     n_quick_link_requirements = {}
+    n_input_output_only = False
 
     bl_idname = None
     bl_label = None
