@@ -415,7 +415,7 @@ class OCVLNodeBase(bpy.types.Node):
         try:
             out = fn(**kwargs)
         except Exception as e:
-            logger.warning("CV process problem: fn={}, kwargs={}, self={} ".format(fn, kwargs, self))
+            logger.warning("CV process problem: fn={}, kwargs={}, self={}, exception={} ".format(fn, kwargs, self, e))
             raise
         self.n_meta = "\nCV time: {0:.2f}ms".format((time.time() - start) * 1000)
         return out

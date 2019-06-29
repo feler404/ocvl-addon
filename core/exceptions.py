@@ -8,3 +8,7 @@ class LackRequiredSocket(OCVLNodeException):
 
 class NoDataError(OCVLNodeException):
     pass
+
+
+class IncorrectTypeInStringSocketException(OCVLNodeException):
+    pass
