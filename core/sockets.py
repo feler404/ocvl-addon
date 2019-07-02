@@ -1,3 +1,4 @@
+from collections import defaultdict
 from copy import deepcopy
 
 import bpy
@@ -172,7 +173,7 @@ class LinkNewNodeInput(bpy.types.Operator):
             return
         bl_idname = caller_node_sockets[self.socket_index].bl_idname
         for socket in new_node_sockets:
-            if socket.bl_idname == bl_idname:
+            if socket.bl_idname == bl_idname or socket.bl_idname == "StethoscopeSocket":
                 links.new(socket, caller_node_sockets[self.socket_index])
 
     def _connect_multi_sockets(self, links, new_node_sockets, caller_node_sockets):
@@ -188,11 +189,11 @@ class OCVLSocketBase:
     draw_socket_color = None
 
     _map_quick_link_icons = {
-        "output": {
-            "ImageSocket": ["LIGHT", "OUTLINER_OB_LIGHT"],
-            "ContourSocket": ["LIGHT", "OUTLINER_OB_LIGHT"],
-            "StringsSocket": ["OUTLINER_DATA_LIGHTPROBE", "OUTLINER_OB_LIGHTPROBE"],
-        }
+        "output": defaultdict(lambda : ["LIGHT", "OUTLINER_OB_LIGHT"],
+            {
+                "StringsSocket": ["OUTLINER_DATA_LIGHTPROBE", "OUTLINER_OB_LIGHTPROBE"],
+            }
+        )
     }
 
     use_prop: bpy.props.BoolProperty(default=False)
@@ -271,6 +272,8 @@ class OCVLSocketBase:
                 new_node_idname = "OCVLRectNode"
             elif self.bl_idname == "ContourSocket":
                 new_node_idname = "OCVLfindContoursNode"
+            elif self.bl_idname == "VectorSocket":
+                new_node_idname = "OCVLVecNode"
             else:
                 return
 
@@ -293,7 +296,7 @@ class OCVLSocketBase:
                 new_node_idname = "OCVLImageViewerNode"
             elif self.bl_idname == "ContourSocket":
                 new_node_idname = "OCVLdrawContoursNode"
-            elif self.bl_idname == "StringsSocket":
+            elif self.bl_idname in ["StringsSocket", "VectorSocket"]:
                 new_node_idname = "OCVLStethoscopeNode"
             else:
                 return
@@ -412,6 +415,16 @@ class ContourSocket(bpy.types.NodeSocket, OCVLSocketBase):
     bl_label = 'ContourSocket'
 
 
+class VectorSocket(bpy.types.NodeSocket, OCVLSocketBase):
+    bl_idname = 'VectorSocket'
+    bl_label = 'VectorSocket'
+
+
+class StethoscopeSocket(bpy.types.NodeSocket, OCVLSocketBase):
+    bl_idname = 'StethoscopeSocket'
+    bl_label = 'StethoscopeSocket'
+
+
 def register():
     ocvl_register(LinkNewNodeInput)
     ocvl_register(SvColorSocket)
@@ -420,6 +433,8 @@ def register():
     ocvl_register(MaskSocket)
     ocvl_register(RectSocket)
     ocvl_register(ContourSocket)
+    ocvl_register(VectorSocket)
+    ocvl_register(StethoscopeSocket)
 
 
 def unregister():
@@ -430,3 +445,5 @@ def unregister():
     ocvl_unregister(MaskSocket)
     ocvl_unregister(RectSocket)
     ocvl_unregister(ContourSocket)
+    ocvl_unregister(VectorSocket)
+    ocvl_unregister(StethoscopeSocket)

@@ -5,18 +5,6 @@ import cv2
 from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
-# INPUT_NODE_ITEMS = (
-#     ("DOUBLE", "DOUBLE", "DOUBLE", "", 0),
-#     ("TRIPLE", "TRIPLE", "TRIPLE", "", 1),
-# )
-#
-#
-# PROPS_MAPS = {
-#     INPUT_NODE_ITEMS[0][0]: (),
-#     INPUT_NODE_ITEMS[1][0]: ("src_3_in", "beta_in"),
-#     }
-
-
 class OCVLgemmNode(OCVLNodeBase):
     bl_flags_list = 'GEMM_1_T, GEMM_2_T, GEMM_3_T'
 

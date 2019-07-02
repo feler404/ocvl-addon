@@ -7,26 +7,9 @@ from logging import getLogger
 
 from ocvl.core.node_base import OCVLPreviewNodeBase
 from ocvl.core.image_utils import convert_to_cv_image
+from ocvl.core.constants import NP_VALUE_TYPE_ITEMS
 
 logger = getLogger(__name__)
-
-
-NP_VALUE_TYPE_ITEMS = (
-    # ("NONE", "NONE", "NONE", "", 0),
-    # ("intc", "intc", "intc", "", 1),
-    # ("intp", "intp", "intp", "", 2),
-    # ("int8", "int8", "int8", "", 3),
-    # ("int16", "int16", "int16", "", 4),
-    # ("int32", "int32", "int32", "", 5),
-    # ("int64", "int64", "int64", "", 6),
-    ("uint8", "uint8", "uint8", "", 0),
-    ("uint16", "uint16", "uint16", "", 1),
-    # ("uint32", "uint32", "uint32", "", 2),
-    # ("uint64", "uint64", "uint64", "", 10),
-    # ("float16", "float16", "float16", "", 3),
-    ("float32", "float32", "float32", "", 2),
-    # ("float64", "float64", "float64", "", 13),
-)
 
 
 CODE_COLOR_POOR_ITEMS_FOR_IMAGE_SAMPLE = (

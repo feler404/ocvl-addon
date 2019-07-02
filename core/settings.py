@@ -26,6 +26,8 @@ class SocketColors:
     MaskSocket = 0.0, 0.0, 0.0, 1
     RectSocket = 0.2, 0.4, 0.4, 1
     ContourSocket = 0.2, 0.8, 1.0, 1
+    VectorSocket = 0.1, 1.0, 0.2, 1
+    StethoscopeSocket = 1.0, 1.0, 1.0, 1
 
 
 CATEGORY_TREE = Category()

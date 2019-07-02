@@ -15,7 +15,7 @@ class OCVLStethoscopeNode(OCVLNodeBase):
 
     def init(self, context):
         self.width = 200
-        self.inputs.new("StringsSocket", "matrix_in")
+        self.inputs.new("StethoscopeSocket", "matrix_in")
 
     def wrapped_process(self):
         pass
