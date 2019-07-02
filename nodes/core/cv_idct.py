@@ -8,7 +8,9 @@ from ocvl.core.node_base import OCVLNodeBase, update_node
 class OCVLidctNode(OCVLNodeBase):
 
     bl_flags_list = 'DCT_INVERSE, DFT_SCALE, DFT_ROWS, DFT_COMPLEX_OUTPUT, DFT_REAL_OUTPUT'
+
     n_doc = "Calculates the inverse Discrete Cosine Transform of a 1D or 2D array."
+    n_requirements = {"__and__": ["src_in"]}
     n_quick_link_requirements = {"src_in": {"code_in": "COLOR_BGR2GRAY", "value_type_in": "float32"}}
 
     src_in: bpy.props.StringProperty(name="src_in", default=str(uuid.uuid4()), description="Input floating-point single-channel array.")
@@ -21,7 +23,6 @@ class OCVLidctNode(OCVLNodeBase):
         self.outputs.new("ImageSocket", "dst_out")
 
     def wrapped_process(self):
-        self.check_input_requirements(["src_in"])
 
         kwargs = {
             'src_in': self.get_from_props("src_in"),

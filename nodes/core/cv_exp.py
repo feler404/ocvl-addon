@@ -8,6 +8,7 @@ from ocvl.core.node_base import OCVLNodeBase
 class OCVLexpNode(OCVLNodeBase):
 
     n_doc = "Calculates the exponent of every array element."
+    n_requirements = {"__and__": ["src_in"]}
     n_quick_link_requirements = {"src_in": {"code_in": "COLOR_BGR2GRAY", "value_type_in": "float32"}}
 
     src_in: bpy.props.StringProperty(name="src_in", default=str(uuid.uuid4()), description="Input array.")
@@ -18,14 +19,9 @@ class OCVLexpNode(OCVLNodeBase):
         self.outputs.new("StringsSocket", "dst_out")
 
     def wrapped_process(self):
-        self.check_input_requirements(["src_in"])
-
         kwargs = {
             'src_in': self.get_from_props("src_in"),
             }
 
         dst_out = self.process_cv(fn=cv2.exp, kwargs=kwargs)
         self.refresh_output_socket("dst_out", dst_out, is_uuid_type=True)
-
-    def draw_buttons(self, context, layout):
-        pass
