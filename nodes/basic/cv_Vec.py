@@ -1,10 +1,9 @@
-import bpy
 import uuid
+
+import bpy
 import numpy as np
-
-from ocvl.core.node_base import OCVLNodeBase, update_node
 from ocvl.core.constants import NP_VALUE_TYPE_ITEMS
-
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 VEC_MODE_ITEMS = (
     ("ZEROS", "ZEROS", "ZEROS", "", 0),
@@ -17,7 +16,7 @@ PROPS_MAPS = {
     VEC_MODE_ITEMS[0][0]: ("size_in", "value_type_in"),
     VEC_MODE_ITEMS[1][0]: ("size_in", "value_type_in"),
     VEC_MODE_ITEMS[2][0]: ("size_in", "value_type_in"),
-    VEC_MODE_ITEMS[3][0]: ("size_in", "value_type_in", "loc_manual_input"),
+    VEC_MODE_ITEMS[3][0]: ("value_type_in", "loc_manual_input"),
 }
 
 
@@ -25,9 +24,13 @@ class OCVLVecNode(OCVLNodeBase):
 
     n_doc = "Vector."
 
+    def update_layout(self, context):
+        self.update_sockets(context)
+        update_node(self, context)
+
     size_in: bpy.props.IntProperty(default=10, min=1, max=2048, update=update_node, description="Size of vector")
     value_type_in: bpy.props.EnumProperty(items=NP_VALUE_TYPE_ITEMS, default='uint8', update=update_node, description="Data type.")
-    loc_input_mode: bpy.props.EnumProperty(items=VEC_MODE_ITEMS, default='RANDOM', update=update_node, description="Data type.")
+    loc_input_mode: bpy.props.EnumProperty(items=VEC_MODE_ITEMS, default='RANDOM', update=update_layout, description="Data type.")
     loc_manual_input: bpy.props.StringProperty(default='[0, 1, 2]', maxlen=1024, update=update_node)
 
     vector_out: bpy.props.StringProperty(default=str(uuid.uuid4()))
@@ -37,6 +40,7 @@ class OCVLVecNode(OCVLNodeBase):
         self.inputs.new("StringsSocket", "size_in").prop_name = "size_in"
 
         self.outputs.new("VectorSocket", "vector_out")
+        self.update_layout(context)
 
     def wrapped_process(self):
         size_in = self.get_from_props("size_in")
@@ -52,7 +56,7 @@ class OCVLVecNode(OCVLNodeBase):
             loc_manual_input = self.get_from_props("loc_manual_input")
             try:
                 eval_list = eval(loc_manual_input)
-                vector_out = list(np.array(eval_list, dtype=dtype))
+                vector_out = np.array(eval_list, dtype=dtype)
             except Exception as e:
                 self.n_errors = "Evaluation error. Details: {}".format(e)
                 vector_out = []
@@ -62,8 +66,9 @@ class OCVLVecNode(OCVLNodeBase):
 
         self.refresh_output_socket("vector_out", vector_out, is_uuid_type=True)
 
+    def update_sockets(self, context):
+        self.update_sockets_for_node_mode(PROPS_MAPS, self.loc_input_mode)
+        self.process()
+
     def draw_buttons(self, context, layout):
         self.add_button(layout, "loc_input_mode", expand=True)
-        self.add_button(layout, "value_type_in")
-        if self.loc_input_mode == "MANUAL":
-            self.add_button(layout, "loc_manual_input")
