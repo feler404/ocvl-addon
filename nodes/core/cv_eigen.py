@@ -31,5 +31,5 @@ class OCVLeigenNode(OCVLNodeBase):
 
         retval_out, eigenvalues_out, eigenvectors_out = self.process_cv(fn=cv2.eigen, kwargs=kwargs)
         self.refresh_output_socket("retval_out", retval_out, is_uuid_type=True)
-        # self.refresh_output_socket("eigenvalues_out", eigenvalues_out, is_uuid_type=True)
-        # self.refresh_output_socket("eigenvectors_out", eigenvectors_out, is_uuid_type=True)
+        self.refresh_output_socket("eigenvalues_out", eigenvalues_out, is_uuid_type=True)
+        self.refresh_output_socket("eigenvectors_out", eigenvectors_out, is_uuid_type=True)
