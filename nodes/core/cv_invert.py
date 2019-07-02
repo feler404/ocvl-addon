@@ -9,6 +9,7 @@ class OCVLinvertNode(OCVLNodeBase):
 
     bl_flags_list = 'DECOMP_LU, DECOMP_SVD, DECOMP_CHOLESKY'
     n_doc ="Finds the inverse or pseudo-inverse of a matrix."
+    n_requirements = {"__and__": ["src_in"]}
     n_quick_link_requirements = {"src_in": {"code_in": "COLOR_BGR2GRAY", "value_type_in": "float32"}}
 
     src_in: bpy.props.StringProperty(name="src_in", default=str(uuid.uuid4()), description="Input floating-point M x N matrix.")
@@ -24,7 +25,6 @@ class OCVLinvertNode(OCVLNodeBase):
         self.outputs.new("StringsSocket", "retval_out")
 
     def wrapped_process(self):
-        self.check_input_requirements(["src_in"])
 
         kwargs = {
             'src_in': self.get_from_props("src_in"),
