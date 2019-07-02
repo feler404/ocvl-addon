@@ -20,8 +20,9 @@ PROPS_MAPS = {
 class OCVLsplitNode(OCVLNodeBase):
 
     n_doc = "Divides a multi-channel array into several single-channel arrays."
+    n_requirements = {"__and__": ["src_in"]}
 
-    image_in: bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input multi-channel array.")
+    src_in: bpy.props.StringProperty(name="src_in", default=str(uuid.uuid4()), description="Input multi-channel array.")
 
     layer_0_out: bpy.props.StringProperty(name="layer_0_out", default=str(uuid.uuid4()), description="Channel 0.")
     layer_1_out: bpy.props.StringProperty(name="layer_1_out", default=str(uuid.uuid4()), description="Channel 1.")
@@ -29,7 +30,7 @@ class OCVLsplitNode(OCVLNodeBase):
     layer_3_out: bpy.props.StringProperty(name="layer_3_out", default=str(uuid.uuid4()), description="Channel 3.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "image_in")
+        self.inputs.new("ImageSocket", "src_in")
 
         self.outputs.new("StringsSocket", "layer_0_out")
         self.outputs.new("StringsSocket", "layer_1_out")
@@ -37,10 +38,8 @@ class OCVLsplitNode(OCVLNodeBase):
         self.outputs.new("StringsSocket", "layer_3_out")
 
     def wrapped_process(self):
-        self.check_input_requirements(["image_in"])
-
         kwargs = {
-            'm': self.get_from_props("image_in"),
+            'm': self.get_from_props("src_in"),
             }
 
         vector_layers = self.process_cv(fn=cv2.split, kwargs=kwargs)
