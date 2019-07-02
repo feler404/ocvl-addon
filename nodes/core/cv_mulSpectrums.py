@@ -10,6 +10,7 @@ class OCVLmulSpectrumsNode(OCVLNodeBase):
     bl_flags_list = 'DFT_ROWS'
 
     n_doc = "Performs the per-element multiplication of two Fourier spectrums."
+    n_requirements = {"__and__": ["a_in", "b_in"]}
     n_quick_link_requirements = {
         "a_in": {"code_in": "COLOR_BGR2GRAY", "value_type_in": "float32"},
         "b_in": {"code_in": "COLOR_BGR2GRAY", "value_type_in": "float32"},
@@ -20,17 +21,15 @@ class OCVLmulSpectrumsNode(OCVLNodeBase):
     flags_in: bpy.props.BoolVectorProperty(default=[False for i in bl_flags_list.split(",")], size=len(bl_flags_list.split(",")), update=update_node, subtype="NONE", description=bl_flags_list)
     conjB_in: bpy.props.BoolProperty(name="conjB_in", default=False, description = "Optional flag that conjugates the second input array before the multiplication (true) or not (false).")
 
-    image_out: bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output array.")
+    c_out: bpy.props.StringProperty(name="c_out", default=str(uuid.uuid4()), description="Output array.")
 
     def init(self, context):
         self.inputs.new("ImageSocket", "a_in")
         self.inputs.new("ImageSocket", "b_in")
 
-        self.outputs.new("ImageSocket", "image_out")
+        self.outputs.new("ImageSocket", "c_out")
 
     def wrapped_process(self):
-        self.check_input_requirements(["a_in", "b_in"])
-
         kwargs = {
             'a_in': self.get_from_props("a_in"),
             'b_in': self.get_from_props("b_in"),
@@ -38,8 +37,8 @@ class OCVLmulSpectrumsNode(OCVLNodeBase):
             'conjB_in': self.get_from_props("conjB_in"),
             }
 
-        image_out = self.process_cv(fn=cv2.mulSpectrums, kwargs=kwargs)
-        self.refresh_output_socket("image_out", image_out, is_uuid_type=True)
+        c_out = self.process_cv(fn=cv2.mulSpectrums, kwargs=kwargs)
+        self.refresh_output_socket("c_out", c_out, is_uuid_type=True)
 
     def draw_buttons(self, context, layout):
         self.add_button(layout, "flags_in")
