@@ -231,7 +231,7 @@ class OCVLNodeBase(bpy.types.Node):
     n_category = CATEGORY_TREE.uncategorized
     n_doc = ""
     n_see_also = ""
-    n_requirements = []
+    n_requirements = {}
     n_quick_link_requirements = {}
     n_input_output_only = False
 
