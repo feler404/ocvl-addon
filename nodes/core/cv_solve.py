@@ -3,7 +3,7 @@ import uuid
 import bpy
 import cv2
 
-from ocvl.core.node_base import OCVLNodeBase, update_node, REDUCE_TYPES_ITEMS
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
 class OCVLsolveNode(OCVLNodeBase):

@@ -1,5 +1,10 @@
 import bpy
+import numpy as np
+
 from ocvl.core.node_base import OCVLPreviewNodeBase
+
+
+VALID_INPUT_DTYPES = (np.dtype('uint8'), np.dtype('uint16'), np.dtype('float32'))
 
 
 class OCVLImageViewerNode(OCVLPreviewNodeBase):
@@ -16,6 +21,8 @@ class OCVLImageViewerNode(OCVLPreviewNodeBase):
     def wrapped_process(self):
         self.check_input_requirements(["image_in"])
         image = self.get_from_props("image_in")
+        if image.dtype not in VALID_INPUT_DTYPES:
+            image = image.astype("uint8")
         self.make_textures(image)
 
     def generate_code(self):
