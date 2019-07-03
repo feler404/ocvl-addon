@@ -33,6 +33,14 @@ FACTOR_BUFFER_DICT = {
 }
 
 
+REDUCE_TYPES_ITEMS = (
+    ("REDUCE_SUM", "REDUCE_SUM", "REDUCE_SUM", "", 0),
+    ("REDUCE_AVG", "REDUCE_AVG", "REDUCE_AVG", "", 1),
+    ("REDUCE_MAX", "REDUCE_MAX", "REDUCE_MAX", "", 2),
+    ("REDUCE_MIN", "REDUCE_MIN", "REDUCE_MIN", "", 3),
+)
+
+
 APPROXIMATION_MODE_ITEMS = (
     # https://docs.opencv.org/3.3.1/d3/dc0/group__imgproc__shape.html#ga4303f45752694956374734a03c54d5ff
     ("CHAIN_APPROX_SIMPLE", "CHAIN_APPROX_SIMPLE", "CHAIN_APPROX_SIMPLE", "", 0),
