@@ -16,7 +16,6 @@ logger = logging.getLogger(__name__)
 
 #  SETTINGS
 bpy.context.preferences.view.show_splash = True
-IS_WORK_ON_COPY_INPUT = True
 DEBUG = True
 
 #  CONSTANTS

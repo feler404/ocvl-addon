@@ -387,7 +387,7 @@ class OCVLNodeBase(bpy.types.Node):
     def clean_kwargs(self, kwargs_in):
         kwargs_out = {}
         for key, value in kwargs_in.items():
-            if IS_WORK_ON_COPY_INPUT and key in ("image_in", "img_in"):
+            if IS_WORK_ON_COPY_INPUT and isinstance(value, np.ndarray):
                 value = value.copy()
 
             if isinstance(value, (str,)):
