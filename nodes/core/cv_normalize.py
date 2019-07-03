@@ -43,8 +43,6 @@ class OCVLnormalizeNode(OCVLNodeBase):
             'dtype_in': dtype_in
             }
 
-        if isinstance(kwargs['mask_in'], str):
-            kwargs.pop('mask_in')
         dst_out = self.process_cv(fn=cv2.normalize, kwargs=kwargs)
         self.refresh_output_socket("dst_out", dst_out, is_uuid_type=True)
 

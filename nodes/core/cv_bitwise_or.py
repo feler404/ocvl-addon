@@ -18,19 +18,16 @@ class OCVLbitwise_orNode(OCVLNodeBase):
     def init(self, context):
         self.inputs.new("ImageSocket", name="src1_in", identifier="src1_in")
         self.inputs.new("ImageSocket", name="src2_in", identifier="src2_in")
-        self.inputs.new('MaskSocket', name="mask", identifier="mask_in")
+        self.inputs.new('MaskSocket', name="mask_in", identifier="mask_in")
 
         self.outputs.new("ImageSocket", name="dst_out", identifier="dst_out")
 
     def wrapped_process(self):
         kwargs = {
-            'src1': self.get_from_props("src1_in"),
-            'src2': self.get_from_props("src2_in"),
-            'mask': self.get_from_props("mask"),
+            'src1_in': self.get_from_props("src1_in"),
+            'src2_in': self.get_from_props("src2_in"),
+            'mask_in': self.get_from_props("mask_in"),
             }
-
-        if isinstance(kwargs['mask'], str):
-            kwargs.pop('mask')
 
         dst_out = self.process_cv(fn=cv2.bitwise_or, kwargs=kwargs)
         self.refresh_output_socket("dst_out", dst_out, is_uuid_type=True)

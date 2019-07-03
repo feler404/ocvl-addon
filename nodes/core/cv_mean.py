@@ -25,8 +25,6 @@ class OCVLmeanNode(OCVLNodeBase):
             'src_in': self.get_from_props("src_in"),
             'mask_in': self.get_from_props("mask_in"),
             }
-        if isinstance(kwargs['mask_in'], str):
-            kwargs.pop('mask_in')
 
         retval_out = self.process_cv(fn=cv2.mean, kwargs=kwargs)
         self.refresh_output_socket("retval_out", retval_out, is_uuid_type=True)

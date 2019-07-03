@@ -28,9 +28,6 @@ class OCVLmeanStdDevNode(OCVLNodeBase):
             'mask_in': self.get_from_props("mask_in"),
             }
 
-        if isinstance(kwargs['mask_in'], str):
-            kwargs.pop('mask_in')
-
         mean_out, stddev_out = self.process_cv(fn=cv2.meanStdDev, kwargs=kwargs)
         self.refresh_output_socket("mean_out", mean_out, is_uuid_type=True)
         self.refresh_output_socket("stddev_out", stddev_out, is_uuid_type=True)

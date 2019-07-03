@@ -386,13 +386,15 @@ class OCVLNodeBase(bpy.types.Node):
 
     def clean_kwargs(self, kwargs_in):
         kwargs_out = {}
-        for key in kwargs_in.keys():
-            value = kwargs_in.get(key)
+        for key, value in kwargs_in.items():
             if IS_WORK_ON_COPY_INPUT and key in ("image_in", "img_in"):
                 value = value.copy()
 
-            if isinstance(value, (str,)) and value == "None":
-                continue
+            if isinstance(value, (str,)):
+                if value in ["None", "NONE"]:
+                    continue
+                if (self.is_uuid(value) and key not in self.n_requirements.get("__and__", {})):  # OCVL-161
+                    continue
             kwargs_out[key.replace("_in", "")] = value
 
         return kwargs_out

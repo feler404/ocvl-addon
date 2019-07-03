@@ -34,9 +34,6 @@ class OCVLminMaxLocNode(OCVLNodeBase):
             'mask_in': self.get_from_props("mask_in"),
             }
 
-        if isinstance(kwargs['mask_in'], str):
-            kwargs.pop('mask_in')
-
         minVal_out, maxVal_out, minLoc_out, maxLoc_out = self.process_cv(fn=cv2.minMaxLoc, kwargs=kwargs)
         self.refresh_output_socket("minVal_out", minVal_out)
         self.refresh_output_socket("maxVal_out", maxVal_out)

@@ -32,11 +32,6 @@ class OCVLnormNode(OCVLNodeBase):
             'mask_in': self.get_from_props("mask_in"),
             }
 
-        if isinstance(kwargs['mask_in'], str):
-            kwargs.pop('mask_in')
-        if isinstance(kwargs['src2_in'], str):
-            kwargs.pop('src2_in')
-
         retval_out = self.process_cv(fn=cv2.norm, kwargs=kwargs)
         self.refresh_output_socket("retval_out", retval_out, is_uuid_type=True)
 

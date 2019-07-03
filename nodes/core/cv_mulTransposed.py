@@ -33,8 +33,5 @@ class OCVLmulTransposedNode(OCVLNodeBase):
             'scale_in': self.get_from_props("scale_in"),
             }
 
-        if isinstance(kwargs["delta_in"], str):
-            kwargs.pop("delta_in")
-
         dst_out = self.process_cv(fn=cv2.mulTransposed, kwargs=kwargs)
         self.refresh_output_socket("dst_out", dst_out, is_uuid_type=True)
