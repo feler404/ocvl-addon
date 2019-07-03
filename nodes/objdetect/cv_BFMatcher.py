@@ -79,7 +79,7 @@ class OCVLBFMatcherNode(OCVLNodeBase):
         self.width = 250
         self.inputs.new("StringsSocket", "queryDescriptors_in")
         self.inputs.new("StringsSocket", "trainDescriptors_in")
-        self.inputs.new("StringsSocket", "mask_in")
+        self.inputs.new("MaskSocket", "mask_in")
         self.inputs.new("StringsSocket", "crossCheck_init").prop_name = "crossCheck_init"
 
         self.outputs.new("StringsSocket", "matches_out")

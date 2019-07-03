@@ -26,7 +26,7 @@ class OCVLgoodFeaturesToTrackNode(OCVLNodeBase):
 
     def init(self, context):
         self.inputs.new("ImageSocket", "image_in")
-        self.inputs.new("StringsSocket", "mask_in")
+        self.inputs.new("MaskSocket", "mask_in")
         self.inputs.new("StringsSocket", "maxCorners_in").prop_name = "maxCorners_in"
         self.inputs.new("StringsSocket", "qualityLevel_in").prop_name = "qualityLevel_in"
         self.inputs.new("StringsSocket", "minDistance_in").prop_name = "minDistance_in"

@@ -66,7 +66,7 @@ class OCVLFeature2DNode:
     def init(self, context):
         self.width = 250
         self.inputs.new("ImageSocket", "image_in")
-        self.inputs.new("StringsSocket", "mask_in")
+        self.inputs.new("MaskSocket", "mask_in")
         self.inputs.new("StringsSocket", "keypoints_in")
 
         self.outputs.new("StringsSocket", "keypoints_out")

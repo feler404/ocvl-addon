@@ -82,7 +82,7 @@ class OCVLFlannBasedMatcherNode(OCVLNodeBase):
         self.width = 250
         self.inputs.new("StringsSocket", "queryDescriptors_in")
         self.inputs.new("StringsSocket", "trainDescriptors_in")
-        self.inputs.new("StringsSocket", "mask_in")
+        self.inputs.new("MaskSocket", "mask_in")
 
         self.outputs.new("StringsSocket", "matches_out")
         InitDescriptorMatcherOperator.update_class_instance_dict(self, self.id_data.name, self.name)
