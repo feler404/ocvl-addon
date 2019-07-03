@@ -6,7 +6,6 @@ import numpy as np
 from logging import getLogger
 
 from ocvl.core.node_base import OCVLPreviewNodeBase
-from ocvl.core.image_utils import convert_to_cv_image
 
 logger = getLogger(__name__)
 

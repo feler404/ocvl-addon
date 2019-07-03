@@ -10,7 +10,6 @@ import bpy
 import cv2
 import numpy as np
 from ocvl.core.settings import IS_WORK_ON_COPY_INPUT, NODE_COLOR_REQUIRE_DATE, WRAP_TEXT_SIZE_FOR_ERROR_DISPLAY, CATEGORY_TREE, NODE_COLOR_CV_ERROR
-from ocvl.core.constants import TEX_CO_FLIP
 from ocvl.core.exceptions import LackRequiredSocket, NoDataError
 from ocvl.core.globals import SOCKET_DATA_CACHE, TEXTURE_CACHE
 from ocvl.core.image_utils import (callback_disable, callback_enable, init_texture, simple_screen, add_background_to_image)
@@ -492,6 +491,13 @@ class OCVLNodeBase(bpy.types.Node):
         #     origin = self.get_node_origin(props_name="|><|".join(props_name))
         #     col.operator('image.point_select', text=', '.join(props_name), icon="CURSOR").origin = origin
 
+    def free(self):
+        for output in self.outputs:
+            for link in output.links:
+                to_node = link.to_node
+                bpy.data.node_groups[self.id_data.name].links.remove(link)
+                update_node(to_node, None)
+
     @property
     def node_id(self):
         if not self.n_id:
@@ -514,6 +520,7 @@ class OCVLPreviewNodeBase(OCVLNodeBase):
     def free(self):
         callback_disable(node_id(self))
         self.delete_texture()
+        super().free()
 
     def make_textures(self, image, color='RGBA', uuid_=None, width=200, height=200):
         self.delete_texture()
