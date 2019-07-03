@@ -496,7 +496,7 @@ class OCVLNodeBase(bpy.types.Node):
             for link in output.links:
                 to_node = link.to_node
                 bpy.data.node_groups[self.id_data.name].links.remove(link)
-                update_node(to_node, None)
+                to_node.process()
 
     @property
     def node_id(self):

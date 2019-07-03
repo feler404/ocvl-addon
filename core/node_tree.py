@@ -48,7 +48,7 @@ class OCVLNodeTree(bpy.types.NodeTree):
         new_links = current_keys - previous_keys
 
         for link_pointer in deleted_link:
-            if LINKS_POINTER_MAP[self.name][link_pointer].to_node.n_id:
+            if LINKS_POINTER_MAP[self.name][link_pointer].to_node:
                 LINKS_POINTER_MAP[self.name][link_pointer].to_node.process()
 
         for link_pointer in new_links:
