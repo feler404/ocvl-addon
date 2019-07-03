@@ -1,3 +1,16 @@
+"""
+*n_requirements:*
+Default requirements
+    - "__and__": ["src_in", "dst_in"]
+Alternative requirements
+    - "__or__": ["layer_0_in", "layer_1_in", "image_2_in"]
+
+*n_quick_link_requirements:*
+Default node for Image/Matrix Socket
+    - "src_in": {"code_in": "COLOR_BGR2GRAY", "value_type_in": "float32"},
+Override node type
+    - "m_in": {"__type_node__": "OCVLMatNode", "loc_input_mode": "MANUAL", "loc_manual_input": "[[0, 1], [2, 10]]"}
+"""
 from collections import defaultdict
 from copy import deepcopy
 
@@ -265,7 +278,7 @@ class OCVLSocketBase:
 
         if self.use_quicklink:
             if self.bl_idname == "ImageSocket":
-                new_node_idname = "OCVLImageSampleNode"
+                new_node_idname = node.n_quick_link_requirements.get(node.inputs[self.index].name, {}).get("__type_node__", "OCVLImageSampleNode")
             elif self.bl_idname == "MaskSocket":
                 new_node_idname = "OCVLMaskSampleNode"
             elif self.bl_idname == "RectSocket":
@@ -420,6 +433,11 @@ class VectorSocket(bpy.types.NodeSocket, OCVLSocketBase):
     bl_label = 'VectorSocket'
 
 
+class MatrixSocket(bpy.types.NodeSocket, OCVLSocketBase):
+    bl_idname = 'MatrixSocket'
+    bl_label = 'MatrixSocket'
+
+
 class StethoscopeSocket(bpy.types.NodeSocket, OCVLSocketBase):
     bl_idname = 'StethoscopeSocket'
     bl_label = 'StethoscopeSocket'
@@ -434,6 +452,7 @@ def register():
     ocvl_register(RectSocket)
     ocvl_register(ContourSocket)
     ocvl_register(VectorSocket)
+    ocvl_register(MatrixSocket)
     ocvl_register(StethoscopeSocket)
 
 
@@ -446,4 +465,5 @@ def unregister():
     ocvl_unregister(RectSocket)
     ocvl_unregister(ContourSocket)
     ocvl_unregister(VectorSocket)
+    ocvl_unregister(MatrixSocket)
     ocvl_unregister(StethoscopeSocket)
