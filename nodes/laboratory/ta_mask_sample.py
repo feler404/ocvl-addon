@@ -141,10 +141,5 @@ class OCVLMaskSampleNode(OCVLPreviewNodeBase):
         location_y = -130 if self.loc_image_mode in ["PLANE", "RANDOM"] else -150
         self.draw_preview(layout=layout, prop_name="image_out", location_x=10, location_y=location_y)
 
-    def copy(self, node):
-        self.n_id = ''
-        self.process()
-        node.process()
-
     def update_sockets(self, context):
         self.update_sockets_for_node_mode(PROPS_MAPS, self.loc_image_mode)

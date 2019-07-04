@@ -36,11 +36,6 @@ class OCVLImageViewerNode(OCVLPreviewNodeBase):
         lines.append("cv2.imshow({})".format(img_name))
         print("\n".join(lines))
 
-    def copy(self, node):
-        self.n_id = ''
-        self.process()
-        node.process()
-
     def draw_buttons(self, context, layout):
         col = layout.column(align=True)
         col.operator('image.image_full_screen', text='', icon="PLUS").origin = self.get_node_origin()

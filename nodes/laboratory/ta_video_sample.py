@@ -121,11 +121,6 @@ class OCVLVideoSampleNode(OCVLPreviewNodeBase):
         location_y = -220
         self.draw_preview(layout=layout, prop_name="image_out", location_x=10, location_y=location_y)
 
-    def copy(self, node):
-        self.n_id = ''
-        self.process()
-        node.process()
-
     def free(self):
         super().free()
         loc_camera_device = int(self.get_from_props("loc_camera_device"))

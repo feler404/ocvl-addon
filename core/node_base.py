@@ -522,6 +522,11 @@ class OCVLPreviewNodeBase(OCVLNodeBase):
         self.delete_texture()
         super().free()
 
+    def copy(self, node):
+        self.n_id = ''
+        self.process()
+        node.process()
+
     def make_textures(self, image, color='RGBA', uuid_=None, width=200, height=200):
         self.delete_texture()
 
