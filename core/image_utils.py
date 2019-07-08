@@ -32,6 +32,8 @@ def extract_bind_code(node):
 
 
 def simple_screen(node, x, y, width, height):
+    if node.hide:
+        return
     bgl.glActiveTexture(bgl.GL_TEXTURE0)
     bgl.glBindTexture(bgl.GL_TEXTURE_2D, extract_bind_code(node))
 
