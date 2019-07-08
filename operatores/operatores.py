@@ -78,8 +78,6 @@ class OCVLImageImporterOperator(bpy.types.Operator):
     bl_label = "Open Image"
     bl_options = {'REGISTER'}
 
-    n_id: bpy.props.StringProperty(default='')
-
     filepath = bpy.props.StringProperty(
         name="File Path",
         description="Filepath used for importing the font file",
@@ -343,12 +341,11 @@ class OCVLImageImporterOperator(bpy.types.Operator):
     bl_label = "Open Image"
     bl_options = {'REGISTER'}
 
-    n_id = bpy.props.StringProperty(default='')
-
     filepath = bpy.props.StringProperty(
         name="File Path",
         description="Filepath used for importing the font file",
-        maxlen=1024, default="", subtype='FILE_PATH')
+        maxlen=1024, default="", subtype='FILE_PATH'
+    )
 
     origin = bpy.props.StringProperty("")
 
@@ -371,7 +368,6 @@ class OCVLGeneratePythonCodeOperator(bpy.types.Operator):
     bl_label = "Generate code"
     bl_options = {'INTERNAL'}
 
-    n_id = bpy.props.StringProperty(default='')
     origin = bpy.props.StringProperty("")
 
     def execute(self, context):
