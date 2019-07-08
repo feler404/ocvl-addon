@@ -254,6 +254,9 @@ class OCVLImageImporterOperator(bpy.types.Operator):
     bl_label = "Open Image"
     bl_options = {'REGISTER'}
 
+    filter_glob = bpy.props.StringProperty(default="*.tif;*.png;*.jpeg;*.jpg", options={'HIDDEN'})
+
+
     filepath = bpy.props.StringProperty(
         name="File Path",
         description="Filepath used for importing the font file",
