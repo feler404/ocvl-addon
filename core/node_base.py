@@ -412,8 +412,14 @@ class OCVLNodeBase(bpy.types.Node):
             self.n_error = str(e)
             self.use_custom_color = True
             self.color = NODE_COLOR_CV_ERROR
+        except Exception as e:
+            self.n_error = str(e)
+            self.use_custom_color = True
+            self.color = NODE_COLOR_CV_ERROR
         finally:
             self.n_meta += "\nProcess time: {0:.2f}ms".format((time.time() - start) * 1000)
+            if self.n_error:
+                self.n_meta += self.n_error
 
         for output in self.outputs:
             if output.is_linked:
@@ -496,7 +502,7 @@ class OCVLNodeBase(bpy.types.Node):
             for link in output.links:
                 to_node = link.to_node
                 bpy.data.node_groups[self.id_data.name].links.remove(link)
-                to_node.process()
+                # to_node.process()
 
     @property
     def node_id(self):
