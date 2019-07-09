@@ -1,8 +1,12 @@
 import logging
+logging.REGISTERED = False
 
 
 def register():
-    # create loggera
+    if logging.REGISTERED:
+        return
+    logging.REGISTERED = True
+    # create logger
     logger = logging.getLogger()
     logger.setLevel(logging.DEBUG)
 
@@ -18,6 +22,8 @@ def register():
     ch.setFormatter(formatter)
 
     # add ch to logger
+    if logger.hasHandlers():
+        logger.handlers.clear()
     logger.addHandler(ch)
 
     # 'application' code

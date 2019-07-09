@@ -73,8 +73,6 @@ class OCVLImageSampleNode(OCVLPreviewNodeBase):
     def init(self, context):
         self.width = 200
         self.inputs.new('SvColorSocket', 'color_in').prop_name = 'color_in'
-        self.inputs.new("StringsSocket", "code_in").prop_name = "code_in"
-        self.inputs.new("StringsSocket", "value_type_in").prop_name = "value_type_in"
 
         self.outputs.new('ImageSocket', 'image_out')
         self.outputs.new('StringsSocket', 'width_out')
@@ -149,6 +147,8 @@ class OCVLImageSampleNode(OCVLPreviewNodeBase):
     def draw_buttons(self, context, layout):
         origin = self.get_node_origin()
         self.add_button(layout, "loc_image_mode", expand=True)
+        self.add_button(layout, "code_in")
+        self.add_button(layout, "value_type_in")
 
         if self.loc_image_mode == "FILE":
             col = layout.row().column()
@@ -162,7 +162,7 @@ class OCVLImageSampleNode(OCVLPreviewNodeBase):
         if self.n_id not in self.texture:
             return
 
-        location_y = -130 if self.loc_image_mode in ["PLANE", "RANDOM"] else -150
+        location_y = -180 if self.loc_image_mode in ["PLANE", "RANDOM"] else -200
         self.draw_preview(layout=layout, prop_name="image_out", location_x=10, location_y=location_y)
 
     def update_sockets(self, context):
@@ -172,4 +172,3 @@ class OCVLImageSampleNode(OCVLPreviewNodeBase):
                 self.inputs.remove(self.inputs["width_in"])
             if "height_in" in self.inputs:
                 self.inputs.remove(self.inputs["height_in"])
-        self.process()
