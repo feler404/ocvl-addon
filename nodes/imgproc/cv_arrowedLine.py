@@ -10,10 +10,10 @@ class OCVLarrowedLineNode(OCVLNodeBase):
     bl_icon = 'GREASEPENCIL'
 
     n_doc = "Draws a arrow segment pointing from the first point to the second one."
-    n_quick_link_requirements = {"image_in": {"loc_image_mode": "PLANE"}}
-    n_requirements = {"__and__": ["image_in"]}
+    n_quick_link_requirements = {"img_in": {"loc_image_mode": "PLANE"}}
+    n_requirements = {"__and__": ["img_in"]}
 
-    image_in: bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input image.")
+    img_in: bpy.props.StringProperty(name="img_in", default=str(uuid.uuid4()), description="Input image.")
     pt1_in: bpy.props.IntVectorProperty(default=(0, 0), size=2, update=update_node, description="First point of the line segment.")
     pt2_in: bpy.props.IntVectorProperty(default=(50, 50), size=2, update=update_node, description="Second point of the line segment.")
     color_in: bpy.props.FloatVectorProperty(update=update_node, default=(.7, .7, .1, 1.0), size=4, min=0.0, max=1.0, subtype='COLOR', description="Line color.")
@@ -22,11 +22,11 @@ class OCVLarrowedLineNode(OCVLNodeBase):
     shift_in: bpy.props.IntProperty(default=0, min=1, max=100, update=update_node, description="Number of fractional bits in the point coordinates.")
     tipLength_in: bpy.props.FloatProperty(default=0.1, min=0, max=1.0, update=update_node, description="The length of the arrow tip in relation to the arrow length.")
 
-    image_out: bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
+    dst_out: bpy.props.StringProperty(name="dst_out", default=str(uuid.uuid4()), description="Output image.")
 
     def init(self, context):
         self.width = 200
-        self.inputs.new("ImageSocket", "image_in")
+        self.inputs.new("ImageSocket", "img_in")
         self.inputs.new('StringsSocket', "pt1_in").prop_name = 'pt1_in'
         self.inputs.new('StringsSocket', "pt2_in").prop_name = 'pt2_in'
         self.inputs.new('StringsSocket', "thickness_in").prop_name = 'thickness_in'
@@ -34,11 +34,11 @@ class OCVLarrowedLineNode(OCVLNodeBase):
         self.inputs.new('StringsSocket', 'tipLength_in').prop_name = 'tipLength_in'
         self.inputs.new('SvColorSocket', 'color_in').prop_name = 'color_in'
 
-        self.outputs.new("ImageSocket", "image_out")
+        self.outputs.new("ImageSocket", "dst_out")
 
     def wrapped_process(self):
         kwargs = {
-            'img_in': self.get_from_props("image_in"),
+            'img_in': self.get_from_props("img_in"),
             'pt1_in': self.get_from_props("pt1_in"),
             'pt2_in': self.get_from_props("pt2_in"),
             'color_in': self.get_from_props("color_in"),
@@ -47,8 +47,8 @@ class OCVLarrowedLineNode(OCVLNodeBase):
             'tipLength_in': self.get_from_props("tipLength_in"),
             }
 
-        image_out = self.process_cv(fn=cv2.arrowedLine, kwargs=kwargs)
-        self.refresh_output_socket("image_out", image_out, is_uuid_type=True)
+        dst_out = self.process_cv(fn=cv2.arrowedLine, kwargs=kwargs)
+        self.refresh_output_socket("dst_out", dst_out, is_uuid_type=True)
 
     def draw_buttons(self, context, layout):
         self.add_button(layout, prop_name='lineType_in')

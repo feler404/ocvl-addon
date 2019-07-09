@@ -8,6 +8,7 @@ from ocvl.core.node_base import OCVLNodeBase, update_node
 class OCVLboundingRectNode(OCVLNodeBase):
 
     n_doc = "Calculates the up-right bounding rectangle of a point set."
+    n_requirements = {"__and__": ["points_in"]}
 
     points_in: bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node, description="Input 2D point set, stored in std::vector or Mat.")
 
@@ -17,14 +18,12 @@ class OCVLboundingRectNode(OCVLNodeBase):
     loc_from_findContours: bpy.props.BoolProperty(default=True, update=update_node, description="If linked with findContour node switch to True")
 
     def init(self, context):
-        self.inputs.new('StringsSocket', "points_in")
+        self.inputs.new('ContourSocket', "points_in")
 
         self.outputs.new("StringsSocket", "pt1_out")
         self.outputs.new("StringsSocket", "pt2_out")
 
     def wrapped_process(self):
-        self.check_input_requirements(["points_in"])
-
         kwargs = {
             'points': self.get_from_props("points_in")[0] if self.loc_from_findContours else self.get_from_props("points_in"),
             }
