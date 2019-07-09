@@ -9,6 +9,7 @@ import numpy as np
 from gpu_extras.batch import batch_for_shader
 
 from ocvl.core.globals import CALLBACK_DICT
+from ocvl.core.scene_utils import filter_areas
 
 
 logger = getLogger(__name__)
@@ -16,11 +17,10 @@ logger = getLogger(__name__)
 
 def tag_redraw_all_nodeviews():
     for window in bpy.context.window_manager.windows:
-        for area in window.screen.areas:
-            if area.type == 'NODE_EDITOR':
-                for region in area.regions:
-                    if region.type == 'WINDOW':
-                        region.tag_redraw()
+        for area in filter_areas(window):
+            for region in area.regions:
+                if region.type == 'WINDOW':
+                    region.tag_redraw()
 
 
 def extract_bind_code(node):

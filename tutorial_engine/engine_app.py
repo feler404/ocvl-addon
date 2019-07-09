@@ -9,6 +9,7 @@ from ocvl.tutorial_engine.settings import (
     TUTORIAL_ASSETS_PATH, TUTORIAL_ENGINE_DEBUG, TUTORIAL_ENGINE_DEFAULT_IMAGE_SAMPLE_NAME, TUTORIAL_ENGINE_DEFAULT_INPUT_NAME,
     TUTORIAL_ENGINE_DEFAULT_NODE_TREE_NAME, TUTORIAL_ENGINE_DEFAULT_OUTPUT_NAME, TUTORIAL_ENGINE_DEFAULT_VIEWER_NAME, TUTORIAL_ENGINE_VERSION,
 )
+from ocvl.core.scene_utils import filter_areas
 from tornado import web
 from tornado.escape import json_encode
 from tornado.ioloop import IOLoop
@@ -107,11 +108,10 @@ def run_cam(command=""):
 def in_node_context():
     for window in bpy.context.window_manager.windows:
         screen = window.screen
-        for area in screen.areas:
-            if area.type == 'NODE_EDITOR':
-                override = {'window': window, 'screen': screen, 'area': area}
-                yield override
-                break
+        for area in filter_areas(window):
+            override = {'window': window, 'screen': screen, 'area': area}
+            yield override
+            break
 
 
 class RawCommandHandler(BaseHandler):

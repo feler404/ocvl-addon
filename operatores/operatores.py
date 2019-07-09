@@ -5,6 +5,7 @@ import bpy
 import requests
 from ocvl.core.exceptions import NoDataError
 from ocvl.core.image_utils import convert_to_gl_image
+from ocvl.core.scene_utils import filter_areas
 from ocvl.core.register_utils import ocvl_register, ocvl_unregister
 from ocvl.tutorial_engine.engine_app import NodeCommandHandler
 from pynput.keyboard import Controller, Key
@@ -73,9 +74,8 @@ class OCVLImageFullScreenOperator(bpy.types.Operator):
 
         context.window_manager.modal_handler_add(self)
         bpy.context.area.type = "IMAGE_EDITOR"
-        for area in bpy.context.screen.areas:
-            if area.type == 'IMAGE_EDITOR':
-                area.spaces.active.image = bl_img
+        for area in filter_areas(bpy.context, area_type='IMAGE_EDITOR'):
+            area.spaces.active.image = bl_img
         bpy.context.area.type = "IMAGE_EDITOR"
         bpy.ops.image.view_all(fit_view=True)
         bpy.ops.screen.screen_full_area()
@@ -232,20 +232,19 @@ class OCVLShowNodeSplashOperator(bpy.types.Operator):
     bl_label = "Show Node Splash"
 
     def execute(self, context):
-        for area in bpy.context.screen.areas:
-            if area.type == 'NODE_EDITOR':
-                NodeCommandHandler.clear_node_groups()
-                NodeCommandHandler.get_or_create_node_tree()
-                NodeCommandHandler.create_node("OCVLAuthNode", location=(520, 560))
-                NodeCommandHandler.create_node("OCVLSettingsNode", location=(-300, 240))
-                NodeCommandHandler.create_node("OCVLDocsNode", location=(-300, 100))
-                NodeCommandHandler.create_node("OCVLSplashNode", location=(-60, 460))
+        for _ in filter_areas(bpy.context):
+            NodeCommandHandler.clear_node_groups()
+            NodeCommandHandler.get_or_create_node_tree()
+            NodeCommandHandler.create_node("OCVLAuthNode", location=(520, 560))
+            NodeCommandHandler.create_node("OCVLSettingsNode", location=(-300, 240))
+            NodeCommandHandler.create_node("OCVLDocsNode", location=(-300, 100))
+            NodeCommandHandler.create_node("OCVLSplashNode", location=(-60, 460))
 
-                NodeCommandHandler.connect_nodes("Splash", "settings", "Settings", "settings")
-                NodeCommandHandler.connect_nodes("Splash", "docs", "Docs", "docs")
-                NodeCommandHandler.connect_nodes("Auth", "auth", "Splash", "auth")
-                NodeCommandHandler.view_all()
-                return {'FINISHED'}
+            NodeCommandHandler.connect_nodes("Splash", "settings", "Settings", "settings")
+            NodeCommandHandler.connect_nodes("Splash", "docs", "Docs", "docs")
+            NodeCommandHandler.connect_nodes("Auth", "auth", "Splash", "auth")
+            NodeCommandHandler.view_all()
+            return {'FINISHED'}
         return {'CANCELLED'}
 
 

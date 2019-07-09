@@ -5,6 +5,7 @@ import bpy
 import time
 import logging
 
+from ocvl.core.scene_utils import filter_areas
 from ocvl.tutorial_engine.worker import print_keyborad_worker
 from ocvl.tutorial_engine.settings import TUTORIAL_HEARTBEAT_INTERVAL, TUTORIAL_PATH, TUTORIAL_HEARTBEAT_INTERVAL_TIP_REFRESH
 from ocvl.tutorial_engine.engine_app import NodeCommandHandler
@@ -76,12 +77,11 @@ class ModalTimerRefreshFirstStepsTipOperator(bpy.types.Operator):
             if self._heartbeat_counter % 10 == 0:
                 print("{} - {} - {}".format(time.time(), __name__, bpy.tutorial_first_step))
 
-            for area in bpy.context.screen.areas:
-                if area.type == 'NODE_EDITOR':
-                    if "Tip" in bpy.data.node_groups[0].nodes:
-                        bpy.data.node_groups[0].nodes["Tip"].wrapped_process()
-                    else:
-                        self._absence_count += 1
+            for _ in filter_areas(bpy.context):
+                if "Tip" in bpy.data.node_groups[0].nodes:
+                    bpy.data.node_groups[0].nodes["Tip"].wrapped_process()
+                else:
+                    self._absence_count += 1
 
         if self._absence_count > 10:
             return {'CANCELLED'}
@@ -190,16 +190,15 @@ class TutorialShowFirstStepCommandOperator(bpy.types.Operator):
     loc_command: bpy.props.StringProperty(default="")
 
     def execute(self, context):
-        for area in bpy.context.screen.areas:
-            if area.type == 'NODE_EDITOR':
-                NodeCommandHandler.clear_node_groups()
-                NodeCommandHandler.get_or_create_node_tree()
-                NodeCommandHandler.create_node("OCVLFirstStepsNode", location=(0, 0))
-                NodeCommandHandler.create_node("OCVLTipNode", location=(400, 0))
-                NodeCommandHandler.connect_nodes("Tip", "tip", "FirstSteps", "tip")
-                NodeCommandHandler.view_all()
-                bpy.ops.wm.modal_timer_refresh_first_steps_tip_operator()
-                return {'FINISHED'}
+        for _ in filter_areas(bpy.context):
+            NodeCommandHandler.clear_node_groups()
+            NodeCommandHandler.get_or_create_node_tree()
+            NodeCommandHandler.create_node("OCVLFirstStepsNode", location=(0, 0))
+            NodeCommandHandler.create_node("OCVLTipNode", location=(400, 0))
+            NodeCommandHandler.connect_nodes("Tip", "tip", "FirstSteps", "tip")
+            NodeCommandHandler.view_all()
+            bpy.ops.wm.modal_timer_refresh_first_steps_tip_operator()
+            return {'FINISHED'}
         return {'CANCELLED'}
 
 
