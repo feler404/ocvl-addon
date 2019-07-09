@@ -250,7 +250,7 @@ class OCVLShowNodeSplashOperator(bpy.types.Operator):
 
 
 class OCVLImageImporterOperator(bpy.types.Operator):
-    bl_idname = "image.image_importer"
+    bl_idname = "image.ocvl_image_importer"
     bl_label = "Open Image"
     bl_options = {'REGISTER'}
 

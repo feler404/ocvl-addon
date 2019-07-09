@@ -10,6 +10,8 @@ IS_WORK_ON_COPY_INPUT = True
 BLACK_LIST_REGISTER_NODE_CATEGORY = ["interface"]
 # Max number lines displayed on Stethoscope node
 STETHOSCOPE_NODE_MAX_LINES = 30
+# Default filter during use image.ocvl_image_importer operator
+DEFAULT_IMAGE_IMPORTER_FILTER = "*.tif;*.png;*.jpeg;*.jpg"
 
 DEBUG_MODE = False
 DEBUG = DEBUG_MODE
