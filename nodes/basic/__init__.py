@@ -1,2 +1,2 @@
-icon="LINENUMBERS_ON"
-text="basic"
+icon = "LINENUMBERS_ON"
+name = "Basic"
