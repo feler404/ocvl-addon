@@ -56,7 +56,10 @@ class OCVLVecNode(OCVLNodeBase):
             loc_manual_input = self.get_from_props("loc_manual_input")
             try:
                 eval_list = eval(loc_manual_input)
-                vector_out = np.array(eval_list, dtype=dtype)
+                if isinstance(eval_list, tuple):
+                    vector_out = eval_list
+                else:
+                    vector_out = np.array(eval_list, dtype=dtype)
             except Exception as e:
                 self.n_errors = "Evaluation error. Details: {}".format(e)
                 vector_out = []

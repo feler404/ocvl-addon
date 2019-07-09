@@ -8,22 +8,19 @@ from ocvl.core.node_base import OCVLNodeBase
 class OCVLboxPointsNode(OCVLNodeBase):
 
     n_doc = "Finds the four vertices of a rotated rect. Useful to draw the rotated rectangle."
+    n_requirements = {"__and__": ["box_in"]}
+    n_quick_link_requirements = {"box_in": {"loc_input_mode": "MANUAL", "value_type_in": "float32", "loc_manual_input": "((1.0, 0.0), (1.4, 1.4), -45.0)"}}
 
-    rect_in: bpy.props.StringProperty(default=str(uuid.uuid4()), description="Points and angle in one list.")
+    box_in: bpy.props.StringProperty(default=str(uuid.uuid4()), description="Points and angle in one list.")
 
     def init(self, context):
-        self.inputs.new("StringsSocket", "rect_in")
+        self.inputs.new("VectorSocket", "box_in")
         self.outputs.new("StringsSocket", "points_out")
 
     def wrapped_process(self):
-        self.check_input_requirements(["rect_in"])
-
         kwargs = {
-            'box': tuple(self.get_from_props("rect_in")),
+            'box_in': tuple(self.get_from_props("box_in")),
             }
 
         points_out = self.process_cv(fn=cv2.boxPoints, kwargs=kwargs)
         self.refresh_output_socket("points_out", points_out)
-
-    def draw_buttons(self, context, layout):
-        pass
