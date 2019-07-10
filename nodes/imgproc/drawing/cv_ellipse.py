@@ -61,7 +61,7 @@ class OCVLellipseNode(OCVLNodeBase):
 
     def wrapped_process(self):
         self.check_inputs_requirements_mode(requirements=(("box_in", "SIMPLE"),), props_maps=PROPS_MAPS, input_mode=self.loc_input_mode)
-        kwargs_inputs= self.get_kwargs_inputs(PROPS_MAPS, self.loc_input_mode)
+        kwargs_inputs = self.get_kwargs_inputs(PROPS_MAPS, self.loc_input_mode)
 
         kwargs = {
             'img_in': self.get_from_props("image_in"),
