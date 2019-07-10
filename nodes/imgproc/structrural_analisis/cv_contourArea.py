@@ -22,7 +22,7 @@ class OCVLcontourAreaNode(OCVLNodeBase):
     def wrapped_process(self):
         kwargs = {
             'contour_in': self.get_from_props("contour_in")[0] if self.loc_from_findContours else self.get_from_props("contour_in"),
-            # 'oriented_in': self.get_from_props("oriented_in"),
+            'oriented_in': self.get_from_props("oriented_in"),
             }
 
         area_out = self.process_cv(fn=cv2.contourArea, kwargs=kwargs)
@@ -31,5 +31,5 @@ class OCVLcontourAreaNode(OCVLNodeBase):
 
     def draw_buttons(self, context, layout):
         layout.label(text='Area: {}'.format(self.area_out))
-        # self.add_button(layout, 'oriented_out')
+        self.add_button(layout, 'oriented_in')
         self.add_button(layout, 'loc_from_findContours')

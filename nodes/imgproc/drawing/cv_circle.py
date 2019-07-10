@@ -10,11 +10,11 @@ class OCVLcircleNode(OCVLNodeBase):
     bl_icon = 'GREASEPENCIL'
 
     n_doc = "Draws a circle."
-    n_quick_link_requirements = {"image_in": {"loc_image_mode": "PLANE"}}
-    n_requirements = {"__and__": ["image_in"]}
+    n_quick_link_requirements = {"img_in": {"loc_image_mode": "PLANE"}}
+    n_requirements = {"__and__": ["img_in"]}
 
-    image_in: bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input image.")
-    image_out: bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
+    img_in: bpy.props.StringProperty(name="img_in", default=str(uuid.uuid4()), description="Input image.")
+    img_out: bpy.props.StringProperty(name="img_out", default=str(uuid.uuid4()), description="Output image.")
 
     center_in: bpy.props.IntVectorProperty(default=(40, 40), size=2, update=update_node, description="Center of the circle.")
     radius_in: bpy.props.IntProperty(default=30, min=1, max=100, update=update_node, description="Radius of the circle.")
@@ -25,18 +25,18 @@ class OCVLcircleNode(OCVLNodeBase):
 
     def init(self, context):
         self.width = 260
-        self.inputs.new("ImageSocket", "image_in")
+        self.inputs.new("ImageSocket", "img_in")
         self.inputs.new('StringsSocket', "center_in").prop_name = 'center_in'
         self.inputs.new('StringsSocket', "radius_in").prop_name = 'radius_in'
         self.inputs.new('SvColorSocket', 'color_in').prop_name = 'color_in'
         self.inputs.new('StringsSocket', "thickness_in").prop_name = 'thickness_in'
         self.inputs.new('StringsSocket', "shift_in").prop_name = 'shift_in'
 
-        self.outputs.new("ImageSocket", "image_out")
+        self.outputs.new("ImageSocket", "img_out")
 
     def wrapped_process(self):
         kwargs = {
-            'img_in': self.get_from_props("image_in"),
+            'img_in': self.get_from_props("img_in"),
             'center_in': self.get_from_props("center_in"),
             'color_in': self.get_from_props("color_in"),
             'thickness_in': self.get_from_props("thickness_in"),
@@ -45,8 +45,8 @@ class OCVLcircleNode(OCVLNodeBase):
             'shift_in': self.get_from_props("shift_in"),
             }
 
-        image_out = self.process_cv(fn=cv2.circle, kwargs=kwargs)
-        self.refresh_output_socket("image_out", image_out, is_uuid_type=True)
+        img_out = self.process_cv(fn=cv2.circle, kwargs=kwargs)
+        self.refresh_output_socket("img_out", img_out, is_uuid_type=True)
 
     def draw_buttons(self, context, layout):
         self.add_button(layout, 'lineType_in')

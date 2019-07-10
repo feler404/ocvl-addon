@@ -50,7 +50,8 @@ def register_node_categories(identifier, cat_list):
         layout = self.layout
         for cat in cat_list:
             if cat.poll(context):
-                layout.menu("NODE_MT_category_%s" % cat.identifier, icon=cat.icon)
+                if not SUBCATEGORY_SEPARATOR in cat.identifier:
+                    layout.menu("NODE_MT_category_%s" % cat.identifier, icon=cat.icon)
 
     if identifier in _node_categories:
         raise KeyError("Node categories list '%s' already registered" % identifier)
@@ -81,7 +82,7 @@ def register_node_categories(identifier, cat_list):
                 layout.separator()
                 old_draw_fn(self, context)
                 layout.separator()
-                layout.label(text="")
+                layout.label(text="Main category")
 
             sub_category_names = {leaf.identifier for leaf in BUILD_CATEGORIES[category_leaf]}
             menu_type.draw = lambda self, context: partial(draw, submenus=sub_category_names)(self, context)

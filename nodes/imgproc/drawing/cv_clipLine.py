@@ -43,6 +43,3 @@ class OCVLclipLineNode(OCVLNodeBase):
         self.refresh_output_socket("retval_out", retval_out, is_uuid_type=True)
         self.refresh_output_socket("pt1_out", pt1_out, is_uuid_type=True)
         self.refresh_output_socket("pt2_out", pt2_out, is_uuid_type=True)
-
-    def draw_buttons(self, context, layout):
-        pass

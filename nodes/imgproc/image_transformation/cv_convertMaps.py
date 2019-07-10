@@ -14,24 +14,28 @@ OUTPUT_MAP_TYPE_ITEMS = (
 class OCVLconvertMapsNode(OCVLNodeBase):
 
     n_doc = "Converts image transformation maps from one representation to another."
+    n_requirements = {"__and__": ["map1_in", "map2_in"]}
+    n_quick_link_requirements = {
+        "map1_in": {"code_in": "COLOR_BGR2GRAY", "value_type_in": "float32"},
+        "map2_in": {"code_in": "COLOR_BGR2GRAY", "value_type_in": "float32"},
+    }
 
     map1_in: bpy.props.StringProperty(name="map1_in", default=str(uuid.uuid4()), description="The first input map of type CV_16SC2 , CV_32FC1 , or CV_32FC2 .")
     map2_in: bpy.props.StringProperty(name="map2_in", default=str(uuid.uuid4()), description="The second input map of type CV_16UC1 , CV_32FC1 , or none (empty matrix), respectively.")
+    dstmap1type_in: bpy.props.EnumProperty(items=OUTPUT_MAP_TYPE_ITEMS, default='CV_32FC1', update=update_node, description="Type of the first output map that should be.")
+    nninterpolation_in: bpy.props.BoolProperty(default=False, update=update_node, description="Flag indicating whether the fixed-point maps are used for the nearest-neighbor or for a more complex interpolation.")
+
     dstmap1_out: bpy.props.StringProperty(name="dstmap1_out", default=str(uuid.uuid4()), description="The first output map that has the type dstmap1type and the same size as src .")
     dstmap2_out: bpy.props.StringProperty(name="dstmap2_out", default=str(uuid.uuid4()), description="The second output map.")
 
-    dstmap1type_in: bpy.props.EnumProperty(items=OUTPUT_MAP_TYPE_ITEMS, default='CV_16SC2', update=update_node, description="Type of the first output map that should be.")
-    nninterpolation_in: bpy.props.BoolProperty(default=False, update=update_node, description="Flag indicating whether the fixed-point maps are used for the nearest-neighbor or for a more complex interpolation.")
-
     def init(self, context):
-        self.inputs.new("StringsSocket", "map1_in")
-        self.inputs.new('StringsSocket', "map2_in")
+        self.inputs.new("ImageSocket", "map1_in")
+        self.inputs.new('ImageSocket', "map2_in")
 
-        self.outputs.new("StringsSocket", "dstmap1_out")
-        self.outputs.new("StringsSocket", "dstmap2_out")
+        self.outputs.new("ImageSocket", "dstmap1_out")
+        self.outputs.new("ImageSocket", "dstmap2_out")
 
     def wrapped_process(self):
-        self.check_input_requirements(["map1_in", "map2_in"])
 
         kwargs = {
             'map1_in': self.get_from_props("map1_in"),
