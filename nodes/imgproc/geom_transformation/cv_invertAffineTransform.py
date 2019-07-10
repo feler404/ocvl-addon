@@ -27,3 +27,4 @@ class OCVLinvertAffineTransformNode(OCVLNodeBase):
 
         iM_out = self.process_cv(fn=cv2.invertAffineTransform, kwargs=kwargs)
         self.refresh_output_socket("iM_out", iM_out, is_uuid_type=True)
+
