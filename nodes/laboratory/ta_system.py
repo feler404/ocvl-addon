@@ -52,7 +52,7 @@ FEATURES_ITEMS = {
 }
 
 
-class OCVLsystemNode(OCVLNodeBase):
+class OCVLSystemNode(OCVLNodeBase):
 
     n_doc = "OpenCV Utility and System Functions and Macros."
 
