@@ -15,25 +15,24 @@ SDEPTH_ITEMS = (
 class OCVLintegralNode(OCVLNodeBase):
 
     n_doc = "Calculates the integral of an image."
+    n_requirements = {"__and__": ["src_in"]}
 
-    image_in: bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input image as W x H, 8-bit or floating-point (32f or 64f).")
-    sum_out: bpy.props.StringProperty(name="sum_out", default=str(uuid.uuid4()), description="Integral image as (W+1) x (H+1) , 32-bit integer or floating-point (32f or 64f).")
-
+    src_in: bpy.props.StringProperty(name="src_in", default=str(uuid.uuid4()), description="Input image as W x H, 8-bit or floating-point (32f or 64f).")
     sdepth_in: bpy.props.EnumProperty(items=SDEPTH_ITEMS, default="None", update=update_node, description="Desired depth of the integral and the tilted integral images, CV_32S, CV_32F, or CV_64F.")
 
-    def init(self, context):
-        self.inputs.new("ImageSocket", "image_in")
+    sum_out: bpy.props.StringProperty(name="sum_out", default=str(uuid.uuid4()), description="Integral image as (W+1) x (H+1) , 32-bit integer or floating-point (32f or 64f).")
 
-        self.outputs.new("StringsSocket", "sum_out")
+    def init(self, context):
+        self.inputs.new("ImageSocket", "src_in")
+
+        self.outputs.new("ImageSocket", "sum_out")
 
     def wrapped_process(self):
-        self.check_input_requirements(["image_in"])
-
         sdepth_in = self.get_from_props("sdepth_in")
         sdepth_in = -1 if sdepth_in is None else sdepth_in
 
         kwargs = {
-            'src_in': self.get_from_props("image_in"),
+            'src_in': self.get_from_props("src_in"),
             'sdepth_in': sdepth_in,
             }
 

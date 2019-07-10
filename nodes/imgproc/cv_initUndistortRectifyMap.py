@@ -13,6 +13,7 @@ M1TYPE_ITEMS = (
 class OCVLinitUndistortRectifyMapNode(OCVLNodeBase):
 
     n_doc = "Computes the undistortion and rectification transformation map."
+    n_requirements = {"__and__": ["cameraMatrix_in", "distCoeffs_in", "newCameraMatrix", "R_in"]}
 
     cameraMatrix_in: bpy.props.StringProperty(name="cameraMatrix_in", default=str(uuid.uuid4()), description="Input camera matrix A")
     distCoeffs_in: bpy.props.StringProperty(name="distCoeffs_in", default=str(uuid.uuid4()), description="Input vector of distortion coefficients (k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6]]) of 4, 5, or 8 elements. If the vector is NULL/empty, the zero distortion coefficients are assumed.")
@@ -35,8 +36,6 @@ class OCVLinitUndistortRectifyMapNode(OCVLNodeBase):
         self.outputs.new("StringsSocket", "map2_out")
 
     def wrapped_process(self):
-        self.check_input_requirements(["cameraMatrix_in", "distCoeffs_in", "newCameraMatrix", "R_in"])
-
         kwargs = {
             'cameraMatrix_in': self.get_from_props("cameraMatrix_in"),
             'newCameraMatrix': self.get_from_props("newCameraMatrix"),
@@ -46,9 +45,10 @@ class OCVLinitUndistortRectifyMapNode(OCVLNodeBase):
             'm1type_in': self.get_from_props("m1type_in"),
             }
 
-        map1_out, map2_out = self.process_cv(fn=cv2.initUndistortRectifyMap, kwargs=kwargs)
-        self.refresh_output_socket("map1_out", map1_out, is_uuid_type=True)
-        self.refresh_output_socket("map2_out", map2_out, is_uuid_type=True)
+        # TODO: to nie dziala :) https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_calib3d/py_calibration/py_calibration.html
+        # map1_out, map2_out = self.process_cv(fn=cv2.initUndistortRectifyMap, kwargs=kwargs)
+        # self.refresh_output_socket("map1_out", map1_out, is_uuid_type=True)
+        # self.refresh_output_socket("map2_out", map2_out, is_uuid_type=True)
 
     def draw_buttons(self, context, layout):
         self.add_button(layout, "m1type_in", expand=True)
