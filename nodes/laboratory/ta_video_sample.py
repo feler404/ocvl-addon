@@ -122,7 +122,7 @@ class OCVLVideoSampleNode(OCVLPreviewNodeBase):
         self.draw_preview(layout=layout, prop_name="image_out", location_x=10, location_y=location_y)
 
     def free(self):
-        # super().free()
+        super().free()
         loc_camera_device = int(self.get_from_props("loc_camera_device"))
         if CAMERA_DEVICE_DICT.get(loc_camera_device).isOpened():
             CAMERA_DEVICE_DICT.get(loc_camera_device).release()
