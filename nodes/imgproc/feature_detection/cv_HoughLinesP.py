@@ -20,6 +20,8 @@ PROPS_MAPS = {
 class OCVLHoughLinesPNode(OCVLNodeBase):
 
     n_doc = "Finds line segments in a binary image using the probabilistic Hough transform."
+    n_requirements = {"__and__": ["image_in"]}
+    n_quick_link_requirements = {"image_in": {"code_in": "COLOR_BGR2GRAY"}}
 
     def update_layout(self, context):
         self.update_sockets(context)
@@ -47,8 +49,6 @@ class OCVLHoughLinesPNode(OCVLNodeBase):
         self.outputs.new("StringsSocket", "lines_out")
 
     def wrapped_process(self):
-        self.check_input_requirements(["image_in"])
-
         kwargs = {
             'image_in': self.get_from_props("image_in"),
             'rho_in': int(self.get_from_props("rho_in")),

@@ -9,14 +9,15 @@ class OCVLgetTextSizeNode(OCVLNodeBase):
 
     bl_icon = 'GREASEPENCIL'
     n_doc = "Calculates the width and height of a text string."
-
-    baseLine_out: bpy.props.StringProperty(name="baseLine_out", default=str(uuid.uuid4()), description="Output parameter - y-coordinate of the baseline relative to the bottom-most text point.")
-    retval_out: bpy.props.StringProperty(name="retval_out", default=str(uuid.uuid4()), description="Return value.")
+    n_requirements = {}
 
     text_in: bpy.props.StringProperty(default="OpenCV", update=update_node, description="Text string to be drawn.")
     fontScale_in: bpy.props.IntProperty(default=5, min=1, max=30,update=update_node, description="Scale factor that is multiplied by the font-specific base size.")
     fontFace_in: bpy.props.EnumProperty(items=FONT_FACE_ITEMS, default="FONT_HERSHEY_SIMPLEX", update=update_node, description="Font type, see cv::HersheyFonts.")
     thickness_in: bpy.props.IntProperty(default=2, min=1, max=10, update=update_node, description="Thickness of the lines used to draw a text.")
+
+    retval_out: bpy.props.StringProperty(name="retval_out", default=str(uuid.uuid4()), description="Return value.")
+    baseLine_out: bpy.props.StringProperty(name="baseLine_out", default=str(uuid.uuid4()), description="Output parameter - y-coordinate of the baseline relative to the bottom-most text point.")
 
     def init(self, context):
         self.inputs.new('StringsSocket', "text_in").prop_name = 'text_in'
@@ -27,8 +28,6 @@ class OCVLgetTextSizeNode(OCVLNodeBase):
         self.outputs.new("StringsSocket", "retval_out")
 
     def wrapped_process(self):
-        self.check_input_requirements([])
-
         kwargs = {
             'text_in': self.get_from_props("text_in"),
             'fontFace_in': self.get_from_props("fontFace_in"),

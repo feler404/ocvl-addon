@@ -20,6 +20,8 @@ PROPS_MAPS = {
 class OCVLHoughLinesNode(OCVLNodeBase):
 
     n_doc = "Finds lines in a binary image using the standard Hough transform."
+    n_requirements = {"__and__": ["image_in"]}
+    n_quick_link_requirements = {"image_in": {"code_in": "COLOR_BGR2GRAY"}}
 
     def update_layout(self, context):
         self.update_sockets(context)
@@ -29,11 +31,10 @@ class OCVLHoughLinesNode(OCVLNodeBase):
     rho_in: bpy.props.FloatProperty(default=3, min=1, max=10, update=update_node, description="Distance resolution of the accumulator in pixels.")
     theta_in: bpy.props.FloatProperty(default=0.0574, min=0.0001, max=3.1415, update=update_node, description="Angle resolution of the accumulator in radians.")
     threshold_in: bpy.props.IntProperty(default=200, min=0, max=255, update=update_node, description="Accumulator threshold parameter.")
-    srn_in: bpy.props.FloatProperty(default=0, description="For the multi-scale Hough transform, it is a divisor for the distance resolution rho.")
-    stn_in: bpy.props.FloatProperty(default=0, description="For the multi-scale Hough transform, it is a divisor for the distance resolution theta.")
-    min_theta_in: bpy.props.FloatProperty(default=0, description="For standard and multi-scale Hough transform, minimum angle to check for lines.")
-    max_theta_in: bpy.props.FloatProperty(default=0, description="For standard and multi-scale Hough transform, maximum angle to check for lines.")
-    #TODO: apply rest of parameters
+    srn_in: bpy.props.FloatProperty(default=0, min=0, max=100, update=update_node, description="For the multi-scale Hough transform, it is a divisor for the distance resolution rho.")
+    stn_in: bpy.props.FloatProperty(default=0, min=0, max=100, update=update_node, description="For the multi-scale Hough transform, it is a divisor for the distance resolution theta.")
+    min_theta_in: bpy.props.FloatProperty(default=0, min=0, max=100, update=update_node, description="For standard and multi-scale Hough transform, minimum angle to check for lines.")
+    max_theta_in: bpy.props.FloatProperty(default=0, min=0, max=100, update=update_node, description="For standard and multi-scale Hough transform, maximum angle to check for lines.")
 
     loc_output_mode: bpy.props.EnumProperty(items=OUTPUT_MODE_ITEMS, default="LINES", update=update_layout, description="Output mode.")
     lines_out: bpy.props.StringProperty(name="lines_out", default=str(uuid.uuid4()), description="Output vector of lines.")
@@ -44,16 +45,22 @@ class OCVLHoughLinesNode(OCVLNodeBase):
         self.inputs.new('StringsSocket', "rho_in").prop_name = 'rho_in'
         self.inputs.new('StringsSocket', "theta_in").prop_name = 'theta_in'
         self.inputs.new('StringsSocket', "threshold_in").prop_name = 'threshold_in'
+        self.inputs.new('StringsSocket', "srn_in").prop_name = 'srn_in'
+        self.inputs.new('StringsSocket', "stn_in").prop_name = 'stn_in'
+        # self.inputs.new('StringsSocket', "min_theta_in").prop_name = 'min_theta_in'
+        # self.inputs.new('StringsSocket', "max_theta_in").prop_name = 'max_theta_in'
 
         self.outputs.new("StringsSocket", "lines_out")
 
     def wrapped_process(self):
-        self.check_input_requirements(["image_in"])
-
         kwargs = {
             'image_in': self.get_from_props("image_in"),
             'rho_in': int(self.get_from_props("rho_in")),
             'theta_in': self.get_from_props("theta_in"),
+            'srn_in': self.get_from_props("srn_in"),
+            'stn_in': self.get_from_props("stn_in"),
+            # 'min_theta_in': self.get_from_props("min_theta_in"),
+            # 'max_theta_in': self.get_from_props("max_theta_in"),
             'threshold_in': int(self.get_from_props("threshold_in")),
             }
 
