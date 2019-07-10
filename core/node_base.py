@@ -500,9 +500,10 @@ class OCVLNodeBase(bpy.types.Node):
     def free(self):
         for output in self.outputs:
             for link in output.links:
-                to_node = link.to_node
-                bpy.data.node_groups[self.id_data.name].links.remove(link)
+                # to_node = link.to_node
+                # bpy.data.node_groups[self.id_data.name].links.remove(link)
                 # to_node.process()
+                pass
 
     @property
     def node_id(self):
@@ -526,7 +527,7 @@ class OCVLPreviewNodeBase(OCVLNodeBase):
     def free(self):
         callback_disable(node_id(self))
         self.delete_texture()
-        super().free()
+        # super().free()
 
     def copy(self, node):
         self.n_id = ''
