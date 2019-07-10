@@ -17,6 +17,7 @@ logger = logging.getLogger(__name__)
 
 CATEGORY_CONFIG_MAP = {}  # icon, name, description
 BUILD_CATEGORIES = defaultdict(lambda: [])
+SUBCATEGORY_SEPARATOR = "."
 
 
 class OCVLNodeCategory(NodeCategory):
@@ -57,9 +58,8 @@ def register_node_categories(identifier, cat_list):
 
     menu_types = []
     for cat in cat_list:
-        print(11111, cat.identifier)
-        if cat.identifier == "OCVL_CATEGORY_imgproc.drawing":
-            prefix = "NODE_MT_category_"
+        if SUBCATEGORY_SEPARATOR in cat.identifier:
+            prefix = "NODE_MT_subcategory_"
         else:
             prefix = "NODE_MT_category_"
 
@@ -77,10 +77,11 @@ def register_node_categories(identifier, cat_list):
             def draw(self, context, submenus):
                 layout = self.layout
                 for name in submenus:
-                    layout.menu("NODE_MT_category_{}".format(name), icon=CATEGORY_CONFIG_MAP[name.replace(constants.ID_TREE_CATEGORY_TEMPLATE.format(""), "")]["icon"])
+                    layout.menu("NODE_MT_subcategory_{}".format(name), icon=CATEGORY_CONFIG_MAP[name.replace(constants.ID_TREE_CATEGORY_TEMPLATE.format(""), "")]["icon"])
+                layout.separator()
                 old_draw_fn(self, context)
                 layout.separator()
-                layout.label(text="This is a main menu")
+                layout.label(text="")
 
             sub_category_names = {leaf.identifier for leaf in BUILD_CATEGORIES[category_leaf]}
             menu_type.draw = lambda self, context: partial(draw, submenus=sub_category_names)(self, context)
@@ -169,8 +170,8 @@ class AutoRegisterNodeCategories:
                 items=self.node_categories_dict[category_name],
             )
             node_category.icon = CATEGORY_CONFIG_MAP[category_name]["icon"]
-            if "." in category_name:
-                BUILD_CATEGORIES["{}".format(category_name.split(".")[0])].append(node_category)
+            if SUBCATEGORY_SEPARATOR in category_name:
+                BUILD_CATEGORIES["{}".format(category_name.split(SUBCATEGORY_SEPARATOR)[0])].append(node_category)
             else:
                 BUILD_CATEGORIES[constants.OCVL_NODE_CATEGORIES].append(node_category)
 
