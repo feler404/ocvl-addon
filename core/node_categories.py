@@ -1,5 +1,7 @@
 import logging
 import os
+from functools import partial
+
 import bpy
 from collections import defaultdict
 from importlib import util
@@ -14,11 +16,13 @@ logger = logging.getLogger(__name__)
 
 
 CATEGORY_CONFIG_MAP = {}  # icon, name, description
+BUILD_CATEGORIES = defaultdict(lambda: [])
 
 
 class OCVLNodeCategory(NodeCategory):
-    icon = "NONE"
-
+    icon = None
+    name = None
+    description = None
 
     @classmethod
     def pull(cls, context):
@@ -53,14 +57,33 @@ def register_node_categories(identifier, cat_list):
 
     menu_types = []
     for cat in cat_list:
-        menu_type = type("NODE_MT_category_" + cat.identifier, (bpy.types.Menu,), {
+        print(11111, cat.identifier)
+        if cat.identifier == "OCVL_CATEGORY_imgproc.drawing":
+            prefix = "NODE_MT_category_"
+        else:
+            prefix = "NODE_MT_category_"
+
+        menu_type = type(prefix + cat.identifier, (bpy.types.Menu,), {
             "bl_space_type": 'NODE_EDITOR',
             "bl_label": cat.name,
             "category": cat,
             "poll": cat.poll,
             "draw": draw_node_item,
         })
+        category_leaf = cat.identifier.replace(constants.ID_TREE_CATEGORY_TEMPLATE.format(""), "")
+        if category_leaf in BUILD_CATEGORIES:
+            old_draw_fn = menu_type.draw
 
+            def draw(self, context, submenus):
+                layout = self.layout
+                for name in submenus:
+                    layout.menu("NODE_MT_category_{}".format(name), icon=CATEGORY_CONFIG_MAP[name.replace(constants.ID_TREE_CATEGORY_TEMPLATE.format(""), "")]["icon"])
+                old_draw_fn(self, context)
+                layout.separator()
+                layout.label(text="This is a main menu")
+
+            sub_category_names = {leaf.identifier for leaf in BUILD_CATEGORIES[category_leaf]}
+            menu_type.draw = lambda self, context: partial(draw, submenus=sub_category_names)(self, context)
         menu_types.append(menu_type)
 
         bpy.utils.register_class(menu_type)
@@ -74,7 +97,6 @@ class AutoRegisterNodeCategories:
     register_mode = None
     node_classes_list = None
     node_categories_dict = None
-    build_categories = None
     nodes_module_path = None
 
     def __init__(self, register_mode=True):
@@ -82,9 +104,10 @@ class AutoRegisterNodeCategories:
         self._ocvl_auto_register = self._register_node if register_mode else self._unregister_node
         self.node_classes_list = []
         self.node_categories_dict = defaultdict(list)
-        self.build_categories = []
         self.nodes_module_path = os.path.join(ocvl.__path__[0], constants.NAME_NODE_DIRECTORY)
-        self.register()
+
+        self.recursive_register(self.nodes_module_path)
+        self.end_register()
 
     def _register_node(self, *args, **kwargs):
         return register_node(*args, **kwargs)
@@ -93,17 +116,18 @@ class AutoRegisterNodeCategories:
         return unregister_node(*args, **kwargs)
 
     def process_module(self, file_name, node_file_path, node_classes_list, _ocvl_auto_register, dir_category=False):
-        spec = util.spec_from_file_location("ocvl.{}.{}".format(constants.NAME_NODE_DIRECTORY, file_name), node_file_path)
+        deep_import_path = ".".join(node_file_path.replace(self.nodes_module_path, "").split(os.sep)[1:-1])
+        spec = util.spec_from_file_location("ocvl.{}.{}.{}".format(constants.NAME_NODE_DIRECTORY, deep_import_path, file_name), node_file_path)
         mod = util.module_from_spec(spec)
         spec.loader.exec_module(mod)
-        if file_name.startswith("__"):
+        if file_name.startswith("__") or file_name.startswith("abc"):
             return
 
         for obj_name in dir(mod):
             if is_node_class_name(obj_name):
                 node_class = getattr(mod, obj_name)
                 if dir_category:
-                    node_class.n_category = node_file_path.split(os.sep)[-2]
+                    node_class.n_category = deep_import_path
                     exec("import ocvl.nodes.{}".format(node_class.n_category))
                     category_module_path = "ocvl.{}.{}".format(constants.NAME_NODE_DIRECTORY, node_class.n_category)
                     icon = eval("getattr({}, 'icon', 'NONE')".format(category_module_path))
@@ -115,12 +139,12 @@ class AutoRegisterNodeCategories:
                     node_classes_list.append(node_class)
                     _ocvl_auto_register(node_class)
 
-    def register(self):
-        for file_name in os.listdir(self.nodes_module_path):
+    def recursive_register(self, module_path):
+        for file_name in os.listdir(module_path):
             if file_name in BLACK_LIST_REGISTER_NODE_CATEGORY:
                 continue
 
-            node_file_path = node_file_path_in = os.path.join(self.nodes_module_path, file_name)
+            node_file_path = node_file_path_in = os.path.join(module_path, file_name)
             if os.path.isfile(node_file_path):
                 self.process_module(file_name, node_file_path, self.node_classes_list, self._ocvl_auto_register)
             elif os.path.isdir(node_file_path):
@@ -129,11 +153,15 @@ class AutoRegisterNodeCategories:
                         node_file_path_in = os.path.join(node_file_path, file_name_in)
                         if os.path.isfile(node_file_path_in):
                             self.process_module(file_name_in, node_file_path_in, self.node_classes_list, self._ocvl_auto_register, dir_category=True)
+                self.recursive_register(node_file_path)
 
+    def end_register(self):
         for node_class in self.node_classes_list:
             self.node_categories_dict[node_class.n_category].append(NodeItem(node_class.__name__, node_class.__name__[4:-4]))
 
         for category_name in self.node_categories_dict.keys():
+            if category_name == "uncategorized":
+                continue
             node_category = OCVLNodeCategory(
                 identifier=constants.ID_TREE_CATEGORY_TEMPLATE.format(category_name),
                 name=CATEGORY_CONFIG_MAP[category_name]["name"],
@@ -141,13 +169,17 @@ class AutoRegisterNodeCategories:
                 items=self.node_categories_dict[category_name],
             )
             node_category.icon = CATEGORY_CONFIG_MAP[category_name]["icon"]
-            self.build_categories.append(node_category)
+            if "." in category_name:
+                BUILD_CATEGORIES["{}".format(category_name.split(".")[0])].append(node_category)
+            else:
+                BUILD_CATEGORIES[constants.OCVL_NODE_CATEGORIES].append(node_category)
 
         if self.register_mode:
-            try:
-                register_node_categories(constants.OCVL_NODE_CATEGORIES, self.build_categories)
-            except KeyError as e:
-                logger.info("{} already registered.".format(constants.OCVL_NODE_CATEGORIES))
+            for key, value in BUILD_CATEGORIES.items():
+                try:
+                    register_node_categories(key, value)
+                except KeyError as e:
+                    logger.info("{} already registered.".format(constants.OCVL_NODE_CATEGORIES))
         else:
             unregister_node_categories(constants.OCVL_NODE_CATEGORIES)
 
