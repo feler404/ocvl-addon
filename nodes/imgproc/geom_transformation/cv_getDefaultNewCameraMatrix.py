@@ -8,6 +8,7 @@ from ocvl.core.node_base import OCVLNodeBase, update_node
 class OCVLgetDefaultNewCameraMatrixNode(OCVLNodeBase):
 
     n_doc = "Returns the default new camera matrix."
+    n_requirements = {"__and__": ["cameraMatrix_in"]}
 
     cameraMatrix_in: bpy.props.StringProperty(default=str(uuid.uuid4()), description="Input camera matrix.")
     imgsize_in: bpy.props.IntVectorProperty(default=(100, 100), min=1, max=2048, size=2, update=update_node, description="Camera view image size in pixels.")
@@ -16,14 +17,12 @@ class OCVLgetDefaultNewCameraMatrixNode(OCVLNodeBase):
     retval_out: bpy.props.StringProperty(name="retval_out", default=str(uuid.uuid4()), description="Return value.")
 
     def init(self, context):
-        self.inputs.new("StringsSocket", "cameraMatrix_in")
+        self.inputs.new("ImageSocket", "cameraMatrix_in")
         self.inputs.new("StringsSocket", "imgsize_in").prop_name = "imgsize_in"
 
         self.outputs.new("StringsSocket", "retval_out")
 
     def wrapped_process(self):
-        self.check_input_requirements(["cameraMatrix_in"])
-
         kwargs = {
             'cameraMatrix_in': self.get_from_props("cameraMatrix_in"),
             'imgsize_in': self.get_from_props("imgsize_in"),

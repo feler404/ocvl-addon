@@ -51,7 +51,7 @@ class OCVLNodeTree(bpy.types.NodeTree):
             if LINKS_POINTER_MAP[self.name][link_pointer].to_socket.is_linked:
                 pass
                 # LINKS_POINTER_MAP[self.name][link_pointer].to_node.process()
-                # TODO: crash here :(
+                # TODO: crash here :( to_node may not exist
 
         for link_pointer in new_links:
             current_links[link_pointer].from_node.process()

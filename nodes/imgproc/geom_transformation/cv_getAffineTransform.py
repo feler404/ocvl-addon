@@ -22,11 +22,10 @@ class OCVLgetAffineTransformNode(OCVLNodeBase):
         self.outputs.new("StringsSocket", "dst_out")
 
     def wrapped_process(self):
-
-        pts1 = self.get_from_props("src_in")
+        src_in = self.get_from_props("src_in")
         kwargs = {
             'src': self.get_from_props("src_in"),
-            'dst': pts1.copy(),
+            'dst': src_in.copy(),
         }
 
         dst_out = self.process_cv(fn=cv2.getAffineTransform, kwargs=kwargs)
