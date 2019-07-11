@@ -1,6 +1,5 @@
 import logging
 import os
-from functools import partial
 
 import bpy
 from collections import defaultdict
@@ -75,17 +74,16 @@ def register_node_categories(identifier, cat_list):
         if category_leaf in BUILD_CATEGORIES:
             old_draw_fn = menu_type.draw
 
-            def draw(self, context, submenus):
+            def draw(self, context):
+                sub_category_names = {leaf.identifier for leaf in BUILD_CATEGORIES[self.bl_idname.split("_")[-1]]}
                 layout = self.layout
-                for name in submenus:
+                for name in sub_category_names:
                     layout.menu("NODE_MT_subcategory_{}".format(name), icon=CATEGORY_CONFIG_MAP[name.replace(constants.ID_TREE_CATEGORY_TEMPLATE.format(""), "")]["icon"])
                 layout.separator()
                 old_draw_fn(self, context)
                 layout.separator()
                 layout.label(text="Main category")
-
-            sub_category_names = {leaf.identifier for leaf in BUILD_CATEGORIES[category_leaf]}
-            menu_type.draw = lambda self, context: partial(draw, submenus=sub_category_names)(self, context)
+            menu_type.draw = draw
         menu_types.append(menu_type)
 
         bpy.utils.register_class(menu_type)
