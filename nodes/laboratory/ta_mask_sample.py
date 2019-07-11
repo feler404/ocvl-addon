@@ -6,39 +6,9 @@ import numpy as np
 from logging import getLogger
 
 from ocvl.core.node_base import OCVLPreviewNodeBase
+from ocvl.core.constants import NP_VALUE_TYPE_ITEMS
 
 logger = getLogger(__name__)
-
-
-NP_VALUE_TYPE_ITEMS = (
-    # ("NONE", "NONE", "NONE", "", 0),
-    # ("intc", "intc", "intc", "", 1),
-    # ("intp", "intp", "intp", "", 2),
-    # ("int8", "int8", "int8", "", 3),
-    # ("int16", "int16", "int16", "", 4),
-    # ("int32", "int32", "int32", "", 5),
-    # ("int64", "int64", "int64", "", 6),
-    ("uint8", "uint8", "uint8", "", 0),
-    ("uint16", "uint16", "uint16", "", 1),
-    # ("uint32", "uint32", "uint32", "", 2),
-    # ("uint64", "uint64", "uint64", "", 10),
-    # ("float16", "float16", "float16", "", 3),
-    ("float32", "float32", "float32", "", 2),
-    # ("float64", "float64", "float64", "", 13),
-)
-
-
-CODE_COLOR_POOR_ITEMS_FOR_IMAGE_SAMPLE = (
-    ("NONE", "NONE", "NONE", "", 0),
-    ("COLOR_BGR2GRAY", "COLOR_BGR2GRAY", "COLOR_BGR2GRAY", "", 1),
-    ("COLOR_BGR2RGB", "COLOR_BGR2RGB", "COLOR_BGR2RGB", "", 2),
-    ("COLOR_BGR2HLS", "COLOR_BGR2HLS", "COLOR_BGR2HLS", "", 3),
-    ("COLOR_BGR2HSV", "COLOR_BGR2HSV", "COLOR_BGR2HSV", "", 4),
-    ("COLOR_BGR2LAB", "COLOR_BGR2LAB", "COLOR_BGR2LAB", "", 5),
-    ("COLOR_BGR2LUV", "COLOR_BGR2LUV", "COLOR_BGR2LUV", "", 6),
-    ("COLOR_BGR2YCR_CB", "COLOR_BGR2YCR_CB", "COLOR_BGR2YCR_CB", "", 7),
-    ("COLOR_BGR2YUV", "COLOR_BGR2YUV", "COLOR_BGR2YUV", "", 8),
-)
 
 
 IMAGE_MODE_ITEMS = [
@@ -55,6 +25,9 @@ PROPS_MAPS = {
 
 class OCVLMaskSampleNode(OCVLPreviewNodeBase):
     bl_icon = 'IMAGE_DATA'
+
+    n_doc = "Create new image mask."
+    n_requirements = {}
 
     def update_layout(self, context):
         self.update_sockets(context)
@@ -77,7 +50,6 @@ class OCVLMaskSampleNode(OCVLPreviewNodeBase):
 
     def init(self, context):
         self.width = 200
-        self.inputs.new("StringsSocket", "value_type_in").prop_name = "value_type_in"
 
         self.outputs.new('MaskSocket', 'image_out')
         self.outputs.new('StringsSocket', 'width_out')
@@ -128,6 +100,7 @@ class OCVLMaskSampleNode(OCVLPreviewNodeBase):
 
     def draw_buttons(self, context, layout):
         origin = self.get_node_origin()
+        self.add_button(layout, "value_type_in", expand=True)
         self.add_button(layout, "loc_image_mode", expand=True)
 
         if self.loc_image_mode == "PLANE":
@@ -138,7 +111,7 @@ class OCVLMaskSampleNode(OCVLPreviewNodeBase):
         if self.n_id not in self.texture:
             return
 
-        location_y = -130 if self.loc_image_mode in ["PLANE", "RANDOM"] else -150
+        location_y = -150 if self.loc_image_mode in ["PLANE", "RANDOM"] else -170
         self.draw_preview(layout=layout, prop_name="image_out", location_x=10, location_y=location_y)
 
     def update_sockets(self, context):

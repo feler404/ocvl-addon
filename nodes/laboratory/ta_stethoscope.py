@@ -11,7 +11,7 @@ class OCVLStethoscopeNode(OCVLNodeBase):
     n_doc = "Stethoscope"
     n_requirements = {"__and__": ["matrix_in"]}
 
-    matrix_in: bpy.props.StringProperty(name="matrix_in", default=str(uuid.uuid4()))
+    matrix_in: bpy.props.StringProperty(name="matrix_in", default="[]")
 
     def init(self, context):
         self.width = 200

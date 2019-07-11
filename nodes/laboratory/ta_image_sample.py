@@ -41,11 +41,12 @@ PROPS_MAPS = {
 }
 
 
-video_capture = cv2.VideoCapture()
-
 
 class OCVLImageSampleNode(OCVLPreviewNodeBase):
     bl_icon = 'IMAGE_DATA'
+
+    n_doc = "Create new image/matrix."
+    n_requirements = {}
 
     def update_layout(self, context):
         self.update_sockets(context)
@@ -79,15 +80,6 @@ class OCVLImageSampleNode(OCVLPreviewNodeBase):
         self.outputs.new('StringsSocket', 'height_out')
 
         self.update_layout(context)
-
-        # if not np.bl_listener:
-        #     from pynput import mouse
-        #     from ...utils import on_click_callback
-        #
-        #     np.bl_listener = mouse.Listener(on_click=on_click_callback, )
-        #
-        #     np.bl_listener.start()
-        #     np.bl_listener.wait()
 
     def wrapped_process(self):
         logger.info("Process: self: {}, loc_image_mode: {}, loc_filepath: {}".format(self, self.loc_image_mode, self.loc_filepath))

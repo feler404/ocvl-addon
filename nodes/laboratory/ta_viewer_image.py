@@ -13,6 +13,8 @@ class OCVLImageViewerNode(OCVLPreviewNodeBase):
     """
     bl_icon = 'ZOOM_ALL'
 
+    n_doc = "Image viewer"
+
     image_in: bpy.props.StringProperty(default='')
 
     def init(self, context):

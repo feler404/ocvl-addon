@@ -34,6 +34,10 @@ class OCVLVideoSampleNode(OCVLPreviewNodeBase):
     ''' Video sample '''
     bl_icon = 'IMAGE_DATA'
 
+    n_doc = "Video sample"
+    n_requirements = {}
+
+
     def update_layout(self, context):
         logger.debug("UPDATE_LAYOUT")
         self.update_sockets(context)
@@ -56,7 +60,7 @@ class OCVLVideoSampleNode(OCVLPreviewNodeBase):
 
     def init(self, context):
         self.width = 200
-        self.outputs.new('StringsSocket', 'image_out')
+        self.outputs.new('ImageSocket', 'image_out')
         self.outputs.new('StringsSocket', 'width_out')
         self.outputs.new('StringsSocket', 'height_out')
         self.update_layout(context)
