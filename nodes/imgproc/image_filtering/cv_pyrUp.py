@@ -5,11 +5,12 @@ import cv2
 from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
-class OCVLpyrDownNode(OCVLNodeBase):
+class OCVLpyrUpNode(OCVLNodeBase):
 
-    n_doc = "Blurs an image and downsamples it."
+    n_doc = "Upsamples an image and then blurs it."
+    n_requirements = {"__and__": ["src_in"]}
 
-    image_in: bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input image.")
+    src_in: bpy.props.StringProperty(name="src_in", default=str(uuid.uuid4()), description="Input image.")
 
     image_0_out: bpy.props.StringProperty(name="image_0_out", default=str(uuid.uuid4()), description="Image 0 output.")
     image_1_out: bpy.props.StringProperty(name="image_1_out", default=str(uuid.uuid4()), description="Image 1 output.")
@@ -26,21 +27,19 @@ class OCVLpyrDownNode(OCVLNodeBase):
     loc_pyramid_size: bpy.props.IntProperty(default=3, min=1, max=10, update=update_node, description="Number levels of pyramids.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "image_in")
+        self.inputs.new("ImageSocket", "src_in")
         self.inputs.new("StringsSocket", "loc_pyramid_size").prop_name = 'loc_pyramid_size'
 
         self.outputs.new("StringsSocket", "image_full_out")
 
     def wrapped_process(self):
-        self.check_input_requirements(["image_in"])
-
-        image_in = self.get_from_props("image_in")
+        src_in = self.get_from_props("src_in")
         loc_pyramid_size = self.get_from_props("loc_pyramid_size")
 
-        img = image_in.copy()
-        pyramid = [image_in]
+        img = src_in.copy()
+        pyramid = [src_in]
         for i in range(loc_pyramid_size):
-            img = cv2.pyrDown(img)
+            img = cv2.pyrUp(img)
             pyramid.append(img)
         self._update_sockets(pyramid)
         self.refresh_output_socket("image_full_out", pyramid, is_uuid_type=True)
@@ -54,7 +53,7 @@ class OCVLpyrDownNode(OCVLNodeBase):
                 if self.outputs.get(prop_name):
                     pass
                 else:
-                    self.outputs.new("StringsSocket", prop_name)
+                    self.outputs.new("ImageSocket", prop_name)
                 setattr(self, prop_name, _uuid)
                 self.socket_data_cache[_uuid] = pyramid[i]
                 self.outputs[prop_name].sv_set(_uuid)
