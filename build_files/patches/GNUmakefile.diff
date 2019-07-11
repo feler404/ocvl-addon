@@ -1,12 +1,12 @@
 diff --git a/GNUmakefile b/GNUmakefile
-index 35960733858..5ca55d6be7f 100644
+index 1c8602480f3..6c59ed346ba 100644
 --- a/GNUmakefile
 +++ b/GNUmakefile
-@@ -223,9 +223,9 @@ endif
+@@ -228,9 +228,9 @@ endif
  # Allow passing in own BLENDER_BIN so developers who don't
  # use the default build path can still use utility helpers.
  ifeq ($(OS), Darwin)
--	BLENDER_BIN?="$(BUILD_DIR)/bin/blender.app/Contents/MacOS/blender"
+-	BLENDER_BIN?="$(BUILD_DIR)/bin/Blender.app/Contents/MacOS/Blender"
 +	BLENDER_BIN?="$(BUILD_DIR)/bin/OpenCVLaboratory.app/Contents/MacOS/OpenCVLaboratory"
  else
 -	BLENDER_BIN?="$(BUILD_DIR)/bin/blender"
