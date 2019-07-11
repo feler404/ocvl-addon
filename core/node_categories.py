@@ -33,7 +33,7 @@ class OCVLNodeCategory(NodeCategory):
 def is_node_class_name(class_name):
     return class_name.startswith(constants.PREFIX_NODE_CLASS) and \
            class_name.endswith(constants.SUFFIX_NODE_CLASS) and \
-           class_name not in constants.BLACKLIST_FOR_REGISTER_NODE
+           class_name not in constants.BLACK_LIST_FOR_REGISTER_NODE
 
 
 def register_node_categories(identifier, cat_list):

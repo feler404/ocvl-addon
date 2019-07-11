@@ -17,7 +17,7 @@ class OCVLdilateNode(OCVLNodeBase):
     }
 
     src_in: bpy.props.StringProperty(name="src_in", default=str(uuid.uuid4()), description="Input image.")
-    kernel_in: bpy.props.StringProperty(name="src_in", default=str(uuid.uuid4()), description="Structuring element used for dilation.")
+    kernel_in: bpy.props.StringProperty(name="kernel_in", default=str(uuid.uuid4()), description="Structuring element used for dilation.")
     anchor_in: bpy.props.IntVectorProperty(default=(-1, -1), update=update_node, size=2, description="Position of the anchor within the element.")
     iterations_in: bpy.props.IntProperty(default=8, min=1, max=100, update=update_node, description="Number of times erosion is applied.")
 

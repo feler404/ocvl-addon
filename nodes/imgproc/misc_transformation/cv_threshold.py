@@ -16,19 +16,20 @@ TYPE_THRESHOLD_ITEMS = (
 class OCVLthresholdNode(OCVLNodeBase):
 
     n_doc = "Applies a fixed-level threshold to each array element."
+    n_requirements = {"__and__": ["src_in"]}
 
-    image_in: bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input array (single-channel, 8-bit or 32-bit floating point).")
-    mask_out: bpy.props.StringProperty(name="mask_out", default=str(uuid.uuid4()), description="Output mask.")
-    thresh_out: bpy.props.IntProperty(name="thresh_out", default=0, description="Threshold value output.")
-
-    thresh_in: bpy.props.IntProperty(default=127, min=0, max=255, update=update_node, description="Threshold value.")
-    maxval_in: bpy.props.IntProperty(default=255, min=0, max=255, update=update_node, description="Maximum value to use with the THRESH_BINARY and THRESH_BINARY_INV thresholding types")
+    src_in: bpy.props.StringProperty(name="src_in", default=str(uuid.uuid4()), description="Input array (single-channel, 8-bit or 32-bit floating point).")
+    thresh_in: bpy.props.IntProperty(default=127, min=0, max=255, update=update_node, subtype="FACTOR", description="Threshold value.")
+    maxval_in: bpy.props.IntProperty(default=255, min=0, max=255, update=update_node, subtype="FACTOR", description="Maximum value to use with the THRESH_BINARY and THRESH_BINARY_INV thresholding types")
     type_in: bpy.props.EnumProperty(items=TYPE_THRESHOLD_ITEMS, default="THRESH_BINARY", update=update_node, description="Thresholding type (see the cv::ThresholdTypes).")
     loc_invert: bpy.props.BoolProperty(default=False, update=update_node, description="Invert output mask.")
 
+    mask_out: bpy.props.StringProperty(name="mask_out", default=str(uuid.uuid4()), description="Output mask.")
+    dst_out: bpy.props.IntProperty(name="dst_out", default=0, description="Threshold value output.")
+
     def init(self, context):
         self.width = 200
-        self.inputs.new("ImageSocket", "image_in")
+        self.inputs.new("ImageSocket", "src_in")
         self.inputs.new('StringsSocket', "thresh_in").prop_name = 'thresh_in'
         self.inputs.new('StringsSocket', "maxval_in").prop_name = 'maxval_in'
 
@@ -36,10 +37,8 @@ class OCVLthresholdNode(OCVLNodeBase):
         self.outputs.new("StringsSocket", "retval_out")
 
     def wrapped_process(self):
-        self.check_input_requirements(["image_in"])
-
         kwargs = {
-            'src': self.get_from_props("image_in"),
+            'src': self.get_from_props("src_in"),
             'thresh_in': self.get_from_props("thresh_in"),
             'maxval_in': self.get_from_props("maxval_in"),
             'type_in': self.get_from_props("type_in"),

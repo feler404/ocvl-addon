@@ -7,7 +7,7 @@ WRAP_TEXT_SIZE_FOR_ERROR_DISPLAY = 75
 # In NodeBase if True make copy for "image_in/img_in" sockets data
 IS_WORK_ON_COPY_INPUT = True
 # Category nodes which don't should appear in interface
-BLACK_LIST_REGISTER_NODE_CATEGORY = ["__pycache__", "interface"]
+BLACK_LIST_REGISTER_NODE_CATEGORY = ["__pycache__", "interface", "TODO"]
 # Max number lines displayed on Stethoscope node
 STETHOSCOPE_NODE_MAX_LINES = 30
 # Default filter during use image.ocvl_image_importer operator

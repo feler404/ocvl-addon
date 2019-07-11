@@ -8,6 +8,7 @@ from ocvl.core.node_base import OCVLNodeBase
 class OCVLundistortPointsNode(OCVLNodeBase):
 
     n_doc = "Computes the ideal point coordinates from the observed point coordinates."
+    n_requirements = {"__and__": ["src_in", "cameraMatrix_in", "distCoeffs_in", "R_in", "P_in"]}
 
     src_in: bpy.props.StringProperty(name="src_in", default=str(uuid.uuid4()), description="Observed point coordinates, 1xN or Nx1 2-channel (CV_32FC2 or CV_64FC2).")
     cameraMatrix_in: bpy.props.StringProperty(name="cameraMatrix_in", default=str(uuid.uuid4()), description="Camera matrix")
@@ -27,8 +28,6 @@ class OCVLundistortPointsNode(OCVLNodeBase):
         self.outputs.new("StringsSocket", "dst_out")
 
     def wrapped_process(self):
-        self.check_input_requirements(["src_in", "cameraMatrix_in", "distCoeffs_in", "R_in", "P_in"])
-
         kwargs = {
             'src_in': self.get_from_props("src_in"),
             'cameraMatrix_in': self.get_from_props("cameraMatrix_in"),
@@ -39,6 +38,3 @@ class OCVLundistortPointsNode(OCVLNodeBase):
 
         dst_out = self.process_cv(fn=cv2.undistortPoints, kwargs=kwargs)
         self.refresh_output_socket("dst_out", dst_out, is_uuid_type=True)
-
-    def draw_buttons(self, context, layout):
-        pass

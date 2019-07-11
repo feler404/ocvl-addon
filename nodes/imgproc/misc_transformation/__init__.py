@@ -1,3 +1,3 @@
 icon = "MOD_DATA_TRANSFER"
-name = "Image transformation"
+name = "Miscellaneous transformation"
 description = "Miscellaneous Image Transformations"

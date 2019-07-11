@@ -16,7 +16,7 @@ class OCVLmorphologyExNode(OCVLNodeBase):
     }
 
     src_in: bpy.props.StringProperty(name="src_in", default=str(uuid.uuid4()), description="Source image. The number of channels can be arbitrary. The depth should be one of CV_8U, CV_16U, CV_16S, CV_32F` or ``CV_64F.")
-    kernel_in: bpy.props.StringProperty(name="src_in", default=str(uuid.uuid4()), description="Structuring element. It can be created using getStructuringElement().")
+    kernel_in: bpy.props.StringProperty(name="kernel_in", default=str(uuid.uuid4()), description="Structuring element. It can be created using getStructuringElement().")
     anchor_in: bpy.props.IntVectorProperty(default=(-1, -1), update=update_node, size=2, description="Position of the anchor within the element.")
     iterations_in: bpy.props.IntProperty(default=8, min=1, max=100, update=update_node, description="Number of times erosion is applied.")
     op_in: bpy.props.EnumProperty(items=MORPH_TYPE_ITEMS, default='MORPH_BLACKHAT', update=update_node, description="Type of a morphological operation, see cv::MorphTypes.")
