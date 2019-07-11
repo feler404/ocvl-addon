@@ -9,33 +9,33 @@ class OCVLlineNode(OCVLNodeBase):
 
     bl_icon = 'GREASEPENCIL'
     n_doc = "Draws a line segment connecting two points."
+    n_requirements = {"__and__": ["img_in"]}
+    n_quick_link_requirements = {"img_in": {"loc_image_mode": "PLANE"}}
 
-    image_in: bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Input image")
-    image_out: bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image")
-
-    pt1_in: bpy.props.IntVectorProperty(default=(0, 0), size=2, update=update_node, description="First point of the line segment.")
-    pt2_in: bpy.props.IntVectorProperty(default=(1, 1), size=2, update=update_node, description="Second point of the line segment.")
+    img_in: bpy.props.StringProperty(name="img_in", default=str(uuid.uuid4()), description="Input image")
+    pt1_in: bpy.props.IntVectorProperty(default=(20, 20), size=2, update=update_node, description="First point of the line segment.")
+    pt2_in: bpy.props.IntVectorProperty(default=(70, 30), size=2, update=update_node, description="Second point of the line segment.")
     color_in: bpy.props.FloatVectorProperty(update=update_node, default=(.7, .7, .1, 1.0), size=4, min=0.0, max=1.0, subtype='COLOR', description="Line color.")
     thickness_in: bpy.props.IntProperty(default=2, min=1, max=10, update=update_node, description="Line thickness.")
     lineType_in: bpy.props.EnumProperty(items=LINE_TYPE_ITEMS, default="LINE_AA", update=update_node, description="Line type. See the line for details.")
     shift_in: bpy.props.IntProperty(default=0, min=1, max=100, update=update_node, description="Number of fractional bits in the point coordinates.")
+    
+    img_out: bpy.props.StringProperty(name="img_out", default=str(uuid.uuid4()), description="Output image")
 
     def init(self, context):
         self.width = 200
-        self.inputs.new("ImageSocket", "image_in")
+        self.inputs.new("ImageSocket", "img_in")
         self.inputs.new('StringsSocket', "pt1_in").prop_name = 'pt1_in'
         self.inputs.new('StringsSocket', "pt2_in").prop_name = 'pt2_in'
         self.inputs.new('StringsSocket', "thickness_in").prop_name = 'thickness_in'
         self.inputs.new('StringsSocket', "shift_in").prop_name = 'shift_in'
-        self.inputs.new('SvColorSocket', 'color_in').prop_name = 'color_in'
+        self.inputs.new('ColorSocket', 'color_in').prop_name = 'color_in'
 
-        self.outputs.new("ImageSocket", "image_out")
+        self.outputs.new("ImageSocket", "img_out")
 
     def wrapped_process(self):
-        self.check_input_requirements(["image_in"])
-
         kwargs = {
-            'img_in': self.get_from_props("image_in"),
+            'img_in': self.get_from_props("img_in"),
             'pt1_in': self.get_from_props("pt1_in"),
             'pt2_in': self.get_from_props("pt2_in"),
             'color_in': self.get_from_props("color_in"),
@@ -43,8 +43,8 @@ class OCVLlineNode(OCVLNodeBase):
             'lineType_in': self.get_from_props("lineType_in"),
             }
 
-        image_out = self.process_cv(fn=cv2.line, kwargs=kwargs)
-        self.refresh_output_socket("image_out", image_out, is_uuid_type=True)
+        img_out = self.process_cv(fn=cv2.line, kwargs=kwargs)
+        self.refresh_output_socket("img_out", img_out, is_uuid_type=True)
 
     def draw_buttons(self, context, layout):
         self.add_button(layout, prop_name='lineType_in')

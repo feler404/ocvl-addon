@@ -28,7 +28,7 @@ class OCVLcopyMakeBorderNode(OCVLNodeBase):
         self.inputs.new('StringsSocket', "bottom_in").prop_name = 'bottom_in'
         self.inputs.new('StringsSocket', "left_in").prop_name = 'left_in'
         self.inputs.new('StringsSocket', "right_in").prop_name = 'right_in'
-        self.inputs.new('SvColorSocket', "color_in").prop_name = "color_in"
+        self.inputs.new('ColorSocket', "color_in").prop_name = "color_in"
 
         self.outputs.new("ImageSocket", "dst_out")
 

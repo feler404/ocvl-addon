@@ -23,7 +23,7 @@ class Category:
 
 class SocketColors:
     StringsSocket = 0.1, 1.0, 0.2, 1
-    SvColorSocket = 0.1, 0.7, 1.0, 1
+    ColorSocket = 0.1, 0.7, 1.0, 1
     ImageSocket = 0.1, 1.0, 0.8, 1
     MaskSocket = 0.0, 0.0, 0.0, 1
     RectSocket = 0.2, 0.4, 0.4, 1

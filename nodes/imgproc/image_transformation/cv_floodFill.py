@@ -40,9 +40,9 @@ class OCVLfloodFillNode(OCVLNodeBase):
         self.inputs.new("ImageSocket", "image_in")
         self.inputs.new("MaskSocket", "mask_in")
         self.inputs.new("StringsSocket", "seedPoint_in").prop_name = "seedPoint_in"
-        self.inputs.new("SvColorSocket", "newVal_in").prop_name = "newVal_in"
-        self.inputs.new("SvColorSocket", "loDiff_in").prop_name = "loDiff_in"
-        self.inputs.new("SvColorSocket", "upDiff_in").prop_name = "upDiff_in"
+        self.inputs.new("ColorSocket", "newVal_in").prop_name = "newVal_in"
+        self.inputs.new("ColorSocket", "loDiff_in").prop_name = "loDiff_in"
+        self.inputs.new("ColorSocket", "upDiff_in").prop_name = "upDiff_in"
 
         self.outputs.new("ImageSocket", "image_out")
         self.outputs.new("ImageSocket", "mask_out")

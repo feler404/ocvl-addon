@@ -33,7 +33,7 @@ class OCVLdrawContoursNode(OCVLNodeBase):
         self.inputs.new('ContourSocket', "contours_in")
         self.inputs.new('StringsSocket', "hierarchy_in")
         self.inputs.new('StringsSocket', "contourIdx_in").prop_name = 'contourIdx_in'
-        self.inputs.new('SvColorSocket', 'color_in').prop_name = 'color_in'
+        self.inputs.new('ColorSocket', 'color_in').prop_name = 'color_in'
         self.inputs.new('StringsSocket', "thickness_in").prop_name = 'thickness_in'
         self.inputs.new('StringsSocket', "maxLevel_in").prop_name = 'maxLevel_in'
         self.inputs.new('StringsSocket', "offset_in").prop_name = 'offset_in'

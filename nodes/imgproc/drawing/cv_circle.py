@@ -28,7 +28,7 @@ class OCVLcircleNode(OCVLNodeBase):
         self.inputs.new("ImageSocket", "img_in")
         self.inputs.new('StringsSocket', "center_in").prop_name = 'center_in'
         self.inputs.new('StringsSocket', "radius_in").prop_name = 'radius_in'
-        self.inputs.new('SvColorSocket', 'color_in').prop_name = 'color_in'
+        self.inputs.new('ColorSocket', 'color_in').prop_name = 'color_in'
         self.inputs.new('StringsSocket', "thickness_in").prop_name = 'thickness_in'
         self.inputs.new('StringsSocket', "shift_in").prop_name = 'shift_in'
 

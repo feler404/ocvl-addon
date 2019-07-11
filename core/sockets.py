@@ -266,7 +266,7 @@ class OCVLSocketBase:
                 else:
                     c1.prop(self, "expanded", icon='TRIA_DOWN', text="")
                     row = c2.row(align=True)
-                    if self.bl_idname == "SvColorSocket":
+                    if self.bl_idname == "ColorSocket":
                         row.prop(prop_origin, prop_name)
                     else:
                         row.template_component_menu(prop_origin, prop_name, name=self.name)
@@ -371,9 +371,9 @@ class OCVLSocketBase:
         return _draw_socket or SOCKET_COLORS.__getattribute__(self.bl_idname)
 
 
-class SvColorSocket(bpy.types.NodeSocket, OCVLSocketBase):
+class ColorSocket(bpy.types.NodeSocket, OCVLSocketBase):
     '''For color data'''
-    bl_idname = "SvColorSocket"
+    bl_idname = "ColorSocket"
     bl_label = "Color Socket"
 
     prop = bpy.props.FloatVectorProperty(default=(0, 0, 0, 1), size=4, subtype='COLOR', min=0, max=1, update=process_from_socket)
@@ -445,7 +445,7 @@ class StethoscopeSocket(bpy.types.NodeSocket, OCVLSocketBase):
 
 def register():
     ocvl_register(LinkNewNodeInput)
-    ocvl_register(SvColorSocket)
+    ocvl_register(ColorSocket)
     ocvl_register(StringsSocket)
     ocvl_register(ImageSocket)
     ocvl_register(MaskSocket)
@@ -458,7 +458,7 @@ def register():
 
 def unregister():
     ocvl_unregister(LinkNewNodeInput)
-    ocvl_unregister(SvColorSocket)
+    ocvl_unregister(ColorSocket)
     ocvl_unregister(StringsSocket)
     ocvl_unregister(ImageSocket)
     ocvl_unregister(MaskSocket)

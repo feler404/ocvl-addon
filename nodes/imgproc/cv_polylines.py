@@ -26,7 +26,7 @@ class OCVLpolylinesNode(OCVLNodeBase):
         self.inputs.new('StringsSocket', "pts_in")
         self.inputs.new('StringsSocket', "thickness_in").prop_name = 'thickness_in'
         self.inputs.new('StringsSocket', "shift_in").prop_name = 'shift_in'
-        self.inputs.new('SvColorSocket', 'color_in').prop_name = 'color_in'
+        self.inputs.new('ColorSocket', 'color_in').prop_name = 'color_in'
 
         self.outputs.new("ImageSocket", "image_out")
 

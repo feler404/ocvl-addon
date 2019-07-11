@@ -9,44 +9,46 @@ from ocvl.core.node_base import OCVLNodeBase, update_node, TEMPLATE_MATCH_MODE_I
 class OCVLmatchTemplateNode(OCVLNodeBase):
 
     n_doc = "Compares a template against overlapped image regions."
-
-    def get_anchor(self):
-        return self.get("anchor_in", (-1, -1))
+    n_requirements = {"__and__": ["image_in", "templ_in"]}
+    n_quick_link_requirements = {"image_in": {"width_in": 100, "height_in": 100}, "templ_in": {"width_in": 96, "height_in": 88, "loc_image_mode": "PLANE"}}
 
     image_in: bpy.props.StringProperty(name="image_in", default=str(uuid.uuid4()), description="Image where the search is running. It must be 8-bit or 32-bit floating-point.")
     templ_in: bpy.props.StringProperty(name="templ_in", default=str(uuid.uuid4()), description="Searched template. It must be not greater than the source image and have the same data type.")
-    mask_in: bpy.props.StringProperty(name="templ_in", default=str(uuid.uuid4()), description="Input mask.")
-    method_in: bpy.props.EnumProperty(items=TEMPLATE_MATCH_MODE_ITEMS, default='TM_CCOEFF_NORMED', update=update_node, description="Parameter specifying the comparison method, see cv::TemplateMatchModes.")
+    method_in: bpy.props.EnumProperty(items=TEMPLATE_MATCH_MODE_ITEMS, default='TM_CCOEFF', update=update_node, description="Parameter specifying the comparison method, see cv::TemplateMatchModes.")
+    loc_color_in: bpy.props.FloatVectorProperty(update=update_node, name='color_in', default=(.9, .1, .1, 1.0), size=4, min=0.0, max=1.0, subtype='COLOR')
+    loc_threshold: bpy.props.FloatProperty(default=0.8, min=0, max=1, update=update_node, subtype="FACTOR")
 
     image_out: bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
     result_out: bpy.props.StringProperty(name="result_out", default=str(uuid.uuid4()), description="Map of comparison results. It must be single-channel 32-bit floating-point.")
 
     def init(self, context):
-        self.width = 150
+        self.width = 250
         self.inputs.new("ImageSocket", "image_in")
-        self.inputs.new('StringsSocket', "templ_in")
-        self.inputs.new('StringsSocket', "mask_in")
+        self.inputs.new('ImageSocket', "templ_in")
+        self.inputs.new('ColorSocket', 'loc_color_in').prop_name = 'loc_color_in'
+        self.inputs.new('StringsSocket', 'loc_threshold').prop_name = 'loc_threshold'
 
         self.outputs.new("ImageSocket", "image_out")
         self.outputs.new("StringsSocket", "result_out")
 
     def wrapped_process(self):
-        self.check_input_requirements(["image_in", "templ_in"])
-
         kwargs = {
             'image_in': self.get_from_props("image_in"),
             'templ_in': self.get_from_props("templ_in"),
-            # 'mask_in': self.get_from_props("mask_in"),
             'method_in': self.get_from_props("method_in"),
             }
 
         result_out = self.process_cv(fn=cv2.matchTemplate, kwargs=kwargs)
         image_out = np.copy(self.get_from_props("image_in"))
         h, w, _ = self.get_from_props("templ_in").shape
-        threshold = 0.8
-        loc = np.where(result_out >= threshold)
+
+        loc_color_in = self.get_from_props("loc_color_in")
+
+        loc_threshold = self.get_from_props("loc_threshold")
+        loc = np.where(result_out >= loc_threshold)
+
         for pt in zip(*loc[::-1]):
-            cv2.rectangle(image_out, pt, (pt[0] + w, pt[1] + h), (0, 0, 255), 1)
+            cv2.rectangle(image_out, pt, (pt[0] + w, pt[1] + h), loc_color_in, 1)
 
         self.refresh_output_socket("result_out", result_out, is_uuid_type=True)
         self.refresh_output_socket("image_out", image_out, is_uuid_type=True)
