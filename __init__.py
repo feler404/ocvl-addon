@@ -18,7 +18,7 @@
 #  All rights reserved.
 #
 #  Contact:      dawid.aniol@teredo.tech    ###
-#  Information:  http://teredo.tech         ###
+#  Information:  https://ocvl.teredo.tech         ###
 #
 #  ***** END GPL LICENSE BLOCK *****
 #
@@ -52,14 +52,12 @@ def register():
     from ocvl.operatores import operatores
     from ocvl.operatores import abc
     from ocvl.core.register_utils import reload_ocvl_modules
-    from ocvl.tutorial_engine import operatores as tutorial_engine_operatores
     reload_ocvl_modules()
     node_tree.register()
     sockets.register()
     operatores.register()
     abc.register()
     logger_conf.register()
-    tutorial_engine_operatores.register()
 
 
 def unregister():
@@ -67,9 +65,7 @@ def unregister():
     from ocvl.core import sockets
     from ocvl.operatores import operatores
     from ocvl.operatores import abc
-    from ocvl.tutorial_engine import operatores as tutorial_engine_operatores
     node_tree.unregister()
     sockets.unregister()
     operatores.unregister()
     abc.unregister()
-    tutorial_engine_operatores.unregister()
