@@ -109,7 +109,7 @@ This node can accept any data from other nodes and process them from the Python 
 
 Stethoscope
 -----------
-It is a node taken from the Sverchok library. Used to view data in numerical form.
+Used to view data in numerical form.
 
 TypeConvert
 -----------

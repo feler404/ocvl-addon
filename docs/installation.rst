@@ -13,19 +13,16 @@ Installation of the source package directly in Blender
 
 In case you want to install the program from the source code, we need to meet several prerequisites.
 
-- Blender (https://www.blender.org/download/) - suggested version 2.49
+- Blender (https://www.blender.org/download/) - suggested version 2.80
 - opencv-python (https://pypi.python.org/pypi/opencv-python) - suggested version 3.1.0.1
-- pynput - (https://pypi.python.org/pypi/pynput/1.3.10) - suggested version 1.3.10
-- tornado - (https://pypi.python.org/pypi/tornado/5.0.2) - suggested version 4.5.3
-- sverchok addon - (https://github.com/nortikin/sverchok) - suggested version cae276520184c94b877ffc88e196469086e9f7eb
 
 
 Belnder installation
 --------------------
-Blender can be downloaded from the program website http://blender.org/. OCVL works steadily on version 2.49 and it is recommended
+Blender can be downloaded from the program website http://blender.org/. OCVL works steadily on version 2.80 and it is recommended
 installation of this version of Blender.
 
-Installation of OpenCV, pynput, tornado
+Installation of OpenCV
 ---------------------------------------
 
 To install `python` packages, it is best to use `pip`. By default, 'Pip' is not included in Blenders
@@ -43,16 +40,10 @@ Now with Pip you can install packages directly through it. Pip depending on the 
 install itself as a script or as a module.
 
 Now you can install packages:
-    ../python/bin/python3.5m ../python/bin/pip install pynput==1.3.10
     ../python/bin/python3.5m ../python/bin/pip install opencv-python==3.1.0.5
-    ../python/bin/python3.5m ../python/bin/pip install tornado==4.5.3
 
-
-    wget https://github.com/nortikin/sverchok/archive/cae276520184c94b877ffc88e196469086e9f7eb.zip
     cd ~/Downloads/blender-2.79-macOS-10.6/OpenCVLaboratory.app/Contents/Resources/2.79/scripts/
 
-    unzip ./cae276520184c94b877ffc88e196469086e9f7eb.zip
-    mv ./sverchok-cae276520184c94b877ffc88e196469086e9f7eb ./addons/sverchok
     ln -s ~/workspace/tales/ocvl-addon ocvl
 
 
@@ -63,4 +54,4 @@ After downloading OCVL (https://github.com/feler404/ocvl-addon), just unpack it 
 Running Blender with addon
 --------------------------
 In order for Blender to be able to run all the add-ons correctly, it must be run by the command:
-`./blender --addons ocvl,sverchok`
+`./blender --addons ocvl`

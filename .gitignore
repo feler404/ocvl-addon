@@ -34,7 +34,6 @@ pip-log.txt
 .coverage
 .tox
 nosetests.xml
-tests/sverchok_tests.log
 
 # Translations
 *.mo
