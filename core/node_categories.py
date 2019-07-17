@@ -106,7 +106,14 @@ class AutoRegisterNodeCategories:
         self.node_categories_dict = defaultdict(list)
         self.nodes_module_path = os.path.join(ocvl.__path__[0], constants.NAME_NODE_DIRECTORY)
 
-        self.recursive_register(self.nodes_module_path)
+        ocvl_path = ocvl.__path__[0]
+        ocvl_pro_path = os.path.join(os.path.sep.join(ocvl_path.split(os.path.sep)[:-1]), "ocvl_addon_pro")
+        self.nodes_module_path = os.path.join(ocvl_path, constants.NAME_NODE_DIRECTORY)
+        self.recursive_register(self.nodes_module_path, addon_module='ocvl')
+        if os.path.exists(ocvl_pro_path):
+            import ocvl_addon_pro
+            self.nodes_module_path = os.path.join(ocvl_pro_path, constants.NAME_NODE_DIRECTORY)
+            self.recursive_register(self.nodes_module_path, addon_module='ocvl_pro')
         self.end_register()
 
     def _register_node(self, *args, **kwargs):
@@ -115,9 +122,9 @@ class AutoRegisterNodeCategories:
     def _unregister_node(self, *args, **kwargs):
         return unregister_node(*args, **kwargs)
 
-    def process_module(self, file_name, node_file_path, node_classes_list, _ocvl_auto_register, dir_category=False):
+    def process_module(self, file_name, node_file_path, node_classes_list, _ocvl_auto_register, dir_category=False, addon_module="ocvl"):
         deep_import_path = ".".join(node_file_path.replace(self.nodes_module_path, "").split(os.sep)[1:-1])
-        spec = util.spec_from_file_location("ocvl.{}.{}.{}".format(constants.NAME_NODE_DIRECTORY, deep_import_path, file_name), node_file_path)
+        spec = util.spec_from_file_location("{}.{}.{}.{}".format(addon_module, constants.NAME_NODE_DIRECTORY, deep_import_path, file_name), node_file_path)
         mod = util.module_from_spec(spec)
         spec.loader.exec_module(mod)
         if file_name.startswith("__") or file_name.startswith("abc"):
@@ -128,8 +135,8 @@ class AutoRegisterNodeCategories:
                 node_class = getattr(mod, obj_name)
                 if dir_category:
                     node_class.n_category = deep_import_path
-                    exec("import ocvl.nodes.{}".format(node_class.n_category))
-                    category_module_path = "ocvl.{}.{}".format(constants.NAME_NODE_DIRECTORY, node_class.n_category)
+                    exec("import {}.nodes.{}".format(addon_module, node_class.n_category))
+                    category_module_path = "{}.{}.{}".format(addon_module, constants.NAME_NODE_DIRECTORY, node_class.n_category)
                     icon = eval("getattr({}, 'icon', 'NONE')".format(category_module_path))
                     name = eval("getattr({}, 'name', '{}')".format(category_module_path, node_class.n_category))
                     description = eval("getattr({}, 'description', '{}')".format(category_module_path, node_class.n_category))
@@ -139,7 +146,7 @@ class AutoRegisterNodeCategories:
                     node_classes_list.append(node_class)
                     _ocvl_auto_register(node_class)
 
-    def recursive_register(self, module_path):
+    def recursive_register(self, module_path, addon_module='ocvl'):
         for file_name in os.listdir(module_path):
             if file_name in BLACK_LIST_REGISTER_NODE_CATEGORY:
                 continue
@@ -152,8 +159,8 @@ class AutoRegisterNodeCategories:
                     if not file_name_in.startswith("__"):
                         node_file_path_in = os.path.join(node_file_path, file_name_in)
                         if os.path.isfile(node_file_path_in):
-                            self.process_module(file_name_in, node_file_path_in, self.node_classes_list, self._ocvl_auto_register, dir_category=True)
-                self.recursive_register(node_file_path)
+                            self.process_module(file_name_in, node_file_path_in, self.node_classes_list, self._ocvl_auto_register, dir_category=True, addon_module=addon_module)
+                self.recursive_register(node_file_path, addon_module=addon_module)
 
     def end_register(self):
         for node_class in self.node_classes_list:
@@ -190,4 +197,3 @@ def register():
 
 def unregister():
     AutoRegisterNodeCategories(register_mode=False)
-

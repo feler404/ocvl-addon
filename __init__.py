@@ -28,9 +28,9 @@ import os
 
 
 bl_info = {
-    "name": "ocvl",
+    "name": "OpenCV Laboratory Core",
     "author": "Dawid Aniol,OCVL team,Teredo team",
-    "version": (1, 1, 0),
+    "version": (2, 9, 0),
     "blender": (2, 80, 0),
     "location": "Nodes > CustomNodesTree > Add user nodes",
     "description": "Computer vision node-based programming",
