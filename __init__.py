@@ -45,7 +45,6 @@ if __name__ != "ocvl":
     sys.modules["ocvl"] = sys.modules[__name__]
 
 
-
 def register():
     from ocvl import logger_conf
     from ocvl.core import node_tree
