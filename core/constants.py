@@ -3,9 +3,12 @@ Module to keep constance.
 Example: constance names, math constance, gl constance
 Example not: globals variables, settings
 """
+import os
+import ocvl
 
 OCVL_NODE_CATEGORIES = "OCVLCategories"
 OCVL_NODE_TREE_TYPE = "OCVLGroupTreeType"
+OCVL_PRO_DIR_NAME = "ocvl_addon_pro"
 
 TEX_CO = [(0, 1), (1, 1), (1, 0), (0, 0)]
 TEX_CO_FLIP = [(0, 0), (1, 0), (1, 1), (0, 1)]
@@ -38,3 +41,11 @@ NP_VALUE_TYPE_ITEMS = (
     # ("float64", "float64", "float64", "", 13),
 )
 
+
+def is_second_extension_path():
+    ocvl_path = ocvl.__path__[0]
+    ocvl_pro_path = os.path.join(os.path.sep.join(ocvl_path.split(os.path.sep)[:-1]), OCVL_PRO_DIR_NAME)
+    if os.path.exists(ocvl_pro_path):
+        return True
+    else:
+        return False
