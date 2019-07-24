@@ -30,6 +30,3 @@ class OCVLabsdiffNode(OCVLNodeBase):
 
         dst_out = self.process_cv(fn=cv2.absdiff, kwargs=kwargs)
         self.refresh_output_socket("dst_out", dst_out, is_uuid_type=True)
-
-    def draw_buttons(self, context, layout):
-        pass
