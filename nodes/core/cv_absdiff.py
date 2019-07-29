@@ -5,7 +5,7 @@ import cv2
 from ocvl.core.node_base import OCVLNodeBase
 
 
-class OCVLabsdiffNode(OCVLNodeBase):
+class OCVLabsdifflalamidoNode(OCVLNodeBase):
     n_doc = "Calculates the per-element absolute difference between two arrays or between an array and a scalar."
     n_note = "Saturation is not applied when the arrays have the depth CV_32S. You may even get a negative value in the case of overflow."
     n_see_also = "abs"
