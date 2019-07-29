@@ -8,7 +8,6 @@ from ocvl.core.node_base import OCVLNodeBase
 class OCVLundistortNode(OCVLNodeBase):
 
     n_doc = "Transforms an image to compensate for lens distortion."
-    n_development_status = "BETA"
     n_requirements = {"__and__": ["src_in", "cameraMatrix_in", "distCoeffs_in", "newCameraMatrix_in"]}
 
     src_in: bpy.props.StringProperty(name="src_in", default=str(uuid.uuid4()), description="Input (distorted) image.")

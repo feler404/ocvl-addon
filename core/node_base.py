@@ -208,7 +208,6 @@ class OCVLNodeBase(bpy.types.Node):
     :param n_category: <string> default category for auto register
     :param n_doc: <string> short documentation for node
     :param n_see_also: <string> annotation tell about similar nodes
-    :param n_development_status <string> information about node maturity {'ALPHA', 'BETA', None}
     :param n_requirements: <dict> requirements inputs
     :param n_note: <string> addition note to documentation
     :param n_quick_link_requirements: <dict> specification to quic_link socket
@@ -227,7 +226,6 @@ class OCVLNodeBase(bpy.types.Node):
     n_meta = None
     n_error = None
     n_error_line = None
-    n_development_status = None
     n_auto_register = True
     n_category = CATEGORY_TREE.uncategorized
     n_doc = ""
