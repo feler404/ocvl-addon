@@ -10,6 +10,7 @@ import ocvl
 from ocvl.core import constants
 from ocvl.core.register_utils import register_node, unregister_node
 from ocvl.core.settings import BLACK_LIST_REGISTER_NODE_CATEGORY
+from ocvl.core.constants import OCVL_PRO_DIR_NAME, is_second_extension_path
 
 logger = logging.getLogger(__name__)
 
@@ -107,9 +108,10 @@ class AutoRegisterNodeCategories:
         self.nodes_module_path = os.path.join(ocvl.__path__[0], constants.NAME_NODE_DIRECTORY)
 
         ocvl_path = ocvl.__path__[0]
-        ocvl_pro_path = os.path.join(os.path.sep.join(ocvl_path.split(os.path.sep)[:-1]), "ocvl_addon_pro")
         self.nodes_module_path = os.path.join(ocvl_path, constants.NAME_NODE_DIRECTORY)
         self.recursive_register(self.nodes_module_path, addon_module='ocvl')
+
+        ocvl_pro_path = os.path.join(os.path.sep.join(ocvl_path.split(os.path.sep)[:-1]), OCVL_PRO_DIR_NAME)
         if os.path.exists(ocvl_pro_path):
             import ocvl_addon_pro
             self.nodes_module_path = os.path.join(ocvl_pro_path, constants.NAME_NODE_DIRECTORY)
@@ -162,9 +164,18 @@ class AutoRegisterNodeCategories:
                             self.process_module(file_name_in, node_file_path_in, self.node_classes_list, self._ocvl_auto_register, dir_category=True, addon_module=addon_module)
                 self.recursive_register(node_file_path, addon_module=addon_module)
 
+    def condition_registration_node(self, node_class):
+        if node_class.n_development_status:
+            if node_class.n_development_status == "BETA":
+                return is_second_extension_path()
+        else:
+            return True
+        return False
+
     def end_register(self):
         for node_class in self.node_classes_list:
-            self.node_categories_dict[node_class.n_category].append(NodeItem(node_class.__name__, node_class.__name__[4:-4]))
+            if self.condition_registration_node(node_class):
+                self.node_categories_dict[node_class.n_category].append(NodeItem(node_class.__name__, node_class.__name__[4:-4]))
 
         for category_name in self.node_categories_dict.keys():
             if category_name == "uncategorized":

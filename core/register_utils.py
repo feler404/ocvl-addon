@@ -41,7 +41,11 @@ def register_node(cls):
         cls.__annotations__.update({"n_error": bpy.props.StringProperty(default='')})
         cls.__annotations__.update({"n_error_line": bpy.props.IntProperty(default=0)})
         cls.bl_idname = cls.bl_idname if getattr(cls, 'bl_idname', None) else cls.__name__
-        cls.bl_label = cls.bl_label if getattr(cls, 'bl_label', None) else cls.bl_idname[4:-4]
+        if cls.n_development_status:
+            bl_label_surfix = f"[{cls.n_development_status}]"
+        else:
+            bl_label_surfix = ""
+        cls.bl_label = "{}{}".format(cls.bl_label if getattr(cls, 'bl_label', None) else cls.bl_idname[4:-4],  bl_label_surfix)
         cls.bl_icon = cls.bl_icon if getattr(cls, 'bl_icon', None) else 'OUTLINER_OB_EMPTY'
     ocvl_register(cls)
 

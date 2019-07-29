@@ -18,6 +18,7 @@ LTYPE_ITEMS = (
 class OCVLconnectedComponentsNode(OCVLNodeBase):
 
     n_doc = "Connected components."
+    n_development_status = "BETA"
     n_quick_link_requirements = {"image_in": {"code_in": "COLOR_BGR2GRAY"}}
     n_requirements = {"__and__": ["image_in"]}
 
