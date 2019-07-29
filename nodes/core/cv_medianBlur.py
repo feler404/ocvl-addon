@@ -9,12 +9,18 @@ class OCVLmedianBlurNode(OCVLNodeBase):
     n_see_also = "bileteralFilter,blur,boxFilter,GaussianBlur"
     n_requirements = {"__and__": ["src_in"]}
 
-    src_in: bpy.props.StringProperty(name="src_in", default=str(uuid.uuid4()), description="Input image.")
-    ksize_in: bpy.props.IntVectorProperty(default=(1, 10), update=update_node, min=1, max=30, size=2,
-                                          description="Aperture linear size; it must be odd and greater than 1, for example: 3, 5, 7 ...")
+    def set_ksize(self, value):
+        if value % 2 == 0:
+            value = value + 1
+        self["ksize_in"] = value
 
-    dst_in: bpy.props.StringProperty(name="dst_in", default=str(uuid.uuid4()),
-                                     description="Destination array of the same size and type as src.")
+    def get_ksize(self):
+        return self.get("ksize_in", 5)
+
+    src_in: bpy.props.StringProperty(name="src_in", default=str(uuid.uuid4()), description="Input image.")
+    ksize_in: bpy.props.IntProperty(default=5, update=update_node, min=1, max=30, get=get_ksize, set=set_ksize,description="Aperture linear size; it must be odd and greater than 1, for example: 3, 5, 7 ...")
+
+    dst_in: bpy.props.StringProperty(name="dst_in", default=str(uuid.uuid4()),description="Destination array of the same size and type as src.")
 
     def init(self, context):
         self.inputs.new("ImageSocket", "src_in")
