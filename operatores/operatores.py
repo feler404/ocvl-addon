@@ -16,12 +16,6 @@ class OCVLImageFullScreenOperator(bpy.types.Operator):
 
     origin: bpy.props.StringProperty("")
 
-    def modal(self, context, event):
-        if event.type in {'ESC'}:
-            return self._exit(context, exit_mode='CANCELLED')
-
-        return {'PASS_THROUGH'}
-
     def _load_np_img_to_blender_data_image(self, img_name, img_data):
         bl_img = bpy.data.images.get(img_name)
         if bl_img:
@@ -32,11 +26,8 @@ class OCVLImageFullScreenOperator(bpy.types.Operator):
         bl_img.pixels = list(gl_img_data.flat)
         return bl_img
 
-    def _exit(self, context, exit_mode='FINISHED'):
-        if context.window.screen.show_fullscreen:
-            bpy.ops.screen.back_to_previous()
-        bpy.context.area.type = "NODE_EDITOR"
-        return {exit_mode}
+    def execute(self, context):
+        return {'FINISHED'}
 
     def invoke(self, context, event):
         self.points = []
@@ -56,7 +47,7 @@ class OCVLImageFullScreenOperator(bpy.types.Operator):
         else:
             return {'CANCELLED'}
 
-        context.window_manager.modal_handler_add(self)
+        # context.window_manager.modal_handler_add(self)
         bpy.context.area.type = "IMAGE_EDITOR"
         for area in filter_areas(bpy.context, area_type='IMAGE_EDITOR'):
             area.spaces.active.image = bl_img
@@ -65,8 +56,8 @@ class OCVLImageFullScreenOperator(bpy.types.Operator):
         bpy.ops.screen.screen_full_area()
 
         args = (self, context)
+        return self.execute(context)
 
-        return {'RUNNING_MODAL'}
 
 
 class OCVLImageImporterOperator(bpy.types.Operator):
