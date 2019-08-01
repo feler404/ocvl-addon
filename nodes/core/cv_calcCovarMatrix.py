@@ -32,7 +32,7 @@ class OCVLcalcCovarMatrixNode(OCVLNodeBase):
     flags_in: bpy.props.BoolVectorProperty(default=_bl_flags_list_default_values, update=update_node, size=len(bl_flags_list.split(",")), subtype="NONE", description=bl_flags_list)
 
     covar_out: bpy.props.StringProperty(name="covar_out", default=str(uuid.uuid4()), description="Output covariance matrix of the type ctype and square size.")
-    mean_out: bpy.props.IntProperty(name="mean_out", default=str(uuid.uuid4()), description="Output (depending on the flags) array as the average value of the input vectors.")
+    mean_out: bpy.props.StringProperty(name="mean_out", default=str(uuid.uuid4()), description="Output (depending on the flags) array as the average value of the input vectors.")
 
     def init(self, context):
         self.inputs.new("ImageSocket", "samples_in")
