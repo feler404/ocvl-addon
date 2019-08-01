@@ -14,7 +14,7 @@ class OCVLImageFullScreenOperator(bpy.types.Operator):
     bl_idname = "image.image_full_screen"
     bl_label = "OCVL Image Full Screen"
 
-    origin = bpy.props.StringProperty("")
+    origin: bpy.props.StringProperty("")
 
     def modal(self, context, event):
         if event.type in {'ESC'}:
@@ -74,16 +74,16 @@ class OCVLImageImporterOperator(bpy.types.Operator):
     bl_label = "Open Image"
     bl_options = {'REGISTER'}
 
-    filter_glob = bpy.props.StringProperty(default="*.tif;*.png;*.jpeg;*.jpg", options={'HIDDEN'})
+    filter_glob: bpy.props.StringProperty(default="*.tif;*.png;*.jpeg;*.jpg", options={'HIDDEN'})
 
 
-    filepath = bpy.props.StringProperty(
+    filepath: bpy.props.StringProperty(
         name="File Path",
         description="Filepath used for importing the font file",
         maxlen=1024, default="", subtype='FILE_PATH'
     )
 
-    origin = bpy.props.StringProperty("")
+    origin: bpy.props.StringProperty("")
 
     def execute(self, context):
         node_tree, node_name = self.origin.split('|><|')

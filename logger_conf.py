@@ -8,7 +8,7 @@ def register():
     logging.REGISTERED = True
     # create logger
     logger = logging.getLogger()
-    logger.setLevel(logging.DEBUG)
+    logger.setLevel(logging.WARNING)
 
     # create console handler and set level to debug
     ch = logging.StreamHandler()

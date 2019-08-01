@@ -49,21 +49,21 @@ class InitFeature2DOperator(InitClassForNodeOperator):
     bl_idname = "node.init_feature_2d"
     bl_label = "Init Feature2D"
 
-    origin = bpy.props.StringProperty("")
+    origin: bpy.props.StringProperty("")
 
 
 class InitDescriptorMatcherOperator(InitClassForNodeOperator):
     bl_idname = "node.init_descriptor_matcher"
     bl_label = "Init DescriptorMatcher"
 
-    origin = bpy.props.StringProperty("")
+    origin: bpy.props.StringProperty("")
 
 
 class Feature2DSaveOperator(bpy.types.Operator):
     bl_idname = "node.feature_2d_save"
     bl_label = "Feature 2D save"
 
-    origin = bpy.props.StringProperty("")
+    origin: bpy.props.StringProperty("")
 
     def execute(self, context):
         node_tree, node_name, *props_name = self.origin.split('|><|')

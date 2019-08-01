@@ -376,9 +376,9 @@ class ColorSocket(bpy.types.NodeSocket, OCVLSocketBase):
     bl_idname = "ColorSocket"
     bl_label = "Color Socket"
 
-    prop = bpy.props.FloatVectorProperty(default=(0, 0, 0, 1), size=4, subtype='COLOR', min=0, max=1, update=process_from_socket)
-    prop_name = bpy.props.StringProperty(default='')
-    use_prop = bpy.props.BoolProperty(default=False)
+    prop : bpy.props.FloatVectorProperty(default=(0, 0, 0, 1), size=4, subtype='COLOR', min=0, max=1, update=process_from_socket)
+    prop_name : bpy.props.StringProperty(default='')
+    use_prop : bpy.props.BoolProperty(default=False)
 
     def get_prop_data(self):
         if self.prop_name:
