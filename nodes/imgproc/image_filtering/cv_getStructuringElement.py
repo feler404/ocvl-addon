@@ -1,6 +1,6 @@
 import bpy
 import cv2
-from ocvl.core.node_base import OCVLNodeBase, update_node, BORDER_TYPE_ITEMS
+from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
 SDEPTH_ITEMS = (
