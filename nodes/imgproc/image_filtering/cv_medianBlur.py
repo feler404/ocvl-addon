@@ -37,6 +37,3 @@ class OCVLmedianBlurNode(OCVLNodeBase):
 
         dst_out = self.process_cv(fn=cv2.medianBlur, kwargs=kwargs)
         self.refresh_output_socket("dst_out", dst_out, is_uuid_type=True)
-
-    def draw_buttons(self, context, layout):
-        self.add_button(layout, 'borderType_in')
