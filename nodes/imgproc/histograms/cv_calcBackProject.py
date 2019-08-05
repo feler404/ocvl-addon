@@ -29,7 +29,7 @@ class OCVLcalcBackProjectNode(OCVLNodeBase):
         self.inputs.new("VectorSocket", "channels_in")
         self.inputs.new("VectorSocket", "hist_in")
         self.inputs.new("VectorSocket", "ranges_in")
-        self.inputs.new("VectorSocket", "scale_in")
+        self.inputs.new("StringsSocket", "scale_in")
 
         self.outputs.new("StringsSocket", "dst_out")
 
