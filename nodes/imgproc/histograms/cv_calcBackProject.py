@@ -13,14 +13,14 @@ class OCVLcalcBackProjectNode(OCVLNodeBase):
         "channels_in": {"loc_input_mode": "MANUAL", "loc_manual_input": "(0, 1, 2)"},
         "hist_in": {"loc_input_mode": "MANUAL", "loc_manual_input": "(8, 8, 8)"},
         "ranges_in": {"loc_input_mode": "MANUAL", "loc_manual_input": "(0, 180, 0, 256, 0, 256)"},
-        "scale_in": {"loc_input_mode": "MANUAL", "loc_manual_input": "(1)"},
+        "scale_in": {"loc_input_mode": "MANUAL", "loc_manual_input": "(1)"}
     }
 
     images_in: bpy.props.StringProperty(name="images_in", default=str(uuid.uuid4()), description="Source arrays. They all should have the same depth, CV_8U or CV_32F , and the same size. Each of them can have an arbitrary number of channels.")
     channels_in: bpy.props.StringProperty(name="channels_in", default=str(uuid.uuid4()), description="The list of channels used to compute the back projection. The number of channels must match the histogram dimensionality.")
-    scale_in: bpy.props.StringProperty(name="mask_in", default=str(uuid.uuid4()), description="Optional scale factor for the output back projection.")
     hist_in: bpy.props.StringProperty(name="histSize_in", default=str(uuid.uuid4()), description="Input histogram that can be dense or sparse.")
     ranges_in: bpy.props.StringProperty(name="ranges_in", default=str(uuid.uuid4()), description="Array of arrays of the histogram bin boundaries in each dimension. See calcHist() .")
+    scale_in: bpy.props.FloatProperty(name="mask_in", default=str(uuid.uuid4()), description="Optional scale factor for the output back projection.")
 
     dst_out: bpy.props.StringProperty(name="src_in", default=str(uuid.uuid4()), description="Calculates the back projection of a histogram.")
 
