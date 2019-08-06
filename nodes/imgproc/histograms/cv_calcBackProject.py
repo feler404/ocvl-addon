@@ -19,7 +19,7 @@ class OCVLcalcBackProjectNode(OCVLNodeBase):
     channels_in: bpy.props.StringProperty(name="channels_in", default=str(uuid.uuid4()), description="The list of channels used to compute the back projection. The number of channels must match the histogram dimensionality.")
     hist_in: bpy.props.StringProperty(name="hist_in", default=str(uuid.uuid4()), description="Input histogram that can be dense or sparse.")
     ranges_in: bpy.props.StringProperty(name="ranges_in", default=str(uuid.uuid4()), description="Array of arrays of the histogram bin boundaries in each dimension. See calcHist() .")
-    scale_in: bpy.props.FloatProperty(name="scale_in", default=str(uuid.uuid4()), min=1, max=20, description="Optional scale factor for the output back projection.")
+    scale_in: bpy.props.FloatProperty(name="scale_in", default=str(uuid.uuid4()), description="Optional scale factor for the output back projection.")
 
     dst_out: bpy.props.StringProperty(name="dst_out", default=str(uuid.uuid4()), description="Calculates the back projection of a histogram.")
 
