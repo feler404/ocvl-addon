@@ -15,6 +15,7 @@ class SelectArea(bpy.types.Operator):
     bl_options = {"REGISTER"}
 
     bl_image_name: bpy.props.StringProperty(default="")
+    bl_text_name: bpy.props.StringProperty(default="")
 
     def invoke(self, context, event):
         self.registerDrawHandlers()
@@ -54,10 +55,16 @@ class SelectArea(bpy.types.Operator):
                     return {"CANCELLED"}
 
             self.finish()
-            selectedArea.type = "IMAGE_EDITOR"
-            for space in selectedArea.spaces:
-                if space.type == "IMAGE_EDITOR":
-                    space.image = bpy.data.images[self.bl_image_name]
+            if self.bl_image_name:
+                selectedArea.type = "IMAGE_EDITOR"
+                for space in selectedArea.spaces:
+                    if space.type == "IMAGE_EDITOR":
+                        space.image = bpy.data.images[self.bl_image_name]
+            elif self.bl_text_name:
+                selectedArea.type = "TEXT_EDITOR"
+                for space in selectedArea.spaces:
+                    if space.type == "TEXT_EDITOR":
+                        space.text = bpy.data.texts[self.bl_text_name]
             return {"FINISHED"}
 
         if event.type in {"RIGHTMOUSE", "ESC"}:

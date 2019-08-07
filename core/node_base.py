@@ -9,7 +9,7 @@ import bgl
 import bpy
 import cv2
 import numpy as np
-from ocvl.core.settings import IS_WORK_ON_COPY_INPUT, NODE_COLOR_REQUIRE_DATE, WRAP_TEXT_SIZE_FOR_ERROR_DISPLAY, CATEGORY_TREE, NODE_COLOR_CV_ERROR
+from ocvl.core.settings import IS_WORK_ON_COPY_INPUT, NODE_COLOR_REQUIRE_DATE, WRAP_TEXT_SIZE_FOR_ERROR_DISPLAY, CATEGORY_TREE, NODE_COLOR_CV_ERROR, DEBUG
 from ocvl.core.exceptions import LackRequiredSocket, NoDataError
 from ocvl.core.globals import SOCKET_DATA_CACHE, TEXTURE_CACHE
 from ocvl.core.image_utils import (callback_disable, callback_enable, init_texture, simple_screen, add_background_to_image)
@@ -418,6 +418,8 @@ class OCVLNodeBase(bpy.types.Node):
             self.n_error = str(e)
             self.use_custom_color = True
             self.color = NODE_COLOR_CV_ERROR
+            if DEBUG:
+                raise
         finally:
             self.n_meta += "\nProcess time: {0:.2f}ms".format((time.time() - start) * 1000)
             if self.n_error:
