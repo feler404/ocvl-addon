@@ -1,4 +1,6 @@
 # Color node without necessary data to process
+import os
+
 NODE_COLOR_REQUIRE_DATE = (1, 0.3, 0)
 # Color node with CV error
 NODE_COLOR_CV_ERROR = (0.6, 0.0, 0.0)
@@ -13,7 +15,7 @@ STETHOSCOPE_NODE_MAX_LINES = 30
 # Default filter during use image.ocvl_image_importer operator
 DEFAULT_IMAGE_IMPORTER_FILTER = "*.tif;*.png;*.jpeg;*.jpg"
 
-DEBUG_MODE = False
+DEBUG_MODE = os.environ.get("OCVL_DEBUG", False)
 DEBUG = DEBUG_MODE
 
 class Category:
