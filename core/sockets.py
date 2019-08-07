@@ -15,7 +15,7 @@ from collections import defaultdict
 from copy import deepcopy
 
 import bpy
-from ocvl.core.settings import SOCKET_COLORS
+from ocvl.core import settings
 from ocvl.core.exceptions import LackRequiredSocket, NoDataError
 from ocvl.core.globals import SOCKET_DATA_CACHE
 from ocvl.core.register_utils import ocvl_register, ocvl_unregister
@@ -278,15 +278,15 @@ class OCVLSocketBase:
 
         if self.use_quicklink:
             if self.bl_idname == "ImageSocket":
-                new_node_idname = node.n_quick_link_requirements.get(node.inputs[self.index].name, {}).get("__type_node__", "OCVLImageSampleNode")
+                new_node_idname = node.n_quick_link_requirements.get(node.inputs[self.index].name, {}).get("__type_node__", settings.DEFAULT_NODE_FOR_QUICK_LINK_IMAGE_SOCKET)
             elif self.bl_idname == "MaskSocket":
-                new_node_idname = "OCVLMaskSampleNode"
+                new_node_idname = settings.DEFAULT_NODE_FOR_QUICK_LINK_MASK_SOCKET
             elif self.bl_idname == "RectSocket":
-                new_node_idname = "OCVLRectNode"
+                new_node_idname = settings.DEFAULT_NODE_FOR_QUICK_LINK_RECT_SOCKET
             elif self.bl_idname == "ContourSocket":
-                new_node_idname = "OCVLfindContoursNode"
+                new_node_idname = settings.DEFAULT_NODE_FOR_QUICK_LINK_CONTOUR_SOCKET
             elif self.bl_idname == "VectorSocket":
-                new_node_idname = "OCVLVecNode"
+                new_node_idname = settings.DEFAULT_NODE_FOR_QUICK_LINK_VECTOR_SOCKET
             else:
                 return
 
@@ -306,7 +306,7 @@ class OCVLSocketBase:
 
         if self.use_quicklink:
             if self.bl_idname == "ImageSocket":
-                new_node_idname = "OCVLImageViewerNode"
+                new_node_idname = settings.DEFAULT_NODE_FOR_QUICK_LINK_IMAGE_SOCKET_OUT
             elif self.bl_idname == "ContourSocket":
                 new_node_idname = "OCVLdrawContoursNode"
             elif self.bl_idname in ["StringsSocket", "VectorSocket"]:
@@ -368,7 +368,7 @@ class OCVLSocketBase:
 
     def draw_color(self, context, node):
         _draw_socket = getattr(self, "draw_socket_color", None)
-        return _draw_socket or SOCKET_COLORS.__getattribute__(self.bl_idname)
+        return _draw_socket or settings.SOCKET_COLORS.__getattribute__(self.bl_idname)
 
 
 class ColorSocket(bpy.types.NodeSocket, OCVLSocketBase):
