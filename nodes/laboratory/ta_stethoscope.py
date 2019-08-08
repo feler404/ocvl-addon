@@ -1,5 +1,3 @@
-import uuid
-
 import bpy
 import numpy as np
 from ocvl.core.node_base import OCVLNodeBase, update_node
