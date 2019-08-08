@@ -151,7 +151,7 @@ class LinkNewNodeInput(bpy.types.Operator):
 
         caller_node = nodes.get(self.origin)
         new_node = nodes.new(self.new_node_idname)
-        self._set_location(new_node, caller_node)
+        self.set_location_new_node(new_node, caller_node)
         n_quick_link_requirements = getattr(caller_node, "n_quick_link_requirements", {})
         multi_link = n_quick_link_requirements.get("multi_link", [])
         if self.is_input_mode and not caller_node.inputs[self.socket_index].name in multi_link:
@@ -179,21 +179,48 @@ class LinkNewNodeInput(bpy.types.Operator):
 
         return {'FINISHED'}
 
-    def _set_location(self, new_node, caller_node):
-        x_offset = 40
-        y_offset = - 10
+    def set_location_new_node(self, new_node, caller_node):
+        if self.is_input_mode:
+            self._set_location_for_input(new_node, caller_node)
+        else:
+            self._set_location_fro_output(new_node, caller_node)
+
+    def _set_location_for_input(self, new_node, caller_node):
+        x_offset = settings.DEFAULT_QUICK_LINK_LOCATION_X_OFFSET
+        y_offset = settings.DEFAULT_QUICK_LINK_LOCATION_Y_OFFSET
+        y_offset_first_node = settings.DEFAULT_QUICK_LINK_LOCATION_Y_OFFSET_FIRST_NODE
+        settings
         pixel_size = bpy.context.preferences.system.pixel_size
         node_tree = new_node.id_data
         left_border = caller_node.location[0] - x_offset - new_node.width
         right_border = caller_node.location[0] - x_offset
-        empty_location_y = caller_node.location[1]
+        empty_location_y = caller_node.location[1] + y_offset_first_node
         for node in node_tree.nodes:
+            if node.name == new_node.name:
+                continue
             if left_border <= node.location[0] <= right_border or left_border <= node.location[0] + node.width <= right_border:
                 if node.location[1] - node.dimensions[1] / pixel_size < empty_location_y:
                     empty_location_y = node.location[1] - node.dimensions[1] / pixel_size
         new_node.location[0] = left_border
         new_node.location[1] = empty_location_y + y_offset
 
+    def _set_location_fro_output(self, new_node, caller_node):
+        x_offset = settings.DEFAULT_QUICK_LINK_LOCATION_X_OFFSET
+        y_offset = settings.DEFAULT_QUICK_LINK_LOCATION_Y_OFFSET
+        y_offset_first_node = settings.DEFAULT_QUICK_LINK_LOCATION_Y_OFFSET_FIRST_NODE
+        pixel_size = bpy.context.preferences.system.pixel_size
+        node_tree = new_node.id_data
+        left_border = caller_node.location[0] + x_offset + caller_node.width
+        right_border = caller_node.location[0] + x_offset + caller_node.width + new_node.width
+        empty_location_y = caller_node.location[1] + y_offset_first_node
+        for node in node_tree.nodes:
+            if node.name == new_node.name:
+                continue
+            if left_border <= node.location[0] <= right_border or left_border <= node.location[0] + node.width <= right_border:
+                if node.location[1] - node.dimensions[1] / pixel_size < empty_location_y:
+                    empty_location_y = node.location[1] - node.dimensions[1] / pixel_size
+        new_node.location[0] = left_border
+        new_node.location[1] = empty_location_y + y_offset
 
 
     def _connect_same_type_sockets(self, links, new_node_sockets, caller_node_sockets, multi_link):
