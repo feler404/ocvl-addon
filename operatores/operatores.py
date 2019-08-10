@@ -1,5 +1,7 @@
 import logging
+import os
 
+import numpy as np
 import bpy
 from ocvl.core.exceptions import NoDataError
 from ocvl.core.image_utils import convert_to_gl_image
@@ -90,11 +92,40 @@ class OCVLImageImporterOperator(bpy.types.Operator):
         return {'RUNNING_MODAL'}
 
 
+class OCVLSaveArrayToCSVOperator(bpy.types.Operator):
+    bl_idname = "ocvl.save_array_to_csv"
+    bl_label = "Save array to CSV"
+    bl_options = {'REGISTER'}
+
+    origin: bpy.props.StringProperty("")
+
+    def execute(self, context):
+        node_tree, node_name, *props_name = self.origin.split('|><|')
+        if not props_name:
+            return {'CANCELED'}
+        prop_name = props_name[0]
+        node = bpy.data.node_groups[node_tree].nodes[node_name]
+        data = node.get_from_props(prop_name)
+        if not isinstance(data, np.ndarray):
+            return {'CANCELED'}
+        # data.tofile(f"./{node_name}.csv", sep=",", format='%10.3f')
+        full_data_path = os.path.join(bpy.context.preferences.filepaths.render_output_directory, f"{node_name}.csv")
+        np.savetxt(full_data_path, data, delimiter=",", fmt='%10.2f')
+        self.report({'INFO'}, f"Success!. Date save in: {full_data_path}")
+        return {'FINISHED'}
+
+    def invoke(self, context, event):
+        return self.execute(context)
+
+
+
 def register():
     ocvl_register(OCVLImageFullScreenOperator)
     ocvl_register(OCVLImageImporterOperator)
+    ocvl_register(OCVLSaveArrayToCSVOperator)
 
 
 def unregister():
+    ocvl_unregister(OCVLSaveArrayToCSVOperator)
     ocvl_unregister(OCVLImageImporterOperator)
     ocvl_unregister(OCVLImageFullScreenOperator)

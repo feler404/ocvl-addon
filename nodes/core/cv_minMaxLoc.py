@@ -39,6 +39,14 @@ class OCVLminMaxLocNode(OCVLNodeBase):
         self.refresh_output_socket("maxVal_out", maxVal_out)
         self.refresh_output_socket("minLoc_out", minLoc_out, is_uuid_type=True)
         self.refresh_output_socket("maxLoc_out", maxLoc_out, is_uuid_type=True)
+        self._add_meta_info(minLoc_out, maxLoc_out)
+
+    def _add_meta_info(self, minLoc_out, maxLoc_out):
+        self.n_meta = "\n".join([f"minVal: {self.minVal_out}",
+                                 f"maxVal: {self.maxVal_out}",
+                                 f"minLoc: {minLoc_out}",
+                                 f"maxLoc: {maxLoc_out}",
+                                 ])
 
     def draw_buttons(self, context, layout):
         pass

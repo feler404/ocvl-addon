@@ -31,5 +31,7 @@ class OCVLStethoscopeNode(OCVLNodeBase):
     def _draw_header(self, layout, matrix_in):
         layout.label(text="Type: {}".format(type(matrix_in)))
         if isinstance(matrix_in, np.ndarray):
+            if len(matrix_in.shape) == 2:
+                layout.operator("ocvl.save_array_to_csv").origin = self.get_node_origin(props_name=["matrix_in"])
             layout.label(text="Shape: {}".format(matrix_in.shape))
             layout.label(text="DType: {}".format(matrix_in.dtype.name))
