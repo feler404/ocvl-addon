@@ -38,7 +38,6 @@ class OCVLVideoSampleNode(OCVLPreviewNodeBase):
     n_requirements = {}
     n_meta = ""
 
-
     def update_layout(self, context):
         logger.debug("UPDATE_LAYOUT")
         self.update_sockets(context)
@@ -133,6 +132,10 @@ class OCVLVideoSampleNode(OCVLPreviewNodeBase):
         loc_camera_device = int(self.get_from_props("loc_camera_device"))
         if CAMERA_DEVICE_DICT.get(loc_camera_device).isOpened():
             CAMERA_DEVICE_DICT.get(loc_camera_device).release()
+        for handler in bpy.app.handlers.frame_change_pre:
+            if f'"{self.name}"' in str(handler):
+                index_handler = bpy.app.handlers.frame_change_pre.index(handler)
+        bpy.app.handlers.frame_change_pre.pop(index_handler)
 
     def update_sockets(self, context):
         self.process()
