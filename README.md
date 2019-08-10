@@ -19,8 +19,8 @@ The application was created on the basis of proven engines: Python, OpenCV, Blen
 
 ## Borrows:
 Many of ideas and solutions was borrowed from:
-https://github.com/nortikin/sverchok
-https://github.com/JacquesLucke/animation_nodes
+- https://github.com/nortikin/sverchok
+- https://github.com/JacquesLucke/animation_nodes
 
 
 
