@@ -224,12 +224,12 @@ class OCVLNodeBase(bpy.types.Node):
     https://stackoverflow.com/questions/5189232/how-to-auto-register-a-class-when-its-defined
     """
     n_id = None
-    n_meta = None
     n_error = None
     n_error_line = None
     n_development_status = None
     n_auto_register = True
     n_category = CATEGORY_TREE.uncategorized
+    n_meta = ""
     n_doc = ""
     n_see_also = ""
     n_requirements = {}

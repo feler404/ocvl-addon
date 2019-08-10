@@ -40,7 +40,12 @@ class OCVLmatchTemplateNode(OCVLNodeBase):
 
         result_out = self.process_cv(fn=cv2.matchTemplate, kwargs=kwargs)
         image_out = np.copy(self.get_from_props("image_in"))
-        h, w, _ = self.get_from_props("templ_in").shape
+        h, w, *channels = self.get_from_props("templ_in").shape
+
+        if not channels:
+            image_out = cv2.cvtColor(image_out, cv2.COLOR_GRAY2RGB)
+        elif channels[0] == 4:
+            image_out = cv2.cvtColor(image_out, cv2.COLOR_RGBA2RGB)
 
         loc_color_in = self.get_from_props("loc_color_in")
 
@@ -48,7 +53,7 @@ class OCVLmatchTemplateNode(OCVLNodeBase):
         loc = np.where(result_out >= loc_threshold)
 
         for pt in zip(*loc[::-1]):
-            cv2.rectangle(image_out, pt, (pt[0] + w, pt[1] + h), loc_color_in, 1)
+            cv2.rectangle(image_out, pt, (pt[0] + w, pt[1] + h), loc_color_in, 0)
 
         self.refresh_output_socket("result_out", result_out, is_uuid_type=True)
         self.refresh_output_socket("image_out", image_out, is_uuid_type=True)
