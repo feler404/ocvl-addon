@@ -1,4 +1,5 @@
 import cv2
+import bpy
 from ocvl.core.globals import FEATURE2D_INSTANCES_DICT
 from ocvl.core.node_base import OCVLNodeBase, update_node
 from ocvl.nodes.objdetect.abc_Feature2D import OCVLFeature2DNode
