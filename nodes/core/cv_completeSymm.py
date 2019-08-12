@@ -17,9 +17,9 @@ class OCVLcompleteSymmNode(OCVLNodeBase):
     m_out: bpy.props.StringProperty(name="m_out", default=str(uuid.uuid4()), description="Input-output floating-point square matrix.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "m_in")
+        self.inputs.new("OCVLImageSocket", "m_in")
 
-        self.outputs.new("ImageSocket", "m_out")
+        self.outputs.new("OCVLImageSocket", "m_out")
 
     def wrapped_process(self):
         kwargs = {

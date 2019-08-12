@@ -31,11 +31,11 @@ class OCVLboxFilterNode(OCVLNodeBase):
 
     def init(self, context):
         self.width = 260
-        self.inputs.new("ImageSocket", "src_in")
-        self.inputs.new('StringsSocket', "ksize_in").prop_name = 'ksize_in'
-        self.inputs.new('StringsSocket', "anchor_in").prop_name = 'anchor_in'
+        self.inputs.new("OCVLImageSocket", "src_in")
+        self.inputs.new('OCVLMatrixSocket', "ksize_in").prop_name = 'ksize_in'
+        self.inputs.new('OCVLMatrixSocket', "anchor_in").prop_name = 'anchor_in'
 
-        self.outputs.new("ImageSocket", "dst_in")
+        self.outputs.new("OCVLImageSocket", "dst_in")
 
     def wrapped_process(self):
         kwargs = {

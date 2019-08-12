@@ -17,10 +17,10 @@ class OCVLrandShuffleNode(OCVLNodeBase):
     dst_out: bpy.props.StringProperty(name="dst_out", default=str(uuid.uuid4()), description="Output array of random numbers; the array must be pre-allocated.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "dst_in")
-        self.inputs.new("StringsSocket", "iterFactor_in").prop_name = "iterFactor_in"
+        self.inputs.new("OCVLImageSocket", "dst_in")
+        self.inputs.new("OCVLMatrixSocket", "iterFactor_in").prop_name = "iterFactor_in"
 
-        self.outputs.new("ImageSocket", "dst_out")
+        self.outputs.new("OCVLImageSocket", "dst_out")
 
     def wrapped_process(self):
         kwargs = {

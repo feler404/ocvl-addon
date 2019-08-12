@@ -24,10 +24,10 @@ class OCVLmedianBlurNode(OCVLNodeBase):
     dst_out: bpy.props.StringProperty(name="dst_out", default=str(uuid.uuid4()), description="Destination array of the same size and type as src.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "src_in")
-        self.inputs.new('StringsSocket', "ksize_in").prop_name = 'ksize_in'
+        self.inputs.new("OCVLImageSocket", "src_in")
+        self.inputs.new('OCVLMatrixSocket', "ksize_in").prop_name = 'ksize_in'
 
-        self.outputs.new("ImageSocket", "dst_out")
+        self.outputs.new("OCVLImageSocket", "dst_out")
 
     def wrapped_process(self):
         kwargs = {

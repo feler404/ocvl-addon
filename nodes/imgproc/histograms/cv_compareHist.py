@@ -28,10 +28,10 @@ class OCVLcompareHistNode(OCVLNodeBase):
     retval_out: bpy.props.StringProperty(name="retval_out", default=str(uuid.uuid4()), description="Calculates the back projection of a histogram.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "H1_in")
-        self.inputs.new("ImageSocket", "H2_in")
+        self.inputs.new("OCVLImageSocket", "H1_in")
+        self.inputs.new("OCVLImageSocket", "H2_in")
 
-        self.outputs.new("StringsSocket", "retval_out")
+        self.outputs.new("OCVLMatrixSocket", "retval_out")
 
     def wrapped_process(self):
         kwargs = {

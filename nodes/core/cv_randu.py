@@ -19,11 +19,11 @@ class OCVLranduNode(OCVLNodeBase):
     dst_out: bpy.props.StringProperty(name="dst_out", default=str(uuid.uuid4()), description="Output array of random numbers; the array must be pre-allocated.")
 
     def init(self, context):
-        self.inputs.new("StringsSocket", "low_in").prop_name = "low_in"
-        self.inputs.new("StringsSocket", "high_in").prop_name = "high_in"
-        self.inputs.new("ImageSocket", "dst_in")
+        self.inputs.new("OCVLMatrixSocket", "low_in").prop_name = "low_in"
+        self.inputs.new("OCVLMatrixSocket", "high_in").prop_name = "high_in"
+        self.inputs.new("OCVLImageSocket", "dst_in")
 
-        self.outputs.new("ImageSocket", "dst_out")
+        self.outputs.new("OCVLImageSocket", "dst_out")
 
     def wrapped_process(self):
         kwargs = {

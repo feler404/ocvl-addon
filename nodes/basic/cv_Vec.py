@@ -37,9 +37,9 @@ class OCVLVecNode(OCVLNodeBase):
 
     def init(self, context):
         self.width = 250
-        self.inputs.new("StringsSocket", "size_in").prop_name = "size_in"
+        self.inputs.new("OCVLMatrixSocket", "size_in").prop_name = "size_in"
 
-        self.outputs.new("VectorSocket", "vector_out")
+        self.outputs.new("OCVLVectorSocket", "vector_out")
         self.update_layout(context)
 
     def wrapped_process(self):

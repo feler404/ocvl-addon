@@ -18,7 +18,7 @@ class OCVLImageViewerNode(OCVLPreviewNodeBase):
     image_in: bpy.props.StringProperty(default='')
 
     def init(self, context):
-        self.inputs.new('ImageSocket', "image_in")
+        self.inputs.new('OCVLImageSocket', "image_in")
 
     def wrapped_process(self):
         self.check_input_requirements(["image_in"])

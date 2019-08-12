@@ -30,12 +30,12 @@ class OCVLcornerHarrisNode(OCVLNodeBase):
     def init(self, context):
 
         self.width = 150
-        self.inputs.new("ImageSocket", "src_in")
-        self.inputs.new('StringsSocket', "blockSize_in").prop_name = 'blockSize_in'
-        self.inputs.new('StringsSocket', "ksize_in").prop_name = 'ksize_in'
-        self.inputs.new('StringsSocket', "k_in").prop_name = 'k_in'
+        self.inputs.new("OCVLImageSocket", "src_in")
+        self.inputs.new('OCVLMatrixSocket', "blockSize_in").prop_name = 'blockSize_in'
+        self.inputs.new('OCVLMatrixSocket', "ksize_in").prop_name = 'ksize_in'
+        self.inputs.new('OCVLMatrixSocket', "k_in").prop_name = 'k_in'
 
-        self.outputs.new("ImageSocket", "dst_out")
+        self.outputs.new("OCVLImageSocket", "dst_out")
 
     def wrapped_process(self):
 

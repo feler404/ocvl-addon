@@ -22,14 +22,14 @@ class OCVLrectangleNode(OCVLNodeBase):
     img_out: bpy.props.StringProperty(name="img_out", default=str(uuid.uuid4()), description="Output image.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "img_in")
-        self.inputs.new('StringsSocket', "pt1_in").prop_name = 'pt1_in'
-        self.inputs.new('StringsSocket', "pt2_in").prop_name = 'pt2_in'
-        self.inputs.new('StringsSocket', "thickness_in").prop_name = 'thickness_in'
-        self.inputs.new('StringsSocket', "shift_in").prop_name = 'shift_in'
-        self.inputs.new('ColorSocket', 'color_in').prop_name = 'color_in'
+        self.inputs.new("OCVLImageSocket", "img_in")
+        self.inputs.new('OCVLMatrixSocket', "pt1_in").prop_name = 'pt1_in'
+        self.inputs.new('OCVLMatrixSocket', "pt2_in").prop_name = 'pt2_in'
+        self.inputs.new('OCVLMatrixSocket', "thickness_in").prop_name = 'thickness_in'
+        self.inputs.new('OCVLMatrixSocket', "shift_in").prop_name = 'shift_in'
+        self.inputs.new('OCVLColorSocket', 'color_in').prop_name = 'color_in'
 
-        self.outputs.new("ImageSocket", "img_out")
+        self.outputs.new("OCVLImageSocket", "img_out")
         self.update_layout(context)
 
     def wrapped_process(self):

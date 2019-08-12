@@ -39,14 +39,14 @@ class OCVLHoughLinesPNode(OCVLNodeBase):
     image_out: bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "image_in")
-        self.inputs.new('StringsSocket', "rho_in").prop_name = 'rho_in'
-        self.inputs.new('StringsSocket', "theta_in").prop_name = 'theta_in'
-        self.inputs.new('StringsSocket', "threshold_in").prop_name = 'threshold_in'
-        self.inputs.new('StringsSocket', "minLineLength_in").prop_name = 'minLineLength_in'
-        self.inputs.new('StringsSocket', "maxLineGap_in").prop_name = 'maxLineGap_in'
+        self.inputs.new("OCVLImageSocket", "image_in")
+        self.inputs.new('OCVLMatrixSocket', "rho_in").prop_name = 'rho_in'
+        self.inputs.new('OCVLMatrixSocket', "theta_in").prop_name = 'theta_in'
+        self.inputs.new('OCVLMatrixSocket', "threshold_in").prop_name = 'threshold_in'
+        self.inputs.new('OCVLMatrixSocket', "minLineLength_in").prop_name = 'minLineLength_in'
+        self.inputs.new('OCVLMatrixSocket', "maxLineGap_in").prop_name = 'maxLineGap_in'
 
-        self.outputs.new("StringsSocket", "lines_out")
+        self.outputs.new("OCVLMatrixSocket", "lines_out")
 
     def wrapped_process(self):
         kwargs = {

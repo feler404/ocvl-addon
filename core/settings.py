@@ -24,14 +24,14 @@ class Category:
 
 
 class SocketColors:
-    StringsSocket = 0.1, 1.0, 0.2, 1
-    ColorSocket = 0.1, 0.7, 1.0, 1
-    ImageSocket = 0.1, 1.0, 0.8, 1
-    MaskSocket = 0.0, 0.0, 0.0, 1
-    RectSocket = 0.2, 0.4, 0.4, 1
-    ContourSocket = 0.2, 0.8, 1.0, 1
-    VectorSocket = 0.1, 1.0, 0.2, 1
-    StethoscopeSocket = 1.0, 1.0, 1.0, 1
+    OCVLMatrixSocket = 0.1, 1.0, 0.2, 1
+    OCVLColorSocket = 0.1, 0.7, 1.0, 1
+    OCVLImageSocket = 0.1, 1.0, 0.8, 1
+    OCVLMaskSocket = 0.0, 0.0, 0.0, 1
+    OCVLRectSocket = 0.2, 0.4, 0.4, 1
+    OCVLContourSocket = 0.2, 0.8, 1.0, 1
+    OCVLVectorSocket = 0.1, 1.0, 0.2, 1
+    OCVLStethoscopeSocket = 1.0, 1.0, 1.0, 1
 
 
 CATEGORY_TREE = Category()

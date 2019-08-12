@@ -24,13 +24,13 @@ class OCVLcalcBackProjectNode(OCVLNodeBase):
     dst_out: bpy.props.StringProperty(name="dst_out", default=str(uuid.uuid4()), description="Calculates the back projection of a histogram.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "images_in")
-        self.inputs.new("VectorSocket", "channels_in")
-        self.inputs.new("VectorSocket", "hist_in")
-        self.inputs.new("VectorSocket", "ranges_in")
-        self.inputs.new("StringsSocket", "scale_in")
+        self.inputs.new("OCVLImageSocket", "images_in")
+        self.inputs.new("OCVLVectorSocket", "channels_in")
+        self.inputs.new("OCVLVectorSocket", "hist_in")
+        self.inputs.new("OCVLVectorSocket", "ranges_in")
+        self.inputs.new("OCVLMatrixSocket", "scale_in")
 
-        self.outputs.new("StringsSocket", "dst_out")
+        self.outputs.new("OCVLMatrixSocket", "dst_out")
 
     def wrapped_process(self):
         kwargs = {

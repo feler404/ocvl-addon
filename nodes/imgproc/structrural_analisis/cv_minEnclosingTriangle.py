@@ -17,10 +17,10 @@ class OCVLminEnclosingTriangleNode(OCVLNodeBase):
     triangle_out: bpy.props.StringProperty(name="triangle_out", default=str(uuid.uuid4()), description="Output triangle.")
 
     def init(self, context):
-        self.inputs.new("VectorSocket", "points_in")
+        self.inputs.new("OCVLVectorSocket", "points_in")
 
-        self.outputs.new("StringsSocket", "retval_out")
-        self.outputs.new("StringsSocket", "triangle_out")
+        self.outputs.new("OCVLMatrixSocket", "retval_out")
+        self.outputs.new("OCVLMatrixSocket", "triangle_out")
 
     def wrapped_process(self):
         kwargs = {

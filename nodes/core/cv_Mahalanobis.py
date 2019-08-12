@@ -22,11 +22,11 @@ class OCVLMahalanobisNode(OCVLNodeBase):
     retval_out: bpy.props.FloatProperty(name="retval_out", description="Return value.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "v1_in")
-        self.inputs.new("ImageSocket", "v2_in")
-        self.inputs.new("ImageSocket", "icovar_in")
+        self.inputs.new("OCVLImageSocket", "v1_in")
+        self.inputs.new("OCVLImageSocket", "v2_in")
+        self.inputs.new("OCVLImageSocket", "icovar_in")
 
-        self.outputs.new("StringsSocket", "retval_out")
+        self.outputs.new("OCVLMatrixSocket", "retval_out")
 
     def wrapped_process(self):
         kwargs = {

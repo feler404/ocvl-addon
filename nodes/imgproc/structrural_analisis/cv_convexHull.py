@@ -18,8 +18,8 @@ class OCVLconvexHullNode(OCVLNodeBase):
     hull_out: bpy.props.StringProperty(default=str(uuid.uuid4()), description="Output convex hull. It is either an integer vector of indices or vector of points.")
 
     def init(self, context):
-        self.inputs.new("ContourSocket", "points_in")
-        self.outputs.new("ContourSocket", "hull_out")
+        self.inputs.new("OCVLContourSocket", "points_in")
+        self.outputs.new("OCVLContourSocket", "hull_out")
 
     def wrapped_process(self):
         kwargs = {

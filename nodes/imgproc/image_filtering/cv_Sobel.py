@@ -52,14 +52,14 @@ class OCVLSobelNode(OCVLNodeBase):
     borderType_in: bpy.props.EnumProperty(items=BORDER_TYPE_ITEMS, default='None', update=update_node, description="Pixel extrapolation method, see cv::BorderTypes.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "src_in")
-        self.inputs.new('StringsSocket', "dx_in").prop_name = 'dx_in'
-        self.inputs.new('StringsSocket', "dy_in").prop_name = 'dy_in'
-        self.inputs.new('StringsSocket', "ksize_in").prop_name = 'ksize_in'
-        self.inputs.new('StringsSocket', "scale_in").prop_name = 'scale_in'
-        self.inputs.new('StringsSocket', "delta_in").prop_name = 'delta_in'
+        self.inputs.new("OCVLImageSocket", "src_in")
+        self.inputs.new('OCVLMatrixSocket', "dx_in").prop_name = 'dx_in'
+        self.inputs.new('OCVLMatrixSocket', "dy_in").prop_name = 'dy_in'
+        self.inputs.new('OCVLMatrixSocket', "ksize_in").prop_name = 'ksize_in'
+        self.inputs.new('OCVLMatrixSocket', "scale_in").prop_name = 'scale_in'
+        self.inputs.new('OCVLMatrixSocket', "delta_in").prop_name = 'delta_in'
 
-        self.outputs.new("ImageSocket", "dst_out")
+        self.outputs.new("OCVLImageSocket", "dst_out")
 
     def wrapped_process(self):
         self.check_input_requirements(["src_in"])

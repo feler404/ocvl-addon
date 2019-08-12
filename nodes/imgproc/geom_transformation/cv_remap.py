@@ -25,12 +25,12 @@ class OCVLremapNode(OCVLNodeBase):
     dst_out: bpy.props.StringProperty(name="dst_out", default=str(uuid.uuid4()), description="Output image. It has the same size as map1 and the same type as src .")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "src_in")
-        self.inputs.new("ImageSocket", "map1_in")
-        self.inputs.new("ImageSocket", "map2_in")
-        self.inputs.new('StringsSocket', "borderValue_in").prop_name = 'borderValue_in'
+        self.inputs.new("OCVLImageSocket", "src_in")
+        self.inputs.new("OCVLImageSocket", "map1_in")
+        self.inputs.new("OCVLImageSocket", "map2_in")
+        self.inputs.new('OCVLMatrixSocket', "borderValue_in").prop_name = 'borderValue_in'
 
-        self.outputs.new("ImageSocket", "dst_out")
+        self.outputs.new("OCVLImageSocket", "dst_out")
 
     def wrapped_process(self):
         kwargs = {

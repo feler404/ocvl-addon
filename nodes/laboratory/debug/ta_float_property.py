@@ -29,23 +29,23 @@ class OCVLFloatPropNode(OCVLNodeBase):
 
     def init(self, context):
         self.width = 300
-        self.inputs.new('StringsSocket', "float_0_PIXEL").prop_name =      'float_0_PIXEL'
-        self.inputs.new('StringsSocket', "float_0_UNSIGNED").prop_name =   'float_0_UNSIGNED'
-        self.inputs.new('StringsSocket', "float_0_PERCENTAGE").prop_name = 'float_0_PERCENTAGE'
-        self.inputs.new('StringsSocket', "float_0_FACTOR").prop_name =     'float_0_FACTOR'
-        self.inputs.new('StringsSocket', "float_0_ANGLE").prop_name =      'float_0_ANGLE'
-        self.inputs.new('StringsSocket', "float_0_TIME").prop_name =       'float_0_TIME'
-        self.inputs.new('StringsSocket', "float_0_DISTANCE").prop_name =   'float_0_DISTANCE'
-        self.inputs.new('StringsSocket', "float_0_NONE").prop_name =       'float_0_NONE'
+        self.inputs.new('OCVLMatrixSocket', "float_0_PIXEL").prop_name =      'float_0_PIXEL'
+        self.inputs.new('OCVLMatrixSocket', "float_0_UNSIGNED").prop_name =   'float_0_UNSIGNED'
+        self.inputs.new('OCVLMatrixSocket', "float_0_PERCENTAGE").prop_name = 'float_0_PERCENTAGE'
+        self.inputs.new('OCVLMatrixSocket', "float_0_FACTOR").prop_name =     'float_0_FACTOR'
+        self.inputs.new('OCVLMatrixSocket', "float_0_ANGLE").prop_name =      'float_0_ANGLE'
+        self.inputs.new('OCVLMatrixSocket', "float_0_TIME").prop_name =       'float_0_TIME'
+        self.inputs.new('OCVLMatrixSocket', "float_0_DISTANCE").prop_name =   'float_0_DISTANCE'
+        self.inputs.new('OCVLMatrixSocket', "float_0_NONE").prop_name =       'float_0_NONE'
 
-        self.inputs.new('StringsSocket', "float_0_DISTANCE_NONE").prop_name =         'float_0_DISTANCE_NONE'
-        self.inputs.new('StringsSocket', "float_0_DISTANCE_LENGTH").prop_name =       'float_0_DISTANCE_LENGTH'
-        self.inputs.new('StringsSocket', "float_0_DISTANCE_AREA").prop_name =         'float_0_DISTANCE_AREA'
-        self.inputs.new('StringsSocket', "float_0_DISTANCE_VOLUME").prop_name =       'float_0_DISTANCE_VOLUME'
-        self.inputs.new('StringsSocket', "float_0_DISTANCE_ROTATION").prop_name =     'float_0_DISTANCE_ROTATION'
-        self.inputs.new('StringsSocket', "float_0_DISTANCE_TIME").prop_name =         'float_0_DISTANCE_TIME'
-        self.inputs.new('StringsSocket', "float_0_DISTANCE_VELOCITY").prop_name =     'float_0_DISTANCE_VELOCITY'
-        self.inputs.new('StringsSocket', "float_0_DISTANCE_ACCELERATION").prop_name = 'float_0_DISTANCE_ACCELERATION'
+        self.inputs.new('OCVLMatrixSocket', "float_0_DISTANCE_NONE").prop_name =         'float_0_DISTANCE_NONE'
+        self.inputs.new('OCVLMatrixSocket', "float_0_DISTANCE_LENGTH").prop_name =       'float_0_DISTANCE_LENGTH'
+        self.inputs.new('OCVLMatrixSocket', "float_0_DISTANCE_AREA").prop_name =         'float_0_DISTANCE_AREA'
+        self.inputs.new('OCVLMatrixSocket', "float_0_DISTANCE_VOLUME").prop_name =       'float_0_DISTANCE_VOLUME'
+        self.inputs.new('OCVLMatrixSocket', "float_0_DISTANCE_ROTATION").prop_name =     'float_0_DISTANCE_ROTATION'
+        self.inputs.new('OCVLMatrixSocket', "float_0_DISTANCE_TIME").prop_name =         'float_0_DISTANCE_TIME'
+        self.inputs.new('OCVLMatrixSocket', "float_0_DISTANCE_VELOCITY").prop_name =     'float_0_DISTANCE_VELOCITY'
+        self.inputs.new('OCVLMatrixSocket', "float_0_DISTANCE_ACCELERATION").prop_name = 'float_0_DISTANCE_ACCELERATION'
 
     def wrapped_process(self):
         pass

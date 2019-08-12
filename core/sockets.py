@@ -229,7 +229,7 @@ class LinkNewNodeInput(bpy.types.Operator):
             return
         bl_idname = caller_node_sockets[self.socket_index].bl_idname
         for socket in new_node_sockets:
-            if socket.bl_idname == bl_idname or socket.bl_idname == "StethoscopeSocket":
+            if socket.bl_idname == bl_idname or socket.bl_idname == "OCVLStethoscopeSocket":
                 links.new(socket, caller_node_sockets[self.socket_index])
 
     def _connect_multi_sockets(self, links, new_node_sockets, caller_node_sockets):
@@ -247,7 +247,7 @@ class OCVLSocketBase:
     _map_quick_link_icons = {
         "output": defaultdict(lambda: ["LIGHT", "OUTLINER_OB_LIGHT"],
             {
-                "StringsSocket": ["OUTLINER_DATA_LIGHTPROBE", "OUTLINER_OB_LIGHTPROBE"],
+                "OCVLMatrixSocket": ["OUTLINER_DATA_LIGHTPROBE", "OUTLINER_OB_LIGHTPROBE"],
             }
         )
     }
@@ -294,7 +294,7 @@ class OCVLSocketBase:
 
     def draw_expander_template(self, context, layout, prop_origin, prop_name="prop"):
 
-        if self.bl_idname == "StringsSocket":
+        if self.bl_idname == "OCVLMatrixSocket":
             layout.prop(prop_origin, prop_name)
         else:
             if self.use_expander:
@@ -309,7 +309,7 @@ class OCVLSocketBase:
                 else:
                     c1.prop(self, "expanded", icon='TRIA_DOWN', text="")
                     row = c2.row(align=True)
-                    if self.bl_idname == "ColorSocket":
+                    if self.bl_idname == "OCVLColorSocket":
                         row.prop(prop_origin, prop_name)
                     else:
                         row.template_component_menu(prop_origin, prop_name, name=self.name)
@@ -320,15 +320,15 @@ class OCVLSocketBase:
     def draw_quick_link_input(self, context, layout, node):
 
         if self.use_quicklink:
-            if self.bl_idname == "ImageSocket":
+            if self.bl_idname == "OCVLImageSocket":
                 new_node_idname = node.n_quick_link_requirements.get(node.inputs[self.index].name, {}).get("__type_node__", settings.DEFAULT_NODE_FOR_QUICK_LINK_IMAGE_SOCKET)
-            elif self.bl_idname == "MaskSocket":
+            elif self.bl_idname == "OCVLMaskSocket":
                 new_node_idname = settings.DEFAULT_NODE_FOR_QUICK_LINK_MASK_SOCKET
-            elif self.bl_idname == "RectSocket":
+            elif self.bl_idname == "OCVLRectSocket":
                 new_node_idname = settings.DEFAULT_NODE_FOR_QUICK_LINK_RECT_SOCKET
-            elif self.bl_idname == "ContourSocket":
+            elif self.bl_idname == "OCVLContourSocket":
                 new_node_idname = settings.DEFAULT_NODE_FOR_QUICK_LINK_CONTOUR_SOCKET
-            elif self.bl_idname == "VectorSocket":
+            elif self.bl_idname == "OCVLVectorSocket":
                 new_node_idname = settings.DEFAULT_NODE_FOR_QUICK_LINK_VECTOR_SOCKET
             else:
                 return
@@ -348,11 +348,11 @@ class OCVLSocketBase:
         is_block_quick_link_requirements = True
 
         if self.use_quicklink:
-            if self.bl_idname == "ImageSocket":
+            if self.bl_idname == "OCVLImageSocket":
                 new_node_idname = settings.DEFAULT_NODE_FOR_QUICK_LINK_IMAGE_SOCKET_OUT
-            elif self.bl_idname == "ContourSocket":
+            elif self.bl_idname == "OCVLContourSocket":
                 new_node_idname = "OCVLdrawContoursNode"
-            elif self.bl_idname in ["StringsSocket", "VectorSocket"]:
+            elif self.bl_idname in ["OCVLMatrixSocket", "OCVLVectorSocket"]:
                 new_node_idname = "OCVLStethoscopeNode"
             else:
                 return
@@ -414,9 +414,9 @@ class OCVLSocketBase:
         return _draw_socket or settings.SOCKET_COLORS.__getattribute__(self.bl_idname)
 
 
-class ColorSocket(bpy.types.NodeSocket, OCVLSocketBase):
+class OCVLColorSocket(bpy.types.NodeSocket, OCVLSocketBase):
     '''For color data'''
-    bl_idname = "ColorSocket"
+    bl_idname = "OCVLColorSocket"
     bl_label = "Color Socket"
 
     prop: bpy.props.FloatVectorProperty(default=(0, 0, 0, 1), size=4, subtype='COLOR', min=0, max=1, update=process_from_socket)
@@ -446,67 +446,60 @@ class ColorSocket(bpy.types.NodeSocket, OCVLSocketBase):
             return default
 
 
-class StringsSocket(bpy.types.NodeSocket, OCVLSocketBase):
-    bl_idname = 'StringsSocket'
-    bl_label = 'StringsSocket'
+class OCVLMatrixSocket(bpy.types.NodeSocket, OCVLSocketBase):
+    bl_idname = 'OCVLMatrixSocket'
+    bl_label = 'OCVLMatrixSocket'
 
 
-class ImageSocket(bpy.types.NodeSocket, OCVLSocketBase):
-    bl_idname = 'ImageSocket'
-    bl_label = 'ImageSocket'
+class OCVLImageSocket(bpy.types.NodeSocket, OCVLSocketBase):
+    bl_idname = 'OCVLImageSocket'
+    bl_label = 'OCVLImageSocket'
 
 
-class MaskSocket(bpy.types.NodeSocket, OCVLSocketBase):
-    bl_idname = 'MaskSocket'
-    bl_label = 'MaskSocket'
+class OCVLMaskSocket(bpy.types.NodeSocket, OCVLSocketBase):
+    bl_idname = 'OCVLMaskSocket'
+    bl_label = 'OCVLMaskSocket'
 
 
-class RectSocket(bpy.types.NodeSocket, OCVLSocketBase):
-    bl_idname = 'RectSocket'
-    bl_label = 'RectSocket'
+class OCVLRectSocket(bpy.types.NodeSocket, OCVLSocketBase):
+    bl_idname = 'OCVLRectSocket'
+    bl_label = 'OCVLRectSocket'
 
 
-class ContourSocket(bpy.types.NodeSocket, OCVLSocketBase):
-    bl_idname = 'ContourSocket'
-    bl_label = 'ContourSocket'
+class OCVLContourSocket(bpy.types.NodeSocket, OCVLSocketBase):
+    bl_idname = 'OCVLContourSocket'
+    bl_label = 'OCVLContourSocket'
 
 
-class VectorSocket(bpy.types.NodeSocket, OCVLSocketBase):
-    bl_idname = 'VectorSocket'
-    bl_label = 'VectorSocket'
+class OCVLVectorSocket(bpy.types.NodeSocket, OCVLSocketBase):
+    bl_idname = 'OCVLVectorSocket'
+    bl_label = 'OCVLVectorSocket'
 
 
-class MatrixSocket(bpy.types.NodeSocket, OCVLSocketBase):
-    bl_idname = 'MatrixSocket'
-    bl_label = 'MatrixSocket'
-
-
-class StethoscopeSocket(bpy.types.NodeSocket, OCVLSocketBase):
-    bl_idname = 'StethoscopeSocket'
-    bl_label = 'StethoscopeSocket'
+class OCVLStethoscopeSocket(bpy.types.NodeSocket, OCVLSocketBase):
+    bl_idname = 'OCVLStethoscopeSocket'
+    bl_label = 'OCVLStethoscopeSocket'
 
 
 def register():
     ocvl_register(LinkNewNodeInput)
-    ocvl_register(ColorSocket)
-    ocvl_register(StringsSocket)
-    ocvl_register(ImageSocket)
-    ocvl_register(MaskSocket)
-    ocvl_register(RectSocket)
-    ocvl_register(ContourSocket)
-    ocvl_register(VectorSocket)
-    ocvl_register(MatrixSocket)
-    ocvl_register(StethoscopeSocket)
+    ocvl_register(OCVLColorSocket)
+    ocvl_register(OCVLMatrixSocket)
+    ocvl_register(OCVLImageSocket)
+    ocvl_register(OCVLMaskSocket)
+    ocvl_register(OCVLRectSocket)
+    ocvl_register(OCVLContourSocket)
+    ocvl_register(OCVLVectorSocket)
+    ocvl_register(OCVLStethoscopeSocket)
 
 
 def unregister():
     ocvl_unregister(LinkNewNodeInput)
-    ocvl_unregister(ColorSocket)
-    ocvl_unregister(StringsSocket)
-    ocvl_unregister(ImageSocket)
-    ocvl_unregister(MaskSocket)
-    ocvl_unregister(RectSocket)
-    ocvl_unregister(ContourSocket)
-    ocvl_unregister(VectorSocket)
-    ocvl_unregister(MatrixSocket)
-    ocvl_unregister(StethoscopeSocket)
+    ocvl_unregister(OCVLColorSocket)
+    ocvl_unregister(OCVLMatrixSocket)
+    ocvl_unregister(OCVLImageSocket)
+    ocvl_unregister(OCVLMaskSocket)
+    ocvl_unregister(OCVLRectSocket)
+    ocvl_unregister(OCVLContourSocket)
+    ocvl_unregister(OCVLVectorSocket)
+    ocvl_unregister(OCVLStethoscopeSocket)

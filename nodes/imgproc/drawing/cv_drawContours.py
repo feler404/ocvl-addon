@@ -29,16 +29,16 @@ class OCVLdrawContoursNode(OCVLNodeBase):
 
     def init(self, context):
         self.width = 250
-        self.inputs.new("ImageSocket", "image_in")
-        self.inputs.new('ContourSocket', "contours_in")
-        self.inputs.new('StringsSocket', "hierarchy_in")
-        self.inputs.new('StringsSocket', "contourIdx_in").prop_name = 'contourIdx_in'
-        self.inputs.new('ColorSocket', 'color_in').prop_name = 'color_in'
-        self.inputs.new('StringsSocket', "thickness_in").prop_name = 'thickness_in'
-        self.inputs.new('StringsSocket', "maxLevel_in").prop_name = 'maxLevel_in'
-        self.inputs.new('StringsSocket', "offset_in").prop_name = 'offset_in'
+        self.inputs.new("OCVLImageSocket", "image_in")
+        self.inputs.new('OCVLContourSocket', "contours_in")
+        self.inputs.new('OCVLMatrixSocket', "hierarchy_in")
+        self.inputs.new('OCVLMatrixSocket', "contourIdx_in").prop_name = 'contourIdx_in'
+        self.inputs.new('OCVLColorSocket', 'color_in').prop_name = 'color_in'
+        self.inputs.new('OCVLMatrixSocket', "thickness_in").prop_name = 'thickness_in'
+        self.inputs.new('OCVLMatrixSocket', "maxLevel_in").prop_name = 'maxLevel_in'
+        self.inputs.new('OCVLMatrixSocket', "offset_in").prop_name = 'offset_in'
 
-        self.outputs.new("ImageSocket", "image_out")
+        self.outputs.new("OCVLImageSocket", "image_out")
 
     def wrapped_process(self):
         kwargs = {

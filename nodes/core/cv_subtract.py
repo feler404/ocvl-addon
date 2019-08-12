@@ -17,11 +17,11 @@ class OCVLsubtractNode(OCVLNodeBase):
     dst_out: bpy.props.StringProperty(name="dst_out", default=str(uuid.uuid4()), description="Output array.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "src1_in")
-        self.inputs.new("ImageSocket", "src2_in")
-        self.inputs.new('MaskSocket', "mask_in")
+        self.inputs.new("OCVLImageSocket", "src1_in")
+        self.inputs.new("OCVLImageSocket", "src2_in")
+        self.inputs.new('OCVLMaskSocket', "mask_in")
 
-        self.outputs.new("ImageSocket", "dst_out")
+        self.outputs.new("OCVLImageSocket", "dst_out")
 
     def wrapped_process(self):
         kwargs = {

@@ -73,11 +73,11 @@ class OCVLImageSampleNode(OCVLPreviewNodeBase):
 
     def init(self, context):
         self.width = 200
-        self.inputs.new('ColorSocket', 'color_in').prop_name = 'color_in'
+        self.inputs.new('OCVLColorSocket', 'color_in').prop_name = 'color_in'
 
-        self.outputs.new('ImageSocket', 'image_out')
-        self.outputs.new('StringsSocket', 'width_out')
-        self.outputs.new('StringsSocket', 'height_out')
+        self.outputs.new('OCVLImageSocket', 'image_out')
+        self.outputs.new('OCVLMatrixSocket', 'width_out')
+        self.outputs.new('OCVLMatrixSocket', 'height_out')
 
         self.update_layout(context)
 

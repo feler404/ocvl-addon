@@ -25,18 +25,18 @@ class OCVLgoodFeaturesToTrackNode(OCVLNodeBase):
     image_out: bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output vector of detected corners.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "image_in")
-        self.inputs.new("MaskSocket", "mask_in")
-        self.inputs.new("StringsSocket", "maxCorners_in").prop_name = "maxCorners_in"
-        self.inputs.new("StringsSocket", "qualityLevel_in").prop_name = "qualityLevel_in"
-        self.inputs.new("StringsSocket", "minDistance_in").prop_name = "minDistance_in"
-        self.inputs.new("StringsSocket", "blockSize_in").prop_name = "blockSize_in"
-        self.inputs.new("StringsSocket", "gradientSize_in").prop_name = "gradientSize_in"
-        self.inputs.new("StringsSocket", "useHarrisDetector_in").prop_name = "useHarrisDetector_in"
-        self.inputs.new("StringsSocket", "k_in").prop_name = "k_in"
+        self.inputs.new("OCVLImageSocket", "image_in")
+        self.inputs.new("OCVLMaskSocket", "mask_in")
+        self.inputs.new("OCVLMatrixSocket", "maxCorners_in").prop_name = "maxCorners_in"
+        self.inputs.new("OCVLMatrixSocket", "qualityLevel_in").prop_name = "qualityLevel_in"
+        self.inputs.new("OCVLMatrixSocket", "minDistance_in").prop_name = "minDistance_in"
+        self.inputs.new("OCVLMatrixSocket", "blockSize_in").prop_name = "blockSize_in"
+        self.inputs.new("OCVLMatrixSocket", "gradientSize_in").prop_name = "gradientSize_in"
+        self.inputs.new("OCVLMatrixSocket", "useHarrisDetector_in").prop_name = "useHarrisDetector_in"
+        self.inputs.new("OCVLMatrixSocket", "k_in").prop_name = "k_in"
 
-        self.outputs.new("StringsSocket", "corners_out")
-        self.outputs.new("ImageSocket", "image_out")
+        self.outputs.new("OCVLMatrixSocket", "corners_out")
+        self.outputs.new("OCVLImageSocket", "image_out")
 
     def wrapped_process(self):
         self.check_input_requirements(["image_in"])

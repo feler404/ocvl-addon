@@ -18,10 +18,10 @@ class OCVLboundingRectNode(OCVLNodeBase):
     loc_from_findContours: bpy.props.BoolProperty(default=True, update=update_node, description="If linked with findContour node switch to True")
 
     def init(self, context):
-        self.inputs.new('ContourSocket', "points_in")
+        self.inputs.new('OCVLContourSocket', "points_in")
 
-        self.outputs.new("StringsSocket", "pt1_out")
-        self.outputs.new("StringsSocket", "pt2_out")
+        self.outputs.new("OCVLMatrixSocket", "pt1_out")
+        self.outputs.new("OCVLMatrixSocket", "pt2_out")
 
     def wrapped_process(self):
         kwargs = {

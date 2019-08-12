@@ -38,13 +38,13 @@ class OCVLsepFilter2dNode(OCVLNodeBase):
     dst_out: bpy.props.StringProperty(name="dst_out", default=str(uuid.uuid4()), description="Output image")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "src_in")
-        self.inputs.new("ImageSocket", "kernelX_in")
-        self.inputs.new("ImageSocket", "kernelY_in")
-        self.inputs.new('StringsSocket', "anchor_in").prop_name = 'anchor_in'
-        self.inputs.new('StringsSocket', "delta_in").prop_name = 'delta_in'
+        self.inputs.new("OCVLImageSocket", "src_in")
+        self.inputs.new("OCVLImageSocket", "kernelX_in")
+        self.inputs.new("OCVLImageSocket", "kernelY_in")
+        self.inputs.new('OCVLMatrixSocket', "anchor_in").prop_name = 'anchor_in'
+        self.inputs.new('OCVLMatrixSocket', "delta_in").prop_name = 'delta_in'
 
-        self.outputs.new("ImageSocket", "dst_out")
+        self.outputs.new("OCVLImageSocket", "dst_out")
 
     def wrapped_process(self):
         kwargs = {

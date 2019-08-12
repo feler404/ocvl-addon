@@ -14,10 +14,10 @@ class OCVLminEnclosingCircleNode(OCVLNodeBase):
     loc_from_findContours: bpy.props.BoolProperty(default=True, update=update_node, description="If linked with findContour node switch to True")
 
     def init(self, context):
-        self.inputs.new("ContourSocket", "points_in")
+        self.inputs.new("OCVLContourSocket", "points_in")
 
-        self.outputs.new("StringsSocket", "center_out")
-        self.outputs.new("StringsSocket", "radius_out")
+        self.outputs.new("OCVLMatrixSocket", "center_out")
+        self.outputs.new("OCVLMatrixSocket", "radius_out")
 
     def wrapped_process(self):
         kwargs = {

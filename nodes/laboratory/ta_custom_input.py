@@ -75,8 +75,8 @@ class OCVLCustomInputNode(OCVLNodeBase):
 
     def init(self, context):
         self.width = 200
-        self.inputs.new("ImageSocket", "image_in")
-        self.inputs.new("StringsSocket", INPUT_NAME_TEMPLATE.format(0))
+        self.inputs.new("OCVLImageSocket", "image_in")
+        self.inputs.new("OCVLMatrixSocket", INPUT_NAME_TEMPLATE.format(0))
         text = bpy.data.texts.get(self.name)
         if not text:
             bpy.data.texts.new(self.name)
@@ -117,7 +117,7 @@ class OCVLCustomInputNode(OCVLNodeBase):
         for var_name in new_vars:
             socket_name = var_name
             if socket_name not in self.outputs:
-                self.outputs.new("StringsSocket", socket_name)
+                self.outputs.new("OCVLMatrixSocket", socket_name)
             var_value = context[var_name]
             if self.is_uuid(var_value) and var_value in SOCKET_DATA_CACHE:
                 var_value = SOCKET_DATA_CACHE[var_value]
@@ -141,7 +141,7 @@ class OCVLCustomInputNode(OCVLNodeBase):
                 self.inputs.remove(self.inputs[input.name])
         if self.inputs[-1].is_linked:
             new_socket_name = INPUT_NAME_TEMPLATE.format(int(self.inputs[-1].name.split("_")[-1]) + 1)
-            self.inputs.new("StringsSocket", new_socket_name)
+            self.inputs.new("OCVLMatrixSocket", new_socket_name)
 
     def _get_context(self):
         context = {"bpy": bpy, "np": np, "cv2": cv2}

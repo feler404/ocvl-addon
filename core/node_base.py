@@ -331,7 +331,7 @@ class OCVLNodeBase(bpy.types.Node):
             split_prop_name = prop_name.split("|")
             if len(split_prop_name) == 1:
                 prop_name = split_prop_name[0]
-                socket_type = 'StringsSocket'
+                socket_type = 'OCVLMatrixSocket'
             else:
                 prop_name = split_prop_name[0]
                 socket_type = split_prop_name[1]

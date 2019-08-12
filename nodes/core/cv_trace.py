@@ -15,9 +15,9 @@ class OCVLtraceNode(OCVLNodeBase):
     retval_out: bpy.props.StringProperty(name="retval_out", default=str(uuid.uuid4()), description="Output.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "mtx_in")
+        self.inputs.new("OCVLImageSocket", "mtx_in")
 
-        self.outputs.new("StringsSocket", "retval_out")
+        self.outputs.new("OCVLMatrixSocket", "retval_out")
 
     def wrapped_process(self):
         kwargs = {

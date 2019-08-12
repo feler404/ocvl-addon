@@ -21,12 +21,12 @@ class OCVLfitLineNode(OCVLNodeBase):
     line_out: bpy.props.StringProperty(default=str(uuid.uuid4()), description="Output line parameters.")
 
     def init(self, context):
-        self.inputs.new("ContourSocket", "points_in")
-        self.inputs.new("StringsSocket", "param_in").prop_name = "param_in"
-        self.inputs.new("StringsSocket", "reps_in").prop_name = "reps_in"
-        self.inputs.new("StringsSocket", "aeps_in").prop_name = "aeps_in"
+        self.inputs.new("OCVLContourSocket", "points_in")
+        self.inputs.new("OCVLMatrixSocket", "param_in").prop_name = "param_in"
+        self.inputs.new("OCVLMatrixSocket", "reps_in").prop_name = "reps_in"
+        self.inputs.new("OCVLMatrixSocket", "aeps_in").prop_name = "aeps_in"
 
-        self.outputs.new("StringsSocket", "line_out")
+        self.outputs.new("OCVLMatrixSocket", "line_out")
 
     def wrapped_process(self):
         kwargs = {

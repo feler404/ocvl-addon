@@ -18,12 +18,12 @@ class OCVLgetRectSubPixNode(OCVLNodeBase):
     patch_out: bpy.props.StringProperty(name="patch_out", default=str(uuid.uuid4()), description="Patch out")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "image_in")
-        self.inputs.new("StringsSocket", "patchSize_in").prop_name = "patchSize_in"
-        self.inputs.new("StringsSocket", "center_in").prop_name = "center_in"
-        self.inputs.new("StringsSocket", "patchType_in").prop_name = "patchType_in"
+        self.inputs.new("OCVLImageSocket", "image_in")
+        self.inputs.new("OCVLMatrixSocket", "patchSize_in").prop_name = "patchSize_in"
+        self.inputs.new("OCVLMatrixSocket", "center_in").prop_name = "center_in"
+        self.inputs.new("OCVLMatrixSocket", "patchType_in").prop_name = "patchType_in"
 
-        self.outputs.new("StringsSocket", "patch_out")
+        self.outputs.new("OCVLMatrixSocket", "patch_out")
 
     def wrapped_process(self):
         kwargs = {

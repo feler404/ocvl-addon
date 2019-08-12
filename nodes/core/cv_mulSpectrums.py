@@ -24,10 +24,10 @@ class OCVLmulSpectrumsNode(OCVLNodeBase):
     c_out: bpy.props.StringProperty(name="c_out", default=str(uuid.uuid4()), description="Output array.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "a_in")
-        self.inputs.new("ImageSocket", "b_in")
+        self.inputs.new("OCVLImageSocket", "a_in")
+        self.inputs.new("OCVLImageSocket", "b_in")
 
-        self.outputs.new("ImageSocket", "c_out")
+        self.outputs.new("OCVLImageSocket", "c_out")
 
     def wrapped_process(self):
         kwargs = {

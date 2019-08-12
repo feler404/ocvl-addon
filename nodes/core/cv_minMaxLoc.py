@@ -20,13 +20,13 @@ class OCVLminMaxLocNode(OCVLNodeBase):
     maxLoc_out: bpy.props.StringProperty(name="maxLoc_out", default=str(uuid.uuid4()), description="Pointer to the returned maximum location (in 2D case); NULL is used if not required.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "src_in")
-        self.inputs.new("MaskSocket", "mask_in")
+        self.inputs.new("OCVLImageSocket", "src_in")
+        self.inputs.new("OCVLMaskSocket", "mask_in")
 
-        self.outputs.new("StringsSocket", "minVal_out")
-        self.outputs.new("StringsSocket", "maxVal_out")
-        self.outputs.new("StringsSocket", "minLoc_out")
-        self.outputs.new("StringsSocket", "maxLoc_out")
+        self.outputs.new("OCVLMatrixSocket", "minVal_out")
+        self.outputs.new("OCVLMatrixSocket", "maxVal_out")
+        self.outputs.new("OCVLMatrixSocket", "minLoc_out")
+        self.outputs.new("OCVLMatrixSocket", "maxLoc_out")
 
     def wrapped_process(self):
         kwargs = {

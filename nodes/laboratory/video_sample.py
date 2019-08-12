@@ -60,9 +60,9 @@ class OCVLVideoSampleNode(OCVLPreviewNodeBase):
 
     def init(self, context):
         self.width = 200
-        self.outputs.new('ImageSocket', 'image_out')
-        self.outputs.new('StringsSocket', 'width_out')
-        self.outputs.new('StringsSocket', 'height_out')
+        self.outputs.new('OCVLImageSocket', 'image_out')
+        self.outputs.new('OCVLMatrixSocket', 'width_out')
+        self.outputs.new('OCVLMatrixSocket', 'height_out')
         bpy.app.handlers.frame_change_pre.append(self.wrapped_process)
         self.update_layout(context)
 

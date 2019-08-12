@@ -52,18 +52,18 @@ class OCVLfindHomographyNode(OCVLNodeBase):
     loc_work_mode: bpy.props.EnumProperty(items=WORK_MODE_ITEMS, default="DEFAULT", update=update_layout, description="")
 
     def init(self, context):
-        self.inputs.new("StringsSocket", "srcPoints_in")
-        self.inputs.new("StringsSocket", "dstPoints_in")
-        self.inputs.new("StringsSocket", "matches_in")
-        self.inputs.new("StringsSocket", "keypoints1_in")
-        self.inputs.new("StringsSocket", "keypoints2_in")
-        # self.inputs.new("StringsSocket", "img1_in")
-        # self.inputs.new("StringsSocket", "img2_in")
-        self.inputs.new("StringsSocket", "ransacReprojThreshold_in").prop_name = "ransacReprojThreshold_in"
+        self.inputs.new("OCVLMatrixSocket", "srcPoints_in")
+        self.inputs.new("OCVLMatrixSocket", "dstPoints_in")
+        self.inputs.new("OCVLMatrixSocket", "matches_in")
+        self.inputs.new("OCVLMatrixSocket", "keypoints1_in")
+        self.inputs.new("OCVLMatrixSocket", "keypoints2_in")
+        # self.inputs.new("OCVLMatrixSocket", "img1_in")
+        # self.inputs.new("OCVLMatrixSocket", "img2_in")
+        self.inputs.new("OCVLMatrixSocket", "ransacReprojThreshold_in").prop_name = "ransacReprojThreshold_in"
 
-        self.outputs.new("StringsSocket", "mask_out")
-        self.outputs.new("StringsSocket", "retval_out")
-        # self.outputs.new("StringsSocket", "img3_out")
+        self.outputs.new("OCVLMatrixSocket", "mask_out")
+        self.outputs.new("OCVLMatrixSocket", "retval_out")
+        # self.outputs.new("OCVLMatrixSocket", "img3_out")
         self.update_layout(context)
 
     def wrapped_process(self):

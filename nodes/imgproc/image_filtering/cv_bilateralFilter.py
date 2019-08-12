@@ -21,12 +21,12 @@ class OCVLbilateralFilterNode(OCVLNodeBase):
 
     def init(self, context):
         self.width = 150
-        self.inputs.new("ImageSocket", "src_in")
-        self.inputs.new('StringsSocket', "d_in").prop_name = 'd_in'
-        self.inputs.new('StringsSocket', "sigmaColor_in").prop_name = 'sigmaColor_in'
-        self.inputs.new('StringsSocket', "sigmaSpace_in").prop_name = 'sigmaSpace_in'
+        self.inputs.new("OCVLImageSocket", "src_in")
+        self.inputs.new('OCVLMatrixSocket', "d_in").prop_name = 'd_in'
+        self.inputs.new('OCVLMatrixSocket', "sigmaColor_in").prop_name = 'sigmaColor_in'
+        self.inputs.new('OCVLMatrixSocket', "sigmaSpace_in").prop_name = 'sigmaSpace_in'
 
-        self.outputs.new("ImageSocket", "dst_out")
+        self.outputs.new("OCVLImageSocket", "dst_out")
 
     def wrapped_process(self):
         kwargs = {

@@ -23,10 +23,10 @@ class OCVLpolarToCartNode(OCVLNodeBase):
     y_out: bpy.props.StringProperty(name="y_out", default=str(uuid.uuid4()), description="Output array of y-coordinates of 2D vectors; it has the same size and type as angle.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "magnitude_in")
-        self.inputs.new("ImageSocket", "angle")
-        self.outputs.new("StringsSocket", "x_out")
-        self.outputs.new("StringsSocket", "y_out")
+        self.inputs.new("OCVLImageSocket", "magnitude_in")
+        self.inputs.new("OCVLImageSocket", "angle")
+        self.outputs.new("OCVLMatrixSocket", "x_out")
+        self.outputs.new("OCVLMatrixSocket", "y_out")
 
     def wrapped_process(self):
         kwargs = {

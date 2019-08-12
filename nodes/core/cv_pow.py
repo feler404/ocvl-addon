@@ -17,9 +17,9 @@ class OCVLpowNode(OCVLNodeBase):
     dst_out: bpy.props.StringProperty(name="angle_out", default=str(uuid.uuid4()), description="Output array of the same size and type as src.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "src_in")
-        self.inputs.new("StringsSocket", "power_in").prop_name = "power_in"
-        self.outputs.new("ImageSocket", "dst_out")
+        self.inputs.new("OCVLImageSocket", "src_in")
+        self.inputs.new("OCVLMatrixSocket", "power_in").prop_name = "power_in"
+        self.outputs.new("OCVLImageSocket", "dst_out")
 
     def wrapped_process(self):
         kwargs = {

@@ -17,11 +17,11 @@ class OCVLdetailEnhanceNode(OCVLNodeBase):
     dst_out: bpy.props.StringProperty(name="dst_out", default=str(uuid.uuid4()), description="Output image with the same size and type as src.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "src_in")
-        self.inputs.new("StringsSocket", "sigma_s_in").prop_name = "sigma_s_in"
-        self.inputs.new("StringsSocket", "sigma_r_in").prop_name = "sigma_r_in"
+        self.inputs.new("OCVLImageSocket", "src_in")
+        self.inputs.new("OCVLMatrixSocket", "sigma_s_in").prop_name = "sigma_s_in"
+        self.inputs.new("OCVLMatrixSocket", "sigma_r_in").prop_name = "sigma_r_in"
 
-        self.outputs.new("ImageSocket", "dst_out")
+        self.outputs.new("OCVLImageSocket", "dst_out")
 
     def wrapped_process(self):
         kwargs = {

@@ -17,10 +17,10 @@ class OCVLsetIdentityNode(OCVLNodeBase):
     mtx_out: bpy.props.StringProperty(name="mtx_out", default=str(uuid.uuid4()), description="Output array of the same type as mtx.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "mtx_in")
-        self.inputs.new("StringsSocket", "s_in").prop_name = "s_in"
+        self.inputs.new("OCVLImageSocket", "mtx_in")
+        self.inputs.new("OCVLMatrixSocket", "s_in").prop_name = "s_in"
 
-        self.outputs.new("ImageSocket", "mtx_out")
+        self.outputs.new("OCVLImageSocket", "mtx_out")
 
     def wrapped_process(self):
         kwargs = {

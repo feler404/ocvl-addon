@@ -20,10 +20,10 @@ class OCVLLUTNode(OCVLNodeBase):
     dst_out: bpy.props.StringProperty(name="dst_out", default=str(uuid.uuid4()), description="Output array of the same size and number of channels as src, and the same depth as lut.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "src_in")
-        self.inputs.new('VectorSocket', "lut_in")
+        self.inputs.new("OCVLImageSocket", "src_in")
+        self.inputs.new('OCVLVectorSocket', "lut_in")
 
-        self.outputs.new("StringsSocket", "dst_out")
+        self.outputs.new("OCVLMatrixSocket", "dst_out")
 
     def wrapped_process(self):
         kwargs = {

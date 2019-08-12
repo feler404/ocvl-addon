@@ -23,10 +23,10 @@ class OCVLgetStructuringElementNode(OCVLNodeBase):
 
     def init(self, context):
         self.width = 200
-        self.inputs.new('StringsSocket', "ksize_in").prop_name = 'ksize_in'
-        self.inputs.new('StringsSocket', "anchor_in").prop_name = 'anchor_in'
+        self.inputs.new('OCVLMatrixSocket', "ksize_in").prop_name = 'ksize_in'
+        self.inputs.new('OCVLMatrixSocket', "anchor_in").prop_name = 'anchor_in'
 
-        self.outputs.new("StringsSocket", "retval_out")
+        self.outputs.new("OCVLMatrixSocket", "retval_out")
 
     def wrapped_process(self):
         kwargs = {

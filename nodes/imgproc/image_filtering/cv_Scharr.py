@@ -21,13 +21,13 @@ class OCVLScharrNode(OCVLNodeBase):
     dst_out: bpy.props.StringProperty(name="dst_out", default=str(uuid.uuid4()), description="Output image.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "src_in")
-        self.inputs.new('StringsSocket', "dx_in").prop_name = 'dx_in'
-        self.inputs.new('StringsSocket', "dy_in").prop_name = 'dy_in'
-        self.inputs.new('StringsSocket', "scale_in").prop_name = 'scale_in'
-        self.inputs.new('StringsSocket', "delta_in").prop_name = 'delta_in'
+        self.inputs.new("OCVLImageSocket", "src_in")
+        self.inputs.new('OCVLMatrixSocket', "dx_in").prop_name = 'dx_in'
+        self.inputs.new('OCVLMatrixSocket', "dy_in").prop_name = 'dy_in'
+        self.inputs.new('OCVLMatrixSocket', "scale_in").prop_name = 'scale_in'
+        self.inputs.new('OCVLMatrixSocket', "delta_in").prop_name = 'delta_in'
 
-        self.outputs.new("ImageSocket", "dst_out")
+        self.outputs.new("OCVLImageSocket", "dst_out")
 
     def wrapped_process(self):
         kwargs = {

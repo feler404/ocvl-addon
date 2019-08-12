@@ -65,12 +65,12 @@ class OCVLFeature2DNode:
 
     def init(self, context):
         self.width = 250
-        self.inputs.new("ImageSocket", "image_in")
-        self.inputs.new("MaskSocket", "mask_in")
-        self.inputs.new("StringsSocket", "keypoints_in")
+        self.inputs.new("OCVLImageSocket", "image_in")
+        self.inputs.new("OCVLMaskSocket", "mask_in")
+        self.inputs.new("OCVLMatrixSocket", "keypoints_in")
 
-        self.outputs.new("StringsSocket", "keypoints_out")
-        self.outputs.new("StringsSocket", "descriptors_out")
+        self.outputs.new("OCVLMatrixSocket", "keypoints_out")
+        self.outputs.new("OCVLMatrixSocket", "descriptors_out")
         InitFeature2DOperator.update_class_instance_dict(self, self.id_data.name, self.name)
         FEATURE2D_INSTANCES_DICT.get("{}.{}".format(self.id_data.name, self.name))
         self.update_layout(context)

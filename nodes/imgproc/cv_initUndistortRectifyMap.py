@@ -27,14 +27,14 @@ class OCVLinitUndistortRectifyMapNode(OCVLNodeBase):
     map2_out: bpy.props.StringProperty(name="map2_out", default=str(uuid.uuid4()), description="Second output map")
 
     def init(self, context):
-        self.inputs.new("StringsSocket", "cameraMatrix_in")
-        self.inputs.new("StringsSocket", "distCoeffs_in")
-        self.inputs.new("StringsSocket", "newCameraMatrix")
-        self.inputs.new("StringsSocket", "R_in")
-        self.inputs.new("StringsSocket", "size_in").prop_name = "size_in"
+        self.inputs.new("OCVLMatrixSocket", "cameraMatrix_in")
+        self.inputs.new("OCVLMatrixSocket", "distCoeffs_in")
+        self.inputs.new("OCVLMatrixSocket", "newCameraMatrix")
+        self.inputs.new("OCVLMatrixSocket", "R_in")
+        self.inputs.new("OCVLMatrixSocket", "size_in").prop_name = "size_in"
 
-        self.outputs.new("StringsSocket", "map1_out")
-        self.outputs.new("StringsSocket", "map2_out")
+        self.outputs.new("OCVLMatrixSocket", "map1_out")
+        self.outputs.new("OCVLMatrixSocket", "map2_out")
 
     def wrapped_process(self):
         kwargs = {

@@ -15,9 +15,9 @@ class OCVLtransposeNode(OCVLNodeBase):
     dst_out: bpy.props.StringProperty(name="dst_out", default=str(uuid.uuid4()), description="Output array.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "src_in")
+        self.inputs.new("OCVLImageSocket", "src_in")
 
-        self.outputs.new("ImageSocket", "dst_out")
+        self.outputs.new("OCVLImageSocket", "dst_out")
 
     def wrapped_process(self):
         kwargs = {

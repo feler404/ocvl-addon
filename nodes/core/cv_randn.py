@@ -18,11 +18,11 @@ class OCVLrandnNode(OCVLNodeBase):
     dst_out: bpy.props.StringProperty(name="dst_out", default=str(uuid.uuid4()), description="Output array of random numbers; the array must be pre-allocated.")
 
     def init(self, context):
-        self.inputs.new("StringsSocket", "mean_in").prop_name = "mean_in"
-        self.inputs.new("StringsSocket", "stddev_in").prop_name = "stddev_in"
-        self.inputs.new("ImageSocket", "dst_in")
+        self.inputs.new("OCVLMatrixSocket", "mean_in").prop_name = "mean_in"
+        self.inputs.new("OCVLMatrixSocket", "stddev_in").prop_name = "stddev_in"
+        self.inputs.new("OCVLImageSocket", "dst_in")
 
-        self.outputs.new("ImageSocket", "dst_out")
+        self.outputs.new("OCVLImageSocket", "dst_out")
 
     def wrapped_process(self):
         kwargs = {

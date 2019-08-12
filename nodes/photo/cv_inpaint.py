@@ -21,11 +21,11 @@ class OCVLinpaintNode(OCVLNodeBase):
     image_out: bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="desc")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "image_in")
-        self.inputs.new('MaskSocket', "inpaintMask_in")
-        self.inputs.new('StringsSocket', "inpaintRadius_in").prop_name = 'inpaintRadius_in'
+        self.inputs.new("OCVLImageSocket", "image_in")
+        self.inputs.new('OCVLMaskSocket', "inpaintMask_in")
+        self.inputs.new('OCVLMatrixSocket', "inpaintRadius_in").prop_name = 'inpaintRadius_in'
 
-        self.outputs.new("ImageSocket", "image_out")
+        self.outputs.new("OCVLImageSocket", "image_out")
 
     def wrapped_process(self):
         kwargs = {

@@ -17,10 +17,10 @@ class OCVLgetDefaultNewCameraMatrixNode(OCVLNodeBase):
     retval_out: bpy.props.StringProperty(name="retval_out", default=str(uuid.uuid4()), description="Return value.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "cameraMatrix_in")
-        self.inputs.new("StringsSocket", "imgsize_in").prop_name = "imgsize_in"
+        self.inputs.new("OCVLImageSocket", "cameraMatrix_in")
+        self.inputs.new("OCVLMatrixSocket", "imgsize_in").prop_name = "imgsize_in"
 
-        self.outputs.new("StringsSocket", "retval_out")
+        self.outputs.new("OCVLMatrixSocket", "retval_out")
 
     def wrapped_process(self):
         kwargs = {

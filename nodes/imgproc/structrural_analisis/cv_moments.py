@@ -17,8 +17,8 @@ class OCVLmomentsNode(OCVLNodeBase):
     retval_out: bpy.props.StringProperty(name="retval_out", default=str(uuid.uuid4()), description="Output moments.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "array_in")
-        self.outputs.new("StringsSocket", "retval_out")
+        self.inputs.new("OCVLImageSocket", "array_in")
+        self.outputs.new("OCVLMatrixSocket", "retval_out")
 
     def wrapped_process(self):
         kwargs = {

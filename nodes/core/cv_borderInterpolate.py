@@ -16,10 +16,10 @@ class OCVLborderInterpolateNode(OCVLNodeBase):
 
     def init(self, context):
         self.width = 250
-        self.inputs.new("StringsSocket", "p_in").prop_name = "p_in"
-        self.inputs.new("StringsSocket", "len_in").prop_name = "len_in"
+        self.inputs.new("OCVLMatrixSocket", "p_in").prop_name = "p_in"
+        self.inputs.new("OCVLMatrixSocket", "len_in").prop_name = "len_in"
 
-        self.outputs.new("StringsSocket", "retval_out")
+        self.outputs.new("OCVLMatrixSocket", "retval_out")
 
     def wrapped_process(self):
         kwargs = {

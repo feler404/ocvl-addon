@@ -22,9 +22,9 @@ class OCVLmagnitudeNode(OCVLNodeBase):
 
     def init(self, context):
         self.width = 150
-        self.inputs.new("ImageSocket", "x_in")
-        self.inputs.new("ImageSocket", "y_in")
-        self.outputs.new("ImageSocket", "magnitude_out")
+        self.inputs.new("OCVLImageSocket", "x_in")
+        self.inputs.new("OCVLImageSocket", "y_in")
+        self.outputs.new("OCVLImageSocket", "magnitude_out")
 
     def wrapped_process(self):
 

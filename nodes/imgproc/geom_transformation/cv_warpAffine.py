@@ -26,11 +26,11 @@ class OCVLwarpAffineNode(OCVLNodeBase):
 
     def init(self, context):
         self.width = 250
-        self.inputs.new("ImageSocket", "src_in")
-        self.inputs.new('ImageSocket', "M_in")
-        self.inputs.new('StringsSocket', "dsize_in").prop_name = 'dsize_in'
+        self.inputs.new("OCVLImageSocket", "src_in")
+        self.inputs.new('OCVLImageSocket', "M_in")
+        self.inputs.new('OCVLMatrixSocket', "dsize_in").prop_name = 'dsize_in'
 
-        self.outputs.new("ImageSocket", "dst_out")
+        self.outputs.new("OCVLImageSocket", "dst_out")
 
     def wrapped_process(self):
         kwargs = {

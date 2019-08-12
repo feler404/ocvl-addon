@@ -19,13 +19,13 @@ class OCVLundistortPointsNode(OCVLNodeBase):
     dst_out: bpy.props.StringProperty(name="dst_out", default=str(uuid.uuid4()), description="Output ideal point coordinates after undistortion and reverse perspective transformation. If matrix P is identity or omitted, dst will contain normalized point coordinates.")
 
     def init(self, context):
-        self.inputs.new("StringsSocket", "src_in")
-        self.inputs.new("StringsSocket", "cameraMatrix_in")
-        self.inputs.new("StringsSocket", "distCoeffs_in")
-        self.inputs.new("StringsSocket", "R_in")
-        self.inputs.new("StringsSocket", "P_in")
+        self.inputs.new("OCVLMatrixSocket", "src_in")
+        self.inputs.new("OCVLMatrixSocket", "cameraMatrix_in")
+        self.inputs.new("OCVLMatrixSocket", "distCoeffs_in")
+        self.inputs.new("OCVLMatrixSocket", "R_in")
+        self.inputs.new("OCVLMatrixSocket", "P_in")
 
-        self.outputs.new("StringsSocket", "dst_out")
+        self.outputs.new("OCVLMatrixSocket", "dst_out")
 
     def wrapped_process(self):
         kwargs = {

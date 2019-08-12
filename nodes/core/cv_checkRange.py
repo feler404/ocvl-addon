@@ -29,12 +29,12 @@ class OCVLcheckRangeNode(OCVLNodeBase):
     dst_out: bpy.props.StringProperty(name="dst_out", default=str(uuid.uuid4()), description="Output array that has the same size and type as the input arrays.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "a_in")
-        self.inputs.new("StringsSocket", "minVal_in").prop_name = "minVal_in"
-        self.inputs.new("StringsSocket", "maxVal_in").prop_name = "maxVal_in"
+        self.inputs.new("OCVLImageSocket", "a_in")
+        self.inputs.new("OCVLMatrixSocket", "minVal_in").prop_name = "minVal_in"
+        self.inputs.new("OCVLMatrixSocket", "maxVal_in").prop_name = "maxVal_in"
 
-        self.outputs.new("StringsSocket", "retval_out")
-        self.outputs.new("StringsSocket", "pos_out")
+        self.outputs.new("OCVLMatrixSocket", "retval_out")
+        self.outputs.new("OCVLMatrixSocket", "pos_out")
 
     def wrapped_process(self):
         kwargs = {

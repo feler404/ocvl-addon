@@ -37,12 +37,12 @@ class OCVLmergeNode(OCVLNodeBase):
     image_out: bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Image output.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "layer_0_in")
-        self.inputs.new("ImageSocket", "layer_1_in")
-        self.inputs.new("ImageSocket", "layer_2_in")
-        # self.inputs.new("StringsSocket", "layer_3_in")
+        self.inputs.new("OCVLImageSocket", "layer_0_in")
+        self.inputs.new("OCVLImageSocket", "layer_1_in")
+        self.inputs.new("OCVLImageSocket", "layer_2_in")
+        # self.inputs.new("OCVLMatrixSocket", "layer_3_in")
 
-        self.outputs.new("ImageSocket", "image_out")
+        self.outputs.new("OCVLImageSocket", "image_out")
 
     def wrapped_process(self):
         mv_tmp = []

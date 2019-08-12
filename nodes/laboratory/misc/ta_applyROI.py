@@ -21,11 +21,11 @@ class OCVLApplyROINode(OCVLNodeBase):
 
     def init(self, context):
         self.width = 200
-        self.inputs.new("ImageSocket", "image_in")
-        self.inputs.new("ImageSocket", "image_roi_in")
-        self.inputs.new('StringsSocket', "pt1_in").prop_name = 'pt1_in'
+        self.inputs.new("OCVLImageSocket", "image_in")
+        self.inputs.new("OCVLImageSocket", "image_roi_in")
+        self.inputs.new('OCVLMatrixSocket', "pt1_in").prop_name = 'pt1_in'
 
-        self.outputs.new("ImageSocket", "image_out")
+        self.outputs.new("OCVLImageSocket", "image_out")
 
     def wrapped_process(self):
         image_in = self.get_from_props("image_in")

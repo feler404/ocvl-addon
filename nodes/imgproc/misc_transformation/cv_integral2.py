@@ -25,10 +25,10 @@ class OCVLintegral2Node(OCVLNodeBase):
     sqsum_out: bpy.props.StringProperty(name="sqsum_out", default=str(uuid.uuid4()), description="integral image for squared pixel values; it is (W+1) x (H+1), double-precision floating-point (64f) array.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "src_in")
+        self.inputs.new("OCVLImageSocket", "src_in")
 
-        self.outputs.new("ImageSocket", "sum_out")
-        self.outputs.new("ImageSocket", "sqsum_out")
+        self.outputs.new("OCVLImageSocket", "sum_out")
+        self.outputs.new("OCVLImageSocket", "sqsum_out")
 
     def wrapped_process(self):
         sdepth_in = self.get_from_props("sdepth_in")

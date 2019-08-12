@@ -16,9 +16,9 @@ class OCVLmeanNode(OCVLNodeBase):
     retval_out: bpy.props.StringProperty(name="retval_out", default=str(uuid.uuid4()), description="Output parameter: calculated mean value.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "src_in")
-        self.inputs.new("MaskSocket", "mask_in")
-        self.outputs.new("VectorSocket", "retval_out")
+        self.inputs.new("OCVLImageSocket", "src_in")
+        self.inputs.new("OCVLMaskSocket", "mask_in")
+        self.outputs.new("OCVLVectorSocket", "retval_out")
 
     def wrapped_process(self):
         kwargs = {

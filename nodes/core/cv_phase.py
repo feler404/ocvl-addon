@@ -22,9 +22,9 @@ class OCVLphaseNode(OCVLNodeBase):
     angle_out: bpy.props.StringProperty(name="angle_out", default=str(uuid.uuid4()), description="Output array of vector angles; it has the same size and same type as x.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "x_in")
-        self.inputs.new("ImageSocket", "y_in")
-        self.outputs.new("StringsSocket", "angle_out")
+        self.inputs.new("OCVLImageSocket", "x_in")
+        self.inputs.new("OCVLImageSocket", "y_in")
+        self.outputs.new("OCVLMatrixSocket", "angle_out")
 
     def wrapped_process(self):
         kwargs = {
