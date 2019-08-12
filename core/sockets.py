@@ -130,8 +130,8 @@ def recursive_framed_location_finder(node, loc_xy):
         return locx, locy
 
 
-class LinkNewNodeInput(bpy.types.Operator):
-    bl_idname = "node.quick_link_new_node"
+class OCVL_OT_LinkNewNodeInput(bpy.types.Operator):
+    bl_idname = "ocvl.quick_link_new_node"
     bl_label = "Add a new node to the left"
 
     socket_index: bpy.props.IntProperty()
@@ -335,7 +335,7 @@ class OCVLSocketBase:
 
             icon = "PLUGIN" if node.inputs[self.index].name in node.n_requirements.get("__and__", []) else "SNAP_ON"
             icon = "PARTICLEMODE" if node.n_quick_link_requirements.get("multi_link", [None])[0] == node.inputs[self.index].name else icon
-            op = layout.operator('node.quick_link_new_node', text="", icon=icon)
+            op = layout.operator('ocvl.quick_link_new_node', text="", icon=icon)
             op.is_block_quick_link_requirements = False
             op.socket_index = self.index
             op.origin = node.name
@@ -366,7 +366,7 @@ class OCVLSocketBase:
             except (Exception, LackRequiredSocket) as e:
                 op_icon = "NONE"
 
-            op = layout.operator('node.quick_link_new_node', text="", icon=op_icon)
+            op = layout.operator('ocvl.quick_link_new_node', text="", icon=op_icon)
             op.is_block_quick_link_requirements = is_block_quick_link_requirements
             op.socket_index = self.index
             op.origin = node.name
@@ -482,7 +482,7 @@ class OCVLStethoscopeSocket(bpy.types.NodeSocket, OCVLSocketBase):
 
 
 def register():
-    ocvl_register(LinkNewNodeInput)
+    ocvl_register(OCVL_OT_LinkNewNodeInput)
     ocvl_register(OCVLColorSocket)
     ocvl_register(OCVLMatrixSocket)
     ocvl_register(OCVLImageSocket)
@@ -494,7 +494,7 @@ def register():
 
 
 def unregister():
-    ocvl_unregister(LinkNewNodeInput)
+    ocvl_unregister(OCVL_OT_LinkNewNodeInput)
     ocvl_unregister(OCVLColorSocket)
     ocvl_unregister(OCVLMatrixSocket)
     ocvl_unregister(OCVLImageSocket)

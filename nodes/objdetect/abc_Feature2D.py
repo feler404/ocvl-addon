@@ -3,7 +3,7 @@ import uuid
 import bpy
 
 from ocvl.core.globals import FEATURE2D_INSTANCES_DICT
-from ocvl.operatores.abc import InitFeature2DOperator
+from ocvl.operatores.abc import OCVL_OT_InitFeature2DOperator
 from ocvl.core.node_base import update_node
 
 
@@ -43,7 +43,7 @@ class OCVLFeature2DNode:
         update_node(self, context)
 
     def update_and_init(self, context):
-        InitFeature2DOperator.update_class_instance_dict(self, self.id_data.name, self.name)
+        OCVL_OT_InitFeature2DOperator.update_class_instance_dict(self, self.id_data.name, self.name)
         self.update_sockets(context)
         update_node(self, context)
 
@@ -71,7 +71,7 @@ class OCVLFeature2DNode:
 
         self.outputs.new("OCVLMatrixSocket", "keypoints_out")
         self.outputs.new("OCVLMatrixSocket", "descriptors_out")
-        InitFeature2DOperator.update_class_instance_dict(self, self.id_data.name, self.name)
+        OCVL_OT_InitFeature2DOperator.update_class_instance_dict(self, self.id_data.name, self.name)
         FEATURE2D_INSTANCES_DICT.get("{}.{}".format(self.id_data.name, self.name))
         self.update_layout(context)
 
@@ -87,9 +87,9 @@ class OCVLFeature2DNode:
         self.add_button(layout=layout, prop_name='loc_work_mode', expand=True)
         self.add_button(layout=layout, prop_name='loc_state_mode', expand=True)
         if self.loc_state_mode == "INIT":
-            layout.operator("node.init_feature_2d", icon='MENU_PANEL').origin = origin
+            layout.operator("ocvl.init_feature_2d", icon='MENU_PANEL').origin = origin
             layout.label(text="Instance: {}".format(self.loc_class_repr))
-            for key in InitFeature2DOperator.get_init_kwargs(self):
+            for key in OCVL_OT_InitFeature2DOperator.get_init_kwargs(self):
                 arg_name = key
                 if arg_name.startswith("_"):
                     arg_name = "T1" + arg_name

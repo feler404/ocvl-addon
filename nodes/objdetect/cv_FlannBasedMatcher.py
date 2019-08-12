@@ -4,7 +4,7 @@ import uuid
 import bpy
 
 from ocvl.core.globals import DESCRIPTORMATCHER_INSTANCES_DICT
-from ocvl.operatores.abc import InitDescriptorMatcherOperator
+from ocvl.operatores.abc import OCVL_OT_InitDescriptorMatcherOperator
 from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
@@ -85,7 +85,7 @@ class OCVLFlannBasedMatcherNode(OCVLNodeBase):
         self.inputs.new("OCVLMaskSocket", "mask_in")
 
         self.outputs.new("OCVLMatrixSocket", "matches_out")
-        InitDescriptorMatcherOperator.update_class_instance_dict(self, self.id_data.name, self.name)
+        OCVL_OT_InitDescriptorMatcherOperator.update_class_instance_dict(self, self.id_data.name, self.name)
         self.update_layout(context)
 
     def update_sockets(self, context):
@@ -109,9 +109,9 @@ class OCVLFlannBasedMatcherNode(OCVLNodeBase):
         self.add_button(layout=layout, prop_name='loc_work_mode', expand=True)
         self.add_button(layout=layout, prop_name='loc_state_mode', expand=True)
         if self.loc_state_mode == "INIT":
-            layout.operator("node.init_feature_2d", icon='MENU_PANEL').origin = origin
+            layout.operator("ocvl.init_feature_2d", icon='MENU_PANEL').origin = origin
             layout.label(text="Instance: {}".format(self.loc_class_repr))
-            for key in InitDescriptorMatcherOperator.get_init_kwargs(self):
+            for key in OCVL_OT_InitDescriptorMatcherOperator.get_init_kwargs(self):
                 layout.row().prop(self, "{}_init".format(key))
         elif self.loc_state_mode == "LOAD":
             layout.row().prop(self, "loc_file_load")

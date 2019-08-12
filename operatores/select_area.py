@@ -8,8 +8,8 @@ from ocvl.core.blender_ui import redrawAll, iterAreas, splitAreaVertical, splitA
 from ocvl.core.register_utils import ocvl_register, ocvl_unregister
 
 
-class SelectArea(bpy.types.Operator):
-    bl_idname = "an.select_area"
+class OCVL_OT_SelectArea(bpy.types.Operator):
+    bl_idname = "ocvl.select_area"
     bl_label = "Select Area"
     bl_description = ""
     bl_options = {"REGISTER"}
@@ -221,8 +221,8 @@ def isPointInArea(area, point):
 
 
 def register():
-    ocvl_register(SelectArea)
+    ocvl_register(OCVL_OT_SelectArea)
 
 
 def unregister():
-    ocvl_unregister(SelectArea)
+    ocvl_unregister(OCVL_OT_SelectArea)

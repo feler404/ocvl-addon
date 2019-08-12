@@ -499,7 +499,7 @@ class OCVLNodeBase(bpy.types.Node):
         #     row = layout.row()
         #     col = layout.column(align=True)
         #     origin = self.get_node_origin(props_name="|><|".join(props_name))
-        #     col.operator('image.point_select', text=', '.join(props_name), icon="CURSOR").origin = origin
+        #     col.operator('ocvl.point_select', text=', '.join(props_name), icon="CURSOR").origin = origin
 
     def free(self):
         for output in self.outputs:

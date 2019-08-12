@@ -12,7 +12,7 @@ IS_WORK_ON_COPY_INPUT = True
 BLACK_LIST_REGISTER_NODE_CATEGORY = ["__pycache__", "interface", "TODO"]
 # Max number lines displayed on Stethoscope node
 STETHOSCOPE_NODE_MAX_LINES = 30
-# Default filter during use image.ocvl_image_importer operator
+# Default filter during use ocvl.ocvl_image_importer operator
 DEFAULT_IMAGE_IMPORTER_FILTER = "*.tif;*.png;*.jpeg;*.jpg"
 
 DEBUG_MODE = os.environ.get("OCVL_DEBUG", False)

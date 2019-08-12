@@ -128,7 +128,7 @@ class OCVLCustomInputNode(OCVLNodeBase):
         # self.add_button(layout, prop_name="loc_template", icon="COPY_ID")
         row = layout.row(align=True)
         if self.text_block:
-            layout.operator("an.select_area", text="Show full size", icon="FULLSCREEN_ENTER").bl_text_name = self.name
+            layout.operator("ocvl.select_area", text="Show full size", icon="FULLSCREEN_ENTER").bl_text_name = self.name
 
         row.prop_search(self, "loc_vars_code", bpy.data, "texts", text="")
         row.operator('text.get_array_from_text', icon="FILE_REFRESH", text="").origin = self.get_node_origin(props_name=["val_in"])

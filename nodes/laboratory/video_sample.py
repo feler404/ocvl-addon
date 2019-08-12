@@ -112,7 +112,7 @@ class OCVLVideoSampleNode(OCVLPreviewNodeBase):
         elif self.loc_image_mode == "FILE":
             col = layout.row().column()
             col_split = col.split(factor=1, align=True)
-            col_split.operator('image.ocvl_image_importer', text='', icon="FILE_FOLDER").origin = origin
+            col_split.operator('ocvl.ocvl_image_importer', text='', icon="FILE_FOLDER").origin = origin
 
         if self.n_id not in self.texture:
             return

@@ -12,8 +12,8 @@ logger = logging.getLogger(__name__)
 TUTORIAL_HEARTBEAT_INTERVAL_RTSP_REFRESH = 2
 
 
-class OCVLImageFullScreenOperator(bpy.types.Operator):
-    bl_idname = "image.image_full_screen"
+class OCVL_OT_ImageFullScreenOperator(bpy.types.Operator):
+    bl_idname = "ocvl.image_full_screen"
     bl_label = "OCVL Image Full Screen"
 
     origin: bpy.props.StringProperty("")
@@ -61,9 +61,8 @@ class OCVLImageFullScreenOperator(bpy.types.Operator):
         return self.execute(context)
 
 
-
-class OCVLImageImporterOperator(bpy.types.Operator):
-    bl_idname = "image.ocvl_image_importer"
+class OCVL_OT_ImageImporterOperator(bpy.types.Operator):
+    bl_idname = "ocvl.ocvl_image_importer"
     bl_label = "Open Image"
     bl_options = {'REGISTER'}
 
@@ -92,7 +91,7 @@ class OCVLImageImporterOperator(bpy.types.Operator):
         return {'RUNNING_MODAL'}
 
 
-class OCVLSaveArrayToCSVOperator(bpy.types.Operator):
+class OCVL_OT_SaveArrayToCSVOperator(bpy.types.Operator):
     bl_idname = "ocvl.save_array_to_csv"
     bl_label = "Save array to CSV"
     bl_options = {'REGISTER'}
@@ -120,12 +119,12 @@ class OCVLSaveArrayToCSVOperator(bpy.types.Operator):
 
 
 def register():
-    ocvl_register(OCVLImageFullScreenOperator)
-    ocvl_register(OCVLImageImporterOperator)
-    ocvl_register(OCVLSaveArrayToCSVOperator)
+    ocvl_register(OCVL_OT_ImageFullScreenOperator)
+    ocvl_register(OCVL_OT_ImageImporterOperator)
+    ocvl_register(OCVL_OT_SaveArrayToCSVOperator)
 
 
 def unregister():
-    ocvl_unregister(OCVLSaveArrayToCSVOperator)
-    ocvl_unregister(OCVLImageImporterOperator)
-    ocvl_unregister(OCVLImageFullScreenOperator)
+    ocvl_unregister(OCVL_OT_SaveArrayToCSVOperator)
+    ocvl_unregister(OCVL_OT_ImageImporterOperator)
+    ocvl_unregister(OCVL_OT_ImageFullScreenOperator)

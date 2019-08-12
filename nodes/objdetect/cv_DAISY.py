@@ -3,7 +3,7 @@ import cv2
 from ocvl.core.globals import FEATURE2D_INSTANCES_DICT
 from ocvl.core.node_base import OCVLNodeBase, update_node
 from ocvl.nodes.objdetect.abc_Feature2D import OCVLFeature2DNode
-from ocvl.operatores.abc import InitFeature2DOperator
+from ocvl.operatores.abc import OCVL_OT_InitFeature2DOperator
 
 NORM_ITEMS = (
     ("DAISY_NRM_NONE", "DAISY_NRM_NONE", "DAISY_NRM_NONE", "", 0),
@@ -25,7 +25,7 @@ class OCVLDAISYNode(OCVLNodeBase, OCVLFeature2DNode):
     _init_method = cv2.xfeatures2d.DAISY_create
 
     def update_and_init(self, context):
-        InitFeature2DOperator.update_class_instance_dict(self, self.id_data.name, self.name)
+        OCVL_OT_InitFeature2DOperator.update_class_instance_dict(self, self.id_data.name, self.name)
         self.update_sockets(context)
         update_node(self, context)
 
