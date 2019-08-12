@@ -31,9 +31,9 @@ class OCVLaddWeightedNode(OCVLNodeBase):
     def init(self, context):
         self.inputs.new("OCVLImageSocket", name="src1_in", identifier="src1_in")
         self.inputs.new("OCVLImageSocket", name="src2_in", identifier="src2_in")
-        self.inputs.new('OCVLMatrixSocket', name="alpha_in", identifier="alpha_in").prop_name = 'alpha_in'
-        self.inputs.new('OCVLMatrixSocket', name="beta_in", identifier="beta_in").prop_name = 'beta_in'
-        self.inputs.new('OCVLMatrixSocket', name="gamma_in", identifier="gamma_in").prop_name = 'gamma_in'
+        self.inputs.new('OCVLObjectSocket', name="alpha_in", identifier="alpha_in").prop_name = 'alpha_in'
+        self.inputs.new('OCVLObjectSocket', name="beta_in", identifier="beta_in").prop_name = 'beta_in'
+        self.inputs.new('OCVLObjectSocket', name="gamma_in", identifier="gamma_in").prop_name = 'gamma_in'
 
         self.outputs.new("OCVLImageSocket", name="dst_out", identifier="dst_out")
 

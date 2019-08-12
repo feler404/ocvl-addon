@@ -11,9 +11,9 @@ class OCVLSizeNode(OCVLNodeBase):
     height_in: bpy.props.IntProperty(default=10, min=0, max=2048, update=update_node, description="Height input.")
 
     def init(self, context):
-        self.inputs.new("OCVLMatrixSocket", "width_in").prop_name = "width_in"
-        self.inputs.new("OCVLMatrixSocket", "height_in").prop_name = "height_in"
-        self.outputs.new("OCVLMatrixSocket", "size_out")
+        self.inputs.new("OCVLObjectSocket", "width_in").prop_name = "width_in"
+        self.inputs.new("OCVLObjectSocket", "height_in").prop_name = "height_in"
+        self.outputs.new("OCVLObjectSocket", "size_out")
 
     def wrapped_process(self):
         width_in = self.get_from_props("width_in")

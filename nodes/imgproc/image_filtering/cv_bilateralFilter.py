@@ -22,9 +22,9 @@ class OCVLbilateralFilterNode(OCVLNodeBase):
     def init(self, context):
         self.width = 150
         self.inputs.new("OCVLImageSocket", "src_in")
-        self.inputs.new('OCVLMatrixSocket', "d_in").prop_name = 'd_in'
-        self.inputs.new('OCVLMatrixSocket', "sigmaColor_in").prop_name = 'sigmaColor_in'
-        self.inputs.new('OCVLMatrixSocket', "sigmaSpace_in").prop_name = 'sigmaSpace_in'
+        self.inputs.new('OCVLObjectSocket', "d_in").prop_name = 'd_in'
+        self.inputs.new('OCVLObjectSocket', "sigmaColor_in").prop_name = 'sigmaColor_in'
+        self.inputs.new('OCVLObjectSocket', "sigmaSpace_in").prop_name = 'sigmaSpace_in'
 
         self.outputs.new("OCVLImageSocket", "dst_out")
 

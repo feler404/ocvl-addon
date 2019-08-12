@@ -30,9 +30,9 @@ class OCVLGaussianBlurNode(OCVLNodeBase):
 
     def init(self, context):
         self.inputs.new("OCVLImageSocket", "src_in")
-        self.inputs.new('OCVLMatrixSocket', "ksize_in").prop_name = 'ksize_in'
-        self.inputs.new('OCVLMatrixSocket', "sigmaX_in").prop_name = 'sigmaX_in'
-        self.inputs.new('OCVLMatrixSocket', "sigmaY_in").prop_name = 'sigmaY_in'
+        self.inputs.new('OCVLObjectSocket', "ksize_in").prop_name = 'ksize_in'
+        self.inputs.new('OCVLObjectSocket', "sigmaX_in").prop_name = 'sigmaX_in'
+        self.inputs.new('OCVLObjectSocket', "sigmaY_in").prop_name = 'sigmaY_in'
 
         self.outputs.new("OCVLImageSocket", "dst_out")
 

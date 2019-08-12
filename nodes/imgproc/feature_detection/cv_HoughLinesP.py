@@ -40,13 +40,13 @@ class OCVLHoughLinesPNode(OCVLNodeBase):
 
     def init(self, context):
         self.inputs.new("OCVLImageSocket", "image_in")
-        self.inputs.new('OCVLMatrixSocket', "rho_in").prop_name = 'rho_in'
-        self.inputs.new('OCVLMatrixSocket', "theta_in").prop_name = 'theta_in'
-        self.inputs.new('OCVLMatrixSocket', "threshold_in").prop_name = 'threshold_in'
-        self.inputs.new('OCVLMatrixSocket', "minLineLength_in").prop_name = 'minLineLength_in'
-        self.inputs.new('OCVLMatrixSocket', "maxLineGap_in").prop_name = 'maxLineGap_in'
+        self.inputs.new('OCVLObjectSocket', "rho_in").prop_name = 'rho_in'
+        self.inputs.new('OCVLObjectSocket', "theta_in").prop_name = 'theta_in'
+        self.inputs.new('OCVLObjectSocket', "threshold_in").prop_name = 'threshold_in'
+        self.inputs.new('OCVLObjectSocket', "minLineLength_in").prop_name = 'minLineLength_in'
+        self.inputs.new('OCVLObjectSocket', "maxLineGap_in").prop_name = 'maxLineGap_in'
 
-        self.outputs.new("OCVLMatrixSocket", "lines_out")
+        self.outputs.new("OCVLObjectSocket", "lines_out")
 
     def wrapped_process(self):
         kwargs = {

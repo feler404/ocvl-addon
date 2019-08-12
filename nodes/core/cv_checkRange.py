@@ -30,11 +30,11 @@ class OCVLcheckRangeNode(OCVLNodeBase):
 
     def init(self, context):
         self.inputs.new("OCVLImageSocket", "a_in")
-        self.inputs.new("OCVLMatrixSocket", "minVal_in").prop_name = "minVal_in"
-        self.inputs.new("OCVLMatrixSocket", "maxVal_in").prop_name = "maxVal_in"
+        self.inputs.new("OCVLObjectSocket", "minVal_in").prop_name = "minVal_in"
+        self.inputs.new("OCVLObjectSocket", "maxVal_in").prop_name = "maxVal_in"
 
-        self.outputs.new("OCVLMatrixSocket", "retval_out")
-        self.outputs.new("OCVLMatrixSocket", "pos_out")
+        self.outputs.new("OCVLObjectSocket", "retval_out")
+        self.outputs.new("OCVLObjectSocket", "pos_out")
 
     def wrapped_process(self):
         kwargs = {

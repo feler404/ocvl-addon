@@ -26,7 +26,7 @@ class OCVLseamlessCloneNode(OCVLNodeBase):
         self.inputs.new("OCVLImageSocket", "src_in")
         self.inputs.new('OCVLImageSocket', "dst_in")
         self.inputs.new('OCVLMaskSocket', "mask_in")
-        self.inputs.new('OCVLMatrixSocket', "p_in").prop_name = 'p_in'
+        self.inputs.new('OCVLObjectSocket', "p_in").prop_name = 'p_in'
 
         self.outputs.new("OCVLImageSocket", "result_out")
 

@@ -26,11 +26,11 @@ class OCVLcircleNode(OCVLNodeBase):
     def init(self, context):
         self.width = 260
         self.inputs.new("OCVLImageSocket", "img_in")
-        self.inputs.new('OCVLMatrixSocket', "center_in").prop_name = 'center_in'
-        self.inputs.new('OCVLMatrixSocket', "radius_in").prop_name = 'radius_in'
+        self.inputs.new('OCVLObjectSocket', "center_in").prop_name = 'center_in'
+        self.inputs.new('OCVLObjectSocket', "radius_in").prop_name = 'radius_in'
         self.inputs.new('OCVLColorSocket', 'color_in').prop_name = 'color_in'
-        self.inputs.new('OCVLMatrixSocket', "thickness_in").prop_name = 'thickness_in'
-        self.inputs.new('OCVLMatrixSocket', "shift_in").prop_name = 'shift_in'
+        self.inputs.new('OCVLObjectSocket', "thickness_in").prop_name = 'thickness_in'
+        self.inputs.new('OCVLObjectSocket', "shift_in").prop_name = 'shift_in'
 
         self.outputs.new("OCVLImageSocket", "img_out")
 

@@ -17,7 +17,7 @@ class OCVLfitEllipseNode(OCVLNodeBase):
 
     def init(self, context):
         self.inputs.new("OCVLContourSocket", "points_in")
-        self.outputs.new("OCVLMatrixSocket", "ellipse_out")
+        self.outputs.new("OCVLObjectSocket", "ellipse_out")
 
     def wrapped_process(self):
 

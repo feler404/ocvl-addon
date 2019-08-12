@@ -52,8 +52,8 @@ class OCVLMaskSampleNode(OCVLPreviewNodeBase):
         self.width = 200
 
         self.outputs.new('OCVLMaskSocket', 'image_out')
-        self.outputs.new('OCVLMatrixSocket', 'width_out')
-        self.outputs.new('OCVLMatrixSocket', 'height_out')
+        self.outputs.new('OCVLObjectSocket', 'width_out')
+        self.outputs.new('OCVLObjectSocket', 'height_out')
 
         self.update_layout(context)
 

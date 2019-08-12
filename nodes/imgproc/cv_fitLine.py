@@ -22,11 +22,11 @@ class OCVLfitLineNode(OCVLNodeBase):
 
     def init(self, context):
         self.inputs.new("OCVLContourSocket", "points_in")
-        self.inputs.new("OCVLMatrixSocket", "param_in").prop_name = "param_in"
-        self.inputs.new("OCVLMatrixSocket", "reps_in").prop_name = "reps_in"
-        self.inputs.new("OCVLMatrixSocket", "aeps_in").prop_name = "aeps_in"
+        self.inputs.new("OCVLObjectSocket", "param_in").prop_name = "param_in"
+        self.inputs.new("OCVLObjectSocket", "reps_in").prop_name = "reps_in"
+        self.inputs.new("OCVLObjectSocket", "aeps_in").prop_name = "aeps_in"
 
-        self.outputs.new("OCVLMatrixSocket", "line_out")
+        self.outputs.new("OCVLObjectSocket", "line_out")
 
     def wrapped_process(self):
         kwargs = {

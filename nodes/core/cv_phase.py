@@ -24,7 +24,7 @@ class OCVLphaseNode(OCVLNodeBase):
     def init(self, context):
         self.inputs.new("OCVLImageSocket", "x_in")
         self.inputs.new("OCVLImageSocket", "y_in")
-        self.outputs.new("OCVLMatrixSocket", "angle_out")
+        self.outputs.new("OCVLObjectSocket", "angle_out")
 
     def wrapped_process(self):
         kwargs = {

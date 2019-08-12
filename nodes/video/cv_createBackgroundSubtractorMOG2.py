@@ -18,8 +18,8 @@ class OCVLcreateBackgroundSubtractorMOG2Node(OCVLNodeBase):
     def init(self, context):
         self.inputs.new("OCVLImageSocket", "image_1_in")
         self.inputs.new("OCVLImageSocket", "image_2_in")
-        self.inputs.new('OCVLMatrixSocket', "history_in").prop_name = 'history_in'
-        self.inputs.new('OCVLMatrixSocket', "varThreshold_in").prop_name = 'varThreshold_in'
+        self.inputs.new('OCVLObjectSocket', "history_in").prop_name = 'history_in'
+        self.inputs.new('OCVLObjectSocket', "varThreshold_in").prop_name = 'varThreshold_in'
 
         self.outputs.new("OCVLImageSocket", "image_out")
 

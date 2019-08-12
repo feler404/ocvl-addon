@@ -21,7 +21,7 @@ class OCVLreduceNode(OCVLNodeBase):
     def init(self, context):
         self.width = 150
         self.inputs.new("OCVLImageSocket", "src_in")
-        self.inputs.new("OCVLMatrixSocket", "dim_in").prop_name = "dim_in"
+        self.inputs.new("OCVLObjectSocket", "dim_in").prop_name = "dim_in"
 
         self.outputs.new("OCVLImageSocket", "dst_out")
 

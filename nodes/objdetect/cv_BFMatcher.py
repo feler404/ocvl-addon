@@ -77,12 +77,12 @@ class OCVLBFMatcherNode(OCVLNodeBase):
 
     def init(self, context):
         self.width = 250
-        self.inputs.new("OCVLMatrixSocket", "queryDescriptors_in")
-        self.inputs.new("OCVLMatrixSocket", "trainDescriptors_in")
+        self.inputs.new("OCVLObjectSocket", "queryDescriptors_in")
+        self.inputs.new("OCVLObjectSocket", "trainDescriptors_in")
         self.inputs.new("OCVLMaskSocket", "mask_in")
-        self.inputs.new("OCVLMatrixSocket", "crossCheck_init").prop_name = "crossCheck_init"
+        self.inputs.new("OCVLObjectSocket", "crossCheck_init").prop_name = "crossCheck_init"
 
-        self.outputs.new("OCVLMatrixSocket", "matches_out")
+        self.outputs.new("OCVLObjectSocket", "matches_out")
         OCVL_OT_InitDescriptorMatcherOperator.update_class_instance_dict(self, self.id_data.name, self.name)
         self.update_layout(context)
 

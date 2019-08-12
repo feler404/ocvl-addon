@@ -36,10 +36,10 @@ class OCVLcalcCovarMatrixNode(OCVLNodeBase):
 
     def init(self, context):
         self.inputs.new("OCVLImageSocket", "samples_in")
-        self.inputs.new("OCVLMatrixSocket", "mean_in").prop_name = "mean_in"
+        self.inputs.new("OCVLObjectSocket", "mean_in").prop_name = "mean_in"
 
-        self.outputs.new("OCVLMatrixSocket", "covar_out")
-        self.outputs.new("OCVLMatrixSocket", "mean_out")
+        self.outputs.new("OCVLObjectSocket", "covar_out")
+        self.outputs.new("OCVLObjectSocket", "mean_out")
 
     def wrapped_process(self):
         kwargs = {

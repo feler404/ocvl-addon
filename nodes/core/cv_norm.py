@@ -23,7 +23,7 @@ class OCVLnormNode(OCVLNodeBase):
         self.inputs.new("OCVLImageSocket", "src2_in")
         self.inputs.new('OCVLMaskSocket', "mask_in")
 
-        self.outputs.new("OCVLMatrixSocket", "retval_out")
+        self.outputs.new("OCVLObjectSocket", "retval_out")
 
     def wrapped_process(self):
         kwargs = {

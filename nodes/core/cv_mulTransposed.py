@@ -22,7 +22,7 @@ class OCVLmulTransposedNode(OCVLNodeBase):
     def init(self, context):
         self.inputs.new("OCVLImageSocket", "src_in")
         self.inputs.new("OCVLImageSocket", "delta_in")
-        self.inputs.new("OCVLMatrixSocket", "scale_in").prop_name = "scale_in"
+        self.inputs.new("OCVLObjectSocket", "scale_in").prop_name = "scale_in"
         self.outputs.new("OCVLImageSocket", "dst_out")
 
     def wrapped_process(self):

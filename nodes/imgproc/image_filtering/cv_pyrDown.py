@@ -28,9 +28,9 @@ class OCVLpyrDownNode(OCVLNodeBase):
 
     def init(self, context):
         self.inputs.new("OCVLImageSocket", "src_in")
-        self.inputs.new("OCVLMatrixSocket", "loc_pyramid_size").prop_name = 'loc_pyramid_size'
+        self.inputs.new("OCVLObjectSocket", "loc_pyramid_size").prop_name = 'loc_pyramid_size'
 
-        self.outputs.new("OCVLMatrixSocket", "image_full_out")
+        self.outputs.new("OCVLObjectSocket", "image_full_out")
 
     def wrapped_process(self):
         src_in = self.get_from_props("src_in")

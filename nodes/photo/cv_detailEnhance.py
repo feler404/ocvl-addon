@@ -18,8 +18,8 @@ class OCVLdetailEnhanceNode(OCVLNodeBase):
 
     def init(self, context):
         self.inputs.new("OCVLImageSocket", "src_in")
-        self.inputs.new("OCVLMatrixSocket", "sigma_s_in").prop_name = "sigma_s_in"
-        self.inputs.new("OCVLMatrixSocket", "sigma_r_in").prop_name = "sigma_r_in"
+        self.inputs.new("OCVLObjectSocket", "sigma_s_in").prop_name = "sigma_s_in"
+        self.inputs.new("OCVLObjectSocket", "sigma_r_in").prop_name = "sigma_r_in"
 
         self.outputs.new("OCVLImageSocket", "dst_out")
 

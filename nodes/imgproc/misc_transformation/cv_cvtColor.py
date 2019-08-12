@@ -21,8 +21,8 @@ class OCVLcvtColorNode(OCVLNodeBase):
     def init(self, context):
         self.width = 200
         self.inputs.new("OCVLImageSocket", "src_in")
-        self.inputs.new("OCVLMatrixSocket", "code_in").prop_name = "code_in"
-        self.inputs.new("OCVLMatrixSocket", "dstCn_in").prop_name = "dstCn_in"
+        self.inputs.new("OCVLObjectSocket", "code_in").prop_name = "code_in"
+        self.inputs.new("OCVLObjectSocket", "dstCn_in").prop_name = "dstCn_in"
 
         self.outputs.new("OCVLImageSocket", "dst_out")
 

@@ -28,7 +28,7 @@ class OCVLwarpAffineNode(OCVLNodeBase):
         self.width = 250
         self.inputs.new("OCVLImageSocket", "src_in")
         self.inputs.new('OCVLImageSocket', "M_in")
-        self.inputs.new('OCVLMatrixSocket', "dsize_in").prop_name = 'dsize_in'
+        self.inputs.new('OCVLObjectSocket', "dsize_in").prop_name = 'dsize_in'
 
         self.outputs.new("OCVLImageSocket", "dst_out")
 

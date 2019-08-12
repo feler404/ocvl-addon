@@ -15,7 +15,7 @@ class OCVLboxPointsNode(OCVLNodeBase):
 
     def init(self, context):
         self.inputs.new("OCVLVectorSocket", "box_in")
-        self.outputs.new("OCVLMatrixSocket", "points_out")
+        self.outputs.new("OCVLObjectSocket", "points_out")
 
     def wrapped_process(self):
         kwargs = {

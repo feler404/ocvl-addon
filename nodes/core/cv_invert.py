@@ -21,8 +21,8 @@ class OCVLinvertNode(OCVLNodeBase):
     def init(self, context):
         self.inputs.new("OCVLImageSocket", "src_in")
 
-        self.outputs.new("OCVLMatrixSocket", "dst_out")
-        self.outputs.new("OCVLMatrixSocket", "retval_out")
+        self.outputs.new("OCVLObjectSocket", "dst_out")
+        self.outputs.new("OCVLObjectSocket", "retval_out")
 
     def wrapped_process(self):
 

@@ -18,8 +18,8 @@ class OCVLrandnNode(OCVLNodeBase):
     dst_out: bpy.props.StringProperty(name="dst_out", default=str(uuid.uuid4()), description="Output array of random numbers; the array must be pre-allocated.")
 
     def init(self, context):
-        self.inputs.new("OCVLMatrixSocket", "mean_in").prop_name = "mean_in"
-        self.inputs.new("OCVLMatrixSocket", "stddev_in").prop_name = "stddev_in"
+        self.inputs.new("OCVLObjectSocket", "mean_in").prop_name = "mean_in"
+        self.inputs.new("OCVLObjectSocket", "stddev_in").prop_name = "stddev_in"
         self.inputs.new("OCVLImageSocket", "dst_in")
 
         self.outputs.new("OCVLImageSocket", "dst_out")

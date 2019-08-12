@@ -31,9 +31,9 @@ class OCVLcornerHarrisNode(OCVLNodeBase):
 
         self.width = 150
         self.inputs.new("OCVLImageSocket", "src_in")
-        self.inputs.new('OCVLMatrixSocket', "blockSize_in").prop_name = 'blockSize_in'
-        self.inputs.new('OCVLMatrixSocket', "ksize_in").prop_name = 'ksize_in'
-        self.inputs.new('OCVLMatrixSocket', "k_in").prop_name = 'k_in'
+        self.inputs.new('OCVLObjectSocket', "blockSize_in").prop_name = 'blockSize_in'
+        self.inputs.new('OCVLObjectSocket', "ksize_in").prop_name = 'ksize_in'
+        self.inputs.new('OCVLObjectSocket', "k_in").prop_name = 'k_in'
 
         self.outputs.new("OCVLImageSocket", "dst_out")
 

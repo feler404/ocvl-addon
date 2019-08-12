@@ -25,8 +25,8 @@ class OCVLpolarToCartNode(OCVLNodeBase):
     def init(self, context):
         self.inputs.new("OCVLImageSocket", "magnitude_in")
         self.inputs.new("OCVLImageSocket", "angle")
-        self.outputs.new("OCVLMatrixSocket", "x_out")
-        self.outputs.new("OCVLMatrixSocket", "y_out")
+        self.outputs.new("OCVLObjectSocket", "x_out")
+        self.outputs.new("OCVLObjectSocket", "y_out")
 
     def wrapped_process(self):
         kwargs = {

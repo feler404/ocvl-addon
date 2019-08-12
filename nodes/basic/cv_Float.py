@@ -9,7 +9,7 @@ class OCVLFloatNode(OCVLNodeBase):
     float_out: bpy.props.FloatProperty(default=0.1, min=0, max=1, step=1, precision=4, update=update_node, description="Simple integer number.")
 
     def init(self, context):
-        self.outputs.new("OCVLMatrixSocket", "float_out")
+        self.outputs.new("OCVLObjectSocket", "float_out")
 
     def wrapped_process(self):
         self.refresh_output_socket("float_out", self.float_out)

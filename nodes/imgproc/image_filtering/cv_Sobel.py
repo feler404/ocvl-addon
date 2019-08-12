@@ -53,11 +53,11 @@ class OCVLSobelNode(OCVLNodeBase):
 
     def init(self, context):
         self.inputs.new("OCVLImageSocket", "src_in")
-        self.inputs.new('OCVLMatrixSocket', "dx_in").prop_name = 'dx_in'
-        self.inputs.new('OCVLMatrixSocket', "dy_in").prop_name = 'dy_in'
-        self.inputs.new('OCVLMatrixSocket', "ksize_in").prop_name = 'ksize_in'
-        self.inputs.new('OCVLMatrixSocket', "scale_in").prop_name = 'scale_in'
-        self.inputs.new('OCVLMatrixSocket', "delta_in").prop_name = 'delta_in'
+        self.inputs.new('OCVLObjectSocket', "dx_in").prop_name = 'dx_in'
+        self.inputs.new('OCVLObjectSocket', "dy_in").prop_name = 'dy_in'
+        self.inputs.new('OCVLObjectSocket', "ksize_in").prop_name = 'ksize_in'
+        self.inputs.new('OCVLObjectSocket', "scale_in").prop_name = 'scale_in'
+        self.inputs.new('OCVLObjectSocket', "delta_in").prop_name = 'delta_in'
 
         self.outputs.new("OCVLImageSocket", "dst_out")
 

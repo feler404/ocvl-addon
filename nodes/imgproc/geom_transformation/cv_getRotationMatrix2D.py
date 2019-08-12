@@ -18,11 +18,11 @@ class OCVLgetRotationMatrix2DNode(OCVLNodeBase):
 
     def init(self, context):
         self.width = 180
-        self.inputs.new("OCVLMatrixSocket", "center_in").prop_name = "center_in"
-        self.inputs.new("OCVLMatrixSocket", "angle_in").prop_name = "angle_in"
-        self.inputs.new("OCVLMatrixSocket", "scale_in").prop_name = "scale_in"
+        self.inputs.new("OCVLObjectSocket", "center_in").prop_name = "center_in"
+        self.inputs.new("OCVLObjectSocket", "angle_in").prop_name = "angle_in"
+        self.inputs.new("OCVLObjectSocket", "scale_in").prop_name = "scale_in"
 
-        self.outputs.new("OCVLMatrixSocket", "retval_out")
+        self.outputs.new("OCVLObjectSocket", "retval_out")
 
     def wrapped_process(self):
         kwargs = {

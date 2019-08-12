@@ -17,7 +17,7 @@ class OCVLminAreaRectNode(OCVLNodeBase):
 
     def init(self, context):
         self.inputs.new("OCVLContourSocket", "points_in")
-        self.outputs.new("OCVLMatrixSocket", "retval_in")
+        self.outputs.new("OCVLObjectSocket", "retval_in")
 
     def wrapped_process(self):
         kwargs = {

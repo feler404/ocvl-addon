@@ -18,12 +18,12 @@ class OCVLfindHomography2Node(OCVLNodeBase):
     img3_out: bpy.props.StringProperty(default=str(uuid.uuid4()), description="Output retval.")
 
     def init(self, context):
-        self.inputs.new("OCVLMatrixSocket", "img1_in")
-        self.inputs.new("OCVLMatrixSocket", "img2_in")
-        self.inputs.new("OCVLMatrixSocket", "min_match_counts_in").prop_name = "min_match_counts_in"
-        self.inputs.new("OCVLMatrixSocket", "min_distance_in").prop_name = "min_distance_in"
+        self.inputs.new("OCVLObjectSocket", "img1_in")
+        self.inputs.new("OCVLObjectSocket", "img2_in")
+        self.inputs.new("OCVLObjectSocket", "min_match_counts_in").prop_name = "min_match_counts_in"
+        self.inputs.new("OCVLObjectSocket", "min_distance_in").prop_name = "min_distance_in"
 
-        self.outputs.new("OCVLMatrixSocket", "img3_out")
+        self.outputs.new("OCVLObjectSocket", "img3_out")
 
     def wrapped_process(self):
         self.check_input_requirements(["img1_in", "img1_in"])

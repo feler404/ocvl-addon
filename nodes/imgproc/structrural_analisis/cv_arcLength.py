@@ -18,7 +18,7 @@ class OCVLarcLengthNode(OCVLNodeBase):
 
     def init(self, context):
         self.inputs.new("OCVLContourSocket", "curve_in")
-        self.outputs.new("OCVLMatrixSocket", "retval_out").prop_name = "retval_out"
+        self.outputs.new("OCVLObjectSocket", "retval_out").prop_name = "retval_out"
 
     def wrapped_process(self):
         kwargs = {

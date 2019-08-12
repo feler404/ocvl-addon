@@ -50,7 +50,7 @@ class OCVLellipseNode(OCVLNodeBase):
         self.width = 250
         self.inputs.new("OCVLImageSocket", "image_in")
         self.inputs.new('OCVLColorSocket', 'color_in').prop_name = 'color_in'
-        self.inputs.new('OCVLMatrixSocket', "thickness_in").prop_name = 'thickness_in'
+        self.inputs.new('OCVLObjectSocket', "thickness_in").prop_name = 'thickness_in'
 
         self.outputs.new("OCVLImageSocket", "image_out")
         self.update_layout(context)

@@ -12,10 +12,10 @@ class OCVLRotatedRectNode(OCVLNodeBase):
     angle_in: bpy.props.IntProperty(default=10, min=0, max=360, update=update_node, subtype='ANGLE', description="Angle input.")
 
     def init(self, context):
-        self.inputs.new("OCVLMatrixSocket", "center_in").prop_name = "center_in"
-        self.inputs.new("OCVLMatrixSocket", "size_in").prop_name = "size_in"
-        self.inputs.new("OCVLMatrixSocket", "angle_in").prop_name = "angle_in"
-        self.outputs.new("OCVLMatrixSocket", "rotated_rect_out")
+        self.inputs.new("OCVLObjectSocket", "center_in").prop_name = "center_in"
+        self.inputs.new("OCVLObjectSocket", "size_in").prop_name = "size_in"
+        self.inputs.new("OCVLObjectSocket", "angle_in").prop_name = "angle_in"
+        self.outputs.new("OCVLObjectSocket", "rotated_rect_out")
 
     def wrapped_process(self):
         center_in = self.get_from_props("center_in")

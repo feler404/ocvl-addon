@@ -25,7 +25,7 @@ class OCVLdrawKeypointsNode(OCVLNodeBase):
 
     def init(self, context):
         self.inputs.new("OCVLImageSocket", "image_in")
-        self.inputs.new("OCVLMatrixSocket", "keypoints_in")
+        self.inputs.new("OCVLObjectSocket", "keypoints_in")
 
         self.outputs.new("OCVLImageSocket", "outImage_out")
 

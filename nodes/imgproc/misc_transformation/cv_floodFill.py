@@ -39,14 +39,14 @@ class OCVLfloodFillNode(OCVLNodeBase):
         self.width = 250
         self.inputs.new("OCVLImageSocket", "image_in")
         self.inputs.new("OCVLMaskSocket", "mask_in")
-        self.inputs.new("OCVLMatrixSocket", "seedPoint_in").prop_name = "seedPoint_in"
+        self.inputs.new("OCVLObjectSocket", "seedPoint_in").prop_name = "seedPoint_in"
         self.inputs.new("OCVLColorSocket", "newVal_in").prop_name = "newVal_in"
         self.inputs.new("OCVLColorSocket", "loDiff_in").prop_name = "loDiff_in"
         self.inputs.new("OCVLColorSocket", "upDiff_in").prop_name = "upDiff_in"
 
         self.outputs.new("OCVLImageSocket", "image_out")
         self.outputs.new("OCVLImageSocket", "mask_out")
-        self.outputs.new("OCVLMatrixSocket", "rect_out")
+        self.outputs.new("OCVLObjectSocket", "rect_out")
 
     def wrapped_process(self):
         kwargs = {

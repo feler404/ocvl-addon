@@ -20,7 +20,7 @@ class OCVLscaleAddNode(OCVLNodeBase):
     def init(self, context):
         self.inputs.new("OCVLImageSocket", "src1_in")
         self.inputs.new("OCVLImageSocket", "src2_in")
-        self.inputs.new("OCVLMatrixSocket", "alpha_in").prop_name = "alpha_in"
+        self.inputs.new("OCVLObjectSocket", "alpha_in").prop_name = "alpha_in"
 
         self.outputs.new("OCVLImageSocket", "dst_out")
 

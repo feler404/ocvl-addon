@@ -23,10 +23,10 @@ class OCVLminMaxLocNode(OCVLNodeBase):
         self.inputs.new("OCVLImageSocket", "src_in")
         self.inputs.new("OCVLMaskSocket", "mask_in")
 
-        self.outputs.new("OCVLMatrixSocket", "minVal_out")
-        self.outputs.new("OCVLMatrixSocket", "maxVal_out")
-        self.outputs.new("OCVLMatrixSocket", "minLoc_out")
-        self.outputs.new("OCVLMatrixSocket", "maxLoc_out")
+        self.outputs.new("OCVLObjectSocket", "minVal_out")
+        self.outputs.new("OCVLObjectSocket", "maxVal_out")
+        self.outputs.new("OCVLObjectSocket", "minLoc_out")
+        self.outputs.new("OCVLObjectSocket", "maxLoc_out")
 
     def wrapped_process(self):
         kwargs = {

@@ -18,7 +18,7 @@ class OCVLpowNode(OCVLNodeBase):
 
     def init(self, context):
         self.inputs.new("OCVLImageSocket", "src_in")
-        self.inputs.new("OCVLMatrixSocket", "power_in").prop_name = "power_in"
+        self.inputs.new("OCVLObjectSocket", "power_in").prop_name = "power_in"
         self.outputs.new("OCVLImageSocket", "dst_out")
 
     def wrapped_process(self):

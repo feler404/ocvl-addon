@@ -247,7 +247,7 @@ class OCVLSocketBase:
     _map_quick_link_icons = {
         "output": defaultdict(lambda: ["LIGHT", "OUTLINER_OB_LIGHT"],
             {
-                "OCVLMatrixSocket": ["OUTLINER_DATA_LIGHTPROBE", "OUTLINER_OB_LIGHTPROBE"],
+                "OCVLObjectSocket": ["OUTLINER_DATA_LIGHTPROBE", "OUTLINER_OB_LIGHTPROBE"],
             }
         )
     }
@@ -294,7 +294,7 @@ class OCVLSocketBase:
 
     def draw_expander_template(self, context, layout, prop_origin, prop_name="prop"):
 
-        if self.bl_idname == "OCVLMatrixSocket":
+        if self.bl_idname == "OCVLObjectSocket":
             layout.prop(prop_origin, prop_name)
         else:
             if self.use_expander:
@@ -352,7 +352,7 @@ class OCVLSocketBase:
                 new_node_idname = settings.DEFAULT_NODE_FOR_QUICK_LINK_IMAGE_SOCKET_OUT
             elif self.bl_idname == "OCVLContourSocket":
                 new_node_idname = "OCVLdrawContoursNode"
-            elif self.bl_idname in ["OCVLMatrixSocket", "OCVLVectorSocket"]:
+            elif self.bl_idname in ["OCVLObjectSocket", "OCVLVectorSocket"]:
                 new_node_idname = "OCVLStethoscopeNode"
             else:
                 return
@@ -446,9 +446,9 @@ class OCVLColorSocket(bpy.types.NodeSocket, OCVLSocketBase):
             return default
 
 
-class OCVLMatrixSocket(bpy.types.NodeSocket, OCVLSocketBase):
-    bl_idname = 'OCVLMatrixSocket'
-    bl_label = 'OCVLMatrixSocket'
+class OCVLObjectSocket(bpy.types.NodeSocket, OCVLSocketBase):
+    bl_idname = 'OCVLObjectSocket'
+    bl_label = 'OCVLObjectSocket'
 
 
 class OCVLImageSocket(bpy.types.NodeSocket, OCVLSocketBase):
@@ -484,7 +484,7 @@ class OCVLStethoscopeSocket(bpy.types.NodeSocket, OCVLSocketBase):
 def register():
     ocvl_register(OCVL_OT_LinkNewNodeInput)
     ocvl_register(OCVLColorSocket)
-    ocvl_register(OCVLMatrixSocket)
+    ocvl_register(OCVLObjectSocket)
     ocvl_register(OCVLImageSocket)
     ocvl_register(OCVLMaskSocket)
     ocvl_register(OCVLRectSocket)
@@ -496,7 +496,7 @@ def register():
 def unregister():
     ocvl_unregister(OCVL_OT_LinkNewNodeInput)
     ocvl_unregister(OCVLColorSocket)
-    ocvl_unregister(OCVLMatrixSocket)
+    ocvl_unregister(OCVLObjectSocket)
     ocvl_unregister(OCVLImageSocket)
     ocvl_unregister(OCVLMaskSocket)
     ocvl_unregister(OCVLRectSocket)

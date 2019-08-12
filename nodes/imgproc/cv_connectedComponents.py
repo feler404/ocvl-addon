@@ -32,8 +32,8 @@ class OCVLconnectedComponentsNode(OCVLNodeBase):
     def init(self, context):
         self.inputs.new("OCVLImageSocket", "image_in")
 
-        self.outputs.new("OCVLMatrixSocket", "labels_out")
-        self.outputs.new("OCVLMatrixSocket", "retval_out")
+        self.outputs.new("OCVLObjectSocket", "labels_out")
+        self.outputs.new("OCVLObjectSocket", "retval_out")
 
     def wrapped_process(self):
         kwargs = {

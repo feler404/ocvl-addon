@@ -20,10 +20,10 @@ class OCVLsolvePolyNode(OCVLNodeBase):
 
     def init(self, context):
         self.inputs.new("OCVLVectorSocket", "coeffs_in")
-        self.inputs.new("OCVLMatrixSocket", "maxIters_in").prop_name = "maxIters_in"
+        self.inputs.new("OCVLObjectSocket", "maxIters_in").prop_name = "maxIters_in"
 
-        self.outputs.new("OCVLMatrixSocket", "retval_out")
-        self.outputs.new("OCVLMatrixSocket", "roots_out")
+        self.outputs.new("OCVLObjectSocket", "retval_out")
+        self.outputs.new("OCVLObjectSocket", "roots_out")
 
     def wrapped_process(self):
         kwargs = {

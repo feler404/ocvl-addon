@@ -32,10 +32,10 @@ class OCVLsplitNode(OCVLNodeBase):
     def init(self, context):
         self.inputs.new("OCVLImageSocket", "src_in")
 
-        self.outputs.new("OCVLMatrixSocket", "layer_0_out")
-        self.outputs.new("OCVLMatrixSocket", "layer_1_out")
-        self.outputs.new("OCVLMatrixSocket", "layer_2_out")
-        self.outputs.new("OCVLMatrixSocket", "layer_3_out")
+        self.outputs.new("OCVLObjectSocket", "layer_0_out")
+        self.outputs.new("OCVLObjectSocket", "layer_1_out")
+        self.outputs.new("OCVLObjectSocket", "layer_2_out")
+        self.outputs.new("OCVLObjectSocket", "layer_3_out")
 
     def wrapped_process(self):
         kwargs = {
@@ -50,7 +50,7 @@ class OCVLsplitNode(OCVLNodeBase):
         for n, layer in enumerate(vector_layers):
             prop_name = "layer_{}_out".format(n)
             if not prop_name in self.outputs:
-                self.outputs.new('OCVLMatrixSocket', prop_name).prop_name = prop_name
+                self.outputs.new('OCVLObjectSocket', prop_name).prop_name = prop_name
             self.refresh_output_socket(prop_name, layer, is_uuid_type=True)
 
     def draw_buttons(self, context, layout):

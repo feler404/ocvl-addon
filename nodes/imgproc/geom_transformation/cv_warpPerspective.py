@@ -27,8 +27,8 @@ class OCVLwarpPerspectiveNode(OCVLNodeBase):
         self.width = 250
         self.inputs.new("OCVLImageSocket", "src_in")
         self.inputs.new('OCVLImageSocket', "M_in")
-        self.inputs.new('OCVLMatrixSocket', "dsize_in").prop_name = 'dsize_in'
-        self.inputs.new('OCVLMatrixSocket', "borderValue_in").prop_name = 'borderValue_in'
+        self.inputs.new('OCVLObjectSocket', "dsize_in").prop_name = 'dsize_in'
+        self.inputs.new('OCVLObjectSocket', "borderValue_in").prop_name = 'borderValue_in'
 
         self.outputs.new("OCVLImageSocket", "dst_out")
 

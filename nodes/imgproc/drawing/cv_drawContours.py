@@ -31,12 +31,12 @@ class OCVLdrawContoursNode(OCVLNodeBase):
         self.width = 250
         self.inputs.new("OCVLImageSocket", "image_in")
         self.inputs.new('OCVLContourSocket', "contours_in")
-        self.inputs.new('OCVLMatrixSocket', "hierarchy_in")
-        self.inputs.new('OCVLMatrixSocket', "contourIdx_in").prop_name = 'contourIdx_in'
+        self.inputs.new('OCVLObjectSocket', "hierarchy_in")
+        self.inputs.new('OCVLObjectSocket', "contourIdx_in").prop_name = 'contourIdx_in'
         self.inputs.new('OCVLColorSocket', 'color_in').prop_name = 'color_in'
-        self.inputs.new('OCVLMatrixSocket', "thickness_in").prop_name = 'thickness_in'
-        self.inputs.new('OCVLMatrixSocket', "maxLevel_in").prop_name = 'maxLevel_in'
-        self.inputs.new('OCVLMatrixSocket', "offset_in").prop_name = 'offset_in'
+        self.inputs.new('OCVLObjectSocket', "thickness_in").prop_name = 'thickness_in'
+        self.inputs.new('OCVLObjectSocket', "maxLevel_in").prop_name = 'maxLevel_in'
+        self.inputs.new('OCVLObjectSocket', "offset_in").prop_name = 'offset_in'
 
         self.outputs.new("OCVLImageSocket", "image_out")
 

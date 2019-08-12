@@ -26,21 +26,21 @@ class OCVLBoolPropNode(OCVLNodeBase):
 
     def init(self, context):
         self.width = 200
-        self.inputs.new('OCVLMatrixSocket', "bool_0_PIXEL").prop_name =      'bool_0_PIXEL'
-        self.inputs.new('OCVLMatrixSocket', "bool_0_UNSIGNED").prop_name =   'bool_0_UNSIGNED'
-        self.inputs.new('OCVLMatrixSocket', "bool_0_PERCENTAGE").prop_name = 'bool_0_PERCENTAGE'
-        self.inputs.new('OCVLMatrixSocket', "bool_0_FACTOR").prop_name =     'bool_0_FACTOR'
-        self.inputs.new('OCVLMatrixSocket', "bool_0_ANGLE").prop_name =      'bool_0_ANGLE'
-        self.inputs.new('OCVLMatrixSocket', "bool_0_TIME").prop_name =       'bool_0_TIME'
-        self.inputs.new('OCVLMatrixSocket', "bool_0_DISTANCE").prop_name =   'bool_0_DISTANCE'
-        self.inputs.new('OCVLMatrixSocket', "bool_0_NONE").prop_name =       'bool_0_NONE'
+        self.inputs.new('OCVLObjectSocket', "bool_0_PIXEL").prop_name =      'bool_0_PIXEL'
+        self.inputs.new('OCVLObjectSocket', "bool_0_UNSIGNED").prop_name =   'bool_0_UNSIGNED'
+        self.inputs.new('OCVLObjectSocket', "bool_0_PERCENTAGE").prop_name = 'bool_0_PERCENTAGE'
+        self.inputs.new('OCVLObjectSocket', "bool_0_FACTOR").prop_name =     'bool_0_FACTOR'
+        self.inputs.new('OCVLObjectSocket', "bool_0_ANGLE").prop_name =      'bool_0_ANGLE'
+        self.inputs.new('OCVLObjectSocket', "bool_0_TIME").prop_name =       'bool_0_TIME'
+        self.inputs.new('OCVLObjectSocket', "bool_0_DISTANCE").prop_name =   'bool_0_DISTANCE'
+        self.inputs.new('OCVLObjectSocket', "bool_0_NONE").prop_name =       'bool_0_NONE'
 
-        self.inputs.new('OCVLMatrixSocket', "bool_0_HIDDEN").prop_name =          'bool_0_HIDDEN'
-        self.inputs.new('OCVLMatrixSocket', "bool_0_SKIP_SAVE").prop_name =       'bool_0_SKIP_SAVE'
-        self.inputs.new('OCVLMatrixSocket', "bool_0_ANIMATABLE").prop_name =      'bool_0_ANIMATABLE'
-        self.inputs.new('OCVLMatrixSocket', "bool_0_LIBRARY_EDITABLE").prop_name ='bool_0_LIBRARY_EDITABLE'
-        self.inputs.new('OCVLMatrixSocket', "bool_0_PROPORTIONAL").prop_name =    'bool_0_PROPORTIONAL'
-        self.inputs.new('OCVLMatrixSocket', "bool_0_TEXTEDIT_UPDATE").prop_name = 'bool_0_TEXTEDIT_UPDATE'
+        self.inputs.new('OCVLObjectSocket', "bool_0_HIDDEN").prop_name =          'bool_0_HIDDEN'
+        self.inputs.new('OCVLObjectSocket', "bool_0_SKIP_SAVE").prop_name =       'bool_0_SKIP_SAVE'
+        self.inputs.new('OCVLObjectSocket', "bool_0_ANIMATABLE").prop_name =      'bool_0_ANIMATABLE'
+        self.inputs.new('OCVLObjectSocket', "bool_0_LIBRARY_EDITABLE").prop_name ='bool_0_LIBRARY_EDITABLE'
+        self.inputs.new('OCVLObjectSocket', "bool_0_PROPORTIONAL").prop_name =    'bool_0_PROPORTIONAL'
+        self.inputs.new('OCVLObjectSocket', "bool_0_TEXTEDIT_UPDATE").prop_name = 'bool_0_TEXTEDIT_UPDATE'
 
     def wrapped_process(self):
         pass

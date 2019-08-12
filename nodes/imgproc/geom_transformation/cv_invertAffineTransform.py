@@ -18,7 +18,7 @@ class OCVLinvertAffineTransformNode(OCVLNodeBase):
 
     def init(self, context):
         self.inputs.new("OCVLImageSocket", "M_in")
-        self.outputs.new("OCVLMatrixSocket", "iM_out")
+        self.outputs.new("OCVLObjectSocket", "iM_out")
 
     def wrapped_process(self):
         kwargs = {

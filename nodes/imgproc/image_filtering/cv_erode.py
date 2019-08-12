@@ -28,8 +28,8 @@ class OCVLerodeNode(OCVLNodeBase):
         self.width = 150
         self.inputs.new("OCVLImageSocket", "src_in")
         self.inputs.new("OCVLImageSocket", "kernel_in")
-        self.inputs.new('OCVLMatrixSocket', "anchor_in").prop_name = 'anchor_in'
-        self.inputs.new('OCVLMatrixSocket', "iterations_in").prop_name = 'iterations_in'
+        self.inputs.new('OCVLObjectSocket', "anchor_in").prop_name = 'anchor_in'
+        self.inputs.new('OCVLObjectSocket', "iterations_in").prop_name = 'iterations_in'
 
         self.outputs.new("OCVLImageSocket", "dst_out")
 

@@ -27,15 +27,15 @@ class OCVLgoodFeaturesToTrackNode(OCVLNodeBase):
     def init(self, context):
         self.inputs.new("OCVLImageSocket", "image_in")
         self.inputs.new("OCVLMaskSocket", "mask_in")
-        self.inputs.new("OCVLMatrixSocket", "maxCorners_in").prop_name = "maxCorners_in"
-        self.inputs.new("OCVLMatrixSocket", "qualityLevel_in").prop_name = "qualityLevel_in"
-        self.inputs.new("OCVLMatrixSocket", "minDistance_in").prop_name = "minDistance_in"
-        self.inputs.new("OCVLMatrixSocket", "blockSize_in").prop_name = "blockSize_in"
-        self.inputs.new("OCVLMatrixSocket", "gradientSize_in").prop_name = "gradientSize_in"
-        self.inputs.new("OCVLMatrixSocket", "useHarrisDetector_in").prop_name = "useHarrisDetector_in"
-        self.inputs.new("OCVLMatrixSocket", "k_in").prop_name = "k_in"
+        self.inputs.new("OCVLObjectSocket", "maxCorners_in").prop_name = "maxCorners_in"
+        self.inputs.new("OCVLObjectSocket", "qualityLevel_in").prop_name = "qualityLevel_in"
+        self.inputs.new("OCVLObjectSocket", "minDistance_in").prop_name = "minDistance_in"
+        self.inputs.new("OCVLObjectSocket", "blockSize_in").prop_name = "blockSize_in"
+        self.inputs.new("OCVLObjectSocket", "gradientSize_in").prop_name = "gradientSize_in"
+        self.inputs.new("OCVLObjectSocket", "useHarrisDetector_in").prop_name = "useHarrisDetector_in"
+        self.inputs.new("OCVLObjectSocket", "k_in").prop_name = "k_in"
 
-        self.outputs.new("OCVLMatrixSocket", "corners_out")
+        self.outputs.new("OCVLObjectSocket", "corners_out")
         self.outputs.new("OCVLImageSocket", "image_out")
 
     def wrapped_process(self):

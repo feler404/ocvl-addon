@@ -18,7 +18,7 @@ class OCVLsetIdentityNode(OCVLNodeBase):
 
     def init(self, context):
         self.inputs.new("OCVLImageSocket", "mtx_in")
-        self.inputs.new("OCVLMatrixSocket", "s_in").prop_name = "s_in"
+        self.inputs.new("OCVLObjectSocket", "s_in").prop_name = "s_in"
 
         self.outputs.new("OCVLImageSocket", "mtx_out")
 

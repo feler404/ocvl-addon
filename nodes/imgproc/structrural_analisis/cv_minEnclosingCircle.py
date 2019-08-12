@@ -16,8 +16,8 @@ class OCVLminEnclosingCircleNode(OCVLNodeBase):
     def init(self, context):
         self.inputs.new("OCVLContourSocket", "points_in")
 
-        self.outputs.new("OCVLMatrixSocket", "center_out")
-        self.outputs.new("OCVLMatrixSocket", "radius_out")
+        self.outputs.new("OCVLObjectSocket", "center_out")
+        self.outputs.new("OCVLObjectSocket", "radius_out")
 
     def wrapped_process(self):
         kwargs = {

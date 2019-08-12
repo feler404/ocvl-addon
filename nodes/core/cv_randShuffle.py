@@ -18,7 +18,7 @@ class OCVLrandShuffleNode(OCVLNodeBase):
 
     def init(self, context):
         self.inputs.new("OCVLImageSocket", "dst_in")
-        self.inputs.new("OCVLMatrixSocket", "iterFactor_in").prop_name = "iterFactor_in"
+        self.inputs.new("OCVLObjectSocket", "iterFactor_in").prop_name = "iterFactor_in"
 
         self.outputs.new("OCVLImageSocket", "dst_out")
 

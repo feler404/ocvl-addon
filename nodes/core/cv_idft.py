@@ -21,7 +21,7 @@ class OCVLidftNode(OCVLNodeBase):
 
     def init(self, context):
         self.inputs.new("OCVLImageSocket", "src_in")
-        self.inputs.new("OCVLMatrixSocket", "nonzeroRows_in").prop_name = "nonzeroRows_in"
+        self.inputs.new("OCVLObjectSocket", "nonzeroRows_in").prop_name = "nonzeroRows_in"
 
         self.outputs.new("OCVLImageSocket", "dst_out")
 

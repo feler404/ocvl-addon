@@ -26,8 +26,8 @@ class OCVLCannyNode(OCVLNodeBase):
 
     def init(self, context):
         self.inputs.new("OCVLImageSocket", "image_in")
-        self.inputs.new('OCVLMatrixSocket', "threshold1_in").prop_name = 'threshold1_in'
-        self.inputs.new('OCVLMatrixSocket', "threshold2_in").prop_name = 'threshold2_in'
+        self.inputs.new('OCVLObjectSocket', "threshold1_in").prop_name = 'threshold1_in'
+        self.inputs.new('OCVLObjectSocket', "threshold2_in").prop_name = 'threshold2_in'
 
         self.outputs.new("OCVLImageSocket", "edges_out")
 

@@ -19,11 +19,11 @@ class OCVLgetRectSubPixNode(OCVLNodeBase):
 
     def init(self, context):
         self.inputs.new("OCVLImageSocket", "image_in")
-        self.inputs.new("OCVLMatrixSocket", "patchSize_in").prop_name = "patchSize_in"
-        self.inputs.new("OCVLMatrixSocket", "center_in").prop_name = "center_in"
-        self.inputs.new("OCVLMatrixSocket", "patchType_in").prop_name = "patchType_in"
+        self.inputs.new("OCVLObjectSocket", "patchSize_in").prop_name = "patchSize_in"
+        self.inputs.new("OCVLObjectSocket", "center_in").prop_name = "center_in"
+        self.inputs.new("OCVLObjectSocket", "patchType_in").prop_name = "patchType_in"
 
-        self.outputs.new("OCVLMatrixSocket", "patch_out")
+        self.outputs.new("OCVLObjectSocket", "patch_out")
 
     def wrapped_process(self):
         kwargs = {

@@ -18,9 +18,9 @@ class OCVLwatershedNode(OCVLNodeBase):
 
     def init(self, context):
         self.inputs.new("OCVLImageSocket", "image_in")
-        self.inputs.new("OCVLMatrixSocket", "markers_in")
+        self.inputs.new("OCVLObjectSocket", "markers_in")
 
-        self.outputs.new("OCVLMatrixSocket", "markers_out")
+        self.outputs.new("OCVLObjectSocket", "markers_out")
 
     def wrapped_process(self):
         kwargs = {

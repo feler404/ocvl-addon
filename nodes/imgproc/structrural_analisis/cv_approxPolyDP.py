@@ -20,9 +20,9 @@ class OCVLapproxPolyDPNode(OCVLNodeBase):
 
     def init(self, context):
         self.inputs.new("OCVLContourSocket", "curve_in")
-        self.inputs.new("OCVLMatrixSocket", "epsilon_in").prop_name = "epsilon_in"
+        self.inputs.new("OCVLObjectSocket", "epsilon_in").prop_name = "epsilon_in"
 
-        self.outputs.new("OCVLMatrixSocket", "approxCurve_out").prop_name = "approxCurve_out"
+        self.outputs.new("OCVLObjectSocket", "approxCurve_out").prop_name = "approxCurve_out"
 
     def wrapped_process(self):
         kwargs = {

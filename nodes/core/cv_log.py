@@ -17,7 +17,7 @@ class OCVLlogNode(OCVLNodeBase):
     def init(self, context):
         self.width = 150
         self.inputs.new("OCVLImageSocket", "src_in")
-        self.outputs.new("OCVLMatrixSocket", "dst_out")
+        self.outputs.new("OCVLObjectSocket", "dst_out")
 
     def wrapped_process(self):
 

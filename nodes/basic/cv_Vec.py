@@ -37,7 +37,7 @@ class OCVLVecNode(OCVLNodeBase):
 
     def init(self, context):
         self.width = 250
-        self.inputs.new("OCVLMatrixSocket", "size_in").prop_name = "size_in"
+        self.inputs.new("OCVLObjectSocket", "size_in").prop_name = "size_in"
 
         self.outputs.new("OCVLVectorSocket", "vector_out")
         self.update_layout(context)

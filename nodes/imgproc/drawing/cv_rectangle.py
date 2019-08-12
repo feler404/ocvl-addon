@@ -23,10 +23,10 @@ class OCVLrectangleNode(OCVLNodeBase):
 
     def init(self, context):
         self.inputs.new("OCVLImageSocket", "img_in")
-        self.inputs.new('OCVLMatrixSocket', "pt1_in").prop_name = 'pt1_in'
-        self.inputs.new('OCVLMatrixSocket', "pt2_in").prop_name = 'pt2_in'
-        self.inputs.new('OCVLMatrixSocket', "thickness_in").prop_name = 'thickness_in'
-        self.inputs.new('OCVLMatrixSocket', "shift_in").prop_name = 'shift_in'
+        self.inputs.new('OCVLObjectSocket', "pt1_in").prop_name = 'pt1_in'
+        self.inputs.new('OCVLObjectSocket', "pt2_in").prop_name = 'pt2_in'
+        self.inputs.new('OCVLObjectSocket', "thickness_in").prop_name = 'thickness_in'
+        self.inputs.new('OCVLObjectSocket', "shift_in").prop_name = 'shift_in'
         self.inputs.new('OCVLColorSocket', 'color_in').prop_name = 'color_in'
 
         self.outputs.new("OCVLImageSocket", "img_out")

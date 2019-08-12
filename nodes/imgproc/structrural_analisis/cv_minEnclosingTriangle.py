@@ -19,8 +19,8 @@ class OCVLminEnclosingTriangleNode(OCVLNodeBase):
     def init(self, context):
         self.inputs.new("OCVLVectorSocket", "points_in")
 
-        self.outputs.new("OCVLMatrixSocket", "retval_out")
-        self.outputs.new("OCVLMatrixSocket", "triangle_out")
+        self.outputs.new("OCVLObjectSocket", "retval_out")
+        self.outputs.new("OCVLObjectSocket", "triangle_out")
 
     def wrapped_process(self):
         kwargs = {

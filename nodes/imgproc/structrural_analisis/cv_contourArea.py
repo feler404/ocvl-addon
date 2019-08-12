@@ -17,7 +17,7 @@ class OCVLcontourAreaNode(OCVLNodeBase):
 
     def init(self, context):
         self.inputs.new("OCVLContourSocket", "contour_in")
-        self.outputs.new("OCVLMatrixSocket", "area_out").prop_name = "area_out"
+        self.outputs.new("OCVLObjectSocket", "area_out").prop_name = "area_out"
 
     def wrapped_process(self):
         kwargs = {

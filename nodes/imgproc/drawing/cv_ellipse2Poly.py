@@ -23,14 +23,14 @@ class OCVLellipse2PolyNode(OCVLNodeBase):
     pts_out: bpy.props.StringProperty(name="pts_out", default=str(uuid.uuid4()), description="Output vector of polyline vertices.")
 
     def init(self, context):
-        self.inputs.new('OCVLMatrixSocket', 'center_in').prop_name = 'center_in'
-        self.inputs.new('OCVLMatrixSocket', "axes_in").prop_name = 'axes_in'
-        self.inputs.new('OCVLMatrixSocket', "angle_in").prop_name = 'angle_in'
-        self.inputs.new('OCVLMatrixSocket', "arcStart_in").prop_name = 'arcStart_in'
-        self.inputs.new('OCVLMatrixSocket', "arcEnd_in").prop_name = 'arcEnd_in'
-        self.inputs.new('OCVLMatrixSocket', "delta_in").prop_name = 'delta_in'
+        self.inputs.new('OCVLObjectSocket', 'center_in').prop_name = 'center_in'
+        self.inputs.new('OCVLObjectSocket', "axes_in").prop_name = 'axes_in'
+        self.inputs.new('OCVLObjectSocket', "angle_in").prop_name = 'angle_in'
+        self.inputs.new('OCVLObjectSocket', "arcStart_in").prop_name = 'arcStart_in'
+        self.inputs.new('OCVLObjectSocket', "arcEnd_in").prop_name = 'arcEnd_in'
+        self.inputs.new('OCVLObjectSocket', "delta_in").prop_name = 'delta_in'
 
-        self.outputs.new("OCVLMatrixSocket", "pts_out")
+        self.outputs.new("OCVLObjectSocket", "pts_out")
 
     def wrapped_process(self):
         kwargs = {

@@ -20,8 +20,8 @@ class OCVLboundingRectNode(OCVLNodeBase):
     def init(self, context):
         self.inputs.new('OCVLContourSocket', "points_in")
 
-        self.outputs.new("OCVLMatrixSocket", "pt1_out")
-        self.outputs.new("OCVLMatrixSocket", "pt2_out")
+        self.outputs.new("OCVLObjectSocket", "pt1_out")
+        self.outputs.new("OCVLObjectSocket", "pt2_out")
 
     def wrapped_process(self):
         kwargs = {

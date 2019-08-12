@@ -23,8 +23,8 @@ class OCVLROINode(OCVLNodeBase):
     def init(self, context):
         self.width = 200
         self.inputs.new("OCVLImageSocket", "image_in")
-        self.inputs.new('OCVLMatrixSocket', "pt1_in").prop_name = 'pt1_in'
-        self.inputs.new('OCVLMatrixSocket', "pt2_in").prop_name = 'pt2_in'
+        self.inputs.new('OCVLObjectSocket', "pt1_in").prop_name = 'pt1_in'
+        self.inputs.new('OCVLObjectSocket', "pt2_in").prop_name = 'pt2_in'
 
         self.outputs.new("OCVLImageSocket", "image_out")
         self.outputs.new("OCVLImageSocket", "image_roi_out")

@@ -31,7 +31,7 @@ class OCVLcompareHistNode(OCVLNodeBase):
         self.inputs.new("OCVLImageSocket", "H1_in")
         self.inputs.new("OCVLImageSocket", "H2_in")
 
-        self.outputs.new("OCVLMatrixSocket", "retval_out")
+        self.outputs.new("OCVLObjectSocket", "retval_out")
 
     def wrapped_process(self):
         kwargs = {

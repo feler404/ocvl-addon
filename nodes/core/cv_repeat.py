@@ -19,8 +19,8 @@ class OCVLrepeatNode(OCVLNodeBase):
 
     def init(self, context):
         self.inputs.new("OCVLImageSocket", "src_in")
-        self.inputs.new("OCVLMatrixSocket", "nx_in").prop_name = "nx_in"
-        self.inputs.new("OCVLMatrixSocket", "ny_in").prop_name = "ny_in"
+        self.inputs.new("OCVLObjectSocket", "nx_in").prop_name = "nx_in"
+        self.inputs.new("OCVLObjectSocket", "ny_in").prop_name = "ny_in"
 
         self.outputs.new("OCVLImageSocket", "dst_out")
 

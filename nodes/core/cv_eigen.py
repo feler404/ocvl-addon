@@ -20,9 +20,9 @@ class OCVLeigenNode(OCVLNodeBase):
     def init(self, context):
         self.inputs.new("OCVLImageSocket", "src_in")
 
-        self.outputs.new("OCVLMatrixSocket", "retval_out")
-        self.outputs.new("OCVLMatrixSocket", "eigenvalues_out")
-        self.outputs.new("OCVLMatrixSocket", "eigenvectors_out")
+        self.outputs.new("OCVLObjectSocket", "retval_out")
+        self.outputs.new("OCVLObjectSocket", "eigenvalues_out")
+        self.outputs.new("OCVLObjectSocket", "eigenvectors_out")
 
     def wrapped_process(self):
         kwargs = {

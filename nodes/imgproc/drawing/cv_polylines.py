@@ -31,8 +31,8 @@ class OCVLpolylinesNode(OCVLNodeBase):
         self.width = 150
         self.inputs.new("OCVLImageSocket", "img_in")
         self.inputs.new('OCVLImageSocket', "pts_in")
-        self.inputs.new('OCVLMatrixSocket', "thickness_in").prop_name = 'thickness_in'
-        self.inputs.new('OCVLMatrixSocket', "shift_in").prop_name = 'shift_in'
+        self.inputs.new('OCVLObjectSocket', "thickness_in").prop_name = 'thickness_in'
+        self.inputs.new('OCVLObjectSocket', "shift_in").prop_name = 'shift_in'
         self.inputs.new('OCVLColorSocket', 'color_in').prop_name = 'color_in'
 
         self.outputs.new("OCVLImageSocket", "img_out")

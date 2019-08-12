@@ -40,7 +40,7 @@ class OCVLmergeNode(OCVLNodeBase):
         self.inputs.new("OCVLImageSocket", "layer_0_in")
         self.inputs.new("OCVLImageSocket", "layer_1_in")
         self.inputs.new("OCVLImageSocket", "layer_2_in")
-        # self.inputs.new("OCVLMatrixSocket", "layer_3_in")
+        # self.inputs.new("OCVLObjectSocket", "layer_3_in")
 
         self.outputs.new("OCVLImageSocket", "image_out")
 

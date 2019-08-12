@@ -19,7 +19,7 @@ class OCVLgetAffineTransformNode(OCVLNodeBase):
     def init(self, context):
         self.inputs.new("OCVLImageSocket", "src_in")
 
-        self.outputs.new("OCVLMatrixSocket", "dst_out")
+        self.outputs.new("OCVLObjectSocket", "dst_out")
 
     def wrapped_process(self):
         src_in = self.get_from_props("src_in")

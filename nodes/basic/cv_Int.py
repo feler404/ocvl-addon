@@ -9,7 +9,7 @@ class OCVLIntNode(OCVLNodeBase):
     int_out: bpy.props.IntProperty(default=1, min=0, step=1, update=update_node, description="Simple integer number.")
 
     def init(self, context):
-        self.outputs.new("OCVLMatrixSocket", "int_out")
+        self.outputs.new("OCVLObjectSocket", "int_out")
 
     def wrapped_process(self):
         self.refresh_output_socket("int_out", self.int_out)

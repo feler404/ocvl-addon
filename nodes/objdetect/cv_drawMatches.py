@@ -27,17 +27,17 @@ class OCVLdrawMatchesNode(OCVLNodeBase):
 
 
     def init(self, context):
-        self.inputs.new("OCVLMatrixSocket", "img1_in")
-        self.inputs.new("OCVLMatrixSocket", "img2_in")
-        self.inputs.new("OCVLMatrixSocket", "keypoints1_in")
-        self.inputs.new("OCVLMatrixSocket", "keypoints2_in")
-        self.inputs.new("OCVLMatrixSocket", "matches1to2_in")
-        self.inputs.new("OCVLMatrixSocket", "matchesMask_in")
-        self.inputs.new("OCVLMatrixSocket", "matchColor_in").prop_name = "matchColor_in"
-        self.inputs.new("OCVLMatrixSocket", "singlePointColor_in").prop_name = "singlePointColor_in"
-        self.inputs.new("OCVLMatrixSocket", "loc_max_distance_in").prop_name = "loc_max_distance_in"
+        self.inputs.new("OCVLObjectSocket", "img1_in")
+        self.inputs.new("OCVLObjectSocket", "img2_in")
+        self.inputs.new("OCVLObjectSocket", "keypoints1_in")
+        self.inputs.new("OCVLObjectSocket", "keypoints2_in")
+        self.inputs.new("OCVLObjectSocket", "matches1to2_in")
+        self.inputs.new("OCVLObjectSocket", "matchesMask_in")
+        self.inputs.new("OCVLObjectSocket", "matchColor_in").prop_name = "matchColor_in"
+        self.inputs.new("OCVLObjectSocket", "singlePointColor_in").prop_name = "singlePointColor_in"
+        self.inputs.new("OCVLObjectSocket", "loc_max_distance_in").prop_name = "loc_max_distance_in"
 
-        self.outputs.new("OCVLMatrixSocket", "outImg_out")
+        self.outputs.new("OCVLObjectSocket", "outImg_out")
 
     def wrapped_process(self):
         self.check_input_requirements(["img1_in", "img2_in", "keypoints1_in", "keypoints2_in", "matches1to2_in"])

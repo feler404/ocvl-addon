@@ -22,11 +22,11 @@ class OCVLfindContoursNode(OCVLNodeBase):
 
     def init(self, context):
         self.inputs.new("OCVLImageSocket", "image_in")
-        self.inputs.new('OCVLMatrixSocket', "offset_in").prop_name = 'offset_in'
+        self.inputs.new('OCVLObjectSocket', "offset_in").prop_name = 'offset_in'
 
         self.outputs.new("OCVLImageSocket", "image_out")
         self.outputs.new("OCVLContourSocket", "contours_out")
-        self.outputs.new("OCVLMatrixSocket", "hierarchy_out")
+        self.outputs.new("OCVLObjectSocket", "hierarchy_out")
 
     def wrapped_process(self):
         kwargs = {

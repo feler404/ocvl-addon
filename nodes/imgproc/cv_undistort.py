@@ -20,9 +20,9 @@ class OCVLundistortNode(OCVLNodeBase):
 
     def init(self, context):
         self.inputs.new("OCVLImageSocket", "src_in")
-        self.inputs.new("OCVLMatrixSocket", "cameraMatrix_in")
-        self.inputs.new("OCVLMatrixSocket", "distCoeffs_in")
-        self.inputs.new("OCVLMatrixSocket", "newCameraMatrix_in")
+        self.inputs.new("OCVLObjectSocket", "cameraMatrix_in")
+        self.inputs.new("OCVLObjectSocket", "distCoeffs_in")
+        self.inputs.new("OCVLObjectSocket", "newCameraMatrix_in")
 
         self.outputs.new("OCVLImageSocket", "dst_out")
 

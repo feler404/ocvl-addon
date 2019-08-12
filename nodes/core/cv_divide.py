@@ -21,7 +21,7 @@ class OCVLdivideNode(OCVLNodeBase):
     def init(self, context):
         self.inputs.new("OCVLImageSocket", "src_1_in")
         self.inputs.new("OCVLImageSocket", "src_2_in")
-        self.inputs.new("OCVLMatrixSocket", "scale_in").prop_name = "scale_in"
+        self.inputs.new("OCVLObjectSocket", "scale_in").prop_name = "scale_in"
 
         self.outputs.new("OCVLImageSocket", "dst_out")
 

@@ -23,8 +23,8 @@ class OCVLnormalizeNode(OCVLNodeBase):
         self.width = 200
         self.inputs.new("OCVLImageSocket", "src_in")
         self.inputs.new('OCVLMaskSocket', "mask_in")
-        self.inputs.new('OCVLMatrixSocket', "alpha_in").prop_name = 'alpha_in'
-        self.inputs.new('OCVLMatrixSocket', "beta_in").prop_name = 'beta_in'
+        self.inputs.new('OCVLObjectSocket', "alpha_in").prop_name = 'alpha_in'
+        self.inputs.new('OCVLObjectSocket', "beta_in").prop_name = 'beta_in'
 
         self.outputs.new("OCVLImageSocket", "dst_out")
 

@@ -18,9 +18,9 @@ class OCVLgetDefaultNewCameraMatrixNode(OCVLNodeBase):
 
     def init(self, context):
         self.inputs.new("OCVLImageSocket", "cameraMatrix_in")
-        self.inputs.new("OCVLMatrixSocket", "imgsize_in").prop_name = "imgsize_in"
+        self.inputs.new("OCVLObjectSocket", "imgsize_in").prop_name = "imgsize_in"
 
-        self.outputs.new("OCVLMatrixSocket", "retval_out")
+        self.outputs.new("OCVLObjectSocket", "retval_out")
 
     def wrapped_process(self):
         kwargs = {

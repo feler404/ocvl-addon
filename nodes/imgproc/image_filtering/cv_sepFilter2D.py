@@ -41,8 +41,8 @@ class OCVLsepFilter2dNode(OCVLNodeBase):
         self.inputs.new("OCVLImageSocket", "src_in")
         self.inputs.new("OCVLImageSocket", "kernelX_in")
         self.inputs.new("OCVLImageSocket", "kernelY_in")
-        self.inputs.new('OCVLMatrixSocket', "anchor_in").prop_name = 'anchor_in'
-        self.inputs.new('OCVLMatrixSocket', "delta_in").prop_name = 'delta_in'
+        self.inputs.new('OCVLObjectSocket', "anchor_in").prop_name = 'anchor_in'
+        self.inputs.new('OCVLObjectSocket', "delta_in").prop_name = 'delta_in'
 
         self.outputs.new("OCVLImageSocket", "dst_out")
 

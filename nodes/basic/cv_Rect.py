@@ -13,10 +13,10 @@ class OCVLRectNode(OCVLNodeBase):
     height_in: bpy.props.IntProperty(default=10, min=0, max=2048, update=update_node, description="Height input.")
 
     def init(self, context):
-        self.inputs.new("OCVLMatrixSocket", "x_in").prop_name = "x_in"
-        self.inputs.new("OCVLMatrixSocket", "y_in").prop_name = "y_in"
-        self.inputs.new("OCVLMatrixSocket", "width_in").prop_name = "width_in"
-        self.inputs.new("OCVLMatrixSocket", "height_in").prop_name = "height_in"
+        self.inputs.new("OCVLObjectSocket", "x_in").prop_name = "x_in"
+        self.inputs.new("OCVLObjectSocket", "y_in").prop_name = "y_in"
+        self.inputs.new("OCVLObjectSocket", "width_in").prop_name = "width_in"
+        self.inputs.new("OCVLObjectSocket", "height_in").prop_name = "height_in"
 
         self.outputs.new("OCVLRectSocket", "rect_out")
 

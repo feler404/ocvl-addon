@@ -25,7 +25,7 @@ class OCVLmedianBlurNode(OCVLNodeBase):
 
     def init(self, context):
         self.inputs.new("OCVLImageSocket", "src_in")
-        self.inputs.new('OCVLMatrixSocket', "ksize_in").prop_name = 'ksize_in'
+        self.inputs.new('OCVLObjectSocket', "ksize_in").prop_name = 'ksize_in'
 
         self.outputs.new("OCVLImageSocket", "dst_out")
 

@@ -28,9 +28,9 @@ class OCVLcalcBackProjectNode(OCVLNodeBase):
         self.inputs.new("OCVLVectorSocket", "channels_in")
         self.inputs.new("OCVLVectorSocket", "hist_in")
         self.inputs.new("OCVLVectorSocket", "ranges_in")
-        self.inputs.new("OCVLMatrixSocket", "scale_in")
+        self.inputs.new("OCVLObjectSocket", "scale_in")
 
-        self.outputs.new("OCVLMatrixSocket", "dst_out")
+        self.outputs.new("OCVLObjectSocket", "dst_out")
 
     def wrapped_process(self):
         kwargs = {

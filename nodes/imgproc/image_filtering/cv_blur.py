@@ -30,8 +30,8 @@ class OCVLblurNode(OCVLNodeBase):
     def init(self, context):
         self.width = 250
         self.inputs.new("OCVLImageSocket", "src_in")
-        self.inputs.new('OCVLMatrixSocket', "ksize_in").prop_name = 'ksize_in'
-        self.inputs.new('OCVLMatrixSocket', "anchor_in").prop_name = 'anchor_in'
+        self.inputs.new('OCVLObjectSocket', "ksize_in").prop_name = 'ksize_in'
+        self.inputs.new('OCVLObjectSocket', "anchor_in").prop_name = 'anchor_in'
 
         self.outputs.new("OCVLImageSocket", "dst_in")
 

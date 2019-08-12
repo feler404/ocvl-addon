@@ -23,7 +23,7 @@ class OCVLinpaintNode(OCVLNodeBase):
     def init(self, context):
         self.inputs.new("OCVLImageSocket", "image_in")
         self.inputs.new('OCVLMaskSocket', "inpaintMask_in")
-        self.inputs.new('OCVLMatrixSocket', "inpaintRadius_in").prop_name = 'inpaintRadius_in'
+        self.inputs.new('OCVLObjectSocket', "inpaintRadius_in").prop_name = 'inpaintRadius_in'
 
         self.outputs.new("OCVLImageSocket", "image_out")
 

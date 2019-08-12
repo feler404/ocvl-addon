@@ -28,7 +28,7 @@ class OCVLremapNode(OCVLNodeBase):
         self.inputs.new("OCVLImageSocket", "src_in")
         self.inputs.new("OCVLImageSocket", "map1_in")
         self.inputs.new("OCVLImageSocket", "map2_in")
-        self.inputs.new('OCVLMatrixSocket', "borderValue_in").prop_name = 'borderValue_in'
+        self.inputs.new('OCVLObjectSocket', "borderValue_in").prop_name = 'borderValue_in'
 
         self.outputs.new("OCVLImageSocket", "dst_out")
 

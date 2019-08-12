@@ -36,8 +36,8 @@ class OCVLadaptiveThresholdNode(OCVLNodeBase):
     def init(self, context):
         self.width = 250
         self.inputs.new("OCVLImageSocket", "image_in")
-        self.inputs.new("OCVLMatrixSocket", "maxValue_in").prop_name = "maxValue_in"
-        self.inputs.new("OCVLMatrixSocket", "C_in").prop_name = "C_in"
+        self.inputs.new("OCVLObjectSocket", "maxValue_in").prop_name = "maxValue_in"
+        self.inputs.new("OCVLObjectSocket", "C_in").prop_name = "C_in"
 
         self.outputs.new("OCVLImageSocket", "image_out")
 

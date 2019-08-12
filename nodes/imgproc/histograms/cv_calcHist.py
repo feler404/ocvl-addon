@@ -31,7 +31,7 @@ class OCVLcalcHistNode(OCVLNodeBase):
         self.inputs.new("OCVLVectorSocket", "ranges_in")
         self.inputs.new("OCVLMaskSocket", "mask_in")
 
-        self.outputs.new("OCVLMatrixSocket", "hist_out")
+        self.outputs.new("OCVLObjectSocket", "hist_out")
 
     def wrapped_process(self):
         mask_in = self.get_from_props("mask_in")

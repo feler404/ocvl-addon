@@ -24,7 +24,7 @@ class Category:
 
 
 class SocketColors:
-    OCVLMatrixSocket = 0.1, 1.0, 0.2, 1
+    OCVLObjectSocket = 0.1, 1.0, 0.2, 1
     OCVLColorSocket = 0.1, 0.7, 1.0, 1
     OCVLImageSocket = 0.1, 1.0, 0.8, 1
     OCVLMaskSocket = 0.0, 0.0, 0.0, 1

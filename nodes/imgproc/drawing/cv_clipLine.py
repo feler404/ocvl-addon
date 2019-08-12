@@ -23,12 +23,12 @@ class OCVLclipLineNode(OCVLNodeBase):
     def init(self, context):
         self.width = 200
         self.inputs.new("OCVLRectSocket", "imgRect_in")
-        self.inputs.new('OCVLMatrixSocket', "pt1_in").prop_name = 'pt1_in'
-        self.inputs.new('OCVLMatrixSocket', "pt2_in").prop_name = 'pt2_in'
+        self.inputs.new('OCVLObjectSocket', "pt1_in").prop_name = 'pt1_in'
+        self.inputs.new('OCVLObjectSocket', "pt2_in").prop_name = 'pt2_in'
 
-        self.outputs.new("OCVLMatrixSocket", "retval_out")
-        self.outputs.new("OCVLMatrixSocket", "pt1_out")
-        self.outputs.new("OCVLMatrixSocket", "pt2_out")
+        self.outputs.new("OCVLObjectSocket", "retval_out")
+        self.outputs.new("OCVLObjectSocket", "pt1_out")
+        self.outputs.new("OCVLObjectSocket", "pt2_out")
 
     def wrapped_process(self):
         self.check_input_requirements(["imgRect_in"])
