@@ -28,12 +28,12 @@ class OCVLGetDerivKernelsNode(OCVLNodeBase):
     ky_out: bpy.props.StringProperty(name="ky_out", default=str(uuid.uuid4()), description="Output matrix of column filter coefficients. It has the type ktype .")
 
     def init(self, context):
-        self.inputs.new('StringsSocket', "dx_in").prop_name = 'dx_in'
-        self.inputs.new('StringsSocket', "dy_in").prop_name = 'dy_in'
-        self.inputs.new('StringsSocket', "ksize_in").prop_name = 'ksize_in'
+        self.inputs.new('OCVLObjectSocket', "dx_in").prop_name = 'dx_in'
+        self.inputs.new('OCVLObjectSocket', "dy_in").prop_name = 'dy_in'
+        self.inputs.new('OCVLObjectSocket', "ksize_in").prop_name = 'ksize_in'
 
-        self.outputs.new("StringsSocket", "kx_out")
-        self.outputs.new("StringsSocket", "ky_out")
+        self.outputs.new("OCVLObjectSocket", "kx_out")
+        self.outputs.new("OCVLObjectSocket", "ky_out")
 
     def wrapped_process(self):
         kwargs = {

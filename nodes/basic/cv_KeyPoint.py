@@ -15,13 +15,13 @@ class OCVLKeyPointNode(OCVLNodeBase):
     class_id_in: bpy.props.IntProperty(default=-1, min=-1, max=100, update=update_node, description="Object id.")
 
     def init(self, context):
-        self.inputs.new("StringsSocket", "pt_in").prop_name = "pt_in"
-        self.inputs.new("StringsSocket", "size_in").prop_name = "size_in"
-        self.inputs.new("StringsSocket", "angle_in").prop_name = "angle_in"
-        self.inputs.new("StringsSocket", "response_in").prop_name = "response_in"
-        self.inputs.new("StringsSocket", "octave_in").prop_name = "octave_in"
-        self.inputs.new("StringsSocket", "class_id_in").prop_name = "class_id_in"
-        self.outputs.new("StringsSocket", "key_point_out")
+        self.inputs.new("OCVLObjectSocket", "pt_in").prop_name = "pt_in"
+        self.inputs.new("OCVLObjectSocket", "size_in").prop_name = "size_in"
+        self.inputs.new("OCVLObjectSocket", "angle_in").prop_name = "angle_in"
+        self.inputs.new("OCVLObjectSocket", "response_in").prop_name = "response_in"
+        self.inputs.new("OCVLObjectSocket", "octave_in").prop_name = "octave_in"
+        self.inputs.new("OCVLObjectSocket", "class_id_in").prop_name = "class_id_in"
+        self.outputs.new("OCVLObjectSocket", "key_point_out")
 
     def wrapped_process(self):
         pt_in = self.get_from_props("pt_in")

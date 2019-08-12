@@ -15,8 +15,8 @@ class OCVLcountNonZeroNode(OCVLNodeBase):
     retval_out: bpy.props.IntProperty(name="retval", default=0, description="")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "src_in")
-        self.outputs.new("StringsSocket", "retval_out").prop_name = "retval_out"
+        self.inputs.new("OCVLImageSocket", "src_in")
+        self.outputs.new("OCVLObjectSocket", "retval_out").prop_name = "retval_out"
 
     def wrapped_process(self):
         kwargs = {

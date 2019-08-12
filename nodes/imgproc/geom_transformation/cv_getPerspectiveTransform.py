@@ -18,9 +18,9 @@ class OCVLgetPerspectiveTransformNode(OCVLNodeBase):
     dst_in: bpy.props.StringProperty(name="dst_in", default=str(uuid.uuid4()), description="Coordinates of the corresponding quadrangle vertices in the destination image.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "src_in")
+        self.inputs.new("OCVLImageSocket", "src_in")
 
-        self.outputs.new("StringsSocket", "dst_in")
+        self.outputs.new("OCVLObjectSocket", "dst_in")
 
     def wrapped_process(self):
         src_in = self.get_from_props("src_in")

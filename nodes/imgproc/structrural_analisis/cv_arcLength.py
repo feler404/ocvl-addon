@@ -17,8 +17,8 @@ class OCVLarcLengthNode(OCVLNodeBase):
     retval_out: bpy.props.FloatProperty(default=0.0, description="Length of contour.")
 
     def init(self, context):
-        self.inputs.new("ContourSocket", "curve_in")
-        self.outputs.new("StringsSocket", "retval_out").prop_name = "retval_out"
+        self.inputs.new("OCVLContourSocket", "curve_in")
+        self.outputs.new("OCVLObjectSocket", "retval_out").prop_name = "retval_out"
 
     def wrapped_process(self):
         kwargs = {

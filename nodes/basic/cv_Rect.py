@@ -13,12 +13,12 @@ class OCVLRectNode(OCVLNodeBase):
     height_in: bpy.props.IntProperty(default=10, min=0, max=2048, update=update_node, description="Height input.")
 
     def init(self, context):
-        self.inputs.new("StringsSocket", "x_in").prop_name = "x_in"
-        self.inputs.new("StringsSocket", "y_in").prop_name = "y_in"
-        self.inputs.new("StringsSocket", "width_in").prop_name = "width_in"
-        self.inputs.new("StringsSocket", "height_in").prop_name = "height_in"
+        self.inputs.new("OCVLObjectSocket", "x_in").prop_name = "x_in"
+        self.inputs.new("OCVLObjectSocket", "y_in").prop_name = "y_in"
+        self.inputs.new("OCVLObjectSocket", "width_in").prop_name = "width_in"
+        self.inputs.new("OCVLObjectSocket", "height_in").prop_name = "height_in"
 
-        self.outputs.new("RectSocket", "rect_out")
+        self.outputs.new("OCVLRectSocket", "rect_out")
 
     def wrapped_process(self):
         x_in = self.get_from_props("x_in")

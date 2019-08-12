@@ -19,10 +19,10 @@ class OCVLapproxPolyDPNode(OCVLNodeBase):
     loc_from_findContours: bpy.props.BoolProperty(default=True, update=update_node, description="If linked with findContour node switch to True")
 
     def init(self, context):
-        self.inputs.new("ContourSocket", "curve_in")
-        self.inputs.new("StringsSocket", "epsilon_in").prop_name = "epsilon_in"
+        self.inputs.new("OCVLContourSocket", "curve_in")
+        self.inputs.new("OCVLObjectSocket", "epsilon_in").prop_name = "epsilon_in"
 
-        self.outputs.new("StringsSocket", "approxCurve_out").prop_name = "approxCurve_out"
+        self.outputs.new("OCVLObjectSocket", "approxCurve_out").prop_name = "approxCurve_out"
 
     def wrapped_process(self):
         kwargs = {

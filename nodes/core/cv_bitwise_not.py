@@ -15,10 +15,10 @@ class OCVLbitwise_notNode(OCVLNodeBase):
     dst_out: bpy.props.StringProperty(name="dst_out", default=str(uuid.uuid4()))
 
     def init(self, context):
-        self.inputs.new("ImageSocket", name="src_in", identifier="src_in")
-        self.inputs.new('MaskSocket', name="mask_in", identifier="mask_in")
+        self.inputs.new("OCVLImageSocket", name="src_in", identifier="src_in")
+        self.inputs.new('OCVLMaskSocket', name="mask_in", identifier="mask_in")
 
-        self.outputs.new("ImageSocket", name="dst_out", identifier="dst_out")
+        self.outputs.new("OCVLImageSocket", name="dst_out", identifier="dst_out")
 
     def wrapped_process(self):
         kwargs = {

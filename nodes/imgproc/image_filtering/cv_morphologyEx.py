@@ -26,12 +26,12 @@ class OCVLmorphologyExNode(OCVLNodeBase):
 
     def init(self, context):
         self.width = 200
-        self.inputs.new("ImageSocket", "src_in")
-        self.inputs.new("ImageSocket", "kernel_in")
-        self.inputs.new('StringsSocket', "anchor_in").prop_name = 'anchor_in'
-        self.inputs.new('StringsSocket', "iterations_in").prop_name = 'iterations_in'
+        self.inputs.new("OCVLImageSocket", "src_in")
+        self.inputs.new("OCVLImageSocket", "kernel_in")
+        self.inputs.new('OCVLObjectSocket', "anchor_in").prop_name = 'anchor_in'
+        self.inputs.new('OCVLObjectSocket', "iterations_in").prop_name = 'iterations_in'
 
-        self.outputs.new("ImageSocket", "dst_out")
+        self.outputs.new("OCVLImageSocket", "dst_out")
 
     def wrapped_process(self):
         kwargs = {

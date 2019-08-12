@@ -23,14 +23,14 @@ class OCVLcopyMakeBorderNode(OCVLNodeBase):
     dst_out: bpy.props.StringProperty(name="dst_out", default=str(uuid.uuid4()), description="Output image.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "src_in")
-        self.inputs.new('StringsSocket', "top_in").prop_name = 'top_in'
-        self.inputs.new('StringsSocket', "bottom_in").prop_name = 'bottom_in'
-        self.inputs.new('StringsSocket', "left_in").prop_name = 'left_in'
-        self.inputs.new('StringsSocket', "right_in").prop_name = 'right_in'
-        self.inputs.new('ColorSocket', "color_in").prop_name = "color_in"
+        self.inputs.new("OCVLImageSocket", "src_in")
+        self.inputs.new('OCVLObjectSocket', "top_in").prop_name = 'top_in'
+        self.inputs.new('OCVLObjectSocket', "bottom_in").prop_name = 'bottom_in'
+        self.inputs.new('OCVLObjectSocket', "left_in").prop_name = 'left_in'
+        self.inputs.new('OCVLObjectSocket', "right_in").prop_name = 'right_in'
+        self.inputs.new('OCVLColorSocket', "color_in").prop_name = "color_in"
 
-        self.outputs.new("ImageSocket", "dst_out")
+        self.outputs.new("OCVLImageSocket", "dst_out")
 
     def wrapped_process(self):
 

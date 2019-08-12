@@ -20,13 +20,13 @@ class OCVLminMaxLocNode(OCVLNodeBase):
     maxLoc_out: bpy.props.StringProperty(name="maxLoc_out", default=str(uuid.uuid4()), description="Pointer to the returned maximum location (in 2D case); NULL is used if not required.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "src_in")
-        self.inputs.new("MaskSocket", "mask_in")
+        self.inputs.new("OCVLImageSocket", "src_in")
+        self.inputs.new("OCVLMaskSocket", "mask_in")
 
-        self.outputs.new("StringsSocket", "minVal_out")
-        self.outputs.new("StringsSocket", "maxVal_out")
-        self.outputs.new("StringsSocket", "minLoc_out")
-        self.outputs.new("StringsSocket", "maxLoc_out")
+        self.outputs.new("OCVLObjectSocket", "minVal_out")
+        self.outputs.new("OCVLObjectSocket", "maxVal_out")
+        self.outputs.new("OCVLObjectSocket", "minLoc_out")
+        self.outputs.new("OCVLObjectSocket", "maxLoc_out")
 
     def wrapped_process(self):
         kwargs = {
@@ -39,6 +39,14 @@ class OCVLminMaxLocNode(OCVLNodeBase):
         self.refresh_output_socket("maxVal_out", maxVal_out)
         self.refresh_output_socket("minLoc_out", minLoc_out, is_uuid_type=True)
         self.refresh_output_socket("maxLoc_out", maxLoc_out, is_uuid_type=True)
+        self._add_meta_info(minLoc_out, maxLoc_out)
+
+    def _add_meta_info(self, minLoc_out, maxLoc_out):
+        self.n_meta = "\n".join([f"minVal: {self.minVal_out}",
+                                 f"maxVal: {self.maxVal_out}",
+                                 f"minLoc: {minLoc_out}",
+                                 f"maxLoc: {maxLoc_out}",
+                                 ])
 
     def draw_buttons(self, context, layout):
         pass

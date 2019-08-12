@@ -17,8 +17,8 @@ class OCVLinvertAffineTransformNode(OCVLNodeBase):
     iM_out: bpy.props.StringProperty(name="iM_out", default=str(uuid.uuid4()), description="Output reverse affine transformation.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "M_in")
-        self.outputs.new("StringsSocket", "iM_out")
+        self.inputs.new("OCVLImageSocket", "M_in")
+        self.outputs.new("OCVLObjectSocket", "iM_out")
 
     def wrapped_process(self):
         kwargs = {

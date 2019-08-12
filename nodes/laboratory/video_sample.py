@@ -36,7 +36,7 @@ class OCVLVideoSampleNode(OCVLPreviewNodeBase):
 
     n_doc = "Video sample"
     n_requirements = {}
-
+    n_meta = ""
 
     def update_layout(self, context):
         logger.debug("UPDATE_LAYOUT")
@@ -60,12 +60,13 @@ class OCVLVideoSampleNode(OCVLPreviewNodeBase):
 
     def init(self, context):
         self.width = 200
-        self.outputs.new('ImageSocket', 'image_out')
-        self.outputs.new('StringsSocket', 'width_out')
-        self.outputs.new('StringsSocket', 'height_out')
+        self.outputs.new('OCVLImageSocket', 'image_out')
+        self.outputs.new('OCVLObjectSocket', 'width_out')
+        self.outputs.new('OCVLObjectSocket', 'height_out')
+        bpy.app.handlers.frame_change_pre.append(self.wrapped_process)
         self.update_layout(context)
 
-    def wrapped_process(self):
+    def wrapped_process(self, *args):
         logger.info("Process: self: {}, loc_image_mode: {}, loc_filepath: {}".format(self, self.loc_image_mode, self.loc_filepath))
         image = None
         uuid_ = None
@@ -86,6 +87,7 @@ class OCVLVideoSampleNode(OCVLPreviewNodeBase):
 
         self.outputs['image_out'].sv_set(self.image_out)
         self.make_textures(image, uuid_=self.image_out)
+        self.process_connected_nodes()
 
     def _update_node_cache(self, image=None, resize=False, uuid_=None):
         old_image_out = self.image_out
@@ -110,7 +112,7 @@ class OCVLVideoSampleNode(OCVLPreviewNodeBase):
         elif self.loc_image_mode == "FILE":
             col = layout.row().column()
             col_split = col.split(factor=1, align=True)
-            col_split.operator('image.ocvl_image_importer', text='', icon="FILE_FOLDER").origin = origin
+            col_split.operator('ocvl.ocvl_image_importer', text='', icon="FILE_FOLDER").origin = origin
 
         if self.n_id not in self.texture:
             return
@@ -122,7 +124,7 @@ class OCVLVideoSampleNode(OCVLPreviewNodeBase):
         else:
             col_split.operator("screen.animation_play", text="", icon='PAUSE')
 
-        location_y = -220
+        location_y = -250
         self.draw_preview(layout=layout, prop_name="image_out", location_x=10, location_y=location_y)
 
     def free(self):
@@ -130,6 +132,16 @@ class OCVLVideoSampleNode(OCVLPreviewNodeBase):
         loc_camera_device = int(self.get_from_props("loc_camera_device"))
         if CAMERA_DEVICE_DICT.get(loc_camera_device).isOpened():
             CAMERA_DEVICE_DICT.get(loc_camera_device).release()
+        for handler in bpy.app.handlers.frame_change_pre:
+            if f'"{self.name}"' in str(handler):
+                index_handler = bpy.app.handlers.frame_change_pre.index(handler)
+        bpy.app.handlers.frame_change_pre.pop(index_handler)
 
     def update_sockets(self, context):
         self.process()
+
+    def process_connected_nodes(self):
+        for output in self.outputs:
+            if output.is_linked:
+                for link in output.links:
+                    link.to_node.process()

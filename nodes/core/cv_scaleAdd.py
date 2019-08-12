@@ -18,11 +18,11 @@ class OCVLscaleAddNode(OCVLNodeBase):
     dst_out: bpy.props.StringProperty(name="dst_out", default=str(uuid.uuid4()), description="Output array of the same type as src.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "src1_in")
-        self.inputs.new("ImageSocket", "src2_in")
-        self.inputs.new("StringsSocket", "alpha_in").prop_name = "alpha_in"
+        self.inputs.new("OCVLImageSocket", "src1_in")
+        self.inputs.new("OCVLImageSocket", "src2_in")
+        self.inputs.new("OCVLObjectSocket", "alpha_in").prop_name = "alpha_in"
 
-        self.outputs.new("ImageSocket", "dst_out")
+        self.outputs.new("OCVLImageSocket", "dst_out")
 
     def wrapped_process(self):
         kwargs = {

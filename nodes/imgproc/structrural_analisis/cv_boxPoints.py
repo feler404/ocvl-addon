@@ -14,8 +14,8 @@ class OCVLboxPointsNode(OCVLNodeBase):
     box_in: bpy.props.StringProperty(default=str(uuid.uuid4()), description="Points and angle in one list.")
 
     def init(self, context):
-        self.inputs.new("VectorSocket", "box_in")
-        self.outputs.new("StringsSocket", "points_out")
+        self.inputs.new("OCVLVectorSocket", "box_in")
+        self.outputs.new("OCVLObjectSocket", "points_out")
 
     def wrapped_process(self):
         kwargs = {

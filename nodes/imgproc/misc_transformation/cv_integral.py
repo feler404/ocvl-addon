@@ -23,9 +23,9 @@ class OCVLintegralNode(OCVLNodeBase):
     sum_out: bpy.props.StringProperty(name="sum_out", default=str(uuid.uuid4()), description="Integral image as (W+1) x (H+1) , 32-bit integer or floating-point (32f or 64f).")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "src_in")
+        self.inputs.new("OCVLImageSocket", "src_in")
 
-        self.outputs.new("ImageSocket", "sum_out")
+        self.outputs.new("OCVLImageSocket", "sum_out")
 
     def wrapped_process(self):
         sdepth_in = self.get_from_props("sdepth_in")

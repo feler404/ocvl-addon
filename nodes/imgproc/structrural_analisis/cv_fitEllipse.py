@@ -16,8 +16,8 @@ class OCVLfitEllipseNode(OCVLNodeBase):
     ellipse_out: bpy.props.StringProperty(default=str(uuid.uuid4()), description="Output ellipse.")
 
     def init(self, context):
-        self.inputs.new("ContourSocket", "points_in")
-        self.outputs.new("StringsSocket", "ellipse_out")
+        self.inputs.new("OCVLContourSocket", "points_in")
+        self.outputs.new("OCVLObjectSocket", "ellipse_out")
 
     def wrapped_process(self):
 

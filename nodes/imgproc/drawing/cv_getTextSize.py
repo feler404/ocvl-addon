@@ -20,12 +20,12 @@ class OCVLgetTextSizeNode(OCVLNodeBase):
     baseLine_out: bpy.props.StringProperty(name="baseLine_out", default=str(uuid.uuid4()), description="Output parameter - y-coordinate of the baseline relative to the bottom-most text point.")
 
     def init(self, context):
-        self.inputs.new('StringsSocket', "text_in").prop_name = 'text_in'
-        self.inputs.new('StringsSocket', "fontScale_in").prop_name = 'fontScale_in'
-        self.inputs.new('StringsSocket', "thickness_in").prop_name = 'thickness_in'
+        self.inputs.new('OCVLObjectSocket', "text_in").prop_name = 'text_in'
+        self.inputs.new('OCVLObjectSocket', "fontScale_in").prop_name = 'fontScale_in'
+        self.inputs.new('OCVLObjectSocket', "thickness_in").prop_name = 'thickness_in'
 
-        self.outputs.new("StringsSocket", "baseLine_out")
-        self.outputs.new("StringsSocket", "retval_out")
+        self.outputs.new("OCVLObjectSocket", "baseLine_out")
+        self.outputs.new("OCVLObjectSocket", "retval_out")
 
     def wrapped_process(self):
         kwargs = {

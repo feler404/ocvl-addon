@@ -30,12 +30,12 @@ class OCVLsplitNode(OCVLNodeBase):
     layer_3_out: bpy.props.StringProperty(name="layer_3_out", default=str(uuid.uuid4()), description="Channel 3.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "src_in")
+        self.inputs.new("OCVLImageSocket", "src_in")
 
-        self.outputs.new("StringsSocket", "layer_0_out")
-        self.outputs.new("StringsSocket", "layer_1_out")
-        self.outputs.new("StringsSocket", "layer_2_out")
-        self.outputs.new("StringsSocket", "layer_3_out")
+        self.outputs.new("OCVLObjectSocket", "layer_0_out")
+        self.outputs.new("OCVLObjectSocket", "layer_1_out")
+        self.outputs.new("OCVLObjectSocket", "layer_2_out")
+        self.outputs.new("OCVLObjectSocket", "layer_3_out")
 
     def wrapped_process(self):
         kwargs = {
@@ -50,7 +50,7 @@ class OCVLsplitNode(OCVLNodeBase):
         for n, layer in enumerate(vector_layers):
             prop_name = "layer_{}_out".format(n)
             if not prop_name in self.outputs:
-                self.outputs.new('StringsSocket', prop_name).prop_name = prop_name
+                self.outputs.new('OCVLObjectSocket', prop_name).prop_name = prop_name
             self.refresh_output_socket(prop_name, layer, is_uuid_type=True)
 
     def draw_buttons(self, context, layout):

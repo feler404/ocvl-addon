@@ -26,14 +26,14 @@ class OCVLputTextNode(OCVLNodeBase):
 
     def init(self, context):
         self.width = 250
-        self.inputs.new("ImageSocket", "img_in")
-        self.inputs.new('StringsSocket', "text_in").prop_name = 'text_in'
-        self.inputs.new('StringsSocket', "org_in").prop_name = 'org_in'
-        self.inputs.new('StringsSocket', "fontScale_in").prop_name = 'fontScale_in'
-        self.inputs.new('StringsSocket', "thickness_in").prop_name = 'thickness_in'
-        self.inputs.new('ColorSocket', 'color_in').prop_name = 'color_in'
+        self.inputs.new("OCVLImageSocket", "img_in")
+        self.inputs.new('OCVLObjectSocket', "text_in").prop_name = 'text_in'
+        self.inputs.new('OCVLObjectSocket', "org_in").prop_name = 'org_in'
+        self.inputs.new('OCVLObjectSocket', "fontScale_in").prop_name = 'fontScale_in'
+        self.inputs.new('OCVLObjectSocket', "thickness_in").prop_name = 'thickness_in'
+        self.inputs.new('OCVLColorSocket', 'color_in').prop_name = 'color_in'
 
-        self.outputs.new("ImageSocket", "img_out")
+        self.outputs.new("OCVLImageSocket", "img_out")
 
     def wrapped_process(self):
         kwargs = {

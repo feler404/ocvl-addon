@@ -17,11 +17,11 @@ class OCVLaddNode(OCVLNodeBase):
     dst_out: bpy.props.StringProperty(default=str(uuid.uuid4()), name="dst_out")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", name="src1_in", identifier="src1_in")
-        self.inputs.new("ImageSocket", name="src2_in", identifier="src2_in")
-        self.inputs.new('MaskSocket', name="mask_in", identifier="mask_in")
+        self.inputs.new("OCVLImageSocket", name="src1_in", identifier="src1_in")
+        self.inputs.new("OCVLImageSocket", name="src2_in", identifier="src2_in")
+        self.inputs.new('OCVLMaskSocket', name="mask_in", identifier="mask_in")
 
-        self.outputs.new("ImageSocket", name="dst_out", identifier="dst_out")
+        self.outputs.new("OCVLImageSocket", name="dst_out", identifier="dst_out")
 
     def wrapped_process(self):
         dtype_in = self.get_from_props("dtype_in")

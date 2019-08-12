@@ -3,7 +3,7 @@ import cv2
 from ocvl.core.register_utils import ocvl_register, ocvl_unregister
 
 
-class InitClassForNodeOperator(bpy.types.Operator):
+class OCVL_OT_InitClassForNodeOperator(bpy.types.Operator):
     bl_label = ""
 
     @staticmethod
@@ -32,7 +32,7 @@ class InitClassForNodeOperator(bpy.types.Operator):
 
     @staticmethod
     def update_class_instance_dict(node, node_tree, node_name):
-        kwargs_init = InitClassForNodeOperator.get_init_kwargs(node)
+        kwargs_init = OCVL_OT_InitClassForNodeOperator.get_init_kwargs(node)
         instance = node._init_method(**kwargs_init)
         node.loc_class_repr = str(instance)
         globa_instace_dict = node.ABC_GLOBAL_INSTANCE_DICT_NAME
@@ -45,22 +45,22 @@ class InitClassForNodeOperator(bpy.types.Operator):
         return {'FINISHED'}
 
 
-class InitFeature2DOperator(InitClassForNodeOperator):
-    bl_idname = "node.init_feature_2d"
+class OCVL_OT_InitFeature2DOperator(OCVL_OT_InitClassForNodeOperator):
+    bl_idname = "ocvl.init_feature_2d"
     bl_label = "Init Feature2D"
 
     origin: bpy.props.StringProperty("")
 
 
-class InitDescriptorMatcherOperator(InitClassForNodeOperator):
-    bl_idname = "node.init_descriptor_matcher"
+class OCVL_OT_InitDescriptorMatcherOperator(OCVL_OT_InitClassForNodeOperator):
+    bl_idname = "ocvl.init_descriptor_matcher"
     bl_label = "Init DescriptorMatcher"
 
     origin: bpy.props.StringProperty("")
 
 
-class Feature2DSaveOperator(bpy.types.Operator):
-    bl_idname = "node.feature_2d_save"
+class OCVL_OT_Feature2DSaveOperator(bpy.types.Operator):
+    bl_idname = "ocvl.feature_2d_save"
     bl_label = "Feature 2D save"
 
     origin: bpy.props.StringProperty("")
@@ -72,10 +72,10 @@ class Feature2DSaveOperator(bpy.types.Operator):
 
 
 def register():
-    ocvl_register(InitFeature2DOperator)
-    ocvl_register(Feature2DSaveOperator)
+    ocvl_register(OCVL_OT_InitFeature2DOperator)
+    ocvl_register(OCVL_OT_Feature2DSaveOperator)
 
 
 def unregister():
-    ocvl_unregister(InitFeature2DOperator)
-    ocvl_unregister(Feature2DSaveOperator)
+    ocvl_unregister(OCVL_OT_InitFeature2DOperator)
+    ocvl_unregister(OCVL_OT_Feature2DSaveOperator)

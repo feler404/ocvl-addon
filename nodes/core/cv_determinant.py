@@ -15,8 +15,8 @@ class OCVLdeterminantNode(OCVLNodeBase):
     retval_out: bpy.props.FloatProperty(name="retval_out", description="")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "mtx_in")
-        self.outputs.new("StringsSocket", "retval_out")
+        self.inputs.new("OCVLImageSocket", "mtx_in")
+        self.outputs.new("OCVLObjectSocket", "retval_out")
 
     def wrapped_process(self):
         kwargs = {

@@ -1,5 +1,7 @@
 import logging
+import os
 
+import numpy as np
 import bpy
 from ocvl.core.exceptions import NoDataError
 from ocvl.core.image_utils import convert_to_gl_image
@@ -10,8 +12,8 @@ logger = logging.getLogger(__name__)
 TUTORIAL_HEARTBEAT_INTERVAL_RTSP_REFRESH = 2
 
 
-class OCVLImageFullScreenOperator(bpy.types.Operator):
-    bl_idname = "image.image_full_screen"
+class OCVL_OT_ImageFullScreenOperator(bpy.types.Operator):
+    bl_idname = "ocvl.image_full_screen"
     bl_label = "OCVL Image Full Screen"
 
     origin: bpy.props.StringProperty("")
@@ -59,9 +61,8 @@ class OCVLImageFullScreenOperator(bpy.types.Operator):
         return self.execute(context)
 
 
-
-class OCVLImageImporterOperator(bpy.types.Operator):
-    bl_idname = "image.ocvl_image_importer"
+class OCVL_OT_ImageImporterOperator(bpy.types.Operator):
+    bl_idname = "ocvl.ocvl_image_importer"
     bl_label = "Open Image"
     bl_options = {'REGISTER'}
 
@@ -90,11 +91,40 @@ class OCVLImageImporterOperator(bpy.types.Operator):
         return {'RUNNING_MODAL'}
 
 
+class OCVL_OT_SaveArrayToCSVOperator(bpy.types.Operator):
+    bl_idname = "ocvl.save_array_to_csv"
+    bl_label = "Save array to CSV"
+    bl_options = {'REGISTER'}
+
+    origin: bpy.props.StringProperty("")
+
+    def execute(self, context):
+        node_tree, node_name, *props_name = self.origin.split('|><|')
+        if not props_name:
+            return {'CANCELED'}
+        prop_name = props_name[0]
+        node = bpy.data.node_groups[node_tree].nodes[node_name]
+        data = node.get_from_props(prop_name)
+        if not isinstance(data, np.ndarray):
+            return {'CANCELED'}
+        # data.tofile(f"./{node_name}.csv", sep=",", format='%10.3f')
+        full_data_path = os.path.join(bpy.context.preferences.filepaths.render_output_directory, f"{node_name}.csv")
+        np.savetxt(full_data_path, data, delimiter=",", fmt='%10.2f')
+        self.report({'INFO'}, f"Success!. Date save in: {full_data_path}")
+        return {'FINISHED'}
+
+    def invoke(self, context, event):
+        return self.execute(context)
+
+
+
 def register():
-    ocvl_register(OCVLImageFullScreenOperator)
-    ocvl_register(OCVLImageImporterOperator)
+    ocvl_register(OCVL_OT_ImageFullScreenOperator)
+    ocvl_register(OCVL_OT_ImageImporterOperator)
+    ocvl_register(OCVL_OT_SaveArrayToCSVOperator)
 
 
 def unregister():
-    ocvl_unregister(OCVLImageImporterOperator)
-    ocvl_unregister(OCVLImageFullScreenOperator)
+    ocvl_unregister(OCVL_OT_SaveArrayToCSVOperator)
+    ocvl_unregister(OCVL_OT_ImageImporterOperator)
+    ocvl_unregister(OCVL_OT_ImageFullScreenOperator)

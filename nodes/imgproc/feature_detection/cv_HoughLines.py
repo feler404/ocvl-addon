@@ -41,16 +41,16 @@ class OCVLHoughLinesNode(OCVLNodeBase):
     image_out: bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "image_in")
-        self.inputs.new('StringsSocket', "rho_in").prop_name = 'rho_in'
-        self.inputs.new('StringsSocket', "theta_in").prop_name = 'theta_in'
-        self.inputs.new('StringsSocket', "threshold_in").prop_name = 'threshold_in'
-        self.inputs.new('StringsSocket', "srn_in").prop_name = 'srn_in'
-        self.inputs.new('StringsSocket', "stn_in").prop_name = 'stn_in'
-        # self.inputs.new('StringsSocket', "min_theta_in").prop_name = 'min_theta_in'
-        # self.inputs.new('StringsSocket', "max_theta_in").prop_name = 'max_theta_in'
+        self.inputs.new("OCVLImageSocket", "image_in")
+        self.inputs.new('OCVLObjectSocket', "rho_in").prop_name = 'rho_in'
+        self.inputs.new('OCVLObjectSocket', "theta_in").prop_name = 'theta_in'
+        self.inputs.new('OCVLObjectSocket', "threshold_in").prop_name = 'threshold_in'
+        self.inputs.new('OCVLObjectSocket', "srn_in").prop_name = 'srn_in'
+        self.inputs.new('OCVLObjectSocket', "stn_in").prop_name = 'stn_in'
+        # self.inputs.new('OCVLObjectSocket', "min_theta_in").prop_name = 'min_theta_in'
+        # self.inputs.new('OCVLObjectSocket', "max_theta_in").prop_name = 'max_theta_in'
 
-        self.outputs.new("StringsSocket", "lines_out")
+        self.outputs.new("OCVLObjectSocket", "lines_out")
 
     def wrapped_process(self):
         kwargs = {

@@ -24,10 +24,10 @@ class OCVLdrawKeypointsNode(OCVLNodeBase):
         description="Output image.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "image_in")
-        self.inputs.new("StringsSocket", "keypoints_in")
+        self.inputs.new("OCVLImageSocket", "image_in")
+        self.inputs.new("OCVLObjectSocket", "keypoints_in")
 
-        self.outputs.new("ImageSocket", "outImage_out")
+        self.outputs.new("OCVLImageSocket", "outImage_out")
 
     def wrapped_process(self):
         self.check_input_requirements(["image_in", "keypoints_in"])

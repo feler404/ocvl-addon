@@ -25,13 +25,13 @@ class OCVLcalcHistNode(OCVLNodeBase):
     hist_out: bpy.props.StringProperty(name="src_in", default=str(uuid.uuid4()), description="Output histogram, which is a dense or sparse dims -dimensional array.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "images_in")
-        self.inputs.new("VectorSocket", "channels_in")
-        self.inputs.new("VectorSocket", "histSize_in")
-        self.inputs.new("VectorSocket", "ranges_in")
-        self.inputs.new("MaskSocket", "mask_in")
+        self.inputs.new("OCVLImageSocket", "images_in")
+        self.inputs.new("OCVLVectorSocket", "channels_in")
+        self.inputs.new("OCVLVectorSocket", "histSize_in")
+        self.inputs.new("OCVLVectorSocket", "ranges_in")
+        self.inputs.new("OCVLMaskSocket", "mask_in")
 
-        self.outputs.new("StringsSocket", "hist_out")
+        self.outputs.new("OCVLObjectSocket", "hist_out")
 
     def wrapped_process(self):
         mask_in = self.get_from_props("mask_in")

@@ -27,10 +27,10 @@ class OCVLpyrUpNode(OCVLNodeBase):
     loc_pyramid_size: bpy.props.IntProperty(default=3, min=1, max=10, update=update_node, description="Number levels of pyramids.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "src_in")
-        self.inputs.new("StringsSocket", "loc_pyramid_size").prop_name = 'loc_pyramid_size'
+        self.inputs.new("OCVLImageSocket", "src_in")
+        self.inputs.new("OCVLObjectSocket", "loc_pyramid_size").prop_name = 'loc_pyramid_size'
 
-        self.outputs.new("StringsSocket", "image_full_out")
+        self.outputs.new("OCVLObjectSocket", "image_full_out")
 
     def wrapped_process(self):
         src_in = self.get_from_props("src_in")
@@ -53,7 +53,7 @@ class OCVLpyrUpNode(OCVLNodeBase):
                 if self.outputs.get(prop_name):
                     pass
                 else:
-                    self.outputs.new("ImageSocket", prop_name)
+                    self.outputs.new("OCVLImageSocket", prop_name)
                 setattr(self, prop_name, _uuid)
                 self.socket_data_cache[_uuid] = pyramid[i]
                 self.outputs[prop_name].sv_set(_uuid)

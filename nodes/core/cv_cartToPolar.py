@@ -23,11 +23,11 @@ class OCVLcartToPolarNode(OCVLNodeBase):
     angle_out: bpy.props.StringProperty(name="angle_out", default=str(uuid.uuid4()), description="Output array of angles that has the same size and type as x; the angles are measured in radians (from 0 to 2*Pi) or in degrees (0 to 360 degrees).")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "x_in")
-        self.inputs.new("ImageSocket", "y_in")
+        self.inputs.new("OCVLImageSocket", "x_in")
+        self.inputs.new("OCVLImageSocket", "y_in")
 
-        self.outputs.new("StringsSocket", "magnitude_out")
-        self.outputs.new("StringsSocket", "angle_out")
+        self.outputs.new("OCVLObjectSocket", "magnitude_out")
+        self.outputs.new("OCVLObjectSocket", "angle_out")
 
     def wrapped_process(self):
         kwargs = {

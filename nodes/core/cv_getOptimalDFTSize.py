@@ -14,8 +14,8 @@ class OCVLgetOptimalDFTSizeNode(OCVLNodeBase):
     retval_out: bpy.props.IntProperty(name="retval_out", default=0, description="The function returns a negative number if vecsize is too large (very close to INT_MAX ).")
 
     def init(self, context):
-        self.inputs.new("StringsSocket", "vecsize_in").prop_name = "vecsize_in"
-        self.outputs.new("StringsSocket", "retval_out")
+        self.inputs.new("OCVLObjectSocket", "vecsize_in").prop_name = "vecsize_in"
+        self.outputs.new("OCVLObjectSocket", "retval_out")
 
     def wrapped_process(self):
 

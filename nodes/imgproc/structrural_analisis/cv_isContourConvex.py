@@ -16,8 +16,8 @@ class OCVLisContourConvexNode(OCVLNodeBase):
     retval_out: bpy.props.BoolProperty(default=False, description="True if contour is convex")
 
     def init(self, context):
-        self.inputs.new("ContourSocket", "contour_in")
-        self.outputs.new("StringsSocket", "retval_out").prop_name = "retval_out"
+        self.inputs.new("OCVLContourSocket", "contour_in")
+        self.outputs.new("OCVLObjectSocket", "retval_out").prop_name = "retval_out"
 
     def wrapped_process(self):
         kwargs = {

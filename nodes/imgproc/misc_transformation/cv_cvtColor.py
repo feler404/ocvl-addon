@@ -20,11 +20,11 @@ class OCVLcvtColorNode(OCVLNodeBase):
 
     def init(self, context):
         self.width = 200
-        self.inputs.new("ImageSocket", "src_in")
-        self.inputs.new("StringsSocket", "code_in").prop_name = "code_in"
-        self.inputs.new("StringsSocket", "dstCn_in").prop_name = "dstCn_in"
+        self.inputs.new("OCVLImageSocket", "src_in")
+        self.inputs.new("OCVLObjectSocket", "code_in").prop_name = "code_in"
+        self.inputs.new("OCVLObjectSocket", "dstCn_in").prop_name = "dstCn_in"
 
-        self.outputs.new("ImageSocket", "dst_out")
+        self.outputs.new("OCVLImageSocket", "dst_out")
 
     def wrapped_process(self):
         self.check_input_requirements(["src_in"])

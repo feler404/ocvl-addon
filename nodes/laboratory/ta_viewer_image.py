@@ -18,7 +18,7 @@ class OCVLImageViewerNode(OCVLPreviewNodeBase):
     image_in: bpy.props.StringProperty(default='')
 
     def init(self, context):
-        self.inputs.new('ImageSocket', "image_in")
+        self.inputs.new('OCVLImageSocket', "image_in")
 
     def wrapped_process(self):
         self.check_input_requirements(["image_in"])
@@ -40,6 +40,6 @@ class OCVLImageViewerNode(OCVLPreviewNodeBase):
 
     def draw_buttons(self, context, layout):
         col = layout.column(align=True)
-        col.operator('image.image_full_screen', text='', icon="PLUS").origin = self.get_node_origin()
+        col.operator('ocvl.image_full_screen', text='', icon="PLUS").origin = self.get_node_origin()
         # col.operator('node.generate_python_code', text='', icon="FULLSCREEN").origin = self.get_node_origin()
         self.draw_preview(layout=layout, prop_name="image_in", location_x=10, location_y=-60)

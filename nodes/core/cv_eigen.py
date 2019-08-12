@@ -18,11 +18,11 @@ class OCVLeigenNode(OCVLNodeBase):
     eigenvectors_out: bpy.props.StringProperty(name="eigenvectors_out", default=str(uuid.uuid4()), description="Output matrix of eigenvectors; it has the same size and type as src.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "src_in")
+        self.inputs.new("OCVLImageSocket", "src_in")
 
-        self.outputs.new("StringsSocket", "retval_out")
-        self.outputs.new("StringsSocket", "eigenvalues_out")
-        self.outputs.new("StringsSocket", "eigenvectors_out")
+        self.outputs.new("OCVLObjectSocket", "retval_out")
+        self.outputs.new("OCVLObjectSocket", "eigenvalues_out")
+        self.outputs.new("OCVLObjectSocket", "eigenvectors_out")
 
     def wrapped_process(self):
         kwargs = {

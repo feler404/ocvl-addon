@@ -18,11 +18,11 @@ class OCVLrepeatNode(OCVLNodeBase):
     dst_out: bpy.props.StringProperty(name="dst_out", default=str(uuid.uuid4()), description="Output array of the same type as src.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "src_in")
-        self.inputs.new("StringsSocket", "nx_in").prop_name = "nx_in"
-        self.inputs.new("StringsSocket", "ny_in").prop_name = "ny_in"
+        self.inputs.new("OCVLImageSocket", "src_in")
+        self.inputs.new("OCVLObjectSocket", "nx_in").prop_name = "nx_in"
+        self.inputs.new("OCVLObjectSocket", "ny_in").prop_name = "ny_in"
 
-        self.outputs.new("ImageSocket", "dst_out")
+        self.outputs.new("OCVLImageSocket", "dst_out")
 
     def wrapped_process(self):
         kwargs = {

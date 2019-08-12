@@ -29,11 +29,11 @@ class OCVLconvertMapsNode(OCVLNodeBase):
     dstmap2_out: bpy.props.StringProperty(name="dstmap2_out", default=str(uuid.uuid4()), description="The second output map.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "map1_in")
-        self.inputs.new('ImageSocket', "map2_in")
+        self.inputs.new("OCVLImageSocket", "map1_in")
+        self.inputs.new('OCVLImageSocket', "map2_in")
 
-        self.outputs.new("ImageSocket", "dstmap1_out")
-        self.outputs.new("ImageSocket", "dstmap2_out")
+        self.outputs.new("OCVLImageSocket", "dstmap1_out")
+        self.outputs.new("OCVLImageSocket", "dstmap2_out")
 
     def wrapped_process(self):
 

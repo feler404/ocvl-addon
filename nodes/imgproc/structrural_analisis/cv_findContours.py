@@ -21,12 +21,12 @@ class OCVLfindContoursNode(OCVLNodeBase):
     hierarchy_out: bpy.props.StringProperty(name="hierarchy_out", default=str(uuid.uuid4()), description="Optional output vector, containing information about the image topology. It has as many elements as the number of contours.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "image_in")
-        self.inputs.new('StringsSocket', "offset_in").prop_name = 'offset_in'
+        self.inputs.new("OCVLImageSocket", "image_in")
+        self.inputs.new('OCVLObjectSocket', "offset_in").prop_name = 'offset_in'
 
-        self.outputs.new("ImageSocket", "image_out")
-        self.outputs.new("ContourSocket", "contours_out")
-        self.outputs.new("StringsSocket", "hierarchy_out")
+        self.outputs.new("OCVLImageSocket", "image_out")
+        self.outputs.new("OCVLContourSocket", "contours_out")
+        self.outputs.new("OCVLObjectSocket", "hierarchy_out")
 
     def wrapped_process(self):
         kwargs = {

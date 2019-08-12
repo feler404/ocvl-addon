@@ -21,12 +21,12 @@ class OCVLnormalizeNode(OCVLNodeBase):
 
     def init(self, context):
         self.width = 200
-        self.inputs.new("ImageSocket", "src_in")
-        self.inputs.new('MaskSocket', "mask_in")
-        self.inputs.new('StringsSocket', "alpha_in").prop_name = 'alpha_in'
-        self.inputs.new('StringsSocket', "beta_in").prop_name = 'beta_in'
+        self.inputs.new("OCVLImageSocket", "src_in")
+        self.inputs.new('OCVLMaskSocket', "mask_in")
+        self.inputs.new('OCVLObjectSocket', "alpha_in").prop_name = 'alpha_in'
+        self.inputs.new('OCVLObjectSocket', "beta_in").prop_name = 'beta_in'
 
-        self.outputs.new("ImageSocket", "dst_out")
+        self.outputs.new("OCVLImageSocket", "dst_out")
 
     def wrapped_process(self):
         src_in = self.get_from_props("src_in")

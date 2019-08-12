@@ -19,12 +19,12 @@ class OCVLundistortNode(OCVLNodeBase):
     dst_out: bpy.props.StringProperty(name="dst_out", default=str(uuid.uuid4()), description="Output (corrected) image.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "src_in")
-        self.inputs.new("StringsSocket", "cameraMatrix_in")
-        self.inputs.new("StringsSocket", "distCoeffs_in")
-        self.inputs.new("StringsSocket", "newCameraMatrix_in")
+        self.inputs.new("OCVLImageSocket", "src_in")
+        self.inputs.new("OCVLObjectSocket", "cameraMatrix_in")
+        self.inputs.new("OCVLObjectSocket", "distCoeffs_in")
+        self.inputs.new("OCVLObjectSocket", "newCameraMatrix_in")
 
-        self.outputs.new("ImageSocket", "dst_out")
+        self.outputs.new("OCVLImageSocket", "dst_out")
 
     def wrapped_process(self):
         kwargs = {

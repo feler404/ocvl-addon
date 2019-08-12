@@ -19,14 +19,14 @@ class OCVLIntPropNode(OCVLNodeBase):
 
     def init(self, context):
         self.width = 200
-        self.inputs.new('StringsSocket', "int_0_PIXEL").prop_name = 'int_0_PIXEL'
-        self.inputs.new('StringsSocket', "int_0_UNSIGNED").prop_name = 'int_0_UNSIGNED'
-        self.inputs.new('StringsSocket', "int_0_PERCENTAGE").prop_name = 'int_0_PERCENTAGE'
-        self.inputs.new('StringsSocket', "int_0_FACTOR").prop_name = 'int_0_FACTOR'
-        self.inputs.new('StringsSocket', "int_0_ANGLE").prop_name = 'int_0_ANGLE'
-        self.inputs.new('StringsSocket', "int_0_TIME").prop_name = 'int_0_TIME'
-        self.inputs.new('StringsSocket', "int_0_DISTANCE").prop_name = 'int_0_DISTANCE'
-        self.inputs.new('StringsSocket', "int_0_NONE").prop_name = 'int_0_NONE'
+        self.inputs.new('OCVLObjectSocket', "int_0_PIXEL").prop_name = 'int_0_PIXEL'
+        self.inputs.new('OCVLObjectSocket', "int_0_UNSIGNED").prop_name = 'int_0_UNSIGNED'
+        self.inputs.new('OCVLObjectSocket', "int_0_PERCENTAGE").prop_name = 'int_0_PERCENTAGE'
+        self.inputs.new('OCVLObjectSocket', "int_0_FACTOR").prop_name = 'int_0_FACTOR'
+        self.inputs.new('OCVLObjectSocket', "int_0_ANGLE").prop_name = 'int_0_ANGLE'
+        self.inputs.new('OCVLObjectSocket', "int_0_TIME").prop_name = 'int_0_TIME'
+        self.inputs.new('OCVLObjectSocket', "int_0_DISTANCE").prop_name = 'int_0_DISTANCE'
+        self.inputs.new('OCVLObjectSocket', "int_0_NONE").prop_name = 'int_0_NONE'
 
     def wrapped_process(self):
         pass

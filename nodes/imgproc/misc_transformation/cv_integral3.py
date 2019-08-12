@@ -26,11 +26,11 @@ class OCVLintegral3Node(OCVLNodeBase):
     sqdepth_in: bpy.props.EnumProperty(items=SDEPTH_ITEMS, default="None", update=update_node, description="Desired depth of the integral and the tilted integral images, CV_32S, CV_32F, or CV_64F.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "src_in")
+        self.inputs.new("OCVLImageSocket", "src_in")
 
-        self.outputs.new("ImageSocket", "sum_out")
-        self.outputs.new("ImageSocket", "sqsum_out")
-        self.outputs.new("ImageSocket", "tilted_out")
+        self.outputs.new("OCVLImageSocket", "sum_out")
+        self.outputs.new("OCVLImageSocket", "sqsum_out")
+        self.outputs.new("OCVLImageSocket", "tilted_out")
 
     def wrapped_process(self):
         sdepth_in = self.get_from_props("sdepth_in")

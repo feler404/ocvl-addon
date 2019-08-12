@@ -23,13 +23,13 @@ class OCVLmatchTemplateNode(OCVLNodeBase):
 
     def init(self, context):
         self.width = 250
-        self.inputs.new("ImageSocket", "image_in")
-        self.inputs.new('ImageSocket', "templ_in")
-        self.inputs.new('ColorSocket', 'loc_color_in').prop_name = 'loc_color_in'
-        self.inputs.new('StringsSocket', 'loc_threshold').prop_name = 'loc_threshold'
+        self.inputs.new("OCVLImageSocket", "image_in")
+        self.inputs.new('OCVLImageSocket', "templ_in")
+        self.inputs.new('OCVLColorSocket', 'loc_color_in').prop_name = 'loc_color_in'
+        self.inputs.new('OCVLObjectSocket', 'loc_threshold').prop_name = 'loc_threshold'
 
-        self.outputs.new("ImageSocket", "image_out")
-        self.outputs.new("StringsSocket", "result_out")
+        self.outputs.new("OCVLImageSocket", "image_out")
+        self.outputs.new("OCVLObjectSocket", "result_out")
 
     def wrapped_process(self):
         kwargs = {
@@ -40,7 +40,12 @@ class OCVLmatchTemplateNode(OCVLNodeBase):
 
         result_out = self.process_cv(fn=cv2.matchTemplate, kwargs=kwargs)
         image_out = np.copy(self.get_from_props("image_in"))
-        h, w, _ = self.get_from_props("templ_in").shape
+        h, w, *channels = self.get_from_props("templ_in").shape
+
+        if not channels:
+            image_out = cv2.cvtColor(image_out, cv2.COLOR_GRAY2RGB)
+        elif channels[0] == 4:
+            image_out = cv2.cvtColor(image_out, cv2.COLOR_RGBA2RGB)
 
         loc_color_in = self.get_from_props("loc_color_in")
 
@@ -48,7 +53,7 @@ class OCVLmatchTemplateNode(OCVLNodeBase):
         loc = np.where(result_out >= loc_threshold)
 
         for pt in zip(*loc[::-1]):
-            cv2.rectangle(image_out, pt, (pt[0] + w, pt[1] + h), loc_color_in, 1)
+            cv2.rectangle(image_out, pt, (pt[0] + w, pt[1] + h), loc_color_in, 0)
 
         self.refresh_output_socket("result_out", result_out, is_uuid_type=True)
         self.refresh_output_socket("image_out", image_out, is_uuid_type=True)

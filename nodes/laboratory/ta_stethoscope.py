@@ -1,5 +1,3 @@
-import uuid
-
 import bpy
 import numpy as np
 from ocvl.core.node_base import OCVLNodeBase, update_node
@@ -15,7 +13,7 @@ class OCVLStethoscopeNode(OCVLNodeBase):
 
     def init(self, context):
         self.width = 200
-        self.inputs.new("StethoscopeSocket", "matrix_in")
+        self.inputs.new("OCVLStethoscopeSocket", "matrix_in")
 
     def wrapped_process(self):
         pass
@@ -33,5 +31,7 @@ class OCVLStethoscopeNode(OCVLNodeBase):
     def _draw_header(self, layout, matrix_in):
         layout.label(text="Type: {}".format(type(matrix_in)))
         if isinstance(matrix_in, np.ndarray):
+            if len(matrix_in.shape) == 2:
+                layout.operator("ocvl.save_array_to_csv").origin = self.get_node_origin(props_name=["matrix_in"])
             layout.label(text="Shape: {}".format(matrix_in.shape))
             layout.label(text="DType: {}".format(matrix_in.dtype.name))

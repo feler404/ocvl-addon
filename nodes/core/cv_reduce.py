@@ -20,10 +20,10 @@ class OCVLreduceNode(OCVLNodeBase):
 
     def init(self, context):
         self.width = 150
-        self.inputs.new("ImageSocket", "src_in")
-        self.inputs.new("StringsSocket", "dim_in").prop_name = "dim_in"
+        self.inputs.new("OCVLImageSocket", "src_in")
+        self.inputs.new("OCVLObjectSocket", "dim_in").prop_name = "dim_in"
 
-        self.outputs.new("ImageSocket", "dst_out")
+        self.outputs.new("OCVLImageSocket", "dst_out")
 
     def wrapped_process(self):
         kwargs = {

@@ -17,10 +17,10 @@ class OCVLabsdiffNode(OCVLNodeBase):
     dst_out: bpy.props.StringProperty(default=str(uuid.uuid4()), description="Output array that has the same size and type as input arrays.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", name="src1_in", identifier="src1_in")
-        self.inputs.new("ImageSocket", name="src2_in", identifier="src2_in")
+        self.inputs.new("OCVLImageSocket", name="src1_in", identifier="src1_in")
+        self.inputs.new("OCVLImageSocket", name="src2_in", identifier="src2_in")
 
-        self.outputs.new("ImageSocket", name="dst_out", identifier="dst_out")
+        self.outputs.new("OCVLImageSocket", name="dst_out", identifier="dst_out")
 
     def wrapped_process(self):
         kwargs = {

@@ -25,12 +25,12 @@ class OCVLwarpPerspectiveNode(OCVLNodeBase):
 
     def init(self, context):
         self.width = 250
-        self.inputs.new("ImageSocket", "src_in")
-        self.inputs.new('ImageSocket', "M_in")
-        self.inputs.new('StringsSocket', "dsize_in").prop_name = 'dsize_in'
-        self.inputs.new('StringsSocket', "borderValue_in").prop_name = 'borderValue_in'
+        self.inputs.new("OCVLImageSocket", "src_in")
+        self.inputs.new('OCVLImageSocket', "M_in")
+        self.inputs.new('OCVLObjectSocket', "dsize_in").prop_name = 'dsize_in'
+        self.inputs.new('OCVLObjectSocket', "borderValue_in").prop_name = 'borderValue_in'
 
-        self.outputs.new("ImageSocket", "dst_out")
+        self.outputs.new("OCVLImageSocket", "dst_out")
 
     def wrapped_process(self):
         self.check_input_requirements(["src_in", "M_in"])

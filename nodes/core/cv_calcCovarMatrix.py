@@ -35,11 +35,11 @@ class OCVLcalcCovarMatrixNode(OCVLNodeBase):
     mean_out: bpy.props.StringProperty(name="mean_out", default=str(uuid.uuid4()), description="Output (depending on the flags) array as the average value of the input vectors.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "samples_in")
-        self.inputs.new("StringsSocket", "mean_in").prop_name = "mean_in"
+        self.inputs.new("OCVLImageSocket", "samples_in")
+        self.inputs.new("OCVLObjectSocket", "mean_in").prop_name = "mean_in"
 
-        self.outputs.new("StringsSocket", "covar_out")
-        self.outputs.new("StringsSocket", "mean_out")
+        self.outputs.new("OCVLObjectSocket", "covar_out")
+        self.outputs.new("OCVLObjectSocket", "mean_out")
 
     def wrapped_process(self):
         kwargs = {

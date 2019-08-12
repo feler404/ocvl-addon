@@ -29,13 +29,13 @@ class OCVLaddWeightedNode(OCVLNodeBase):
     dst_out: bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output image.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", name="src1_in", identifier="src1_in")
-        self.inputs.new("ImageSocket", name="src2_in", identifier="src2_in")
-        self.inputs.new('StringsSocket', name="alpha_in", identifier="alpha_in").prop_name = 'alpha_in'
-        self.inputs.new('StringsSocket', name="beta_in", identifier="beta_in").prop_name = 'beta_in'
-        self.inputs.new('StringsSocket', name="gamma_in", identifier="gamma_in").prop_name = 'gamma_in'
+        self.inputs.new("OCVLImageSocket", name="src1_in", identifier="src1_in")
+        self.inputs.new("OCVLImageSocket", name="src2_in", identifier="src2_in")
+        self.inputs.new('OCVLObjectSocket', name="alpha_in", identifier="alpha_in").prop_name = 'alpha_in'
+        self.inputs.new('OCVLObjectSocket', name="beta_in", identifier="beta_in").prop_name = 'beta_in'
+        self.inputs.new('OCVLObjectSocket', name="gamma_in", identifier="gamma_in").prop_name = 'gamma_in'
 
-        self.outputs.new("ImageSocket", name="dst_out", identifier="dst_out")
+        self.outputs.new("OCVLImageSocket", name="dst_out", identifier="dst_out")
 
     def wrapped_process(self):
         src1_in = self.get_from_props("src1_in")

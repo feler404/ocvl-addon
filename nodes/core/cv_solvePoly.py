@@ -19,11 +19,11 @@ class OCVLsolvePolyNode(OCVLNodeBase):
     roots_out: bpy.props.StringProperty(name="roots_out", default=str(uuid.uuid4()), description="Output solution.")
 
     def init(self, context):
-        self.inputs.new("VectorSocket", "coeffs_in")
-        self.inputs.new("StringsSocket", "maxIters_in").prop_name = "maxIters_in"
+        self.inputs.new("OCVLVectorSocket", "coeffs_in")
+        self.inputs.new("OCVLObjectSocket", "maxIters_in").prop_name = "maxIters_in"
 
-        self.outputs.new("StringsSocket", "retval_out")
-        self.outputs.new("StringsSocket", "roots_out")
+        self.outputs.new("OCVLObjectSocket", "retval_out")
+        self.outputs.new("OCVLObjectSocket", "roots_out")
 
     def wrapped_process(self):
         kwargs = {

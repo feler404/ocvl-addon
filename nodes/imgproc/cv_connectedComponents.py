@@ -30,10 +30,10 @@ class OCVLconnectedComponentsNode(OCVLNodeBase):
     retval_out: bpy.props.StringProperty(name="retval_out", default=str(uuid.uuid4()), description="Return value.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "image_in")
+        self.inputs.new("OCVLImageSocket", "image_in")
 
-        self.outputs.new("StringsSocket", "labels_out")
-        self.outputs.new("StringsSocket", "retval_out")
+        self.outputs.new("OCVLObjectSocket", "labels_out")
+        self.outputs.new("OCVLObjectSocket", "retval_out")
 
     def wrapped_process(self):
         kwargs = {

@@ -20,10 +20,10 @@ class OCVLtransformNode(OCVLNodeBase):
     dst_out: bpy.props.StringProperty(name="dst_out", default=str(uuid.uuid4()), description="Output array of the same size and depth as src; it has as many channels as m.rows.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "src_in")
-        self.inputs.new("ImageSocket", "m_in")
+        self.inputs.new("OCVLImageSocket", "src_in")
+        self.inputs.new("OCVLImageSocket", "m_in")
 
-        self.outputs.new("ImageSocket", "dst_out")
+        self.outputs.new("OCVLImageSocket", "dst_out")
 
     def wrapped_process(self):
         kwargs = {

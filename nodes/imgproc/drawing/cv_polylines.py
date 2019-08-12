@@ -29,13 +29,13 @@ class OCVLpolylinesNode(OCVLNodeBase):
 
     def init(self, context):
         self.width = 150
-        self.inputs.new("ImageSocket", "img_in")
-        self.inputs.new('ImageSocket', "pts_in")
-        self.inputs.new('StringsSocket', "thickness_in").prop_name = 'thickness_in'
-        self.inputs.new('StringsSocket', "shift_in").prop_name = 'shift_in'
-        self.inputs.new('ColorSocket', 'color_in').prop_name = 'color_in'
+        self.inputs.new("OCVLImageSocket", "img_in")
+        self.inputs.new('OCVLImageSocket', "pts_in")
+        self.inputs.new('OCVLObjectSocket', "thickness_in").prop_name = 'thickness_in'
+        self.inputs.new('OCVLObjectSocket', "shift_in").prop_name = 'shift_in'
+        self.inputs.new('OCVLColorSocket', 'color_in').prop_name = 'color_in'
 
-        self.outputs.new("ImageSocket", "img_out")
+        self.outputs.new("OCVLImageSocket", "img_out")
 
     def wrapped_process(self):
         kwargs = {

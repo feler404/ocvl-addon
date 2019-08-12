@@ -11,9 +11,9 @@ class OCVLRangeNode(OCVLNodeBase):
     end_in: bpy.props.IntProperty(default=10, min=0, update=update_node, description="End input.")
 
     def init(self, context):
-        self.inputs.new("StringsSocket", "start_in").prop_name = "start_in"
-        self.inputs.new("StringsSocket", "end_in").prop_name = "end_in"
-        self.outputs.new("StringsSocket", "range_out")
+        self.inputs.new("OCVLObjectSocket", "start_in").prop_name = "start_in"
+        self.inputs.new("OCVLObjectSocket", "end_in").prop_name = "end_in"
+        self.outputs.new("OCVLObjectSocket", "range_out")
 
     def wrapped_process(self):
         start_in = self.get_from_props("start_in")

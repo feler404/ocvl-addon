@@ -16,8 +16,8 @@ class OCVLcontourAreaNode(OCVLNodeBase):
     loc_from_findContours: bpy.props.BoolProperty(default=True, update=update_node, description="If linked with findContour node switch to True")
 
     def init(self, context):
-        self.inputs.new("ContourSocket", "contour_in")
-        self.outputs.new("StringsSocket", "area_out").prop_name = "area_out"
+        self.inputs.new("OCVLContourSocket", "contour_in")
+        self.outputs.new("OCVLObjectSocket", "area_out").prop_name = "area_out"
 
     def wrapped_process(self):
         kwargs = {

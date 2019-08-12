@@ -73,11 +73,11 @@ class OCVLImageSampleNode(OCVLPreviewNodeBase):
 
     def init(self, context):
         self.width = 200
-        self.inputs.new('ColorSocket', 'color_in').prop_name = 'color_in'
+        self.inputs.new('OCVLColorSocket', 'color_in').prop_name = 'color_in'
 
-        self.outputs.new('ImageSocket', 'image_out')
-        self.outputs.new('StringsSocket', 'width_out')
-        self.outputs.new('StringsSocket', 'height_out')
+        self.outputs.new('OCVLImageSocket', 'image_out')
+        self.outputs.new('OCVLObjectSocket', 'width_out')
+        self.outputs.new('OCVLObjectSocket', 'height_out')
 
         self.update_layout(context)
 
@@ -92,12 +92,12 @@ class OCVLImageSampleNode(OCVLPreviewNodeBase):
             color_in = self.get_from_props("color_in")
             width_in = self.get_from_props("width_in")
             height_in = self.get_from_props("height_in")
-            image = np.zeros((width_in, height_in, 3), np.uint8)
+            image = np.zeros((height_in, width_in, 3), np.uint8)
             image[:,:,] = color_in
             if self.loc_image_mode == "RANDOM":
                 for i in range(20):
-                    pt1 = (random.randint(1, width_in), random.randint(1, height_in))
-                    pt2 = (random.randint(1, width_in), random.randint(1, height_in))
+                    pt1 = (random.randint(1, height_in), random.randint(1, width_in))
+                    pt2 = (random.randint(1, height_in), random.randint(1, width_in))
                     color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
                     image = cv2.line(image, pt1, pt2, color, random.randint(1, 10))
         elif self.loc_image_mode == "FILE":
@@ -145,7 +145,7 @@ class OCVLImageSampleNode(OCVLPreviewNodeBase):
         if self.loc_image_mode == "FILE":
             col = layout.row().column()
             col_split = col.split(factor=1, align=True)
-            col_split.operator('image.ocvl_image_importer', text='', icon="FILE_FOLDER").origin = origin
+            col_split.operator('ocvl.ocvl_image_importer', text='', icon="FILE_FOLDER").origin = origin
         elif self.loc_image_mode == "PLANE":
             pass
         elif self.loc_image_mode == "RANDOM":

@@ -16,8 +16,8 @@ class OCVLminAreaRectNode(OCVLNodeBase):
     retval_in: bpy.props.StringProperty(default=str(uuid.uuid4()), description="")
 
     def init(self, context):
-        self.inputs.new("ContourSocket", "points_in")
-        self.outputs.new("StringsSocket", "retval_in")
+        self.inputs.new("OCVLContourSocket", "points_in")
+        self.outputs.new("OCVLObjectSocket", "retval_in")
 
     def wrapped_process(self):
         kwargs = {

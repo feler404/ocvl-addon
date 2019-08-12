@@ -17,10 +17,10 @@ class OCVLmeanStdDevNode(OCVLNodeBase):
     stddev_out: bpy.props.StringProperty(name="array_out", default=str(uuid.uuid4()), description="Output parameter: calculateded standard deviation.")
 
     def init(self, context):
-        self.inputs.new("ImageSocket", "src_in")
-        self.inputs.new("MaskSocket", "mask_in")
-        self.outputs.new("ImageSocket", "mean_out")
-        self.outputs.new("ImageSocket", "stddev_out")
+        self.inputs.new("OCVLImageSocket", "src_in")
+        self.inputs.new("OCVLMaskSocket", "mask_in")
+        self.outputs.new("OCVLImageSocket", "mean_out")
+        self.outputs.new("OCVLImageSocket", "stddev_out")
 
     def wrapped_process(self):
         kwargs = {

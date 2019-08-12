@@ -17,10 +17,10 @@ class OCVLgetGaussianKernelNode(OCVLNodeBase):
     ktype_in: bpy.props.EnumProperty(items=COEFFICIENTS_TYPE_ITEMS, default='CV_32F', update=update_node, description="Type of filter coefficients. It can be CV_32f or CV_64F.")
 
     def init(self, context):
-        self.inputs.new('StringsSocket', "ksize_in").prop_name = 'ksize_in'
-        self.inputs.new('StringsSocket', "sigma_in").prop_name = 'sigma_in'
+        self.inputs.new('OCVLObjectSocket', "ksize_in").prop_name = 'ksize_in'
+        self.inputs.new('OCVLObjectSocket', "sigma_in").prop_name = 'sigma_in'
 
-        self.outputs.new("StringsSocket", "kernel_out")
+        self.outputs.new("OCVLObjectSocket", "kernel_out")
 
     def wrapped_process(self):
 
