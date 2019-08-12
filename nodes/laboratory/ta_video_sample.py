@@ -134,10 +134,12 @@ class OCVLVideoSampleNode(OCVLPreviewNodeBase):
                 CAMERA_DEVICE_DICT.pop(camera_device_number)
 
     def _free_handlers(self):
+        index_handler = None
         for handler in bpy.app.handlers.frame_change_pre:
             if f'"{self.name}"' in str(handler):
                 index_handler = bpy.app.handlers.frame_change_pre.index(handler)
-        bpy.app.handlers.frame_change_pre.pop(index_handler)
+        if index_handler:
+            bpy.app.handlers.frame_change_pre.pop(index_handler)
         bpy.ops.screen.animation_cancel()
 
     def _get_current_camera(self):
