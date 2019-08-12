@@ -63,7 +63,6 @@ class OCVLVideoSampleNode(OCVLPreviewNodeBase):
         self.outputs.new('OCVLImageSocket', 'image_out')
         self.outputs.new('OCVLObjectSocket', 'width_out')
         self.outputs.new('OCVLObjectSocket', 'height_out')
-        bpy.app.handlers.frame_change_pre.append(self.wrapped_process)
         self.update_layout(context)
 
     def wrapped_process(self, *args):
@@ -71,15 +70,10 @@ class OCVLVideoSampleNode(OCVLPreviewNodeBase):
         image = None
         uuid_ = None
 
-        loc_camera_device = int(self.get_from_props("loc_camera_device"))
+        current_camera = self._get_current_camera()
+        _, image = current_camera.read()
 
-        if not CAMERA_DEVICE_DICT.get(loc_camera_device):
-            reconnect_camera_device(loc_camera_device)
-
-        if CAMERA_DEVICE_DICT.get(loc_camera_device) and CAMERA_DEVICE_DICT.get(loc_camera_device).isOpened():
-            _, image = CAMERA_DEVICE_DICT.get(loc_camera_device).read()
-
-        if not CAMERA_DEVICE_DICT.get(loc_camera_device) or image is None:
+        if not current_camera or image is None:
             # reconnect_camera_device()
             image = np.zeros((200, 200, 3), np.uint8)
 
@@ -129,13 +123,34 @@ class OCVLVideoSampleNode(OCVLPreviewNodeBase):
 
     def free(self):
         super().free()
+        self._free_cameras()
+        self._free_handlers()
+
+    def _free_cameras(self):
         loc_camera_device = int(self.get_from_props("loc_camera_device"))
         if CAMERA_DEVICE_DICT.get(loc_camera_device).isOpened():
             CAMERA_DEVICE_DICT.get(loc_camera_device).release()
+            CAMERA_DEVICE_DICT.pop(loc_camera_device)
+
+    def _free_handlers(self):
         for handler in bpy.app.handlers.frame_change_pre:
             if f'"{self.name}"' in str(handler):
                 index_handler = bpy.app.handlers.frame_change_pre.index(handler)
         bpy.app.handlers.frame_change_pre.pop(index_handler)
+        bpy.ops.screen.animation_cancel()
+
+    def _get_current_camera(self):
+        self._check_handlers()
+        loc_camera_device = int(self.get_from_props("loc_camera_device"))
+
+        if not CAMERA_DEVICE_DICT.get(loc_camera_device):
+            reconnect_camera_device(loc_camera_device)
+        current_camera = CAMERA_DEVICE_DICT.get(loc_camera_device)
+        return current_camera
+
+    def _check_handlers(self):
+        if not self.name in str(bpy.app.handlers.frame_change_pre):
+            bpy.app.handlers.frame_change_pre.append(self.wrapped_process)
 
     def update_sockets(self, context):
         self.process()
