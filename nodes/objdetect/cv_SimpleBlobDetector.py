@@ -13,6 +13,7 @@ SBD_WORK_MODE_ITEMS = (
 
 
 class OCVLSimpleBlobDetectorNode(OCVLNodeBase, OCVLFeature2DNode):
+    n_development_status = "ALPHA"
 
     n_doc = "Class for extracting blobs from an image."
     _init_method = cv2.SimpleBlobDetector_create
