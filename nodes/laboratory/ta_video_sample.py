@@ -127,10 +127,11 @@ class OCVLVideoSampleNode(OCVLPreviewNodeBase):
         self._free_handlers()
 
     def _free_cameras(self):
-        loc_camera_device = int(self.get_from_props("loc_camera_device"))
-        if CAMERA_DEVICE_DICT.get(loc_camera_device).isOpened():
-            CAMERA_DEVICE_DICT.get(loc_camera_device).release()
-            CAMERA_DEVICE_DICT.pop(loc_camera_device)
+        for camera_device_number in [0, 1, 2, 3]:
+            camera_device = CAMERA_DEVICE_DICT.get(camera_device_number)
+            if camera_device and camera_device.isOpened():
+                camera_device.release()
+                CAMERA_DEVICE_DICT.pop(camera_device_number)
 
     def _free_handlers(self):
         for handler in bpy.app.handlers.frame_change_pre:
