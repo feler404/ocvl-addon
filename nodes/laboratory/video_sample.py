@@ -157,3 +157,9 @@ class OCVLVideoSampleNode(OCVLPreviewNodeBase):
 
     def update_sockets(self, context):
         self.process()
+
+    def process_connected_nodes(self):
+        for output in self.outputs:
+            if output.is_linked:
+                for link in output.links:
+                    link.to_node.process()
