@@ -41,13 +41,6 @@ class OCVLVideoSampleMixIn:
         global CAMERA_DEVICE_DICT
         CAMERA_DEVICE_DICT[config] = cv2.VideoCapture(config)
 
-    def _update_node_cache(self, image=None, resize=False, uuid_=None):
-        old_image_out = self.image_out
-        self.socket_data_cache.pop(old_image_out, None)
-        uuid_ = uuid_ if uuid_ else str(uuid.uuid4())
-        self.socket_data_cache[uuid_] = image
-        return image, uuid_
-
     def _free_cameras(self):
         for camera_device_number in [0, 1, 2, 3]:
             camera_device = CAMERA_DEVICE_DICT.get(camera_device_number)
@@ -127,6 +120,7 @@ class OCVLVideoSampleNode(OCVLPreviewNodeBase, OCVLVideoSampleMixIn):
         self.outputs['image_out'].sv_set(self.image_out)
         self.make_textures(image, uuid_=self.image_out)
         self.process_connected_nodes()
+        self.add_image_meta_info(image)
 
     def draw_buttons(self, context, layout):
         origin = self.get_node_origin()

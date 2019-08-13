@@ -600,3 +600,17 @@ class OCVLPreviewNodeBase(OCVLNodeBase):
         x, y = (self.location[0] + location_x) * SCALE, (self.location[1] + location_y) * SCALE - height
 
         callback_enable(node=self, x=x, y=y, width=width, height=height)
+
+    def add_image_meta_info(self, image):
+        self.n_meta = "\n".join(["Width: {}".format(image.shape[1]),
+                                 "Height: {}".format(image.shape[0]),
+                                 "Channels: {}".format(image.shape[2] if len(image.shape) > 2 else 1),
+                                 "DType: {}".format(image.dtype),
+                                 "Size: {}".format(image.size)])
+
+    def _update_node_cache(self, image=None, resize=False, uuid_=None):
+        old_image_out = self.image_out
+        self.socket_data_cache.pop(old_image_out, None)
+        uuid_ = uuid_ if uuid_ else str(uuid.uuid4())
+        self.socket_data_cache[uuid_] = image
+        return image, uuid_

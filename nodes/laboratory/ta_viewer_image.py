@@ -26,6 +26,7 @@ class OCVLImageViewerNode(OCVLPreviewNodeBase):
         if image.dtype not in VALID_INPUT_DTYPES:
             image = image.astype("uint8")
         self.make_textures(image)
+        self.add_image_meta_info(image)
 
     def generate_code(self):
         lines = []

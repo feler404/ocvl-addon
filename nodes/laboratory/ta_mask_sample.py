@@ -82,21 +82,7 @@ class OCVLMaskSampleNode(OCVLPreviewNodeBase):
         self.refresh_output_socket("height_out", image.shape[0])
         self.refresh_output_socket("width_out", image.shape[1])
         self.make_textures(image, uuid_=self.image_out)
-        self._add_meta_info(image)
-
-    def _update_node_cache(self, image=None, resize=False, uuid_=None):
-        old_image_out = self.image_out
-        self.socket_data_cache.pop(old_image_out, None)
-        uuid_ = uuid_ if uuid_ else str(uuid.uuid4())
-        self.socket_data_cache[uuid_] = image
-        return image, uuid_
-
-    def _add_meta_info(self, image):
-        self.n_meta = "\n".join(["Width: {}".format(image.shape[1]),
-                                 "Height: {}".format(image.shape[0]),
-                                 "Channels: {}".format(1 if len(image.shape) > 1 else image.shape[2]),
-                                 "DType: {}".format(image.dtype),
-                                 "Size: {}".format(image.size)])
+        self.add_image_meta_info(image)
 
     def draw_buttons(self, context, layout):
         origin = self.get_node_origin()
