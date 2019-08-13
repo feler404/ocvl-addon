@@ -1,3 +1,4 @@
+import sys
 import textwrap
 import time
 import uuid
@@ -413,18 +414,25 @@ class OCVLNodeBase(bpy.types.Node):
         try:
             self.check_input_requirements(self.n_requirements)
             self.wrapped_process()
-        except LackRequiredSocket as e:
+        except (LackRequiredSocket, NoDataError) as e:
             logger.info("SOCKET UNLINKED - {}".format(self))
+            self.use_custom_color = True
+            self.color = settings.NODE_COLOR_REQUIRE_DATE
         except cv2.error as e:
             self.n_error = str(e)
             self.use_custom_color = True
             self.color = settings.NODE_COLOR_CV_ERROR
         except Exception as e:
-            self.n_error = str(e)
-            self.use_custom_color = True
-            self.color = settings.NODE_COLOR_CV_ERROR
-            if settings.DEBUG:
-                raise
+            type_, value, traceback = sys.exc_info()
+            if "NoDataError" in str(type_):
+                self.use_custom_color = True
+                self.color = settings.NODE_COLOR_REQUIRE_DATE
+            else:
+                self.n_error = str(e)
+                self.use_custom_color = True
+                self.color = settings.NODE_COLOR_CV_ERROR
+                if settings.DEBUG:
+                    raise
         finally:
             self.n_meta += "\nProcess time: {0:.2f}ms".format((time.time() - start) * 1000)
             if self.n_error:
