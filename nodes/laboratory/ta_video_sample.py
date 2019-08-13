@@ -25,12 +25,57 @@ CAMERA_DEVICE_ITEMS = [
 ]
 
 
-def reconnect_camera_device(config=0):
-    # cap = cv2.VideoCapture("rtsp://admin:12345@192.168.0.4:554")
-    CAMERA_DEVICE_DICT[config] = cv2.VideoCapture(config)
+class OCVLVideoSampleMixIn:
+
+    def update_sockets(self, context):
+        self.process()
+
+    def process_connected_nodes(self):
+        for output in self.outputs:
+            if output.is_linked:
+                for link in output.links:
+                    link.to_node.process()
+
+    def reconnect_camera_device(self, config=0):
+        # cap = cv2.VideoCapture("rtsp://admin:12345@192.168.0.4:554")
+        global CAMERA_DEVICE_DICT
+        CAMERA_DEVICE_DICT[config] = cv2.VideoCapture(config)
+
+    def _update_node_cache(self, image=None, resize=False, uuid_=None):
+        old_image_out = self.image_out
+        self.socket_data_cache.pop(old_image_out, None)
+        uuid_ = uuid_ if uuid_ else str(uuid.uuid4())
+        self.socket_data_cache[uuid_] = image
+        return image, uuid_
+
+    def _free_cameras(self):
+        for camera_device_number in [0, 1, 2, 3]:
+            camera_device = CAMERA_DEVICE_DICT.get(camera_device_number)
+            if camera_device and camera_device.isOpened():
+                camera_device.release()
+                CAMERA_DEVICE_DICT.pop(camera_device_number)
+
+    def _free_handlers(self):
+        bpy.ops.screen.animation_cancel()
+        for handler in bpy.app.handlers.frame_change_pre:
+            if f'"{self.name}"' in str(handler):
+                index_handler = bpy.app.handlers.frame_change_pre.index(handler)
+                bpy.app.handlers.frame_change_pre.pop(index_handler)
+
+    def _get_current_camera(self):
+        self._check_handlers()
+        loc_camera_device = int(self.get_from_props("loc_camera_device"))
+        if not CAMERA_DEVICE_DICT.get(loc_camera_device):
+            self.reconnect_camera_device(loc_camera_device)
+        current_camera = CAMERA_DEVICE_DICT.get(loc_camera_device)
+        return current_camera
+
+    def _check_handlers(self):
+        if not self.name in str(bpy.app.handlers.frame_change_pre):
+            bpy.app.handlers.frame_change_pre.append(self.wrapped_process)
 
 
-class OCVLVideoSampleNode(OCVLPreviewNodeBase):
+class OCVLVideoSampleNode(OCVLPreviewNodeBase, OCVLVideoSampleMixIn):
     ''' Video sample '''
     bl_icon = 'IMAGE_DATA'
 
@@ -71,24 +116,17 @@ class OCVLVideoSampleNode(OCVLPreviewNodeBase):
         uuid_ = None
 
         current_camera = self._get_current_camera()
-        _, image = current_camera.read()
+        if current_camera.isOpened():
+            _, image = current_camera.read()
 
         if not current_camera or image is None:
             # reconnect_camera_device()
             image = np.zeros((200, 200, 3), np.uint8)
 
         image, self.image_out = self._update_node_cache(image=image, resize=False, uuid_=uuid_)
-
         self.outputs['image_out'].sv_set(self.image_out)
         self.make_textures(image, uuid_=self.image_out)
         self.process_connected_nodes()
-
-    def _update_node_cache(self, image=None, resize=False, uuid_=None):
-        old_image_out = self.image_out
-        self.socket_data_cache.pop(old_image_out, None)
-        uuid_ = uuid_ if uuid_ else str(uuid.uuid4())
-        self.socket_data_cache[uuid_] = image
-        return image, uuid_
 
     def draw_buttons(self, context, layout):
         origin = self.get_node_origin()
@@ -100,7 +138,6 @@ class OCVLVideoSampleNode(OCVLPreviewNodeBase):
         sub = row.column(align=True)
         sub.menu("RENDER_MT_framerate_presets", text="Framerate")
         sub.prop(rd, "fps")
-
         if self.loc_image_mode in ["CAMERA", "RTSP"]:
             self.add_button(layout, "loc_stream")
         elif self.loc_image_mode == "FILE":
@@ -125,41 +162,3 @@ class OCVLVideoSampleNode(OCVLPreviewNodeBase):
         super().free()
         self._free_cameras()
         self._free_handlers()
-
-    def _free_cameras(self):
-        for camera_device_number in [0, 1, 2, 3]:
-            camera_device = CAMERA_DEVICE_DICT.get(camera_device_number)
-            if camera_device and camera_device.isOpened():
-                camera_device.release()
-                CAMERA_DEVICE_DICT.pop(camera_device_number)
-
-    def _free_handlers(self):
-        index_handler = None
-        for handler in bpy.app.handlers.frame_change_pre:
-            if f'"{self.name}"' in str(handler):
-                index_handler = bpy.app.handlers.frame_change_pre.index(handler)
-        if index_handler:
-            bpy.app.handlers.frame_change_pre.pop(index_handler)
-        bpy.ops.screen.animation_cancel()
-
-    def _get_current_camera(self):
-        self._check_handlers()
-        loc_camera_device = int(self.get_from_props("loc_camera_device"))
-
-        if not CAMERA_DEVICE_DICT.get(loc_camera_device):
-            reconnect_camera_device(loc_camera_device)
-        current_camera = CAMERA_DEVICE_DICT.get(loc_camera_device)
-        return current_camera
-
-    def _check_handlers(self):
-        if not self.name in str(bpy.app.handlers.frame_change_pre):
-            bpy.app.handlers.frame_change_pre.append(self.wrapped_process)
-
-    def update_sockets(self, context):
-        self.process()
-
-    def process_connected_nodes(self):
-        for output in self.outputs:
-            if output.is_linked:
-                for link in output.links:
-                    link.to_node.process()
