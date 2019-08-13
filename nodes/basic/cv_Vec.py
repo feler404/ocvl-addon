@@ -2,7 +2,7 @@ import uuid
 
 import bpy
 import numpy as np
-from ocvl.core.constants import NP_VALUE_TYPE_ITEMS
+from ocvl.core import settings
 from ocvl.core.node_base import OCVLNodeBase, update_node
 
 VEC_MODE_ITEMS = (
@@ -29,7 +29,7 @@ class OCVLVecNode(OCVLNodeBase):
         update_node(self, context)
 
     size_in: bpy.props.IntProperty(default=10, min=1, max=2048, update=update_node, description="Size of vector")
-    value_type_in: bpy.props.EnumProperty(items=NP_VALUE_TYPE_ITEMS, default='uint8', update=update_node, description="Data type.")
+    value_type_in: bpy.props.EnumProperty(items=settings.NP_VALUE_TYPE_ITEMS, default='uint8', update=update_node, description="Data type.")
     loc_input_mode: bpy.props.EnumProperty(items=VEC_MODE_ITEMS, default='RANDOM', update=update_layout, description="Data type.")
     loc_manual_input: bpy.props.StringProperty(default='[0, 1, 2]', maxlen=1024, update=update_node)
 

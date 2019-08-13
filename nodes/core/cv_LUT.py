@@ -3,7 +3,6 @@ import uuid
 import bpy
 import cv2
 from ocvl.core.node_base import OCVLNodeBase, update_node
-from ocvl.core.constants import NP_VALUE_TYPE_ITEMS
 
 
 class OCVLLUTNode(OCVLNodeBase):

@@ -2,7 +2,7 @@ import uuid
 
 import bpy
 import numpy as np
-from ocvl.core.constants import NP_VALUE_TYPE_ITEMS
+from ocvl.core import settings
 from ocvl.core.node_base import OCVLNodeBase, update_node
 
 MAT_MODE_ITEMS = (
@@ -29,7 +29,7 @@ class OCVLMatNode(OCVLNodeBase):
         update_node(self, context)
 
     size_in: bpy.props.IntVectorProperty(default=(2, 2), size=2, min=1, max=64, update=update_node, description="Size of matrix")
-    value_type_in: bpy.props.EnumProperty(items=NP_VALUE_TYPE_ITEMS, default="uint8", update=update_node, description="Data type.")
+    value_type_in: bpy.props.EnumProperty(items=settings.NP_VALUE_TYPE_ITEMS, default="uint8", update=update_node, description="Data type.")
     loc_input_mode: bpy.props.EnumProperty(items=MAT_MODE_ITEMS, default="ONES", update=update_layout, description="Data type.")
     loc_manual_input: bpy.props.StringProperty(default="[[0, 0], [1, 1]]", maxlen=1024, update=update_node)
 

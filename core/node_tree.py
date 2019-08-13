@@ -2,7 +2,7 @@ import logging
 from collections import defaultdict
 
 import bpy
-from ocvl.core.constants import OCVL_NODE_TREE_TYPE
+from ocvl.core import settings
 from ocvl.core.register_utils import ocvl_register, ocvl_unregister
 
 logger = logging.getLogger(__name__)
@@ -26,14 +26,14 @@ class OCVLNodeTree(bpy.types.NodeTree):
     Node tree consisting of linked nodes used for shading, textures and compositing.
     """
 
-    bl_idname = OCVL_NODE_TREE_TYPE
+    bl_idname = settings.OCVL_NODE_TREE_TYPE
     bl_label = "OCVL Group Tree type"
     bl_icon = "COLOR"
 
     @classmethod
     def pull(cls, node_tree):
-        logger.info("Node Tree Pull", node_tree.bl_idname is OCVL_NODE_TREE_TYPE)
-        return node_tree.bl_idname is OCVL_NODE_TREE_TYPE
+        logger.info("Node Tree Pull", node_tree.bl_idname is settings.OCVL_NODE_TREE_TYPE)
+        return node_tree.bl_idname is settings.OCVL_NODE_TREE_TYPE
 
     def update(self):
         previous_links = LINKS_POINTER_MAP[self.name]

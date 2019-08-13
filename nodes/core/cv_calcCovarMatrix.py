@@ -3,9 +3,9 @@ import uuid
 
 import bpy
 import numpy as np
+from ocvl.core import settings
 from ocvl.core.node_base import OCVLNodeBase, update_node
 from ocvl.core.exceptions import IncorrectTypeInStringSocketException
-from ocvl.core.constants import MAP_NUMPY_CTYPES_OPENCV_CTYPES
 
 
 COMPARE_FLAG_ITEMS = (
@@ -51,7 +51,7 @@ class OCVLcalcCovarMatrixNode(OCVLNodeBase):
         if not isinstance(kwargs["samples_in"], np.ndarray):
             raise IncorrectTypeInStringSocketException
 
-        kwargs["ctype"] = getattr(cv2, MAP_NUMPY_CTYPES_OPENCV_CTYPES[kwargs["samples_in"].dtype.name])
+        kwargs["ctype"] = getattr(cv2, settings.MAP_NUMPY_CTYPES_OPENCV_CTYPES[kwargs["samples_in"].dtype.name])
 
         covar_out, mean_out = self.process_cv(fn=cv2.calcCovarMatrix, kwargs=kwargs)
         self.refresh_output_socket("covar_out", covar_out, is_uuid_type=True)

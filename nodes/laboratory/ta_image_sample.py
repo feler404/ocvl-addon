@@ -5,9 +5,9 @@ import random
 import numpy as np
 from logging import getLogger
 
+from ocvl.core import settings
 from ocvl.core.node_base import OCVLPreviewNodeBase
 from ocvl.core.image_utils import convert_to_cv_image
-from ocvl.core.constants import NP_VALUE_TYPE_ITEMS
 
 logger = getLogger(__name__)
 
@@ -60,7 +60,7 @@ class OCVLImageSampleNode(OCVLPreviewNodeBase):
     height_in: bpy.props.IntProperty(default=100, min=1, max=1024, update=update_layout, name="height_in")
     color_in: bpy.props.FloatVectorProperty(update=update_layout, name='color_in', default=(.3, .3, .2, 1.0), size=4, min=0.0, max=1.0, subtype='COLOR')
     code_in: bpy.props.EnumProperty(items=CODE_COLOR_POOR_ITEMS_FOR_IMAGE_SAMPLE, default='NONE', update=update_layout, description="Color space conversion code (see cv::ColorConversionCodes).")
-    value_type_in: bpy.props.EnumProperty(items=NP_VALUE_TYPE_ITEMS, default='uint8', update=update_layout, description="Data type.")
+    value_type_in: bpy.props.EnumProperty(items=settings.NP_VALUE_TYPE_ITEMS, default='uint8', update=update_layout, description="Data type.")
 
     width_out: bpy.props.IntProperty(default=0, name="width_out")
     height_out: bpy.props.IntProperty(default=0, name="height_out")

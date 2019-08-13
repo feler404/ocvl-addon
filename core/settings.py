@@ -51,3 +51,36 @@ DEFAULT_NODE_FOR_QUICK_LINK_IMAGE_SOCKET_OUT = os.environ.get("DEFAULT_NODE_FOR_
 DEFAULT_QUICK_LINK_LOCATION_X_OFFSET = 40
 DEFAULT_QUICK_LINK_LOCATION_Y_OFFSET = -10
 DEFAULT_QUICK_LINK_LOCATION_Y_OFFSET_FIRST_NODE = 50
+
+
+OCVL_NODE_CATEGORIES = "OCVLCategories"
+OCVL_NODE_TREE_TYPE = "OCVLGroupTreeType"
+OCVL_PRO_DIR_NAME = "ocvl_addon_pro"
+
+PREFIX_NODE_CLASS = "OCVL"
+SUFFIX_NODE_CLASS = "Node"
+BLACK_LIST_FOR_REGISTER_NODE = ["OCVLNode", "OCVLPreviewNode"]
+ID_TREE_CATEGORY_TEMPLATE = "OCVL_CATEGORY_{}"
+NAME_NODE_DIRECTORY = "nodes"
+
+MAP_NUMPY_CTYPES_OPENCV_CTYPES = {
+    "float32": "CV_32F",
+    "float64": "CV_64F",
+}
+
+NP_VALUE_TYPE_ITEMS = (
+    # ("NONE", "NONE", "NONE", "", 0),
+    # ("intc", "intc", "intc", "", 1),
+    # ("intp", "intp", "intp", "", 2),
+    # ("int8", "int8", "int8", "", 3),
+    # ("int16", "int16", "int16", "", 4),
+    # ("int32", "int32", "int32", "", 5),
+    # ("int64", "int64", "int64", "", 6),
+    ("uint8", "uint8", "uint8", "", 0),
+    ("uint16", "uint16", "uint16", "", 1),
+    # ("uint32", "uint32", "uint32", "", 2),
+    # ("uint64", "uint64", "uint64", "", 10),
+    # ("float16", "float16", "float16", "", 3),
+    ("float32", "float32", "float32", "", 2),
+    # ("float64", "float64", "float64", "", 13),
+)

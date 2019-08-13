@@ -5,8 +5,8 @@ import random
 import numpy as np
 from logging import getLogger
 
+from ocvl.core import settings
 from ocvl.core.node_base import OCVLPreviewNodeBase
-from ocvl.core.constants import NP_VALUE_TYPE_ITEMS
 
 logger = getLogger(__name__)
 
@@ -39,7 +39,7 @@ class OCVLMaskSampleNode(OCVLPreviewNodeBase):
 
     width_in: bpy.props.IntProperty(default=100, min=1, max=1024, update=update_layout, name="width_in")
     height_in: bpy.props.IntProperty(default=100, min=1, max=1024, update=update_layout, name="height_in")
-    value_type_in: bpy.props.EnumProperty(items=NP_VALUE_TYPE_ITEMS, default='uint8', update=update_layout, description="Data type.")
+    value_type_in: bpy.props.EnumProperty(items=settings.NP_VALUE_TYPE_ITEMS, default='uint8', update=update_layout, description="Data type.")
 
     width_out: bpy.props.IntProperty(default=0, name="width_out")
     height_out: bpy.props.IntProperty(default=0, name="height_out")
