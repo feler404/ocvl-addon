@@ -9,9 +9,9 @@ import bgl
 import bpy
 import cv2
 import numpy as np
-from ocvl.core.settings import IS_WORK_ON_COPY_INPUT, NODE_COLOR_REQUIRE_DATE, WRAP_TEXT_SIZE_FOR_ERROR_DISPLAY, CATEGORY_TREE, NODE_COLOR_CV_ERROR, DEBUG
+from ocvl.core import settings
+from ocvl.core import globals as ocvl_globals
 from ocvl.core.exceptions import LackRequiredSocket, NoDataError
-from ocvl.core.globals import SOCKET_DATA_CACHE, TEXTURE_CACHE
 from ocvl.core.image_utils import (callback_disable, callback_enable, init_texture, simple_screen, add_background_to_image)
 
 
@@ -196,6 +196,11 @@ def update_node(self, context):
     self.process()
 
 
+class Category:
+    uncategorized = "uncategorized"
+    filters = "filters"
+
+
 class OCVLNodeBase(bpy.types.Node):
     """
     Base class for every OCVL Node.
@@ -228,7 +233,7 @@ class OCVLNodeBase(bpy.types.Node):
     n_error_line = None
     n_development_status = None
     n_auto_register = True
-    n_category = CATEGORY_TREE.uncategorized
+    n_category = Category().uncategorized
     n_meta = ""
     n_doc = ""
     n_see_also = ""
@@ -240,7 +245,7 @@ class OCVLNodeBase(bpy.types.Node):
     bl_label = None
     bl_icon = None
     bl_flags_list = ""
-    socket_data_cache = SOCKET_DATA_CACHE
+    socket_data_cache = ocvl_globals.SOCKET_DATA_CACHE
 
     use_custom_color = False
     color = (0.33, 0.33, 0.33)
@@ -375,7 +380,7 @@ class OCVLNodeBase(bpy.types.Node):
         for requirement in requirements:
             if not self.inputs.get(requirement) or (not self.inputs[requirement].is_linked):
                 # self.use_custom_color = True
-                # self.color = NODE_COLOR_REQUIRE_DATE
+                # self.color = settings.NODE_COLOR_REQUIRE_DATE
                 raise LackRequiredSocket("Inputs[{}] not linked".format(requirement))
         # self.use_custom_color = False
 
@@ -388,7 +393,7 @@ class OCVLNodeBase(bpy.types.Node):
     def clean_kwargs(self, kwargs_in):
         kwargs_out = {}
         for key, value in kwargs_in.items():
-            if IS_WORK_ON_COPY_INPUT and isinstance(value, np.ndarray):
+            if settings.IS_WORK_ON_COPY_INPUT and isinstance(value, np.ndarray):
                 value = value.copy()
 
             if isinstance(value, (str,)):
@@ -413,12 +418,12 @@ class OCVLNodeBase(bpy.types.Node):
         except cv2.error as e:
             self.n_error = str(e)
             self.use_custom_color = True
-            self.color = NODE_COLOR_CV_ERROR
+            self.color = settings.NODE_COLOR_CV_ERROR
         except Exception as e:
             self.n_error = str(e)
             self.use_custom_color = True
-            self.color = NODE_COLOR_CV_ERROR
-            if DEBUG:
+            self.color = settings.NODE_COLOR_CV_ERROR
+            if settings.DEBUG:
                 raise
         finally:
             self.n_meta += "\nProcess time: {0:.2f}ms".format((time.time() - start) * 1000)
@@ -464,11 +469,11 @@ class OCVLNodeBase(bpy.types.Node):
 
         if self.n_error:
             layout.label(text="Error(in line {}): ".format(self.n_error_line))
-            layout.label(text="*" * WRAP_TEXT_SIZE_FOR_ERROR_DISPLAY)
-            lines = textwrap.wrap(self.n_error, WRAP_TEXT_SIZE_FOR_ERROR_DISPLAY)
+            layout.label(text="*" * settings.WRAP_TEXT_SIZE_FOR_ERROR_DISPLAY)
+            lines = textwrap.wrap(self.n_error, settings.WRAP_TEXT_SIZE_FOR_ERROR_DISPLAY)
             for line in lines:
                 layout.label(text=line)
-            layout.label(text="*" * WRAP_TEXT_SIZE_FOR_ERROR_DISPLAY)
+            layout.label(text="*" * settings.WRAP_TEXT_SIZE_FOR_ERROR_DISPLAY)
 
     def get_node_origin(self, props_name=None):
         node_tree = self.id_data.name
@@ -521,7 +526,7 @@ class OCVLPreviewNodeBase(OCVLNodeBase):
 
 
     """
-    texture = TEXTURE_CACHE
+    texture = ocvl_globals.TEXTURE_CACHE
 
     def delete_texture(self):
         if self.node_id in self.texture:

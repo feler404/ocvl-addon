@@ -411,7 +411,7 @@ class OCVLSocketBase:
 
     def draw_color(self, context, node):
         _draw_socket = getattr(self, "draw_socket_color", None)
-        return _draw_socket or settings.SOCKET_COLORS.__getattribute__(self.bl_idname)
+        return _draw_socket or settings.SOCKET_COLORS.get(self.bl_idname)
 
 
 class OCVLColorSocket(bpy.types.NodeSocket, OCVLSocketBase):
