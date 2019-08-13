@@ -53,6 +53,7 @@ def register():
     from ocvl.operatores import abc
     from ocvl.core.register_utils import reload_ocvl_modules
     from ocvl.operatores import select_area
+    from ocvl.core import initial_handlers
     reload_ocvl_modules()
     node_tree.register()
     sockets.register()
@@ -60,6 +61,7 @@ def register():
     abc.register()
     logger_conf.register()
     select_area.register()
+    initial_handlers.register(settings={})
 
 
 def unregister():
@@ -68,8 +70,10 @@ def unregister():
     from ocvl.operatores import operatores
     from ocvl.operatores import abc
     from ocvl.operatores import select_area
+    from ocvl.core import initial_handlers
     node_tree.unregister()
     sockets.unregister()
     operatores.unregister()
     abc.unregister()
     select_area.unregister()
+    initial_handlers.unregister(settings={})
