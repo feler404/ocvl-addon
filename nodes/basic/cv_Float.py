@@ -6,7 +6,7 @@ class OCVLFloatNode(OCVLNodeBase):
 
     n_doc = "Single integer number from Python interface perspective."
 
-    float_out: bpy.props.FloatProperty(default=0.1, min=0, max=1, step=1, precision=4, update=update_node, description="Simple integer number.")
+    float_out: bpy.props.FloatProperty(default=0.1, min=0, max=1, step=1, precision=4, description="Simple integer number.")
 
     def init(self, context):
         self.outputs.new("OCVLObjectSocket", "float_out")
