@@ -439,10 +439,12 @@ class OCVLNodeBase(bpy.types.Node):
             self.wrapped_process()
         except (LackRequiredSocket, NoDataError) as e:
             logger.info("SOCKET UNLINKED - {}".format(self))
+            self.n_error = "LackRequiredSocket"
             self.use_custom_color = True
             self.color = settings.NODE_COLOR_REQUIRE_DATE
         except LackRequiredTypeDataSocket as e:
             logger.info("SOCKET DATA IN WRONG TYPE - {}".format(self))
+            self.n_error = "LackRequiredTypeDataSocket"
             self.use_custom_color = True
             self.color = settings.NODE_COLOR_REQUIRE_TYPE_DATE
         except cv2.error as e:
@@ -452,6 +454,7 @@ class OCVLNodeBase(bpy.types.Node):
         except Exception as e:
             type_, value, traceback = sys.exc_info()
             if "NoDataError" in str(type_):
+                self.n_error = "NoDataError"
                 self.use_custom_color = True
                 self.color = settings.NODE_COLOR_REQUIRE_DATE
             else:
