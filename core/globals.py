@@ -19,3 +19,7 @@ FEATURE2D_INSTANCES_DICT = {}
 DESCRIPTORMATCHER_INSTANCES_DICT = {}
 # Dict to keep workers, daemons and threads
 THREAD_WORKERS = {}
+# Registered tasks for ioloop
+OCVL_REGISTERED_TASKS = {}
+#
+OCVL_REQUEST_RESPONSE = {}
