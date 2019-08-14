@@ -17,3 +17,5 @@ CAMERA_DEVICE_DICT = {}
 FEATURE2D_INSTANCES_DICT = {}
 # Dict to keep initialization objects of DescriptorMacher
 DESCRIPTORMATCHER_INSTANCES_DICT = {}
+# Dict to keep workers, daemons and threads
+THREAD_WORKERS = {}
