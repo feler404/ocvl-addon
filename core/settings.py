@@ -33,6 +33,8 @@ SOCKET_COLORS = {
 }
 # Color node without data
 NODE_COLOR_REQUIRE_DATE = (1, 0.3, 0)
+# Color node without correct type data
+NODE_COLOR_REQUIRE_TYPE_DATE = (1, 0.9, 0.5)
 # Color node with CV error
 NODE_COLOR_CV_ERROR = (0.6, 0.0, 0.0)
 

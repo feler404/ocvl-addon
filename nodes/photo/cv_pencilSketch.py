@@ -2,17 +2,18 @@ import uuid
 
 import bpy
 import cv2
+import numpy as np
 from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
 class OCVLpencilSketchNode(OCVLNodeBase):
 
     n_doc = "Pencil-like non-photorealistic line drawing"
-    n_requirements = {"__and__": ["src_in"]}
+    n_requirements = {"__and__": {"src_in": {"type": np.ndarray, "dtype": "uint8", "channels": 3}}}
 
     src_in: bpy.props.StringProperty(name="src_in", default=str(uuid.uuid4()), description="Input 8-bit 3-channel image.")
-    sigma_s_in: bpy.props.FloatProperty(name="sigma_s_in ", default=5, min=0, max=200, update=update_node, description="Range between 0 to 200.")
-    sigma_r_in: bpy.props.FloatProperty(name="sigma_r_in", default=1, min=0, max=1, step=0.01, update=update_node, description="Range between 0 to 1.")
+    sigma_s_in: bpy.props.FloatProperty(name="sigma_s_in ", default=5., min=0, max=200, update=update_node, description="Range between 0 to 200.")
+    sigma_r_in: bpy.props.FloatProperty(name="sigma_r_in", default=1., min=0, max=1, step=0.01, update=update_node, description="Range between 0 to 1.")
     shade_factor_in: bpy.props.FloatProperty(name="sigma_r_in", default=0.02, min=0, max=0.1, step=0.01, update=update_node, description="Range between 0 to 1.")
 
     dst1_out: bpy.props.StringProperty(name="dst1_out", default=str(uuid.uuid4()), description="Output 8-bit 1-channel image.")

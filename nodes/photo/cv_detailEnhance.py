@@ -2,13 +2,14 @@ import uuid
 
 import bpy
 import cv2
+import numpy as np
 from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
 class OCVLdetailEnhanceNode(OCVLNodeBase):
 
     n_doc = "Equalizes the histogram of a grayscale image."
-    n_requirements = {"__and__": ["src_in"]}
+    n_requirements = {"__and__": {"src_in": {"type": np.ndarray, "dtype": "uint8", "channels": 3}}}
 
     src_in: bpy.props.StringProperty(name="src_in", default=str(uuid.uuid4()), description="Input 8-bit 3-channel image.")
     sigma_s_in: bpy.props.FloatProperty(name="sigma_s_in ", default=5, min=0, max=200, update=update_node, description="Range between 0 to 200.")

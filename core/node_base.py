@@ -12,7 +12,7 @@ import cv2
 import numpy as np
 from ocvl.core import settings
 from ocvl.core import globals as ocvl_globals
-from ocvl.core.exceptions import LackRequiredSocket, NoDataError
+from ocvl.core.exceptions import LackRequiredSocket, NoDataError, LackRequiredTypeDataSocket
 from ocvl.core.image_utils import (callback_disable, callback_enable, init_texture, simple_screen, add_background_to_image)
 
 
@@ -202,6 +202,18 @@ class Category:
     filters = "filters"
 
 
+def get_channels_number(np_image):
+    if not isinstance(np_image, np.ndarray):
+        raise TypeError("NumPy ndarry type needed.")
+    _, *channels_ = np_image.shape
+    if not channels_:
+        return 1
+    elif len(channels_) is 1:
+        return 2
+    else:
+        return channels_[1]
+
+
 class OCVLNodeBase(bpy.types.Node):
     """
     Base class for every OCVL Node.
@@ -383,7 +395,18 @@ class OCVLNodeBase(bpy.types.Node):
                 # self.use_custom_color = True
                 # self.color = settings.NODE_COLOR_REQUIRE_DATE
                 raise LackRequiredSocket("Inputs[{}] not linked".format(requirement))
+            if isinstance(requirements, dict):  # when we should check not only connection but type data too "src_in":{"dtype": "uint8","channels": 3}
+                if not self._check_details_requirements(requirements, key=requirement):
+                    raise LackRequiredTypeDataSocket("Inputs[{}] not pass requirements".format(requirement))
         # self.use_custom_color = False
+
+    def _check_details_requirements(self, requirements, key):
+        data_from_socket = self.get_from_props(key)
+        channels = get_channels_number(data_from_socket)
+        if isinstance(data_from_socket, requirements[key]["type"]) and \
+                data_from_socket.dtype.name == requirements[key]["dtype"] and \
+                channels == requirements[key]["channels"]:
+            return True
 
     def check_inputs_requirements_mode(self, requirements=None, props_maps=None, input_mode=None):
         for requirement in requirements:
@@ -418,6 +441,10 @@ class OCVLNodeBase(bpy.types.Node):
             logger.info("SOCKET UNLINKED - {}".format(self))
             self.use_custom_color = True
             self.color = settings.NODE_COLOR_REQUIRE_DATE
+        except LackRequiredTypeDataSocket as e:
+            logger.info("SOCKET DATA IN WRONG TYPE - {}".format(self))
+            self.use_custom_color = True
+            self.color = settings.NODE_COLOR_REQUIRE_TYPE_DATE
         except cv2.error as e:
             self.n_error = str(e)
             self.use_custom_color = True

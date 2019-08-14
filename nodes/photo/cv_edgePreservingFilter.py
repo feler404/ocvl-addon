@@ -2,6 +2,7 @@ import uuid
 
 import bpy
 import cv2
+import numpy as np
 from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
@@ -10,12 +11,12 @@ class OCVLedgePreservingFilterNode(OCVLNodeBase):
     bl_flags_list = 'RECURS_FILTER, NORMCONV_FILTER'
 
     n_doc = "Filtering is the fundamental operation in image and video processing. Edge-preserving smoothing filters are used in many different applications."
-    n_requirements = {"__and__": ["src_in"]}
+    n_requirements = {"__and__": {"src_in": {"type": np.ndarray, "dtype": "uint8", "channels": 3}}}
 
     src_in: bpy.props.StringProperty(name="src_in", default=str(uuid.uuid4()), description="Input image.")
     flags_in: bpy.props.BoolVectorProperty(default=[False for i in bl_flags_list.split(",")], size=len(bl_flags_list.split(",")), update=update_node, subtype="NONE", description=bl_flags_list)
-    sigma_s_in: bpy.props.FloatProperty(name="sigma_s_in ", default=5, min=0, max=200, update=update_node, description="Range between 0 to 200.")
-    sigma_r_in: bpy.props.FloatProperty(name="sigma_r_in", default=1, min=0, max=1, step=0.01, update=update_node, description="Range between 0 to 1.")
+    sigma_s_in: bpy.props.FloatProperty(name="sigma_s_in ", default=5., min=0, max=200, update=update_node, description="Range between 0 to 200.")
+    sigma_r_in: bpy.props.FloatProperty(name="sigma_r_in", default=1., min=0, max=1, step=0.01, update=update_node, description="Range between 0 to 1.")
 
     dst_out: bpy.props.StringProperty(name="dst_out", default=str(uuid.uuid4()), description="Output image.")
 
