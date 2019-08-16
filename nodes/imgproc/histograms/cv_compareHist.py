@@ -19,7 +19,11 @@ TYPE_ITEMS = (
 class OCVLcompareHistNode(OCVLNodeBase):
 
     n_doc = "Compares two histograms."
-    n_requirements = {}
+    n_requirements = {"__and__": ["H1_in", "H2_in"]}
+    n_quick_link_requirements = {
+        "H1_in": {"__type_node__": "OCVLcalcHistNode"},
+        "H2_in": {"__type_node__": "OCVLcalcHistNode"},
+    }
 
     H1_in: bpy.props.StringProperty(name="H1_in", default=str(uuid.uuid4()), description="First compared histogram.")
     H2_in: bpy.props.StringProperty(name="H2_in", default=str(uuid.uuid4()), description="Second compared histogram of the same size as H1 .")
@@ -28,8 +32,8 @@ class OCVLcompareHistNode(OCVLNodeBase):
     retval_out: bpy.props.StringProperty(name="retval_out", default=str(uuid.uuid4()), description="Calculates the back projection of a histogram.")
 
     def init(self, context):
-        self.inputs.new("OCVLImageSocket", "H1_in")
-        self.inputs.new("OCVLImageSocket", "H2_in")
+        self.inputs.new("OCVLObjectSocket", "H1_in")
+        self.inputs.new("OCVLObjectSocket", "H2_in")
 
         self.outputs.new("OCVLObjectSocket", "retval_out")
 

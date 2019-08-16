@@ -147,6 +147,8 @@ def get_new_input_node_idname(node, socket):
     elif socket.bl_idname == "OCVLVectorSocket":
         new_node_idname = settings.DEFAULT_NODE_FOR_QUICK_LINK_VECTOR_SOCKET
     else:
+        new_node_idname = node.n_quick_link_requirements.get(node.inputs[socket.index].name, {}).get("__type_node__")
+    if not new_node_idname:
         return
     return new_node_idname
 
@@ -212,11 +214,12 @@ class OCVL_OT_LinkNewNodeInput(bpy.types.Operator):
             locx, locy = recursive_framed_location_finder(new_node, loc_xy)
             new_node.location = locx, locy
 
-        for input in new_node.inputs:
-            new_node_idname = get_new_input_node_idname(node=new_node, socket=input)
-            if not new_node_idname:
-                continue
-            bpy.ops.ocvl.quick_link_new_node(socket_index=input.index, origin=new_node.name, is_block_quick_link_requirements=False, new_node_idname=new_node_idname, child=True)
+        if self.is_input_mode:
+            for input in new_node.inputs:
+                new_node_idname = get_new_input_node_idname(node=new_node, socket=input)
+                if not new_node_idname:
+                    continue
+                bpy.ops.ocvl.quick_link_new_node(socket_index=input.index, origin=new_node.name, is_block_quick_link_requirements=False, new_node_idname=new_node_idname, child=True)
 
         if not self.child:
             settings.MUTE_LOOKUP_ERROR = False
@@ -365,6 +368,7 @@ class OCVLSocketBase:
 
         if self.use_quicklink:
             new_node_idname = get_new_input_node_idname(node, self)
+
             if not new_node_idname:
                 return
 
