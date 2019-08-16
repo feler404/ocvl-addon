@@ -3,13 +3,12 @@ import os
 
 import numpy as np
 import bpy
-from ocvl.core.exceptions import NoDataError
+from ocvl.core.exceptions import LackRequiredSocketException
 from ocvl.core.image_utils import convert_to_gl_image
 from ocvl.core.scene_utils import filter_areas
 from ocvl.core.register_utils import ocvl_register, ocvl_unregister
 
 logger = logging.getLogger(__name__)
-TUTORIAL_HEARTBEAT_INTERVAL_RTSP_REFRESH = 2
 
 
 class OCVL_OT_ImageFullScreenOperator(bpy.types.Operator):
@@ -43,7 +42,7 @@ class OCVL_OT_ImageFullScreenOperator(bpy.types.Operator):
             try:
                 img_data = node.get_from_props("image_in")
                 img_name = node.inputs.get("image_in").sv_get()
-            except NoDataError as e:
+            except LackRequiredSocketException as e:
                 return {'CANCELLED'}
             bl_img = self._load_np_img_to_blender_data_image(img_name, img_data)
         else:

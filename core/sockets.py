@@ -16,7 +16,7 @@ from copy import deepcopy
 
 import bpy
 from ocvl.core import settings
-from ocvl.core.exceptions import LackRequiredSocket, NoDataError
+from ocvl.core.exceptions import LackRequiredSocketException
 from ocvl.core.globals import SOCKET_DATA_CACHE
 from ocvl.core.register_utils import ocvl_register, ocvl_unregister
 
@@ -93,9 +93,9 @@ def get_socket(socket, deepcopy_=True):
                 # if data_structure.DEBUG_MODE:
                 #     debug("cache miss: %s -> %s from: %s -> %s",
                 #             socket.node.name, socket.name, other.node.name, other.name)
-                raise NoDataError(socket)
+                raise LackRequiredSocketException(socket)
     # not linked
-    raise NoDataError(socket)
+    raise LackRequiredSocketException(socket)
 
 
 def get_socket_info(socket):
@@ -361,10 +361,8 @@ class OCVLSocketBase:
                 node.check_input_requirements(node.n_requirements)
                 op_icon = self._map_quick_link_icons["output"][self.bl_idname][1]
                 is_block_quick_link_requirements = False
-            except (Exception, LackRequiredSocket) as e:
+            except (Exception, LackRequiredSocketException) as e:
                 op_icon = self._map_quick_link_icons["output"][self.bl_idname][0]
-            except (Exception, LackRequiredSocket) as e:
-                op_icon = "NONE"
 
             op = layout.operator('ocvl.quick_link_new_node', text="", icon=op_icon)
             op.is_block_quick_link_requirements = is_block_quick_link_requirements
@@ -441,7 +439,7 @@ class OCVLColorSocket(bpy.types.NodeSocket, OCVLSocketBase):
         elif self.use_prop:
             return [[self.prop[:]]]
         elif default is sentinel:
-            raise NoDataError(self)
+            raise LackRequiredSocketException(self)
         else:
             return default
 
