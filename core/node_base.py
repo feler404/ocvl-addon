@@ -473,11 +473,11 @@ class OCVLNodeBase(bpy.types.Node):
                 for link in output.links:
                     link.to_node.process()
 
-    def process_cv(self, fn=None, kwargs=None):
+    def process_cv(self, fn=None, args=(), kwargs=None):
         kwargs = self.clean_kwargs(kwargs)
         start = time.time()
         try:
-            out = fn(**kwargs)
+            out = fn(*args, **kwargs)
         except Exception as e:
             logger.warning("CV process problem: fn={}, kwargs={}, self={}, exception={} ".format(fn, kwargs, self, e))
             raise
