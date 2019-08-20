@@ -38,7 +38,7 @@ class OCVLTypeConvertNode(OCVLNodeBase):
     float32	Single precision float: sign bit, 8 bits exponent, 23 bits mantissa
     float64	Double precision float: sign bit, 11 bits exponent, 52 bits mantissa
     '''
-
+    bl_icon = "BLENDER"
     n_doc = "Custom Python code input."
     n_requirements = {"__and__": ["array_in"]}
 
