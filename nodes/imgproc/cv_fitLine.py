@@ -8,7 +8,6 @@ from ocvl.core.node_base import OCVLNodeBase, update_node, DISTANCE_TYPE_ITEMS
 class OCVLfitLineNode(OCVLNodeBase):
 
     n_doc = "Fits a line to a 2D or 3D point set."
-    n_development_status = "BETA"
     n_requirements = {"__and__": ["points_in"]}
 
     points_in: bpy.props.StringProperty(default=str(uuid.uuid4()), description="Input vector of 2D points, stored in std::vector\<\> or Mat")
@@ -38,7 +37,7 @@ class OCVLfitLineNode(OCVLNodeBase):
             }
 
         line_out = self.process_cv(fn=cv2.fitLine, kwargs=kwargs)
-        self.refresh_output_socket("line_out", line_out, is_uuid=True)
+        self.refresh_output_socket("line_out", line_out, is_uuid_type=True)
 
     def draw_buttons(self, context, layout):
         self.add_button(layout, 'distType_in')
