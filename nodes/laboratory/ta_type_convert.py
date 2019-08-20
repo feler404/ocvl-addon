@@ -40,7 +40,7 @@ class OCVLTypeConvertNode(OCVLNodeBase):
     '''
 
     n_doc = "Custom Python code input."
-    n_requirements = {}
+    n_requirements = {"__and__": ["array_in"]}
 
     def update_layout(self, context):
         self.process()
@@ -51,7 +51,7 @@ class OCVLTypeConvertNode(OCVLNodeBase):
     value_type_in: bpy.props.EnumProperty(items=NP_VALUE_TYPE_ITEMS, default='float32', update=update_layout, description="Data type.")
 
     def init(self, context):
-        self.inputs.new("OCVLObjectSocket", "array_in")
+        self.inputs.new("OCVLImageSocket", "array_in")
 
         self.outputs.new("OCVLObjectSocket", "array_out")
 
