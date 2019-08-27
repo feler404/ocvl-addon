@@ -5,12 +5,6 @@ from ocvl.core.node_base import update_node, OCVLNodeBase
 from ocvl.nodes.objdetect.abc_Feature2D import OCVLFeature2DCalculatorDMixIn
 from ocvl.operatores.abc import OCVL_OT_InitFeature2DOperator
 
-VGG_WORK_MODE_ITEMS = (
-    ("DETECT", "DETECT", "DETECT", "CANCEL", 0),
-    ("COMPUTE", "COMPUTE", "COMPUTE", "", 1),
-    ("DETECT-COMPUTE", "DETECT-COMPUTE", "DETECT-COMPUTE", "CANCEL", 2),
-)
-
 
 class OCVLVGGNode(OCVLFeature2DCalculatorDMixIn, OCVLNodeBase):
 
