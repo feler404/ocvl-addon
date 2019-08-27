@@ -55,13 +55,15 @@ class OCVLNodeTree(bpy.types.NodeTree):
                 # LINKS_POINTER_MAP[self.name][link_pointer].to_node.process()
                 # TODO: crash here :( to_node may not exist
 
+        prevent_process = []
         for link_pointer in new_links:
             try:
                 current_links[link_pointer].to_node.check_input_requirements()
             except (LackRequiredSocketException, Exception) as e:
                 logger.debug("Not data for new link.")
-            else:
-                current_links[link_pointer].from_node.process()
+                prevent_process.append(current_links[link_pointer].to_node)
+            finally:
+                current_links[link_pointer].from_node.process(prevent_process=prevent_process)
         LINKS_POINTER_MAP[self.name] = current_links
 
 
