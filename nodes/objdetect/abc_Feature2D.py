@@ -20,9 +20,9 @@ STATE_MODE_ITEMS = (
 )
 
 WORK_MODE_PROPS_MAPS = {
-    WORK_MODE_ITEMS[0][0]: ("image_in", "mask_in", "keypoints_out"),
-    WORK_MODE_ITEMS[1][0]: ("image_in", "keypoints_in", "keypoints_out", "descriptors_out"),
-    WORK_MODE_ITEMS[2][0]: ("image_in", "mask_in", "keypoints_out", "descriptors_out"),
+    WORK_MODE_ITEMS[0][0]: ("image_in", "mask_in|OCVLMaskSocket", "keypoints_out"),
+    WORK_MODE_ITEMS[1][0]: ("image_in", "keypoints_in|OCVLVectorSocket", "keypoints_out", "descriptors_out"),
+    WORK_MODE_ITEMS[2][0]: ("image_in", "mask_in|OCVLMaskSocket", "keypoints_out", "descriptors_out"),
 }
 
 STATE_MODE_PROPS_MAPS = {
@@ -36,12 +36,16 @@ class OCVLFeature2DMixIn:
 
     n_doc = ""
     n_requirements = {"__and__": ["image_in"]}
+    n_quick_link_requirements = {
+        "keypoints_in": {"loc_input_mode": "MANUAL", "loc_manual_input": "[cv2.KeyPoint(1,1,3)]"},
+    }
     _feature_class_type = 2  # 0 - for detect class, 1 - for compute class, 2 - for detect and compute class
     ABC_GLOBAL_INSTANCE_DICT_NAME = FEATURE2D_INSTANCES_DICT
 
     def update_layout(self, context):
         self.update_sockets(context)
-        update_node(self, context)
+        if FEATURE2D_INSTANCES_DICT.get("{}.{}".format(self.id_data.name, self.name)):
+            update_node(self, context)
 
     def update_and_init(self, context):
         OCVL_OT_InitFeature2DOperator.update_class_instance_dict(self, self.id_data.name, self.name)
