@@ -4,6 +4,8 @@ from collections import defaultdict
 import bpy
 from ocvl.core import settings
 from ocvl.core.register_utils import ocvl_register, ocvl_unregister
+from ocvl.core.exceptions import LackRequiredSocketException
+
 
 logger = logging.getLogger(__name__)
 
@@ -54,7 +56,12 @@ class OCVLNodeTree(bpy.types.NodeTree):
                 # TODO: crash here :( to_node may not exist
 
         for link_pointer in new_links:
-            current_links[link_pointer].from_node.process()
+            try:
+                current_links[link_pointer].to_node.check_input_requirements()
+            except (LackRequiredSocketException, Exception) as e:
+                logger.debug("Not data for new link.")
+            else:
+                current_links[link_pointer].from_node.process()
         LINKS_POINTER_MAP[self.name] = current_links
 
 

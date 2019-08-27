@@ -375,7 +375,7 @@ class OCVLNodeBase(bpy.types.Node):
 
     def check_input_requirements(self, requirements=None):
         if not requirements:
-            return
+            requirements = self.n_requirements
 
         for requirement in requirements:
             if requirement.startswith("__or__"):

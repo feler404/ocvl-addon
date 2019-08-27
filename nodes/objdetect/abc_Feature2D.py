@@ -1,3 +1,4 @@
+import logging
 import uuid
 
 import bpy
@@ -5,6 +6,7 @@ import bpy
 from ocvl.core.globals import FEATURE2D_INSTANCES_DICT
 from ocvl.operatores.abc import OCVL_OT_InitFeature2DOperator
 from ocvl.core.node_base import update_node
+from ocvl.core.exceptions import LackRequiredSocketException
 
 
 WORK_MODE_ITEMS = (
@@ -30,6 +32,8 @@ STATE_MODE_PROPS_MAPS = {
     STATE_MODE_ITEMS[1][0]: ("loc_file_load",),
     STATE_MODE_ITEMS[2][0]: ("loc_file_save",),
 }
+
+logger = logging.getLogger(__name__)
 
 
 def update_layout(self, context):
@@ -110,7 +114,6 @@ class OCVLFeature2DMixIn:
         super().free()
 
     def _detect(self, instance):
-        self.check_input_requirements(["image_in"])
         kwargs = {
             'image_in': self.get_from_props("image_in"),
             'mask_in': self.get_from_props("mask_in"),
@@ -119,7 +122,6 @@ class OCVLFeature2DMixIn:
         self.refresh_output_socket("keypoints_out", keypoints_out, is_uuid_type=True)
 
     def _compute(self, instance):
-        self.check_input_requirements(["image_in", "keypoints_in"])
         kwargs = {
             'image_in': self.get_from_props("image_in"),
             'keypoints_in': self.get_from_props("keypoints_in"),
@@ -130,7 +132,6 @@ class OCVLFeature2DMixIn:
         self.refresh_output_socket("descriptors_out", descriptors_out, is_uuid_type=True)
 
     def _detect_and_compute(self, instance):
-        self.check_input_requirements(["image_in"])
         kwargs = {
             'image_in': self.get_from_props("image_in"),
             'mask_in': self.get_from_props("mask_in"),
