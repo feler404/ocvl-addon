@@ -118,6 +118,8 @@ class OCVLFeature2DMixIn:
             'image_in': self.get_from_props("image_in"),
             'mask_in': self.get_from_props("mask_in"),
         }
+        if self.is_uuid(kwargs["mask_in"]):
+            kwargs["mask_in"] = None
         keypoints_out = self.process_cv(fn=instance.detect, kwargs=kwargs)
         self.refresh_output_socket("keypoints_out", keypoints_out, is_uuid_type=True)
 
@@ -136,6 +138,8 @@ class OCVLFeature2DMixIn:
             'image_in': self.get_from_props("image_in"),
             'mask_in': self.get_from_props("mask_in"),
         }
+        if self.is_uuid(kwargs["mask_in"]):
+            kwargs["mask_in"] = None
         keypoints_out, descriptors_out = self.process_cv(fn=instance.detectAndCompute, kwargs=kwargs)
         self.refresh_output_socket("keypoints_out", keypoints_out, is_uuid_type=True)
         self.refresh_output_socket("descriptors_out", descriptors_out, is_uuid_type=True)
