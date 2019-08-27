@@ -72,13 +72,12 @@ class OCVLFeature2DMixIn:
 
         self.outputs.new("OCVLObjectSocket", "keypoints_out")
         self.outputs.new("OCVLObjectSocket", "descriptors_out")
+        self.update_layout(context)
         OCVL_OT_InitFeature2DOperator.update_class_instance_dict(self, self.id_data.name, self.name)
         FEATURE2D_INSTANCES_DICT.get("{}.{}".format(self.id_data.name, self.name))
-        self.update_layout(context)
 
     def update_sockets(self, context):
         self.update_sockets_for_node_mode(WORK_MODE_PROPS_MAPS, self.loc_work_mode)
-        self.process()
 
     def draw_buttons(self, context, layout):
         origin = self.get_node_origin()
@@ -96,6 +95,10 @@ class OCVLFeature2DMixIn:
             layout.row().prop(self, "loc_file_load")
         elif self.loc_state_mode == "SAVE":
             layout.row().prop(self, "loc_file_save")
+
+    def free(self):
+        FEATURE2D_INSTANCES_DICT.pop("{}.{}".format(self.id_data.name, self.name))
+        super().free()
 
     def _detect(self, instance):
         self.check_input_requirements(["image_in"])
@@ -134,7 +137,8 @@ class OCVLFeature2DDetectorMixIn(OCVLFeature2DMixIn):
 
     def update_layout(self, context):
         self.update_sockets(context)
-        update_node(self, context)
+        if FEATURE2D_INSTANCES_DICT.get("{}.{}".format(self.id_data.name, self.name)):
+            update_node(self, context)
 
     def update_and_init(self, context):
         OCVL_OT_InitFeature2DOperator.update_class_instance_dict(self, self.id_data.name, self.name)
