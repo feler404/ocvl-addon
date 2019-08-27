@@ -2,20 +2,15 @@ import bpy
 import cv2
 from ocvl.core.globals import FEATURE2D_INSTANCES_DICT
 from ocvl.core.node_base import OCVLNodeBase
-from ocvl.nodes.objdetect.abc_Feature2D import OCVLFeature2DMixIn
+from ocvl.nodes.objdetect.abc_Feature2D import OCVLFeature2DDetectorMixIn
 from ocvl.operatores.abc import OCVL_OT_InitFeature2DOperator
 
-MSER_WORK_MODE_ITEMS = (
-    ("DETECT", "DETECT", "DETECT", "", 0),
-    ("COMPUTE", "COMPUTE", "COMPUTE", "CANCEL", 1),
-    ("DETECT-COMPUTE", "DETECT-COMPUTE", "DETECT-COMPUTE", "CANCEL", 2),
-)
 
-
-class OCVLMSERNode(OCVLFeature2DMixIn, OCVLNodeBase):
+class OCVLMSERNode(OCVLFeature2DDetectorMixIn, OCVLNodeBase):
 
     n_doc = "Maximally stable extremal region extractor."
     _init_method = cv2.MSER_create
+    _interface_class = 0
 
     def update_and_init(self, context):
         OCVL_OT_InitFeature2DOperator.update_class_instance_dict(self, self.id_data.name, self.name)

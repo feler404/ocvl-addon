@@ -36,6 +36,7 @@ class OCVLFeature2DMixIn:
 
     n_doc = ""
     n_requirements = {"__and__": ["image_in"]}
+    _feature_class_type = 2  # 0 - for detect class, 1 - for compute class, 2 - for detect and compute class
     ABC_GLOBAL_INSTANCE_DICT_NAME = FEATURE2D_INSTANCES_DICT
 
     def update_layout(self, context):
@@ -84,7 +85,7 @@ class OCVLFeature2DMixIn:
 
     def draw_buttons(self, context, layout):
         origin = self.get_node_origin()
-        self.add_button(layout=layout, prop_name='loc_work_mode', expand=True)
+        self.add_button(layout=layout, prop_name='loc_work_mode', expand=True, enabled=self._feature_class_type == 2)
         self.add_button(layout=layout, prop_name='loc_state_mode', expand=True)
         if self.loc_state_mode == "INIT":
             layout.operator("ocvl.init_feature_2d", icon='MENU_PANEL').origin = origin
@@ -128,3 +129,11 @@ class OCVLFeature2DMixIn:
         keypoints_out, descriptors_out = self.process_cv(fn=instance.detectAndCompute, kwargs=kwargs)
         self.refresh_output_socket("keypoints_out", keypoints_out, is_uuid_type=True)
         self.refresh_output_socket("descriptors_out", descriptors_out, is_uuid_type=True)
+
+
+class OCVLFeature2DDetectorMixIn(OCVLFeature2DMixIn):
+    _feature_class_type = 0
+
+
+class OCVLFeature2CalculatorDMixIn(OCVLFeature2DMixIn):
+    _feature_class_type = 1

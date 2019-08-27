@@ -522,8 +522,9 @@ class OCVLNodeBase(bpy.types.Node):
                 id_list.append(prop_name)
         return '|><|'.join(id_list)
 
-    def add_button(self, layout, prop_name, expand=False, toggle=False, icon=None, text=None):
+    def add_button(self, layout, prop_name, expand=False, toggle=False, icon=None, text=None, enabled=True):
         col = layout.column(align=True)
+        col.enabled = enabled
         row = col.row(align=True)
 
         kwargs = {}
