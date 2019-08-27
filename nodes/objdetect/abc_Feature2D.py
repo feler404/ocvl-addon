@@ -52,8 +52,9 @@ class OCVLFeature2DMixIn:
     n_doc = ""
     n_requirements = {"__and__": ["image_in"]}
     n_quick_link_requirements = {
-        "keypoints_in": {"loc_input_mode": "MANUAL", "loc_manual_input": "[cv2.KeyPoint(1,1,3)]"},
+        "keypoints_in": {"loc_input_mode": "MANUAL", "loc_manual_input": "(cv2.KeyPoint(10, 10, 15), )"},
     }
+
     _feature_class_type = 2  # 0 - for detect class, 1 - for compute class, 2 - for detect and compute class
     ABC_GLOBAL_INSTANCE_DICT_NAME = FEATURE2D_INSTANCES_DICT
 
@@ -155,7 +156,7 @@ class OCVLFeature2DDetectorMixIn(OCVLFeature2DMixIn):
 class OCVLFeature2DCalculatorDMixIn(OCVLFeature2DMixIn):
     n_requirements = {"__and__": ["image_in", "keypoints_in"]}
     n_quick_link_requirements = {
-        "keypoints_in": {"loc_input_mode": "MANUAL", "loc_manual_input": "[cv2.KeyPoint(1,1,3)]"},
+        "keypoints_in": {"loc_input_mode": "MANUAL", "loc_manual_input": "(cv2.KeyPoint(10, 10, 15), )"},
     }
 
     _feature_class_type = 1
