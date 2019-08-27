@@ -337,11 +337,17 @@ class OCVLNodeBase(bpy.types.Node):
         if socket_name.endswith("_out"):
             return self.outputs
 
+    def is_prop_in_props_maps(self, prop_name, props_maps):
+        for prop in  props_maps:
+            if prop.startswith(prop_name):
+                return True
+        return False
+
     def update_sockets_for_node_mode(self, props_maps, node_mode):
         for socket_name in list(chain(*props_maps.values())):
             socket_name = socket_name.split("|")[0]
             sockets = self._get_sockets_by_socket_name(socket_name)
-            if socket_name in sockets and socket_name not in props_maps[node_mode]:
+            if socket_name in sockets and not self.is_prop_in_props_maps(socket_name, props_maps[node_mode]):
                 sockets.remove(sockets[socket_name])
         for prop_name in props_maps[node_mode]:
             split_prop_name = prop_name.split("|")

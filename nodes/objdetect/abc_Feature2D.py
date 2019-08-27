@@ -32,6 +32,17 @@ STATE_MODE_PROPS_MAPS = {
 }
 
 
+def update_layout(self, context):
+    self.update_sockets(context)
+    if FEATURE2D_INSTANCES_DICT.get("{}.{}".format(self.id_data.name, self.name)):
+        update_node(self, context)
+
+
+def update_and_init(self, context):
+    OCVL_OT_InitFeature2DOperator.update_class_instance_dict(self, self.id_data.name, self.name)
+    update_layout(context)
+
+
 class OCVLFeature2DMixIn:
 
     n_doc = ""
@@ -42,15 +53,9 @@ class OCVLFeature2DMixIn:
     _feature_class_type = 2  # 0 - for detect class, 1 - for compute class, 2 - for detect and compute class
     ABC_GLOBAL_INSTANCE_DICT_NAME = FEATURE2D_INSTANCES_DICT
 
-    def update_layout(self, context):
-        self.update_sockets(context)
-        if FEATURE2D_INSTANCES_DICT.get("{}.{}".format(self.id_data.name, self.name)):
-            update_node(self, context)
+    update_layout = update_layout
+    update_and_init = update_and_init
 
-    def update_and_init(self, context):
-        OCVL_OT_InitFeature2DOperator.update_class_instance_dict(self, self.id_data.name, self.name)
-        self.update_sockets(context)
-        update_node(self, context)
 
     image_in: bpy.props.StringProperty(default=str(uuid.uuid4()), description="Input 8-bit or floating-point 32-bit, single-channel image.")
     mask_in: bpy.props.StringProperty(default=str(uuid.uuid4()), description="Optional region of interest.")
@@ -139,16 +144,6 @@ class OCVLFeature2DDetectorMixIn(OCVLFeature2DMixIn):
     n_requirements = {"__and__": ["image_in"]}
     _feature_class_type = 0
 
-    def update_layout(self, context):
-        self.update_sockets(context)
-        if FEATURE2D_INSTANCES_DICT.get("{}.{}".format(self.id_data.name, self.name)):
-            update_node(self, context)
-
-    def update_and_init(self, context):
-        OCVL_OT_InitFeature2DOperator.update_class_instance_dict(self, self.id_data.name, self.name)
-        self.update_sockets(context)
-        update_node(self, context)
-
     loc_work_mode: bpy.props.EnumProperty(items=WORK_MODE_ITEMS, default="DETECT", update=update_layout, description="")
 
 
@@ -159,15 +154,5 @@ class OCVLFeature2DCalculatorDMixIn(OCVLFeature2DMixIn):
     }
 
     _feature_class_type = 1
-
-    def update_layout(self, context):
-        self.update_sockets(context)
-        if FEATURE2D_INSTANCES_DICT.get("{}.{}".format(self.id_data.name, self.name)):
-            update_node(self, context)
-
-    def update_and_init(self, context):
-        OCVL_OT_InitFeature2DOperator.update_class_instance_dict(self, self.id_data.name, self.name)
-        self.update_sockets(context)
-        update_node(self, context)
 
     loc_work_mode: bpy.props.EnumProperty(items=WORK_MODE_ITEMS, default="COMPUTE", update=update_layout, description="")
