@@ -10,7 +10,6 @@ class OCVLMSERNode(OCVLFeature2DDetectorMixIn, OCVLNodeBase):
 
     n_doc = "Maximally stable extremal region extractor."
     _init_method = cv2.MSER_create
-    _interface_class = 0
 
     def update_and_init(self, context):
         OCVL_OT_InitFeature2DOperator.update_class_instance_dict(self, self.id_data.name, self.name)

@@ -68,7 +68,7 @@ class OCVLFeature2DMixIn:
         self.width = 250
         self.inputs.new("OCVLImageSocket", "image_in")
         self.inputs.new("OCVLMaskSocket", "mask_in")
-        self.inputs.new("OCVLObjectSocket", "keypoints_in")
+        self.inputs.new("OCVLVectorSocket", "keypoints_in")
 
         self.outputs.new("OCVLObjectSocket", "keypoints_out")
         self.outputs.new("OCVLObjectSocket", "descriptors_out")
@@ -148,13 +148,18 @@ class OCVLFeature2DDetectorMixIn(OCVLFeature2DMixIn):
     loc_work_mode: bpy.props.EnumProperty(items=WORK_MODE_ITEMS, default="DETECT", update=update_layout, description="")
 
 
-class OCVLFeature2CalculatorDMixIn(OCVLFeature2DMixIn):
+class OCVLFeature2DCalculatorDMixIn(OCVLFeature2DMixIn):
     n_requirements = {"__and__": ["image_in", "keypoints_in"]}
+    n_quick_link_requirements = {
+        "keypoints_in": {"loc_input_mode": "MANUAL", "loc_manual_input": "[cv2.KeyPoint(1,1,3)]"},
+    }
+
     _feature_class_type = 1
 
     def update_layout(self, context):
         self.update_sockets(context)
-        update_node(self, context)
+        if FEATURE2D_INSTANCES_DICT.get("{}.{}".format(self.id_data.name, self.name)):
+            update_node(self, context)
 
     def update_and_init(self, context):
         OCVL_OT_InitFeature2DOperator.update_class_instance_dict(self, self.id_data.name, self.name)
