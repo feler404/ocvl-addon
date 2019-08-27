@@ -9,6 +9,7 @@ from ocvl.operatores.abc import OCVL_OT_InitFeature2DOperator
 class OCVLSIFTNode(OCVLFeature2DMixIn, OCVLNodeBase):
 
     n_doc = "Class for extracting keypoints and computing descriptors using the Scale Invariant Feature Transform (SIFT) algorithm by D. Lowe"
+    n_n_development_status = "ALPHA"  # Patented algorythm
     _url = "https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_feature2d/py_sift_intro/py_sift_intro.html"
     _init_method = cv2.xfeatures2d.SIFT_create
 
