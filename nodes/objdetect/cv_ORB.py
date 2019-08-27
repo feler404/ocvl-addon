@@ -2,7 +2,7 @@ import bpy
 import cv2
 from ocvl.core.globals import FEATURE2D_INSTANCES_DICT
 from ocvl.core.node_base import OCVLNodeBase, update_node
-from ocvl.nodes.objdetect.abc_Feature2D import OCVLFeature2DNode
+from ocvl.nodes.objdetect.abc_Feature2D import OCVLFeature2DMixIn
 from ocvl.operatores.abc import OCVL_OT_InitFeature2DOperator
 
 SCORE_TYPE_ITEMS = (
@@ -11,7 +11,7 @@ SCORE_TYPE_ITEMS = (
     ("ORB_FAST_SCORE", "ORB_FAST_SCORE", "ORB_FAST_SCORE", "", 2),
 )
 
-class OCVLORBNode(OCVLNodeBase, OCVLFeature2DNode):
+class OCVLORBNode(OCVLFeature2DMixIn, OCVLNodeBase):
 
     n_doc = "Class implementing the ORB (oriented BRIEF) keypoint detector and descriptor extractor."
     _url = "https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_feature2d/py_orb/py_orb.html"

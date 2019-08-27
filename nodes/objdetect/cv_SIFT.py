@@ -2,11 +2,11 @@ import bpy
 import cv2
 from ocvl.core.globals import FEATURE2D_INSTANCES_DICT
 from ocvl.core.node_base import OCVLNodeBase, update_node
-from ocvl.nodes.objdetect.abc_Feature2D import OCVLFeature2DNode
+from ocvl.nodes.objdetect.abc_Feature2D import OCVLFeature2DMixIn
 from ocvl.operatores.abc import OCVL_OT_InitFeature2DOperator
 
 
-class OCVLSIFTNode(OCVLNodeBase, OCVLFeature2DNode):
+class OCVLSIFTNode(OCVLFeature2DMixIn, OCVLNodeBase):
 
     n_doc = "Class for extracting keypoints and computing descriptors using the Scale Invariant Feature Transform (SIFT) algorithm by D. Lowe"
     _url = "https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_feature2d/py_sift_intro/py_sift_intro.html"

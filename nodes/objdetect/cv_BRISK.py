@@ -2,7 +2,7 @@ import bpy
 import cv2
 from ocvl.core.globals import FEATURE2D_INSTANCES_DICT
 from ocvl.core.node_base import OCVLNodeBase
-from ocvl.nodes.objdetect.abc_Feature2D import OCVLFeature2DNode
+from ocvl.nodes.objdetect.abc_Feature2D import OCVLFeature2DMixIn
 from ocvl.operatores.abc import OCVL_OT_InitFeature2DOperator
 
 BYTES_ITEMS = (
@@ -18,7 +18,7 @@ BDE_WORK_MODE_ITEMS = (
 )
 
 
-class OCVLBRISKNode(OCVLNodeBase, OCVLFeature2DNode):
+class OCVLBRISKNode(OCVLFeature2DMixIn, OCVLNodeBase):
 
     n_doc = "Class implementing the BRISK keypoint detector and descriptor extractor, described in [LCS11]."
     _url = "https://docs.opencv.org/3.0-beta/modules/features2d/doc/feature_detection_and_description.html?highlight=brisk#BRISK%20:%20public%20Feature2D"

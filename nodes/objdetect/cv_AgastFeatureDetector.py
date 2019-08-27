@@ -2,7 +2,7 @@ import bpy
 import cv2
 from ocvl.core.globals import FEATURE2D_INSTANCES_DICT
 from ocvl.core.node_base import OCVLNodeBase, update_node
-from ocvl.nodes.objdetect.abc_Feature2D import OCVLFeature2DNode
+from ocvl.nodes.objdetect.abc_Feature2D import OCVLFeature2DMixIn
 from ocvl.operatores.abc import OCVL_OT_InitFeature2DOperator
 
 TYPE_ITEMS = (
@@ -20,7 +20,7 @@ AGAST_WORK_MODE_ITEMS = (
 )
 
 
-class OCVLAgastFeatureDetectorNode(OCVLNodeBase, OCVLFeature2DNode):
+class OCVLAgastFeatureDetectorNode(OCVLFeature2DMixIn, OCVLNodeBase):
 
     n_doc = "Wrapping class for feature detection using the AGAST method. "
     _init_method = cv2.AgastFeatureDetector_create

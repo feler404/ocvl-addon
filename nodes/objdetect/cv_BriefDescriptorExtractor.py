@@ -3,7 +3,7 @@ import uuid
 
 import bpy
 
-from ocvl.nodes.objdetect.abc_Feature2D import OCVLFeature2DNode, STATE_MODE_ITEMS
+from ocvl.nodes.objdetect.abc_Feature2D import OCVLFeature2DMixIn, STATE_MODE_ITEMS
 from ocvl.operatores.abc import OCVL_OT_InitFeature2DOperator
 from ocvl.core.globals import FEATURE2D_INSTANCES_DICT
 from ocvl.core.node_base import update_node, OCVLNodeBase
@@ -20,7 +20,7 @@ BDE_WORK_MODE_ITEMS = (
     ("DETECT-COMPUTE", "DETECT-COMPUTE", "DETECT-COMPUTE", "CANCEL", 2),
 )
 
-class OCVLBriefDescriptorExtractorNode(OCVLNodeBase, OCVLFeature2DNode):
+class OCVLBriefDescriptorExtractorNode(OCVLFeature2DMixIn, OCVLNodeBase):
 
     n_doc = "Class for computing BRIEF descriptors described in [27]."
     _url = "https://docs.opencv.org/3.0-beta/doc/py_tutorials/py_feature2d/py_brief/py_brief.html#brief"

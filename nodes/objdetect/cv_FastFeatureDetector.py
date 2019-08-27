@@ -2,7 +2,7 @@ import bpy
 import cv2
 from ocvl.core.globals import FEATURE2D_INSTANCES_DICT
 from ocvl.core.node_base import OCVLNodeBase
-from ocvl.nodes.objdetect.abc_Feature2D import OCVLFeature2DNode
+from ocvl.nodes.objdetect.abc_Feature2D import OCVLFeature2DMixIn
 from ocvl.operatores.abc import OCVL_OT_InitFeature2DOperator
 
 TYPE_FAST_ITEMS = (
@@ -21,7 +21,7 @@ FFD_WORK_MODE_ITEMS = (
 )
 
 
-class OCVLFastFeatureDetectorNode(OCVLNodeBase, OCVLFeature2DNode):
+class OCVLFastFeatureDetectorNode(OCVLFeature2DMixIn, OCVLNodeBase):
 
     n_doc = "Wrapping class for feature detection using the FAST method."
     _url = "https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_feature2d/py_fast/py_fast.html"

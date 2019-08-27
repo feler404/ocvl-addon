@@ -2,7 +2,7 @@ import bpy
 import cv2
 from ocvl.core.globals import FEATURE2D_INSTANCES_DICT
 from ocvl.core.node_base import update_node, OCVLNodeBase
-from ocvl.nodes.objdetect.abc_Feature2D import OCVLFeature2DNode
+from ocvl.nodes.objdetect.abc_Feature2D import OCVLFeature2DMixIn
 from ocvl.operatores.abc import OCVL_OT_InitFeature2DOperator
 
 VGG_WORK_MODE_ITEMS = (
@@ -12,7 +12,7 @@ VGG_WORK_MODE_ITEMS = (
 )
 
 
-class OCVLVGGNode(OCVLNodeBase, OCVLFeature2DNode):
+class OCVLVGGNode(OCVLFeature2DMixIn, OCVLNodeBase):
 
     n_doc = "Class implementing VGG (Oxford Visual Geometry Group) descriptor trained end to end..."
     _init_method = cv2.xfeatures2d.VGG_create

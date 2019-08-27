@@ -32,10 +32,10 @@ STATE_MODE_PROPS_MAPS = {
 }
 
 
-class OCVLFeature2DNode:
+class OCVLFeature2DMixIn:
 
     n_doc = ""
-    n_auto_register = False
+    n_requirements = {"__and__": ["image_in"]}
     ABC_GLOBAL_INSTANCE_DICT_NAME = FEATURE2D_INSTANCES_DICT
 
     def update_layout(self, context):

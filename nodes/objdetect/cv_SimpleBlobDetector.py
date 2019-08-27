@@ -2,7 +2,7 @@ import cv2
 import bpy
 from ocvl.core.globals import FEATURE2D_INSTANCES_DICT
 from ocvl.core.node_base import OCVLNodeBase, update_node
-from ocvl.nodes.objdetect.abc_Feature2D import OCVLFeature2DNode
+from ocvl.nodes.objdetect.abc_Feature2D import OCVLFeature2DMixIn
 from ocvl.operatores.abc import OCVL_OT_InitFeature2DOperator
 
 SBD_WORK_MODE_ITEMS = (
@@ -12,7 +12,7 @@ SBD_WORK_MODE_ITEMS = (
 )
 
 
-class OCVLSimpleBlobDetectorNode(OCVLNodeBase, OCVLFeature2DNode):
+class OCVLSimpleBlobDetectorNode(OCVLFeature2DMixIn, OCVLNodeBase):
     n_development_status = "ALPHA"
 
     n_doc = "Class for extracting blobs from an image."

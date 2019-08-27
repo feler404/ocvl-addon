@@ -149,7 +149,7 @@ class AutoRegisterNodeCategories:
                     description = eval("getattr({}, 'description', '{}')".format(category_module_path, node_class.n_category))
                     CATEGORY_CONFIG_MAP[node_class.n_category] = {"icon": icon, "name": name, "description": description}
 
-                if node_class.n_category and node_class.n_auto_register:
+                if node_class.n_category:
                     node_classes_list.append(node_class)
                     _ocvl_auto_register(node_class)
 

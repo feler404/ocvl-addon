@@ -222,7 +222,6 @@ class OCVLNodeBase(bpy.types.Node):
     :param n_meta: <StringProperty> addition information about node example: time, parameters, displayed on right panel
     :param n_error: <StringProperty> error message for displayed, displayed on right panel TODO: check, maybe to remove
     :param n_error_line: <IntProperty> error line, displayed on right panel TODO: check, maybe to remove
-    :param n_auto_register: <bool> if true node class will be registragted
     :param n_category: <string> default category for auto register
     :param n_doc: <string> short documentation for node
     :param n_see_also: <string> annotation tell about similar nodes
@@ -245,7 +244,6 @@ class OCVLNodeBase(bpy.types.Node):
     n_error = None
     n_error_line = None
     n_development_status = None
-    n_auto_register = True
     n_category = Category().uncategorized
     n_meta = ""
     n_doc = ""

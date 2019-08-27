@@ -2,13 +2,13 @@ import uuid
 
 import bpy
 import cv2
-from ocvl.nodes.objdetect.abc_Feature2D import OCVLFeature2DNode
+from ocvl.nodes.objdetect.abc_Feature2D import OCVLFeature2DMixIn
 from ocvl.core.globals import FEATURE2D_INSTANCES_DICT
 from ocvl.core.node_base import OCVLNodeBase, update_node
 from ocvl.operatores.abc import OCVL_OT_InitFeature2DOperator
 
 
-class OCVLSURFNode(OCVLNodeBase, OCVLFeature2DNode):
+class OCVLSURFNode(OCVLFeature2DMixIn, OCVLNodeBase):
 
     n_doc = "Class for extracting Speeded Up Robust Features from an image."
     _url = "https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_feature2d/py_surf_intro/py_surf_intro.html"
