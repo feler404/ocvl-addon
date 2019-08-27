@@ -13,6 +13,7 @@ class OCVLSURFNode(OCVLFeature2DMixIn, OCVLNodeBase):
     n_doc = "Class for extracting Speeded Up Robust Features from an image."
     _url = "https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_feature2d/py_surf_intro/py_surf_intro.html"
     _init_method = cv2.xfeatures2d.SURF_create
+    n_development_status = "ALPHA"
 
     def update_and_init(self, context):
         OCVL_OT_InitFeature2DOperator.update_class_instance_dict(self, self.id_data.name, self.name)
