@@ -11,12 +11,6 @@ BYTES_ITEMS = (
     ("64", "64", "64", "", 2),
 )
 
-BDE_WORK_MODE_ITEMS = (
-    ("DETECT", "DETECT", "DETECT", "", 0),
-    ("COMPUTE", "COMPUTE", "COMPUTE", "", 1),
-    ("DETECT-COMPUTE", "DETECT-COMPUTE", "DETECT-COMPUTE", "", 2),
-)
-
 
 class OCVLBRISKNode(OCVLFeature2DMixIn, OCVLNodeBase):
 
