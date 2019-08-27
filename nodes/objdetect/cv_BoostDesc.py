@@ -1,19 +1,14 @@
 import cv2
 from ocvl.core.globals import FEATURE2D_INSTANCES_DICT
 from ocvl.core.node_base import OCVLNodeBase
-from ocvl.nodes.objdetect.abc_Feature2D import OCVLFeature2DNode
+from ocvl.nodes.objdetect.abc_Feature2D import OCVLFeature2DCalculatorDMixIn
 from ocvl.operatores.abc import OCVL_OT_InitFeature2DOperator
 
-GFTT_WORK_MODE_ITEMS = (
-    ("DETECT", "DETECT", "DETECT", "CANCEL", 0),
-    ("COMPUTE", "COMPUTE", "COMPUTE", "", 1),
-    ("DETECT-COMPUTE", "DETECT-COMPUTE", "DETECT-COMPUTE", "CANCEL", 2),
-)
 
-
-class OCVLBoostDescNode(OCVLNodeBase, OCVLFeature2DNode):
+class OCVLBoostDescNode(OCVLFeature2DCalculatorDMixIn, OCVLNodeBase):
 
     n_doc = "Class implementing BoostDesc (Learning Image Descriptors with Boosting), described in [171] and [172]."
+    n_development_status = "BETA"
     _init_method = cv2.xfeatures2d.BoostDesc_create
 
     def update_and_init(self, context):

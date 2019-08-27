@@ -12,7 +12,7 @@ import cv2
 import numpy as np
 from ocvl.core import settings
 from ocvl.core import globals as ocvl_globals
-from ocvl.core.exceptions import LackRequiredSocket, NoDataError, LackRequiredTypeDataSocket
+from ocvl.core.exceptions import LackRequiredSocketException, LackRequiredTypeDataSocketException
 from ocvl.core.image_utils import (callback_disable, callback_enable, init_texture, simple_screen, add_background_to_image)
 
 
@@ -222,7 +222,6 @@ class OCVLNodeBase(bpy.types.Node):
     :param n_meta: <StringProperty> addition information about node example: time, parameters, displayed on right panel
     :param n_error: <StringProperty> error message for displayed, displayed on right panel TODO: check, maybe to remove
     :param n_error_line: <IntProperty> error line, displayed on right panel TODO: check, maybe to remove
-    :param n_auto_register: <bool> if true node class will be registragted
     :param n_category: <string> default category for auto register
     :param n_doc: <string> short documentation for node
     :param n_see_also: <string> annotation tell about similar nodes
@@ -245,7 +244,6 @@ class OCVLNodeBase(bpy.types.Node):
     n_error = None
     n_error_line = None
     n_development_status = None
-    n_auto_register = True
     n_category = Category().uncategorized
     n_meta = ""
     n_doc = ""
@@ -283,7 +281,7 @@ class OCVLNodeBase(bpy.types.Node):
         try:
             prop = socket.sv_get()
             return self.socket_data_cache[prop]
-        except NoDataError as e:
+        except LackRequiredSocketException as e:
             # fn = getattr(self, "report", lambda *args, **kwargs: None)
             # fn({'INFO'}, "No data in props: {}".format("image_in"))
             # raise
@@ -339,11 +337,17 @@ class OCVLNodeBase(bpy.types.Node):
         if socket_name.endswith("_out"):
             return self.outputs
 
+    def is_prop_in_props_maps(self, prop_name, props_maps):
+        for prop in  props_maps:
+            if prop.startswith(prop_name):
+                return True
+        return False
+
     def update_sockets_for_node_mode(self, props_maps, node_mode):
         for socket_name in list(chain(*props_maps.values())):
             socket_name = socket_name.split("|")[0]
             sockets = self._get_sockets_by_socket_name(socket_name)
-            if socket_name in sockets and socket_name not in props_maps[node_mode]:
+            if socket_name in sockets and not self.is_prop_in_props_maps(socket_name, props_maps[node_mode]):
                 sockets.remove(sockets[socket_name])
         for prop_name in props_maps[node_mode]:
             split_prop_name = prop_name.split("|")
@@ -371,7 +375,7 @@ class OCVLNodeBase(bpy.types.Node):
 
     def check_input_requirements(self, requirements=None):
         if not requirements:
-            return
+            requirements = self.n_requirements
 
         for requirement in requirements:
             if requirement.startswith("__or__"):
@@ -387,17 +391,17 @@ class OCVLNodeBase(bpy.types.Node):
             if self.inputs.get(requirement) and self.inputs[requirement].is_linked:
                 raise_required_exception = False
         if raise_required_exception:
-            raise LackRequiredSocket("Inputs[{}] not linked".format(requirement))
+            raise LackRequiredSocketException("Inputs[{}] not linked".format(requirement))
 
     def _check_input_requirements_and(self, requirements=()):
         for requirement in requirements:
             if not self.inputs.get(requirement) or (not self.inputs[requirement].is_linked):
                 # self.use_custom_color = True
                 # self.color = settings.NODE_COLOR_REQUIRE_DATE
-                raise LackRequiredSocket("Inputs[{}] not linked".format(requirement))
+                raise LackRequiredSocketException("Inputs[{}] not linked".format(requirement))
             if isinstance(requirements, dict):  # when we should check not only connection but type data too "src_in":{"dtype": "uint8","channels": 3}
                 if not self._check_details_requirements(requirements, key=requirement):
-                    raise LackRequiredTypeDataSocket("Inputs[{}] not pass requirements".format(requirement))
+                    raise LackRequiredTypeDataSocketException("Inputs[{}] not pass requirements".format(requirement))
         # self.use_custom_color = False
 
     def _check_details_requirements(self, requirements, key):
@@ -412,7 +416,7 @@ class OCVLNodeBase(bpy.types.Node):
         for requirement in requirements:
             if requirement[1] == input_mode:
                 if not self.inputs[requirement[0]].is_linked:
-                    raise LackRequiredSocket("Inputs[{}] not linked".format(requirement))
+                    raise LackRequiredSocketException("Inputs[{}] not linked".format(requirement))
 
     def clean_kwargs(self, kwargs_in):
         kwargs_out = {}
@@ -429,7 +433,9 @@ class OCVLNodeBase(bpy.types.Node):
 
         return kwargs_out
 
-    def process(self):
+    def process(self, prevent_process=None):
+        if prevent_process is None:
+            prevent_process = []
         self.n_meta = ""
         self.n_error = ""
         self.use_custom_color = False
@@ -437,12 +443,14 @@ class OCVLNodeBase(bpy.types.Node):
         try:
             self.check_input_requirements(self.n_requirements)
             self.wrapped_process()
-        except (LackRequiredSocket, NoDataError) as e:
+        except LackRequiredSocketException as e:
             logger.info("SOCKET UNLINKED - {}".format(self))
+            self.n_error = "LackRequiredSocketException"
             self.use_custom_color = True
             self.color = settings.NODE_COLOR_REQUIRE_DATE
-        except LackRequiredTypeDataSocket as e:
+        except LackRequiredTypeDataSocketException as e:
             logger.info("SOCKET DATA IN WRONG TYPE - {}".format(self))
+            self.n_error = "LackRequiredTypeDataSocketException"
             self.use_custom_color = True
             self.color = settings.NODE_COLOR_REQUIRE_TYPE_DATE
         except cv2.error as e:
@@ -451,7 +459,8 @@ class OCVLNodeBase(bpy.types.Node):
             self.color = settings.NODE_COLOR_CV_ERROR
         except Exception as e:
             type_, value, traceback = sys.exc_info()
-            if "NoDataError" in str(type_):
+            if "LackRequiredSocketException" in str(type_):
+                self.n_error = "LackRequiredSocketException"
                 self.use_custom_color = True
                 self.color = settings.NODE_COLOR_REQUIRE_DATE
             else:
@@ -468,13 +477,14 @@ class OCVLNodeBase(bpy.types.Node):
         for output in self.outputs:
             if output.is_linked:
                 for link in output.links:
-                    link.to_node.process()
+                    if link.to_node not in prevent_process:
+                        link.to_node.process()
 
-    def process_cv(self, fn=None, kwargs=None):
+    def process_cv(self, fn=None, args=(), kwargs=None):
         kwargs = self.clean_kwargs(kwargs)
         start = time.time()
         try:
-            out = fn(**kwargs)
+            out = fn(*args, **kwargs)
         except Exception as e:
             logger.warning("CV process problem: fn={}, kwargs={}, self={}, exception={} ".format(fn, kwargs, self, e))
             raise
@@ -521,8 +531,9 @@ class OCVLNodeBase(bpy.types.Node):
                 id_list.append(prop_name)
         return '|><|'.join(id_list)
 
-    def add_button(self, layout, prop_name, expand=False, toggle=False, icon=None, text=None):
+    def add_button(self, layout, prop_name, expand=False, toggle=False, icon=None, text=None, enabled=True):
         col = layout.column(align=True)
+        col.enabled = enabled
         row = col.row(align=True)
 
         kwargs = {}

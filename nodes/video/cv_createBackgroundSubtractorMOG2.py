@@ -7,6 +7,8 @@ from ocvl.core.node_base import OCVLNodeBase, update_node
 
 class OCVLcreateBackgroundSubtractorMOG2Node(OCVLNodeBase):
 
+    n_requirements = {"__and__": ["image_1_in", "image_2_in"]}
+
     image_1_in: bpy.props.StringProperty(name="image_1_in", default=str(uuid.uuid4()))
     image_2_in: bpy.props.StringProperty(name="image_2_in", default=str(uuid.uuid4()))
     image_out: bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()))
@@ -24,8 +26,6 @@ class OCVLcreateBackgroundSubtractorMOG2Node(OCVLNodeBase):
         self.outputs.new("OCVLImageSocket", "image_out")
 
     def wrapped_process(self):
-        self.check_input_requirements(["image_1_in", "image_2_in"])
-
         kwargs = {
             'history_in': self.get_from_props("history_in"),
             'varThreshold_in': self.get_from_props("varThreshold_in"),

@@ -13,7 +13,7 @@ M1TYPE_ITEMS = (
 class OCVLinitUndistortRectifyMapNode(OCVLNodeBase):
 
     n_doc = "Computes the undistortion and rectification transformation map."
-    n_development_status = "BETA"
+    n_development_status = "ALPHA"
     n_requirements = {"__and__": ["cameraMatrix_in", "distCoeffs_in", "newCameraMatrix", "R_in"]}
 
     cameraMatrix_in: bpy.props.StringProperty(name="cameraMatrix_in", default=str(uuid.uuid4()), description="Input camera matrix A")

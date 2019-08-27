@@ -29,15 +29,16 @@ class OCVLfindContoursNode(OCVLNodeBase):
         self.outputs.new("OCVLObjectSocket", "hierarchy_out")
 
     def wrapped_process(self):
+        image_in = self.get_from_props("image_in")
         kwargs = {
-            'image_in': self.get_from_props("image_in"),
+            'image_in': image_in,
             'mode_in': self.get_from_props("mode_in"),
             'method_in': self.get_from_props("method_in"),
             'offset_in': self.get_from_props("offset_in"),
             }
 
-        image_out, contours_out, hierarchy_out = self.process_cv(fn=cv2.findContours, kwargs=kwargs)
-        self.refresh_output_socket("image_out", image_out, is_uuid_type=True)
+        contours_out, hierarchy_out = self.process_cv(fn=cv2.findContours, kwargs=kwargs)
+        self.refresh_output_socket("image_out", image_in.copy(), is_uuid_type=True)
         self.refresh_output_socket("contours_out", contours_out, is_uuid_type=True)
         self.refresh_output_socket("hierarchy_out", hierarchy_out, is_uuid_type=True)
 

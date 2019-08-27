@@ -1,5 +1,8 @@
 import logging
+import os
 logging.REGISTERED = False
+
+default_logger_level = int(os.environ.get("OCVL_LOGGER_LEVEL", logging.WARNING))
 
 
 def register():
@@ -8,11 +11,11 @@ def register():
     logging.REGISTERED = True
     # create logger
     logger = logging.getLogger()
-    logger.setLevel(logging.WARNING)
+    logger.setLevel(default_logger_level)
 
     # create console handler and set level to debug
     ch = logging.StreamHandler()
-    ch.setLevel(logging.DEBUG)
+    ch.setLevel(default_logger_level)
 
     # create formatter
     LOG_FORMAT = "%(asctime)s [%(levelname)s] %(name)s: %(message)s"

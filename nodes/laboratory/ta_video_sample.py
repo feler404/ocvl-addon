@@ -68,7 +68,7 @@ class OCVLVideoSampleMixIn:
             bpy.app.handlers.frame_change_pre.append(self.wrapped_process)
 
 
-class OCVLVideoSampleNode(OCVLPreviewNodeBase, OCVLVideoSampleMixIn):
+class OCVLVideoSampleNode(OCVLVideoSampleMixIn, OCVLPreviewNodeBase):
     ''' Video sample '''
     bl_icon = 'IMAGE_DATA'
 

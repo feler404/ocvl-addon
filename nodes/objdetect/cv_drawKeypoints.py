@@ -9,7 +9,13 @@ from ocvl.core.node_base import OCVLNodeBase, update_node
 class OCVLdrawKeypointsNode(OCVLNodeBase):
 
     n_doc = "Class for extracting keypoints and computing descriptors using the Scale Invariant Feature Transform (SIFT) algorithm by D. Lowe"
+    n_requirements = {"__and__": ["image_in", "keypoints_in"]}
+    n_status_development = "BETA"
+    n_quick_link_requirements = {
+        "keypoints_in": {"loc_input_mode": "MANUAL", "loc_manual_input": "(cv2.KeyPoint(10, 10, 15), )"},
+    }
     _url = "https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_feature2d/py_sift_intro/py_sift_intro.html"
+
 
     image_in: bpy.props.StringProperty(default=str(uuid.uuid4()),
         description="Source image.")
@@ -25,13 +31,11 @@ class OCVLdrawKeypointsNode(OCVLNodeBase):
 
     def init(self, context):
         self.inputs.new("OCVLImageSocket", "image_in")
-        self.inputs.new("OCVLObjectSocket", "keypoints_in")
+        self.inputs.new("OCVLVectorSocket", "keypoints_in")
 
         self.outputs.new("OCVLImageSocket", "outImage_out")
 
     def wrapped_process(self):
-        self.check_input_requirements(["image_in", "keypoints_in"])
-
         kwargs = {
             'image_in': self.get_from_props("image_in"),
             'outImage': np.zeros(self.get_from_props("image_in").shape),

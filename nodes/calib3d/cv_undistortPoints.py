@@ -8,6 +8,7 @@ from ocvl.core.node_base import OCVLNodeBase
 class OCVLundistortPointsNode(OCVLNodeBase):
 
     n_doc = "Computes the ideal point coordinates from the observed point coordinates."
+    n_development_status = "ALPHA"
     n_requirements = {"__and__": ["src_in", "cameraMatrix_in", "distCoeffs_in", "R_in", "P_in"]}
 
     src_in: bpy.props.StringProperty(name="src_in", default=str(uuid.uuid4()), description="Observed point coordinates, 1xN or Nx1 2-channel (CV_32FC2 or CV_64FC2).")

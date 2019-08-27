@@ -2,6 +2,7 @@ import uuid
 
 import bpy
 import cv2
+import numpy as np
 from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
@@ -24,11 +25,10 @@ class OCVLboundingRectNode(OCVLNodeBase):
         self.outputs.new("OCVLObjectSocket", "pt2_out")
 
     def wrapped_process(self):
-        kwargs = {
-            'points': self.get_from_props("points_in")[0] if self.loc_from_findContours else self.get_from_props("points_in"),
-            }
+        kwargs = {}
+        args = self.get_from_props("points_in")[0] if self.loc_from_findContours else self.get_from_props("points_in")
 
-        x, y, w, h = self.process_cv(fn=cv2.boundingRect, kwargs=kwargs)
+        x, y, w, h = self.process_cv(fn=cv2.boundingRect, args=[args], kwargs=kwargs)
         pt1_out, pt2_out = (x, y), (x + w, y + h)
         self.refresh_output_socket("pt1_out", pt1_out)
         self.refresh_output_socket("pt2_out", pt2_out)

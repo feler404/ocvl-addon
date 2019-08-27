@@ -9,6 +9,7 @@ from ocvl.core.node_base import OCVLNodeBase, update_node
 class OCVLfindHomography2Node(OCVLNodeBase):
 
     n_doc = "This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts."
+    n_development_status = "ALPHA"  # patented alghoritm
 
     img1_in: bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node)
     img2_in: bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node)

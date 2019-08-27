@@ -2,15 +2,11 @@ class OCVLNodeException(Exception):
     pass
 
 
-class LackRequiredSocket(OCVLNodeException):
+class LackRequiredSocketException(OCVLNodeException):
     pass
 
 
-class LackRequiredTypeDataSocket(OCVLNodeException):
-    pass
-
-
-class NoDataError(OCVLNodeException):
+class LackRequiredTypeDataSocketException(OCVLNodeException):
     pass
 
 

@@ -1,3 +1,4 @@
+import logging
 import uuid
 
 import bpy
@@ -5,6 +6,7 @@ import bpy
 from ocvl.core.globals import FEATURE2D_INSTANCES_DICT
 from ocvl.operatores.abc import OCVL_OT_InitFeature2DOperator
 from ocvl.core.node_base import update_node
+from ocvl.core.exceptions import LackRequiredSocketException
 
 
 WORK_MODE_ITEMS = (
@@ -20,9 +22,9 @@ STATE_MODE_ITEMS = (
 )
 
 WORK_MODE_PROPS_MAPS = {
-    WORK_MODE_ITEMS[0][0]: ("image_in", "mask_in", "keypoints_out"),
-    WORK_MODE_ITEMS[1][0]: ("image_in", "keypoints_in", "keypoints_out", "descriptors_out"),
-    WORK_MODE_ITEMS[2][0]: ("image_in", "mask_in", "keypoints_out", "descriptors_out"),
+    WORK_MODE_ITEMS[0][0]: ("image_in", "mask_in|OCVLMaskSocket", "keypoints_out"),
+    WORK_MODE_ITEMS[1][0]: ("image_in", "keypoints_in|OCVLVectorSocket", "keypoints_out", "descriptors_out"),
+    WORK_MODE_ITEMS[2][0]: ("image_in", "mask_in|OCVLMaskSocket", "keypoints_out", "descriptors_out"),
 }
 
 STATE_MODE_PROPS_MAPS = {
@@ -31,21 +33,34 @@ STATE_MODE_PROPS_MAPS = {
     STATE_MODE_ITEMS[2][0]: ("loc_file_save",),
 }
 
+logger = logging.getLogger(__name__)
 
-class OCVLFeature2DNode:
+
+def update_layout(self, context):
+    self.update_sockets(context)
+    if FEATURE2D_INSTANCES_DICT.get("{}.{}".format(self.id_data.name, self.name)):
+        update_node(self, context)
+
+
+def update_and_init(self, context):
+    OCVL_OT_InitFeature2DOperator.update_class_instance_dict(self, self.id_data.name, self.name)
+    update_layout(context)
+
+
+class OCVLFeature2DMixIn:
 
     n_doc = ""
-    n_auto_register = False
+    n_requirements = {"__and__": ["image_in"]}
+    n_quick_link_requirements = {
+        "keypoints_in": {"loc_input_mode": "MANUAL", "loc_manual_input": "(cv2.KeyPoint(10, 10, 15), )"},
+    }
+
+    _feature_class_type = 2  # 0 - for detect class, 1 - for compute class, 2 - for detect and compute class
     ABC_GLOBAL_INSTANCE_DICT_NAME = FEATURE2D_INSTANCES_DICT
 
-    def update_layout(self, context):
-        self.update_sockets(context)
-        update_node(self, context)
+    update_layout = update_layout
+    update_and_init = update_and_init
 
-    def update_and_init(self, context):
-        OCVL_OT_InitFeature2DOperator.update_class_instance_dict(self, self.id_data.name, self.name)
-        self.update_sockets(context)
-        update_node(self, context)
 
     image_in: bpy.props.StringProperty(default=str(uuid.uuid4()), description="Input 8-bit or floating-point 32-bit, single-channel image.")
     mask_in: bpy.props.StringProperty(default=str(uuid.uuid4()), description="Optional region of interest.")
@@ -67,25 +82,21 @@ class OCVLFeature2DNode:
         self.width = 250
         self.inputs.new("OCVLImageSocket", "image_in")
         self.inputs.new("OCVLMaskSocket", "mask_in")
-        self.inputs.new("OCVLObjectSocket", "keypoints_in")
+        self.inputs.new("OCVLVectorSocket", "keypoints_in")
 
         self.outputs.new("OCVLObjectSocket", "keypoints_out")
         self.outputs.new("OCVLObjectSocket", "descriptors_out")
+        self.update_layout(context)
         OCVL_OT_InitFeature2DOperator.update_class_instance_dict(self, self.id_data.name, self.name)
         FEATURE2D_INSTANCES_DICT.get("{}.{}".format(self.id_data.name, self.name))
-        self.update_layout(context)
-
-    def wrapped_process(self):
-        self.check_input_requirements(["image_in"])
 
     def update_sockets(self, context):
         self.update_sockets_for_node_mode(WORK_MODE_PROPS_MAPS, self.loc_work_mode)
-        self.process()
 
     def draw_buttons(self, context, layout):
         origin = self.get_node_origin()
-        self.add_button(layout=layout, prop_name='loc_work_mode', expand=True)
-        self.add_button(layout=layout, prop_name='loc_state_mode', expand=True)
+        self.add_button(layout=layout, prop_name='loc_work_mode', expand=True, enabled=self._feature_class_type == 2)
+        self.add_button(layout=layout, prop_name='loc_state_mode', expand=True, enabled=False)
         if self.loc_state_mode == "INIT":
             layout.operator("ocvl.init_feature_2d", icon='MENU_PANEL').origin = origin
             layout.label(text="Instance: {}".format(self.loc_class_repr))
@@ -99,20 +110,24 @@ class OCVLFeature2DNode:
         elif self.loc_state_mode == "SAVE":
             layout.row().prop(self, "loc_file_save")
 
+    def free(self):
+        FEATURE2D_INSTANCES_DICT.pop("{}.{}".format(self.id_data.name, self.name))
+        super().free()
+
     def _detect(self, instance):
-        self.check_input_requirements(["image_in"])
         kwargs = {
-            'image': self.get_from_props("image_in"),
-            'mask': None,
+            'image_in': self.get_from_props("image_in"),
+            'mask_in': self.get_from_props("mask_in"),
         }
+        if self.is_uuid(kwargs["mask_in"]):
+            kwargs["mask_in"] = None
         keypoints_out = self.process_cv(fn=instance.detect, kwargs=kwargs)
         self.refresh_output_socket("keypoints_out", keypoints_out, is_uuid_type=True)
 
     def _compute(self, instance):
-        self.check_input_requirements(["image_in", "keypoints_in"])
         kwargs = {
-            'image': self.get_from_props("image_in"),
-            'keypoints': self.get_from_props("keypoints_in"),
+            'image_in': self.get_from_props("image_in"),
+            'keypoints_in': self.get_from_props("keypoints_in"),
         }
 
         keypoints_out, descriptors_out = self.process_cv(fn=instance.compute, kwargs=kwargs)
@@ -120,11 +135,30 @@ class OCVLFeature2DNode:
         self.refresh_output_socket("descriptors_out", descriptors_out, is_uuid_type=True)
 
     def _detect_and_compute(self, instance):
-        self.check_input_requirements(["image_in"])
         kwargs = {
-            'image': self.get_from_props("image_in"),
-            'mask': None,
+            'image_in': self.get_from_props("image_in"),
+            'mask_in': self.get_from_props("mask_in"),
         }
+        if self.is_uuid(kwargs["mask_in"]):
+            kwargs["mask_in"] = None
         keypoints_out, descriptors_out = self.process_cv(fn=instance.detectAndCompute, kwargs=kwargs)
         self.refresh_output_socket("keypoints_out", keypoints_out, is_uuid_type=True)
         self.refresh_output_socket("descriptors_out", descriptors_out, is_uuid_type=True)
+
+
+class OCVLFeature2DDetectorMixIn(OCVLFeature2DMixIn):
+    n_requirements = {"__and__": ["image_in"]}
+    _feature_class_type = 0
+
+    loc_work_mode: bpy.props.EnumProperty(items=WORK_MODE_ITEMS, default="DETECT", update=update_layout, description="")
+
+
+class OCVLFeature2DCalculatorDMixIn(OCVLFeature2DMixIn):
+    n_requirements = {"__and__": ["image_in", "keypoints_in"]}
+    n_quick_link_requirements = {
+        "keypoints_in": {"loc_input_mode": "MANUAL", "loc_manual_input": "(cv2.KeyPoint(10, 10, 15), )"},
+    }
+
+    _feature_class_type = 1
+
+    loc_work_mode: bpy.props.EnumProperty(items=WORK_MODE_ITEMS, default="COMPUTE", update=update_layout, description="")

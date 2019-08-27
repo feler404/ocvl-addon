@@ -2,8 +2,9 @@ import bpy
 import cv2
 from ocvl.core.globals import FEATURE2D_INSTANCES_DICT
 from ocvl.core.node_base import OCVLNodeBase
-from ocvl.nodes.objdetect.abc_Feature2D import OCVLFeature2DNode
+from ocvl.nodes.objdetect.abc_Feature2D import OCVLFeature2DDetectorMixIn
 from ocvl.operatores.abc import OCVL_OT_InitFeature2DOperator
+
 
 TYPE_FAST_ITEMS = (
     ("FastFeatureDetector_TYPE_5_8", "FastFeatureDetector_TYPE_5_8", "FastFeatureDetector_TYPE_5_8", "", 0),
@@ -14,14 +15,8 @@ TYPE_FAST_ITEMS = (
     ("FastFeatureDetector_FAST_N", "FastFeatureDetector_FAST_N", "FastFeatureDetector_FAST_N", "", 5),
 )
 
-FFD_WORK_MODE_ITEMS = (
-    ("DETECT", "DETECT", "DETECT", "", 0),
-    ("COMPUTE", "COMPUTE", "COMPUTE", "CANCEL", 1),
-    ("DETECT-COMPUTE", "DETECT-COMPUTE", "DETECT-COMPUTE", "CANCEL", 2),
-)
 
-
-class OCVLFastFeatureDetectorNode(OCVLNodeBase, OCVLFeature2DNode):
+class OCVLFastFeatureDetectorNode(OCVLFeature2DDetectorMixIn, OCVLNodeBase):
 
     n_doc = "Wrapping class for feature detection using the FAST method."
     _url = "https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_feature2d/py_fast/py_fast.html"
@@ -44,8 +39,6 @@ class OCVLFastFeatureDetectorNode(OCVLNodeBase, OCVLFeature2DNode):
         if self.loc_work_mode == "DETECT":
             self._detect(sift)
         elif self.loc_work_mode == "COMPUTE":
-            #self._compute(sift)
             pass
         elif self.loc_work_mode == "DETECT-COMPUTE":
-            #self._detect_and_compute(sift)
             pass

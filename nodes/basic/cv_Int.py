@@ -6,7 +6,7 @@ class OCVLIntNode(OCVLNodeBase):
 
     n_doc = "Single integer number from Python interface perspective."
 
-    int_out: bpy.props.IntProperty(default=1, min=0, step=1, update=update_node, description="Simple integer number.")
+    int_out: bpy.props.IntProperty(default=1, min=0, step=1, description="Simple integer number.")
 
     def init(self, context):
         self.outputs.new("OCVLObjectSocket", "int_out")

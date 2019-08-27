@@ -2,7 +2,7 @@ import bpy
 import cv2
 from ocvl.core.globals import FEATURE2D_INSTANCES_DICT
 from ocvl.core.node_base import OCVLNodeBase, update_node
-from ocvl.nodes.objdetect.abc_Feature2D import OCVLFeature2DNode
+from ocvl.nodes.objdetect.abc_Feature2D import OCVLFeature2DMixIn
 from ocvl.operatores.abc import OCVL_OT_InitFeature2DOperator
 
 DESCRIPTOR_TYPE_ITEMS = (
@@ -20,7 +20,7 @@ DIFFUSIVITY_TYPE_ITEMS = (
 )
 
 
-class OCVLAKAZENode(OCVLNodeBase, OCVLFeature2DNode):
+class OCVLAKAZENode(OCVLFeature2DMixIn, OCVLNodeBase):
 
     n_doc = "Class implementing the AKAZE keypoint detector and descriptor extractor, described in [5]."
     _init_method = cv2.AKAZE_create

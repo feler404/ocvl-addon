@@ -2,17 +2,11 @@ import bpy
 import cv2
 from ocvl.core.globals import FEATURE2D_INSTANCES_DICT
 from ocvl.core.node_base import update_node, OCVLNodeBase
-from ocvl.nodes.objdetect.abc_Feature2D import OCVLFeature2DNode
+from ocvl.nodes.objdetect.abc_Feature2D import OCVLFeature2DCalculatorDMixIn
 from ocvl.operatores.abc import OCVL_OT_InitFeature2DOperator
 
-VGG_WORK_MODE_ITEMS = (
-    ("DETECT", "DETECT", "DETECT", "CANCEL", 0),
-    ("COMPUTE", "COMPUTE", "COMPUTE", "", 1),
-    ("DETECT-COMPUTE", "DETECT-COMPUTE", "DETECT-COMPUTE", "CANCEL", 2),
-)
 
-
-class OCVLVGGNode(OCVLNodeBase, OCVLFeature2DNode):
+class OCVLVGGNode(OCVLFeature2DCalculatorDMixIn, OCVLNodeBase):
 
     n_doc = "Class implementing VGG (Oxford Visual Geometry Group) descriptor trained end to end..."
     _init_method = cv2.xfeatures2d.VGG_create

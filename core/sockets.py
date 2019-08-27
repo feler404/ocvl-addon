@@ -16,7 +16,8 @@ from copy import deepcopy
 
 import bpy
 from ocvl.core import settings
-from ocvl.core.exceptions import LackRequiredSocket, NoDataError
+from ocvl.core import globals as ocvl_globals
+from ocvl.core.exceptions import LackRequiredSocketException
 from ocvl.core.globals import SOCKET_DATA_CACHE
 from ocvl.core.register_utils import ocvl_register, ocvl_unregister
 
@@ -82,7 +83,10 @@ def get_socket(socket, deepcopy_=True):
             s_id = other.socket_id
             s_ng = other.id_data.name
             if s_ng not in SOCKET_DATA_CACHE:
-                raise LookupError
+                if not ocvl_globals.MUTE_LOOKUP_ERROR:
+                    raise LookupError
+                else:
+                    raise LackRequiredSocketException(socket)
             if s_id in SOCKET_DATA_CACHE[s_ng]:
                 out = SOCKET_DATA_CACHE[s_ng][s_id]
                 if deepcopy_:
@@ -93,9 +97,9 @@ def get_socket(socket, deepcopy_=True):
                 # if data_structure.DEBUG_MODE:
                 #     debug("cache miss: %s -> %s from: %s -> %s",
                 #             socket.node.name, socket.name, other.node.name, other.name)
-                raise NoDataError(socket)
+                raise LackRequiredSocketException(socket)
     # not linked
-    raise NoDataError(socket)
+    raise LackRequiredSocketException(socket)
 
 
 def get_socket_info(socket):
@@ -130,10 +134,42 @@ def recursive_framed_location_finder(node, loc_xy):
         return locx, locy
 
 
+def get_new_input_node_idname(node, socket):
+    if socket.bl_idname == "OCVLImageSocket":
+        new_node_idname = node.n_quick_link_requirements.get(node.inputs[socket.index].name, {}).get("__type_node__",
+                                                                                                   settings.DEFAULT_NODE_FOR_QUICK_LINK_IMAGE_SOCKET)
+    elif socket.bl_idname == "OCVLMaskSocket":
+        new_node_idname = settings.DEFAULT_NODE_FOR_QUICK_LINK_MASK_SOCKET
+    elif socket.bl_idname == "OCVLRectSocket":
+        new_node_idname = settings.DEFAULT_NODE_FOR_QUICK_LINK_RECT_SOCKET
+    elif socket.bl_idname == "OCVLContourSocket":
+        new_node_idname = settings.DEFAULT_NODE_FOR_QUICK_LINK_CONTOUR_SOCKET
+    elif socket.bl_idname == "OCVLVectorSocket":
+        new_node_idname = settings.DEFAULT_NODE_FOR_QUICK_LINK_VECTOR_SOCKET
+    else:
+        new_node_idname = node.n_quick_link_requirements.get(node.inputs[socket.index].name, {}).get("__type_node__")
+    if not new_node_idname:
+        return
+    return new_node_idname
+
+
+def get_new_output_node_idname(node, socket):
+    if socket.bl_idname == "OCVLImageSocket":
+        new_node_idname = settings.DEFAULT_NODE_FOR_QUICK_LINK_IMAGE_SOCKET_OUT
+    elif socket.bl_idname == "OCVLContourSocket":
+        new_node_idname = "OCVLdrawContoursNode"
+    elif socket.bl_idname in ["OCVLObjectSocket", "OCVLVectorSocket"]:
+        new_node_idname = "OCVLStethoscopeNode"
+    else:
+        return
+    return new_node_idname
+
+
 class OCVL_OT_LinkNewNodeInput(bpy.types.Operator):
     bl_idname = "ocvl.quick_link_new_node"
     bl_label = "Add a new node to the left"
 
+    child: bpy.props.BoolProperty(default=False)
     socket_index: bpy.props.IntProperty()
     origin: bpy.props.StringProperty()
     is_input_mode: bpy.props.BoolProperty(default=True)
@@ -146,6 +182,7 @@ class OCVL_OT_LinkNewNodeInput(bpy.types.Operator):
         if self.is_block_quick_link_requirements:
             return {'FINISHED'}
 
+        ocvl_globals.MUTE_LOOKUP_ERROR = True
         tree = context.space_data.edit_tree
         nodes, links = tree.nodes, tree.links
 
@@ -176,6 +213,16 @@ class OCVL_OT_LinkNewNodeInput(bpy.types.Operator):
             loc_xy = new_node.location[:]
             locx, locy = recursive_framed_location_finder(new_node, loc_xy)
             new_node.location = locx, locy
+
+        if self.is_input_mode:
+            for input in new_node.inputs:
+                new_node_idname = get_new_input_node_idname(node=new_node, socket=input)
+                if not new_node_idname:
+                    continue
+                bpy.ops.ocvl.quick_link_new_node(socket_index=input.index, origin=new_node.name, is_block_quick_link_requirements=False, new_node_idname=new_node_idname, child=True)
+
+        if not self.child:
+            settings.MUTE_LOOKUP_ERROR = False
 
         return {'FINISHED'}
 
@@ -320,17 +367,9 @@ class OCVLSocketBase:
     def draw_quick_link_input(self, context, layout, node):
 
         if self.use_quicklink:
-            if self.bl_idname == "OCVLImageSocket":
-                new_node_idname = node.n_quick_link_requirements.get(node.inputs[self.index].name, {}).get("__type_node__", settings.DEFAULT_NODE_FOR_QUICK_LINK_IMAGE_SOCKET)
-            elif self.bl_idname == "OCVLMaskSocket":
-                new_node_idname = settings.DEFAULT_NODE_FOR_QUICK_LINK_MASK_SOCKET
-            elif self.bl_idname == "OCVLRectSocket":
-                new_node_idname = settings.DEFAULT_NODE_FOR_QUICK_LINK_RECT_SOCKET
-            elif self.bl_idname == "OCVLContourSocket":
-                new_node_idname = settings.DEFAULT_NODE_FOR_QUICK_LINK_CONTOUR_SOCKET
-            elif self.bl_idname == "OCVLVectorSocket":
-                new_node_idname = settings.DEFAULT_NODE_FOR_QUICK_LINK_VECTOR_SOCKET
-            else:
+            new_node_idname = get_new_input_node_idname(node, self)
+
+            if not new_node_idname:
                 return
 
             icon = "PLUGIN" if node.inputs[self.index].name in node.n_requirements.get("__and__", []) else "SNAP_ON"
@@ -348,23 +387,16 @@ class OCVLSocketBase:
         is_block_quick_link_requirements = True
 
         if self.use_quicklink:
-            if self.bl_idname == "OCVLImageSocket":
-                new_node_idname = settings.DEFAULT_NODE_FOR_QUICK_LINK_IMAGE_SOCKET_OUT
-            elif self.bl_idname == "OCVLContourSocket":
-                new_node_idname = "OCVLdrawContoursNode"
-            elif self.bl_idname in ["OCVLObjectSocket", "OCVLVectorSocket"]:
-                new_node_idname = "OCVLStethoscopeNode"
-            else:
+            new_node_idname = get_new_output_node_idname(node, self)
+            if not new_node_idname:
                 return
 
             try:
                 node.check_input_requirements(node.n_requirements)
                 op_icon = self._map_quick_link_icons["output"][self.bl_idname][1]
                 is_block_quick_link_requirements = False
-            except (Exception, LackRequiredSocket) as e:
+            except (Exception, LackRequiredSocketException) as e:
                 op_icon = self._map_quick_link_icons["output"][self.bl_idname][0]
-            except (Exception, LackRequiredSocket) as e:
-                op_icon = "NONE"
 
             op = layout.operator('ocvl.quick_link_new_node', text="", icon=op_icon)
             op.is_block_quick_link_requirements = is_block_quick_link_requirements
@@ -441,7 +473,7 @@ class OCVLColorSocket(bpy.types.NodeSocket, OCVLSocketBase):
         elif self.use_prop:
             return [[self.prop[:]]]
         elif default is sentinel:
-            raise NoDataError(self)
+            raise LackRequiredSocketException(self)
         else:
             return default
 

@@ -18,7 +18,6 @@ LTYPE_ITEMS = (
 class OCVLconnectedComponentsNode(OCVLNodeBase):
 
     n_doc = "Connected components."
-    n_development_status = "BETA"
     n_quick_link_requirements = {"image_in": {"code_in": "COLOR_BGR2GRAY"}}
     n_requirements = {"__and__": ["image_in"]}
 
@@ -32,7 +31,7 @@ class OCVLconnectedComponentsNode(OCVLNodeBase):
     def init(self, context):
         self.inputs.new("OCVLImageSocket", "image_in")
 
-        self.outputs.new("OCVLObjectSocket", "labels_out")
+        self.outputs.new("OCVLImageSocket", "labels_out")
         self.outputs.new("OCVLObjectSocket", "retval_out")
 
     def wrapped_process(self):

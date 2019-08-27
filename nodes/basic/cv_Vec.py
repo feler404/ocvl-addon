@@ -1,5 +1,5 @@
 import uuid
-
+import cv2
 import bpy
 import numpy as np
 from ocvl.core import settings
@@ -55,7 +55,7 @@ class OCVLVecNode(OCVLNodeBase):
         elif loc_input_mode == "MANUAL":
             loc_manual_input = self.get_from_props("loc_manual_input")
             try:
-                eval_list = eval(loc_manual_input)
+                eval_list = eval(loc_manual_input, locals(), globals())
                 if isinstance(eval_list, tuple):
                     vector_out = eval_list
                 else:
@@ -63,6 +63,9 @@ class OCVLVecNode(OCVLNodeBase):
             except Exception as e:
                 self.n_errors = "Evaluation error. Details: {}".format(e)
                 vector_out = []
+                raise
+            finally:
+                self.refresh_output_socket("vector_out", vector_out, is_uuid_type=True)
         else:
             vector_out = np.array(np.random.random_sample(size_in) * 255)
             vector_out = vector_out.astype(dtype)
