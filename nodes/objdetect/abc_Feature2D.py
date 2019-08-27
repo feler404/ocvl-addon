@@ -107,8 +107,8 @@ class OCVLFeature2DMixIn:
     def _detect(self, instance):
         self.check_input_requirements(["image_in"])
         kwargs = {
-            'image': self.get_from_props("image_in"),
-            'mask': None,
+            'image_in': self.get_from_props("image_in"),
+            'mask_in': self.get_from_props("mask_in"),
         }
         keypoints_out = self.process_cv(fn=instance.detect, kwargs=kwargs)
         self.refresh_output_socket("keypoints_out", keypoints_out, is_uuid_type=True)
@@ -116,8 +116,8 @@ class OCVLFeature2DMixIn:
     def _compute(self, instance):
         self.check_input_requirements(["image_in", "keypoints_in"])
         kwargs = {
-            'image': self.get_from_props("image_in"),
-            'keypoints': self.get_from_props("keypoints_in"),
+            'image_in': self.get_from_props("image_in"),
+            'keypoints_in': self.get_from_props("keypoints_in"),
         }
 
         keypoints_out, descriptors_out = self.process_cv(fn=instance.compute, kwargs=kwargs)
@@ -127,8 +127,8 @@ class OCVLFeature2DMixIn:
     def _detect_and_compute(self, instance):
         self.check_input_requirements(["image_in"])
         kwargs = {
-            'image': self.get_from_props("image_in"),
-            'mask': None,
+            'image_in': self.get_from_props("image_in"),
+            'mask_in': self.get_from_props("mask_in"),
         }
         keypoints_out, descriptors_out = self.process_cv(fn=instance.detectAndCompute, kwargs=kwargs)
         self.refresh_output_socket("keypoints_out", keypoints_out, is_uuid_type=True)
