@@ -2,17 +2,11 @@ import bpy
 import cv2
 from ocvl.core.globals import FEATURE2D_INSTANCES_DICT
 from ocvl.core.node_base import OCVLNodeBase, update_node
-from ocvl.nodes.objdetect.abc_Feature2D import OCVLFeature2DMixIn
+from ocvl.nodes.objdetect.abc_Feature2D import OCVLFeature2DDetectorMixIn
 from ocvl.operatores.abc import OCVL_OT_InitFeature2DOperator
 
-HLFD_WORK_MODE_ITEMS = (
-    ("DETECT", "DETECT", "DETECT", "", 0),
-    ("COMPUTE", "COMPUTE", "COMPUTE", "CANCEL", 1),
-    ("DETECT-COMPUTE", "DETECT-COMPUTE", "DETECT-COMPUTE", "CANCEL", 2),
-)
 
-
-class OCVLHarrisLaplaceFeatureDetectorNode(OCVLFeature2DMixIn, OCVLNodeBase):
+class OCVLHarrisLaplaceFeatureDetectorNode(OCVLFeature2DDetectorMixIn, OCVLNodeBase):
 
     n_doc = "Class implementing the Harris-Laplace feature detector as described in [127]."
     _init_method = cv2.xfeatures2d.HarrisLaplaceFeatureDetector_create
