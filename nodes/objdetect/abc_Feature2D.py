@@ -76,9 +76,6 @@ class OCVLFeature2DMixIn:
         FEATURE2D_INSTANCES_DICT.get("{}.{}".format(self.id_data.name, self.name))
         self.update_layout(context)
 
-    def wrapped_process(self):
-        self.check_input_requirements(["image_in"])
-
     def update_sockets(self, context):
         self.update_sockets_for_node_mode(WORK_MODE_PROPS_MAPS, self.loc_work_mode)
         self.process()
@@ -86,7 +83,7 @@ class OCVLFeature2DMixIn:
     def draw_buttons(self, context, layout):
         origin = self.get_node_origin()
         self.add_button(layout=layout, prop_name='loc_work_mode', expand=True, enabled=self._feature_class_type == 2)
-        self.add_button(layout=layout, prop_name='loc_state_mode', expand=True)
+        self.add_button(layout=layout, prop_name='loc_state_mode', expand=True, enabled=False)
         if self.loc_state_mode == "INIT":
             layout.operator("ocvl.init_feature_2d", icon='MENU_PANEL').origin = origin
             layout.label(text="Instance: {}".format(self.loc_class_repr))
@@ -132,8 +129,32 @@ class OCVLFeature2DMixIn:
 
 
 class OCVLFeature2DDetectorMixIn(OCVLFeature2DMixIn):
+    n_requirements = {"__and__": ["image_in"]}
     _feature_class_type = 0
+
+    def update_layout(self, context):
+        self.update_sockets(context)
+        update_node(self, context)
+
+    def update_and_init(self, context):
+        OCVL_OT_InitFeature2DOperator.update_class_instance_dict(self, self.id_data.name, self.name)
+        self.update_sockets(context)
+        update_node(self, context)
+
+    loc_work_mode: bpy.props.EnumProperty(items=WORK_MODE_ITEMS, default="DETECT", update=update_layout, description="")
 
 
 class OCVLFeature2CalculatorDMixIn(OCVLFeature2DMixIn):
+    n_requirements = {"__and__": ["image_in", "keypoints_in"]}
     _feature_class_type = 1
+
+    def update_layout(self, context):
+        self.update_sockets(context)
+        update_node(self, context)
+
+    def update_and_init(self, context):
+        OCVL_OT_InitFeature2DOperator.update_class_instance_dict(self, self.id_data.name, self.name)
+        self.update_sockets(context)
+        update_node(self, context)
+
+    loc_work_mode: bpy.props.EnumProperty(items=WORK_MODE_ITEMS, default="COMPUTE", update=update_layout, description="")

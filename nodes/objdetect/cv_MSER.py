@@ -14,7 +14,7 @@ class OCVLMSERNode(OCVLFeature2DDetectorMixIn, OCVLNodeBase):
 
     def update_and_init(self, context):
         OCVL_OT_InitFeature2DOperator.update_class_instance_dict(self, self.id_data.name, self.name)
-        self.update_layout()
+        self.update_layout(context)
 
     T1_delta_init: bpy.props.IntProperty(default=5, min=1, max=100, update=update_and_init, description="")
     T1_min_area_init: bpy.props.IntProperty(default=30, min=1, max=100000, update=update_and_init, description="")
@@ -22,7 +22,7 @@ class OCVLMSERNode(OCVLFeature2DDetectorMixIn, OCVLNodeBase):
     T1_max_variation_init: bpy.props.FloatProperty(default=0.25, min=0.0001, max=0.9999, update=update_and_init, description="")
     T1_min_diversity_init: bpy.props.FloatProperty(default=0.2, min=0.0001, max=0.9999, update=update_and_init, description="")
     T1_max_evolution_init: bpy.props.IntProperty(default=200, min=1, max=1000, update=update_and_init, description="")
-    T1_area_threshold_init: bpy.props.FloatProperty(default=1.01, min=1000.0, update=update_and_init, description="")
+    T1_area_threshold_init: bpy.props.FloatProperty(default=1.01, min=0.1, max=10, update=update_and_init, description="")
     T1_min_margin_init: bpy.props.FloatProperty(default=0.003, min=0.0001, max=0.9999, update=update_and_init, description="")
     T1_edge_blur_size_init: bpy.props.IntProperty(default=5, min=1, max=1000, update=update_and_init, description="")
 
