@@ -2,17 +2,11 @@ import bpy
 import cv2
 from ocvl.core.globals import FEATURE2D_INSTANCES_DICT
 from ocvl.core.node_base import OCVLNodeBase, update_node
-from ocvl.nodes.objdetect.abc_Feature2D import OCVLFeature2DMixIn
+from ocvl.nodes.objdetect.abc_Feature2D import OCVLFeature2DCalculatorDMixIn
 from ocvl.operatores.abc import OCVL_OT_InitFeature2DOperator
 
-LATCH_WORK_MODE_ITEMS = (
-    ("DETECT", "DETECT", "DETECT", "CANCEL", 0),
-    ("COMPUTE", "COMPUTE", "COMPUTE", "", 1),
-    ("DETECT-COMPUTE", "DETECT-COMPUTE", "DETECT-COMPUTE", "CANCEL", 2),
-)
 
-
-class OCVLLATCHNode(OCVLFeature2DMixIn, OCVLNodeBase):
+class OCVLLATCHNode(OCVLFeature2DCalculatorDMixIn, OCVLNodeBase):
 
     n_doc = "Latch Class for computing the LATCH descriptor."
     _init_method = cv2.xfeatures2d.LATCH_create
