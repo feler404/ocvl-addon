@@ -9,9 +9,16 @@ from ocvl.core.node_base import OCVLNodeBase, update_node
 class OCVLdrawMatchesNode(OCVLNodeBase):
 
     bl_flags_list = 'DRAW_MATCHES_FLAGS_DEFAULT, DRAW_MATCHES_FLAGS_DRAW_OVER_OUTIMG, DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS, DRAW_MATCHES_FLAGS_NOT_DRAW_SINGLE_POINTS'
+    n_development_status = "BETA"
     n_doc = "This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts."
     n_requirements = {"__and__": ["img1_in", "img2_in", "keypoints1_in", "keypoints2_in", "matches1to2_in"]}
-    
+    n_quick_link_requirements = {
+        "keypoints1_in": {"__type_node__": "OCVLDAISYNode"},
+        "keypoints2_in": {"__type_node__": "OCVLDAISYNode"},
+        "matches1to2_in": {"__type_node__": "OCVLBFMatcherNode"},
+        "matchesMask_in": {"code_in": "COLOR_BGR2GRAY"},
+    }
+
     img1_in: bpy.props.StringProperty(default=str(uuid.uuid4()), description="Source image.")
     img2_in: bpy.props.StringProperty(default=str(uuid.uuid4()), description="Source image.")
     keypoints1_in: bpy.props.StringProperty(default=str(uuid.uuid4()), description="Keypoints from the first source image.")
@@ -33,7 +40,7 @@ class OCVLdrawMatchesNode(OCVLNodeBase):
         self.inputs.new("OCVLObjectSocket", "keypoints1_in")
         self.inputs.new("OCVLObjectSocket", "keypoints2_in")
         self.inputs.new("OCVLObjectSocket", "matches1to2_in")
-        self.inputs.new("OCVLMaskSocket", "matchesMask_in")
+        # self.inputs.new("OCVLMaskSocket", "matchesMask_in")
         self.inputs.new("OCVLObjectSocket", "matchColor_in").prop_name = "matchColor_in"
         self.inputs.new("OCVLObjectSocket", "singlePointColor_in").prop_name = "singlePointColor_in"
         self.inputs.new("OCVLObjectSocket", "loc_max_distance_in").prop_name = "loc_max_distance_in"
@@ -58,10 +65,10 @@ class OCVLdrawMatchesNode(OCVLNodeBase):
             'matchColor': self.get_from_props("matchColor_in"),
             'singlePointColor': self.get_from_props("singlePointColor_in"),
             'flags': self.get_from_props("flags_in"),
-            'matchesMask': self.get_from_props("matchesMask_in")
+            'matchesMask': None  # self.get_from_props("matchesMask_in")
         }
 
-        if self.is_uuid(draw_params["matchesMask"]):
+        if draw_params["matchesMask"] and self.is_uuid(draw_params["matchesMask"]):
             draw_params["matchesMask"] = None
 
         drawMatches_partial = partial(cv2.drawMatches, img1, keypoints1_in, img2, keypoints2_in, good, None)

@@ -49,7 +49,12 @@ NORM_TYPE_ITEMS = (
 class OCVLBFMatcherNode(OCVLNodeBase):
 
     n_doc = "Brute-force matcher create method."
+    n_development_status = "BETA"
     n_requirements = {"__and__": ["queryDescriptors_in", "trainDescriptors_in"]}
+    n_quick_link_requirements = {
+        "queryDescriptors_in": {"__type_node__": "OCVLDAISYNode"},
+        "trainDescriptors_in": {"__type_node__": "OCVLDAISYNode"},
+    }
     _url = "https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_feature2d/py_matcher/py_matcher.html"
     _init_method = cv2.BFMatcher_create
     ABC_GLOBAL_INSTANCE_DICT_NAME = DESCRIPTORMATCHER_INSTANCES_DICT
@@ -78,8 +83,8 @@ class OCVLBFMatcherNode(OCVLNodeBase):
 
     def init(self, context):
         self.width = 250
-        self.inputs.new("OCVLObjectSocket", "queryDescriptors_in")
-        self.inputs.new("OCVLObjectSocket", "trainDescriptors_in")
+        self.inputs.new("OCVLVectorSocket", "queryDescriptors_in")
+        self.inputs.new("OCVLVectorSocket", "trainDescriptors_in")
         self.inputs.new("OCVLMaskSocket", "mask_in")
 
         self.outputs.new("OCVLObjectSocket", "matches_out")
@@ -107,7 +112,7 @@ class OCVLBFMatcherNode(OCVLNodeBase):
     def draw_buttons(self, context, layout):
         origin = self.get_node_origin()
         self.add_button(layout=layout, prop_name='loc_work_mode', expand=True)
-        self.add_button(layout=layout, prop_name='loc_state_mode', expand=True)
+        self.add_button(layout=layout, prop_name='loc_state_mode', expand=True, enabled=False)
         if self.loc_state_mode == "INIT":
             layout.operator("ocvl.init_feature_2d", icon='MENU_PANEL').origin = origin
             layout.label(text="Instance: {}".format(self.loc_class_repr))

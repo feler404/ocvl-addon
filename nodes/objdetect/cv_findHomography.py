@@ -27,6 +27,7 @@ WORK_MODE_PROPS_MAPS = {
 class OCVLfindHomographyNode(OCVLNodeBase):
 
     n_doc = "This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts."
+    n_development_status = "ALPHA"
 
     def update_layout(self, context):
         self.update_sockets(context)
