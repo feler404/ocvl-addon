@@ -42,6 +42,7 @@ class OCVL_OT_InitClassForNodeOperator(bpy.types.Operator):
         node_tree, node_name, *props_name = self.origin.split('|><|')
         node = bpy.data.node_groups[node_tree].nodes[node_name]
         self.update_class_instance_dict(node, node_tree, node_name)
+        node.process()
         return {'FINISHED'}
 
 

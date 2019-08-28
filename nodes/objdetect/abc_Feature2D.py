@@ -114,7 +114,12 @@ class OCVLFeature2DMixIn:
         FEATURE2D_INSTANCES_DICT.pop("{}.{}".format(self.id_data.name, self.name))
         super().free()
 
+    def _check_instance(self, instance):
+        if not instance:
+            OCVL_OT_InitFeature2DOperator.update_class_instance_dict(self, self.id_data.name, self.name)
+
     def _detect(self, instance):
+        self._check_instance(instance)
         kwargs = {
             'image_in': self.get_from_props("image_in"),
             'mask_in': self.get_from_props("mask_in"),
@@ -125,6 +130,7 @@ class OCVLFeature2DMixIn:
         self.refresh_output_socket("keypoints_out", keypoints_out, is_uuid_type=True)
 
     def _compute(self, instance):
+        self._check_instance(instance)
         kwargs = {
             'image_in': self.get_from_props("image_in"),
             'keypoints_in': self.get_from_props("keypoints_in"),
@@ -135,6 +141,7 @@ class OCVLFeature2DMixIn:
         self.refresh_output_socket("descriptors_out", descriptors_out, is_uuid_type=True)
 
     def _detect_and_compute(self, instance):
+        self._check_instance(instance)
         kwargs = {
             'image_in': self.get_from_props("image_in"),
             'mask_in': self.get_from_props("mask_in"),

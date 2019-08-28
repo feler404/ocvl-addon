@@ -470,7 +470,7 @@ class OCVLNodeBase(bpy.types.Node):
                 if settings.DEBUG:
                     raise
         finally:
-            self.n_meta += "\nProcess time: {0:.2f}ms".format((time.time() - start) * 1000)
+            self.n_meta += "\nProcess time: {0:.2f}ms ".format((time.time() - start) * 1000)
             if self.n_error:
                 self.n_meta += self.n_error
 
@@ -488,7 +488,7 @@ class OCVLNodeBase(bpy.types.Node):
         except Exception as e:
             logger.warning("CV process problem: fn={}, kwargs={}, self={}, exception={} ".format(fn, kwargs, self, e))
             raise
-        self.n_meta = "\nCV time: {0:.2f}ms".format((time.time() - start) * 1000)
+        self.n_meta = "\nCV time: {0:.2f}ms ".format((time.time() - start) * 1000)
         return out
 
     def refresh_output_socket(self, prop_name=None, prop_value=None, is_uuid_type=False):

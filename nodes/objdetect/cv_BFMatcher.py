@@ -49,6 +49,7 @@ NORM_TYPE_ITEMS = (
 class OCVLBFMatcherNode(OCVLNodeBase):
 
     n_doc = "Brute-force matcher create method."
+    n_requirements = {"__and__": ["queryDescriptors_in", "trainDescriptors_in"]}
     _url = "https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_feature2d/py_matcher/py_matcher.html"
     _init_method = cv2.BFMatcher_create
     ABC_GLOBAL_INSTANCE_DICT_NAME = DESCRIPTORMATCHER_INSTANCES_DICT
@@ -80,7 +81,6 @@ class OCVLBFMatcherNode(OCVLNodeBase):
         self.inputs.new("OCVLObjectSocket", "queryDescriptors_in")
         self.inputs.new("OCVLObjectSocket", "trainDescriptors_in")
         self.inputs.new("OCVLMaskSocket", "mask_in")
-        self.inputs.new("OCVLObjectSocket", "crossCheck_init").prop_name = "crossCheck_init"
 
         self.outputs.new("OCVLObjectSocket", "matches_out")
         OCVL_OT_InitDescriptorMatcherOperator.update_class_instance_dict(self, self.id_data.name, self.name)
@@ -91,14 +91,16 @@ class OCVLBFMatcherNode(OCVLNodeBase):
         self.process()
 
     def wrapped_process(self):
-        self.check_input_requirements(["queryDescriptors_in", "trainDescriptors_in"])
-
         kwargs_detect = self.clean_kwargs({
             "queryDescriptors_in": self.get_from_props("queryDescriptors_in"),
             "trainDescriptors_in": self.get_from_props("trainDescriptors_in"),
         })
 
         bfm = DESCRIPTORMATCHER_INSTANCES_DICT.get("{}.{}".format(self.id_data.name, self.name))
+        if not bfm:
+            OCVL_OT_InitDescriptorMatcherOperator.update_class_instance_dict(self, self.id_data.name, self.name)
+            bfm = DESCRIPTORMATCHER_INSTANCES_DICT.get("{}.{}".format(self.id_data.name, self.name))
+
         matches_out = self.process_cv(fn=bfm.match, kwargs=kwargs_detect)
         self.refresh_output_socket("matches_out", matches_out, is_uuid_type=True)
 
