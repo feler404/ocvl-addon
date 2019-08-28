@@ -139,13 +139,17 @@ def get_new_input_node_idname(node, socket):
         new_node_idname = node.n_quick_link_requirements.get(node.inputs[socket.index].name, {}).get("__type_node__",
                                                                                                    settings.DEFAULT_NODE_FOR_QUICK_LINK_IMAGE_SOCKET)
     elif socket.bl_idname == "OCVLMaskSocket":
-        new_node_idname = settings.DEFAULT_NODE_FOR_QUICK_LINK_MASK_SOCKET
+        new_node_idname = node.n_quick_link_requirements.get(node.inputs[socket.index].name, {}).get("__type_node__",
+                                                                                                   settings.DEFAULT_NODE_FOR_QUICK_LINK_MASK_SOCKET)
     elif socket.bl_idname == "OCVLRectSocket":
-        new_node_idname = settings.DEFAULT_NODE_FOR_QUICK_LINK_RECT_SOCKET
+        new_node_idname = node.n_quick_link_requirements.get(node.inputs[socket.index].name, {}).get("__type_node__",
+                                                                                                   settings.DEFAULT_NODE_FOR_QUICK_LINK_RECT_SOCKET)
     elif socket.bl_idname == "OCVLContourSocket":
-        new_node_idname = settings.DEFAULT_NODE_FOR_QUICK_LINK_CONTOUR_SOCKET
+        new_node_idname = node.n_quick_link_requirements.get(node.inputs[socket.index].name, {}).get("__type_node__",
+                                                                                                   settings.DEFAULT_NODE_FOR_QUICK_LINK_CONTOUR_SOCKET)
     elif socket.bl_idname == "OCVLVectorSocket":
-        new_node_idname = settings.DEFAULT_NODE_FOR_QUICK_LINK_VECTOR_SOCKET
+        new_node_idname = node.n_quick_link_requirements.get(node.inputs[socket.index].name, {}).get("__type_node__",
+                                                                                                   settings.DEFAULT_NODE_FOR_QUICK_LINK_VECTOR_SOCKET)
     else:
         new_node_idname = node.n_quick_link_requirements.get(node.inputs[socket.index].name, {}).get("__type_node__")
     if not new_node_idname:

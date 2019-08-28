@@ -433,9 +433,7 @@ class OCVLNodeBase(bpy.types.Node):
 
         return kwargs_out
 
-    def process(self, prevent_process=None):
-        if prevent_process is None:
-            prevent_process = []
+    def process(self):
         self.n_meta = ""
         self.n_error = ""
         self.use_custom_color = False
@@ -477,7 +475,11 @@ class OCVLNodeBase(bpy.types.Node):
         for output in self.outputs:
             if output.is_linked:
                 for link in output.links:
-                    if link.to_node not in prevent_process:
+                    try:
+                        link.to_node.check_input_requirements()
+                    except Exception as e:
+                        logger.debug(f"Quick link requirements fall: {e}")
+                    else:
                         link.to_node.process()
 
     def process_cv(self, fn=None, args=(), kwargs=None):

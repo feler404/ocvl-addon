@@ -49,13 +49,20 @@ NORM_TYPE_ITEMS = (
 class OCVLFlannBasedMatcherNode(OCVLNodeBase):
 
     n_doc = "Flann-based descriptor matcher."
+    n_development_status = "BETA"
+    n_requirements = {"__and__": ["queryDescriptors_in", "trainDescriptors_in"]}
+    n_quick_link_requirements = {
+        "queryDescriptors_in": {"__type_node__": "OCVLDAISYNode"},
+        "trainDescriptors_in": {"__type_node__": "OCVLDAISYNode"},
+    }
     _url = "https://docs.opencv.org/3.0-beta/doc/py_tutorials/py_feature2d/py_matcher/py_matcher.html#matcher"
     _init_method = cv2.FlannBasedMatcher_create
     ABC_GLOBAL_INSTANCE_DICT_NAME = DESCRIPTORMATCHER_INSTANCES_DICT
 
     def update_layout(self, context):
         self.update_sockets(context)
-        update_node(self, context)
+        if DESCRIPTORMATCHER_INSTANCES_DICT.get("{}.{}".format(self.id_data.name, self.name)):
+            update_node(self, context)
 
     queryDescriptors_in: bpy.props.StringProperty(default=str(uuid.uuid4()), description="")
     trainDescriptors_in: bpy.props.StringProperty(default=str(uuid.uuid4()), update=update_node, description="")
@@ -80,20 +87,18 @@ class OCVLFlannBasedMatcherNode(OCVLNodeBase):
 
     def init(self, context):
         self.width = 250
-        self.inputs.new("OCVLObjectSocket", "queryDescriptors_in")
-        self.inputs.new("OCVLObjectSocket", "trainDescriptors_in")
+        self.inputs.new("OCVLVectorSocket", "queryDescriptors_in")
+        self.inputs.new("OCVLVectorSocket", "trainDescriptors_in")
         self.inputs.new("OCVLMaskSocket", "mask_in")
 
         self.outputs.new("OCVLObjectSocket", "matches_out")
-        OCVL_OT_InitDescriptorMatcherOperator.update_class_instance_dict(self, self.id_data.name, self.name)
         self.update_layout(context)
+        OCVL_OT_InitDescriptorMatcherOperator.update_class_instance_dict(self, self.id_data.name, self.name)
 
     def update_sockets(self, context):
         self.update_sockets_for_node_mode(WORK_MODE_PROPS_MAPS, self.loc_work_mode)
-        self.process()
 
     def wrapped_process(self):
-        self.check_input_requirements(["queryDescriptors_in", "trainDescriptors_in"])
 
         kwargs_detect = self.clean_kwargs({
             "queryDescriptors_in": self.get_from_props("queryDescriptors_in"),
@@ -107,7 +112,7 @@ class OCVLFlannBasedMatcherNode(OCVLNodeBase):
     def draw_buttons(self, context, layout):
         origin = self.get_node_origin()
         self.add_button(layout=layout, prop_name='loc_work_mode', expand=True)
-        self.add_button(layout=layout, prop_name='loc_state_mode', expand=True)
+        self.add_button(layout=layout, prop_name='loc_state_mode', expand=True, enabled=False)
         if self.loc_state_mode == "INIT":
             layout.operator("ocvl.init_feature_2d", icon='MENU_PANEL').origin = origin
             layout.label(text="Instance: {}".format(self.loc_class_repr))

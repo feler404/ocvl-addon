@@ -85,7 +85,7 @@ class OCVLFeature2DMixIn:
         self.inputs.new("OCVLVectorSocket", "keypoints_in")
 
         self.outputs.new("OCVLObjectSocket", "keypoints_out")
-        self.outputs.new("OCVLObjectSocket", "descriptors_out")
+        self.outputs.new("OCVLVectorSocket", "descriptors_out")
         self.update_layout(context)
         OCVL_OT_InitFeature2DOperator.update_class_instance_dict(self, self.id_data.name, self.name)
         FEATURE2D_INSTANCES_DICT.get("{}.{}".format(self.id_data.name, self.name))
@@ -109,6 +109,10 @@ class OCVLFeature2DMixIn:
             layout.row().prop(self, "loc_file_load")
         elif self.loc_state_mode == "SAVE":
             layout.row().prop(self, "loc_file_save")
+
+    def copy(self, node):
+        OCVL_OT_InitFeature2DOperator.update_class_instance_dict(self, self.id_data.name, self.name)
+        self.process()
 
     def free(self):
         FEATURE2D_INSTANCES_DICT.pop("{}.{}".format(self.id_data.name, self.name))
