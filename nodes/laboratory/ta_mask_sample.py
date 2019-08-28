@@ -65,12 +65,12 @@ class OCVLMaskSampleNode(OCVLPreviewNodeBase):
         if self.loc_image_mode in ["PLANE", "RANDOM"]:
             width_in = self.get_from_props("width_in")
             height_in = self.get_from_props("height_in")
-            image = np.zeros((width_in, height_in, 3), np.uint8)
+            image = np.zeros((height_in, width_in, 3), np.uint8)
             image[:,:,] = (0, 0, 0)
             if self.loc_image_mode == "RANDOM":
                 for i in range(5):
-                    pt1 = (random.randint(1, width_in), random.randint(1, height_in))
-                    pt2 = (random.randint(1, width_in), random.randint(1, height_in))
+                    pt1 = (random.randint(1, height_in), random.randint(1, width_in))
+                    pt2 = (random.randint(1, height_in), random.randint(1, width_in))
                     image = cv2.line(image, pt1, pt2, (255, 255, 255), random.randint(1, 10))
 
         image = cv2.cvtColor(src=image, code=cv2.COLOR_RGB2GRAY)

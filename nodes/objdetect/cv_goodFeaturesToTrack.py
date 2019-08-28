@@ -9,6 +9,8 @@ from ocvl.core.node_base import OCVLNodeBase, update_node
 class OCVLgoodFeaturesToTrackNode(OCVLNodeBase):
 
     n_doc = "Determines strong corners on an image."
+    n_requirements = {"__and__": ["image_in"]}
+    n_quick_link_requirements = {"image_in": {"code_in": "COLOR_BGR2GRAY", "color_in": (0, 0, 0, 0)}}
     _url = "http://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_feature2d/py_shi_tomasi/py_shi_tomasi.html"
 
     image_in: bpy.props.StringProperty(default=str(uuid.uuid4()), description="Input 8-bit or floating-point 32-bit, single-channel image.")
@@ -20,6 +22,9 @@ class OCVLgoodFeaturesToTrackNode(OCVLNodeBase):
     gradientSize_in: bpy.props.IntProperty(default=3, min=1, max=100, update=update_node, description="")
     useHarrisDetector_in: bpy.props.BoolProperty(default=False, update=update_node, description="Parameter indicating whether to use a Harris detector (see cornerHarris) or cornerMinEigenVal.")
     k_in: bpy.props.FloatProperty(default=0.04, min=0.01, max=1., update=update_node, description="Free parameter of the Harris detector.")
+
+    loc_color: bpy.props.FloatVectorProperty(update=update_node, default=(.0, .1, .8, 0.3), size=4, min=0.0, max=1.0, subtype='COLOR')
+    loc_spot_size: bpy.props.IntProperty(update=update_node, default=3, min=1, max=10)
 
     corners_out: bpy.props.StringProperty(name="corners_out", default=str(uuid.uuid4()), description="Output vector of detected corners.")
     image_out: bpy.props.StringProperty(name="image_out", default=str(uuid.uuid4()), description="Output vector of detected corners.")
@@ -39,7 +44,6 @@ class OCVLgoodFeaturesToTrackNode(OCVLNodeBase):
         self.outputs.new("OCVLImageSocket", "image_out")
 
     def wrapped_process(self):
-        self.check_input_requirements(["image_in"])
 
         kwargs = {
             'image_in': self.get_from_props("image_in"),
@@ -60,9 +64,18 @@ class OCVLgoodFeaturesToTrackNode(OCVLNodeBase):
         self.refresh_output_socket("corners_out", corners_out, is_uuid_type=True)
 
         corners = np.int0(corners_out)
-        image_out = kwargs['image_in'].copy()
+        image_out = cv2.cvtColor(kwargs['image_in'].copy(), cv2.COLOR_GRAY2RGB)
+        point_image = image_out.copy()
+
+        loc_color = self.get_from_props("loc_color")
 
         for i in corners:
             x, y = i.ravel()
-            cv2.circle(image_out, (x, y), 3, 255, -1)
+            cv2.circle(point_image, (x, y), self.loc_spot_size, loc_color, -1)
+        alpha = self.loc_color[3]
+        image_out = cv2.addWeighted(image_out, 1 - alpha, point_image, alpha, 0)
         self.refresh_output_socket("image_out", image_out, is_uuid_type=True)
+
+    def draw_buttons(self, context, layout):
+        self.add_button(layout, "loc_color")
+        self.add_button(layout, "loc_spot_size")
