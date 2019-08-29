@@ -9,10 +9,10 @@ from ocvl.core.node_base import OCVLNodeBase, update_node
 
 
 WORK_MODE_ITEMS = (
-    ("ADD", "ADD", "ADD", "", 0),
-    ("CLEAR", "CLEAR", "CLEAR", "", 1),
-    ("KNNMATCH", "KNNMATCH", "KNNMATCH", "", 2),
-    ("MATCH", "MATCH", "MATCH", "", 3),
+    ("add", "ADD", "ADD", "", 0),
+    ("clear", "CLEAR", "CLEAR", "", 1),
+    ("knnMatch", "KNNMATCH", "KNNMATCH", "", 2),
+    ("match", "MATCH", "MATCH", "", 3),
     # ("RADIUSMATCH", "RADIUSMATCH", "RADIUSMATCH", "", 4),
 )
 
@@ -74,7 +74,7 @@ class OCVLBFMatcherNode(OCVLNodeBase):
     crossCheck_init: bpy.props.BoolProperty(default=False, update=update_node, description="")
     loc_file_save: bpy.props.StringProperty(default="/", description="")
     loc_file_load: bpy.props.StringProperty(default="/", description="")
-    loc_work_mode: bpy.props.EnumProperty(items=WORK_MODE_ITEMS, default="MATCH", update=update_layout, description="")
+    loc_work_mode: bpy.props.EnumProperty(items=WORK_MODE_ITEMS, default="match", update=update_layout, description="")
     loc_state_mode: bpy.props.EnumProperty(items=STATE_MODE_ITEMS, default="INIT", update=update_layout, description="")
     loc_default_norm: bpy.props.IntProperty(default=0, description="")
     loc_class_repr: bpy.props.StringProperty(default="", description="")
@@ -106,12 +106,15 @@ class OCVLBFMatcherNode(OCVLNodeBase):
             OCVL_OT_InitDescriptorMatcherOperator.update_class_instance_dict(self, self.id_data.name, self.name)
             bfm = DESCRIPTORMATCHER_INSTANCES_DICT.get("{}.{}".format(self.id_data.name, self.name))
 
-        matches_out = self.process_cv(fn=bfm.match, kwargs=kwargs_detect)
+        # if self.loc_work_mode == "knnMatch":
+        #     kwargs_detect.update({"k": self.get_from_props("k_in")})
+        fn = getattr(bfm, self.loc_work_mode)
+        matches_out = self.process_cv(fn=fn, kwargs=kwargs_detect)
         self.refresh_output_socket("matches_out", matches_out, is_uuid_type=True)
 
     def draw_buttons(self, context, layout):
         origin = self.get_node_origin()
-        self.add_button(layout=layout, prop_name='loc_work_mode', expand=True)
+        self.add_button(layout=layout, prop_name='loc_work_mode', expand=True, enabled=False)
         self.add_button(layout=layout, prop_name='loc_state_mode', expand=True, enabled=False)
         if self.loc_state_mode == "INIT":
             layout.operator("ocvl.init_feature_2d", icon='MENU_PANEL').origin = origin

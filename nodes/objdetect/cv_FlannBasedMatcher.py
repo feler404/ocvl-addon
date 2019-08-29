@@ -111,7 +111,7 @@ class OCVLFlannBasedMatcherNode(OCVLNodeBase):
 
     def draw_buttons(self, context, layout):
         origin = self.get_node_origin()
-        self.add_button(layout=layout, prop_name='loc_work_mode', expand=True)
+        self.add_button(layout=layout, prop_name='loc_work_mode', expand=True, enabled=False)
         self.add_button(layout=layout, prop_name='loc_state_mode', expand=True, enabled=False)
         if self.loc_state_mode == "INIT":
             layout.operator("ocvl.init_feature_2d", icon='MENU_PANEL').origin = origin

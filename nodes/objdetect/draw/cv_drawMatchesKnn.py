@@ -1,4 +1,5 @@
 import uuid
+from functools import partial
 
 import bpy
 import cv2
@@ -9,7 +10,16 @@ from ocvl.core.node_base import OCVLNodeBase, update_node
 
 class OCVLdrawMatchesKnnNode(OCVLNodeBase):
     bl_flags_list = 'DRAW_MATCHES_FLAGS_DEFAULT, DRAW_MATCHES_FLAGS_DRAW_OVER_OUTIMG, DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS, DRAW_MATCHES_FLAGS_NOT_DRAW_SINGLE_POINTS'
+
     n_doc = "This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts."
+    n_requirements = {"__and__": ["img1_in", "img2_in", "keypoints1_in", "keypoints2_in", "matches1to2_in"]}
+    n_quick_link_requirements = {
+        "keypoints1_in": {"__type_node__": "OCVLDAISYNode"},
+        "keypoints2_in": {"__type_node__": "OCVLDAISYNode"},
+        "matches1to2_in": {"__type_node__": "OCVLBFMatcherNode"},
+        "matchesMask_in": {"code_in": "COLOR_BGR2GRAY"},
+    }
+    n_development_status = "ALPHA"
 
     img1_in: bpy.props.StringProperty(default=str(uuid.uuid4()), description="Source image.")
     img2_in: bpy.props.StringProperty(default=str(uuid.uuid4()), description="Source image.")
@@ -27,12 +37,12 @@ class OCVLdrawMatchesKnnNode(OCVLNodeBase):
     outImg_out: bpy.props.StringProperty(default=str(uuid.uuid4()), description="Output image.")
 
     def init(self, context):
-        self.inputs.new("OCVLObjectSocket", "img1_in")
-        self.inputs.new("OCVLObjectSocket", "img2_in")
+        self.inputs.new("OCVLImageSocket", "img1_in")
+        self.inputs.new("OCVLImageSocket", "img2_in")
         self.inputs.new("OCVLObjectSocket", "keypoints1_in")
         self.inputs.new("OCVLObjectSocket", "keypoints2_in")
         self.inputs.new("OCVLObjectSocket", "matches1to2_in")
-        self.inputs.new("OCVLObjectSocket", "matchesMask_in")
+        # self.inputs.new("OCVLObjectSocket", "matchesMask_in")
         self.inputs.new("OCVLObjectSocket", "matchColor_in").prop_name = "matchColor_in"
         self.inputs.new("OCVLObjectSocket", "singlePointColor_in").prop_name = "singlePointColor_in"
         self.inputs.new("OCVLObjectSocket", "loc_max_distance_in").prop_name = "loc_max_distance_in"
@@ -40,7 +50,6 @@ class OCVLdrawMatchesKnnNode(OCVLNodeBase):
         self.outputs.new("OCVLObjectSocket", "outImg_out")
 
     def wrapped_process(self):
-        self.check_input_requirements(["img1_in", "img2_in", "keypoints1_in", "keypoints2_in", "matches1to2_in"])
 
         img1 = self.get_from_props("img1_in")
         img2 = self.get_from_props("img2_in")
@@ -61,9 +70,12 @@ class OCVLdrawMatchesKnnNode(OCVLNodeBase):
             'matchColor': self.get_from_props("matchColor_in"),
             'singlePointColor': self.get_from_props("singlePointColor_in"),
             'flags': self.get_from_props("flags_in"),
-            'matchesMask': matchesMask,  # self.get_from_props("matchesMask_in")
+            'matchesMask': None,  #matchesMask,  # self.get_from_props("matchesMask_in")
         }
-        outImg_out = cv2.drawMatchesKnn(img1=img1, keypoints1=keypoints1_in, img2=img2, keypoints2=keypoints2_in, matches1to2=matches1to2_in, outImg=None, flags=2)
+
+        drawMatchesKnn_partial = partial(cv2.drawMatchesKnn, img1, keypoints1_in, img2, keypoints2_in, matches1to2_in, None)
+        outImg_out = self.process_cv(fn=drawMatchesKnn_partial, kwargs=draw_params)
+
         self.refresh_output_socket("outImg_out", outImg_out, is_uuid_type=True)
 
     def draw_buttons(self, context, layout):
