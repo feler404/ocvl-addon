@@ -7,7 +7,7 @@ from ocvl.core.node_base import OCVLNodeBase
 
 class OCVLfastNlMeansDenoisingNode(OCVLNodeBase):
 
-    n_doc = "Modification of fastNlMeansDenoising function for colored images."
+    n_doc = "This function expected to be applied to grayscale images. For colored images look at fastNlMeansDenoisingColored. Advanced usage of this functions can be manual denoising of colored image in different colorspaces."
     n_requirements = {"__and__": ["src_in",]}
     n_quick_link_requirements = {"templateWindowSize_in": {"loc_input_mode": "MANUAL", "loc_manual_input": "7"},
                                  "searchWindowSize_in": {"loc_input_mode": "MANUAL", "loc_manual_input": "21"},
