@@ -185,7 +185,7 @@ class AutoRegisterNodeCategories:
 
         for category_name in self.node_categories_dict.keys():
             category_name = category_name.replace(".", SUBCATEGORY_SEPARATOR)
-            if category_name == "uncategorized":
+            if self.is_skip_category_name(category_name):
                 continue
 
             node_category = OCVLNodeCategory(
@@ -208,6 +208,13 @@ class AutoRegisterNodeCategories:
                     logger.info("{} already registered.".format(settings.OCVL_NODE_CATEGORIES))
         else:
             unregister_node_categories(settings.OCVL_NODE_CATEGORIES)
+
+    def is_skip_category_name(self, category_name):
+        if category_name == "uncategorized":
+            return True
+        elif not settings.DEBUG and category_name in settings.DEBUG_CATEGORIES_NODE:
+            return True
+        return False
 
 
 def register():
