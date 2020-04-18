@@ -21,6 +21,8 @@ from ocvl.core.exceptions import LackRequiredSocketException
 from ocvl.core.globals import SOCKET_DATA_CACHE
 from ocvl.core.register_utils import ocvl_register, ocvl_unregister
 
+from ocvl_addon_pro.tutorial_engine.engine import in_node_context
+
 
 sentinel = object()
 
@@ -223,7 +225,8 @@ class OCVL_OT_LinkNewNodeInput(bpy.types.Operator):
                 new_node_idname = get_new_input_node_idname(node=new_node, socket=input)
                 if not new_node_idname:
                     continue
-                bpy.ops.ocvl.quick_link_new_node(socket_index=input.index, origin=new_node.name, is_block_quick_link_requirements=False, new_node_idname=new_node_idname, child=True)
+                with in_node_context() as override:
+                    bpy.ops.ocvl.quick_link_new_node(override, socket_index=input.index, origin=new_node.name, is_block_quick_link_requirements=False, new_node_idname=new_node_idname, child=True)
 
         if not self.child:
             settings.MUTE_LOOKUP_ERROR = False

@@ -9,7 +9,6 @@ from ocvl.core.node_base import OCVLNodeBase, update_node
 class OCVLdrawMatchesNode(OCVLNodeBase):
 
     bl_flags_list = 'DRAW_MATCHES_FLAGS_DEFAULT, DRAW_MATCHES_FLAGS_DRAW_OVER_OUTIMG, DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS, DRAW_MATCHES_FLAGS_NOT_DRAW_SINGLE_POINTS'
-    n_development_status = "BETA"
     n_doc = "This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts."
     n_requirements = {"__and__": ["img1_in", "img2_in", "keypoints1_in", "keypoints2_in", "matches1to2_in"]}
     n_quick_link_requirements = {
