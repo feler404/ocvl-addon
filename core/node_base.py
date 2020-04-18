@@ -497,9 +497,11 @@ class OCVLNodeBase(bpy.types.Node):
         if self.outputs[prop_name].is_linked:
             if is_uuid_type:
                 _uuid = str(uuid.uuid4())
+                old_uuid = getattr(self, prop_name, None)
                 setattr(self, prop_name, _uuid)
                 self.socket_data_cache[_uuid] = prop_value
                 self.outputs[prop_name].sv_set(_uuid)
+                self.socket_data_cache.pop(old_uuid, None)
             else:
                 setattr(self, prop_name, prop_value)
                 self.outputs[prop_name].sv_set([[prop_value]])
