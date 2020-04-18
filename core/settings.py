@@ -63,6 +63,7 @@ OCVL_PRO_DIR_NAME = "ocvl_addon_pro"
 PREFIX_NODE_CLASS = "OCVL"
 SUFFIX_NODE_CLASS = "Node"
 BLACK_LIST_FOR_REGISTER_NODE = ["OCVLNode", "OCVLPreviewNode"]
+# if remove category remember update test categories in ocvl_addon_pro/tests/test_categories.py:7
 DEBUG_CATEGORIES_NODE = ["laboratory__tutorials", "laboratory__debug", "calib3d"]
 ID_TREE_CATEGORY_TEMPLATE = "OCVL_CATEGORY_{}"
 NAME_NODE_DIRECTORY = "nodes"
