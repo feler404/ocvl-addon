@@ -46,14 +46,14 @@ if __name__ != "ocvl":
 
 
 def register():
-    from ocvl import logger_conf
-    from ocvl.core import node_tree
-    from ocvl.core import sockets
-    from ocvl.operatores import operatores
-    from ocvl.operatores import abc
-    from ocvl.core.register_utils import reload_ocvl_modules
-    from ocvl.operatores import select_area
-    from ocvl.core import initial_handlers
+    from ocvl_addon import logger_conf
+    from ocvl_addon.core import node_tree
+    from ocvl_addon.core import sockets
+    from ocvl_addon.operatores import operatores
+    from ocvl_addon.operatores import abc
+    from ocvl_addon.core.register_utils import reload_ocvl_modules
+    from ocvl_addon.operatores import select_area
+    from ocvl_addon.core import initial_handlers
     reload_ocvl_modules()
     node_tree.register()
     sockets.register()
@@ -65,12 +65,12 @@ def register():
 
 
 def unregister():
-    from ocvl.core import node_tree
-    from ocvl.core import sockets
-    from ocvl.operatores import operatores
-    from ocvl.operatores import abc
-    from ocvl.operatores import select_area
-    from ocvl.core import initial_handlers
+    from ocvl_addon.core import node_tree
+    from ocvl_addon.core import sockets
+    from ocvl_addon.operatores import operatores
+    from ocvl_addon.operatores import abc
+    from ocvl_addon.operatores import select_area
+    from ocvl_addon.core import initial_handlers
     node_tree.unregister()
     sockets.unregister()
     operatores.unregister()

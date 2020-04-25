@@ -10,13 +10,16 @@ import bgl
 import bpy
 import cv2
 import numpy as np
-from ocvl.core import settings
-from ocvl.core import globals as ocvl_globals
-from ocvl.core.exceptions import LackRequiredSocketException, LackRequiredTypeDataSocketException
-from ocvl.core.image_utils import (callback_disable, callback_enable, init_texture, simple_screen, add_background_to_image)
+from ocvl_addon.core import settings
+from ocvl_addon.core import globals as ocvl_globals
+from ocvl_addon.core.exceptions import LackRequiredSocketException, LackRequiredTypeDataSocketException
+from ocvl_addon.core.image_utils import (callback_disable, callback_enable, init_texture, add_background_to_image)
 
 
 logger = getLogger(__name__)
+
+
+SUFFIX_COLLECTION_NAMES = "names"
 
 
 GL_COLOR_DICT = {
@@ -64,16 +67,7 @@ BORDER_MODE_ITEMS = (
     ("BORDER_REPLICATE", "BORDER_REPLICATE", "BORDER_REPLICATE", "", 1),
 )
 BORDER_TYPE_REQUIRED_ITEMS = BORDER_TYPE_ITEMS[:9]
-CODE_COLOR_POOR_ITEMS = (
-    ("COLOR_BGR2GRAY", "COLOR_BGR2GRAY", "COLOR_BGR2GRAY", "", 0),
-    ("COLOR_BGR2RGB", "COLOR_BGR2RGB", "COLOR_BGR2RGB", "", 1),
-    ("COLOR_BGR2HLS", "COLOR_BGR2HLS", "COLOR_BGR2HLS", "", 2),
-    ("COLOR_BGR2HSV", "COLOR_BGR2HSV", "COLOR_BGR2HSV", "", 3),
-    ("COLOR_BGR2LAB", "COLOR_BGR2LAB", "COLOR_BGR2LAB", "", 4),
-    ("COLOR_BGR2LUV", "COLOR_BGR2LUV", "COLOR_BGR2LUV", "", 5),
-    ("COLOR_BGR2YCR_CB", "COLOR_BGR2YCR_CB", "COLOR_BGR2YCR_CB", "", 6),
-    ("COLOR_BGR2YUV", "COLOR_BGR2YUV", "COLOR_BGR2YUV", "", 7),
-)
+
 COLOR_DEPTH_ITEMS = [
     ("CV_8U", "CV_8U", "CV_8U", "", 1),
     ("CV_16U", "CV_16U", "CV_16U", "", 2),
@@ -568,6 +562,11 @@ class OCVLNodeBase(bpy.types.Node):
         if not self.n_id:
             self.n_id = str(hash(self) ^ hash(time.monotonic()))
         return self.n_id
+
+    def render_collection_names(self, prop_name, prefix):
+        for cv_attr_name in dir(cv2):
+            if cv_attr_name.startswith(prefix):
+                getattr(self, f"{prop_name}_{SUFFIX_COLLECTION_NAMES}").add().name = cv_attr_name
 
 
 class OCVLPreviewNodeBase(OCVLNodeBase):
