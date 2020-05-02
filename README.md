@@ -22,12 +22,41 @@ Many of ideas and solutions was borrowed from:
 - https://github.com/nortikin/sverchok
 - https://github.com/JacquesLucke/animation_nodes
 
+## Change Log
+
+### [2.9.2] - 2020-03-01
+
+- add support for native Blender UI rendering on numpy images
+- add new nodes: fastNlMeansDenoising, fastNlMeansDenoisingColored, and more...
+- add default UI layout for Laboratory view
+- add support full options color mode in cvtColor
+- fix bug loadfile in SampleImage
+- fix memory leak in SampleImage/SampleVideo Nodes
+- and more small fixes
+
+### [2.9.0] - 2019-07-15
+
+- add to whole nodes quick_link support
+- add mask node
+- add support custom kernel node
+- add new sockets: OCVLMaskSocket, OCVLRectSocket, OCVLContourSocket, OCVLVectorSocket, MatrixSocket and OCVLStethoscopeSocket
+- support opencv-python-headless 4.1.0.25
+- support opencv-contrib-python-headless 4.1.0.25
+- fix no hidden texture during rolling node.
+
+### [1.2.0] - 2018-03-06
+
+- support Python 3.7
+- support Blender 2.8
+- support opencv-python-headless 3.4.2.17
+- support opencv-contrib-python-headless 3.4.2.17
+- binary available for Windows, Linux and OSX
 
 
 ## Shortcut
 
-**Addon for**: [Blender](http://blender.org)  (version *2.79* and above).  
-**Current version**: 1.0.5 beta
+**Addon for**: [Blender](http://blender.org)  (version *2.80* and above).  
+**Current version**: 2.9.2 beta
 **License**: [GPL3](http://www.gnu.org/licenses/quick-guide-gplv3.html)   
 **Prerequisites**: Python 3.7, `opencv`, `numpy`  
 **Docs**: [In English](http://opencv-laboratory.readthedocs.io/) - Documentation   
