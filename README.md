@@ -1,4 +1,4 @@
-# OpencCV Laboratory
+# OpenCV Laboratory
 
 Application for rapid prototyping and testing algorithms of computer vision.
 
@@ -10,8 +10,8 @@ Application for rapid prototyping and testing algorithms of computer vision.
 The main advantages of the application are: 
 convenient and elastic node system, 
 quick parameter change using sliders and switches, 
-immidiate visualization of the result, easy and continuous code execution, 
-integrated image preview system and intergrated code editor, 
+immediate visualization of the result, easy and continuous code execution, 
+integrated image preview system and integrated code editor, 
 the ability to enter your own code, fast writing/reading including images, codes and description, 
 easy tutorials and ready-made templates. 
 
